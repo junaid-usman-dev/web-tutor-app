@@ -77,7 +77,7 @@ Route::post('/username', 'Registration\RegistrationController@AddUsername');
 // Route::get('/profile/picture', function () {
 //     return view('theme.register.upload_image');
 // });
-Route::post('/profile/image', 'Registration\RegistrationController@UploadPicture')->name('upload.profile'); // Upload profile picture
+Route::get('/profile/image', 'Registration\RegistrationController@UploadPicture')->name('upload.profile'); // Upload profile picture
 Route::post('/submit/payment', 'Registration\RegistrationController@Payment')->name('tutor.fee.submission'); // Submit Registration Fee
 Route::post('/setup_profile', 'Registration\RegistrationController@UploadQualification')->name('tutor.profile.setup'); // Add Qualification
 

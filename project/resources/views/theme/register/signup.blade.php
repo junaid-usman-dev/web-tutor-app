@@ -130,7 +130,7 @@
                     </div> --}}
 
                     <div class="input-group mb-2">
-                        <input type="text" name="phone" class="form-control only-numeric" autocomplete="disabled" placeholder="Phone Number" value={{ old('phone') }} >
+                        <input type="text" name="phone" id="phone" onkonchangeeypress="phonenumber(this)" class="form-control only-numeric" autocomplete="disabled" placeholder="Phone Number" value={{ old('phone') }} >
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-mobile-alt"></span>
@@ -317,30 +317,51 @@
 
 <script type="text/javascript">
  
+//  function phonenumber(myInput)
+//     {
+       
+//         //var myInput = document.getElementById("phone")
+        
+//         var phoneno = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
+//         if( (myInput.value.match(phoneno)) )
+//         {
+//             return true;
+//         }
+//         else
+//         {
+//             alert("message");
+//             return false;
+//         }
+//     }
+
+
+
+
  $(document).ready(function(){
     // $('[data-toggle="popover"]').popover();
-    
     $('.password-popover').popover({
         trigger: 'focus'
     })
-
 }); 
 
 
-$(document).ready(function() {
-    $(".only-numeric").bind("keypress", function (e) {
-        var keyCode = e.which ? e.which : e.keyCode
+
+
+
+// $(document).ready(function() {
+//     $(".only-numeric").bind("keypress", function (e) {
+//         var keyCode = e.which ? e.which : e.keyCode
             
-        if (!(keyCode >= 48 && keyCode <= 57)) {
-            // Show Error
-            $(".error").css("display", "inline");
-            return false;
-        }else{
-            // Right
-            $(".error").css("display", "none");
-        }
-    });
-});
+//         if (!(keyCode >= 48 && keyCode <= 57)) {
+//             // Show Error
+//             $(".error").css("display", "inline");
+//             return false;
+//         }else{
+//             // Right
+//             $(".error").css("display", "none");
+//         }
+//     });
+// });
 
 
 

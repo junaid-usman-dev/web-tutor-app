@@ -37,7 +37,7 @@
         <div class="card card-primary card-outline" >
             <div class="card-body register-card-body">
                 <p class="login-box-msg">Sign up for TutorLynx</p>
-                <form action="{{ Route('upload.profile') }}" method="POST" accept-charset="UTF-8" autocomplete="off" enctype="multipart/form-data" >
+                <form action="{{ Route('upload.profile') }}" method="GET" accept-charset="UTF-8" autocomplete="off" enctype="multipart/form-data" >
                     @csrf
                     
                     <div class="input-group mb-2" >
@@ -64,7 +64,7 @@
 
                 </form>
 
-                <a href="login.html" class="text-center">SKIP</a>
+                <a href="{{ route('upload.profile') }}" class="text-center">SKIP</a>
 
             </div>
             <!-- /.form-box -->

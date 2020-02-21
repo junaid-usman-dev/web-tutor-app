@@ -157,12 +157,12 @@
                         <div class="input-group mb-2">
                             <div class="form-group col-12 mb-0 ml-0">
                                 <select class="form-control" name="country" data-placeholder="Select Country" style="width: 100%;" value={{ old('country') }} >
-                                    <option>Alaska</option>
-                                    <option>California</option>
+                                    <option>USA</option>
+                                    {{-- <option>California</option>
                                     <option>Delaware</option>
                                     <option>Tennessee</option>
                                     <option>Texas</option>
-                                    <option>Washington</option>
+                                    <option>Washington</option> --}}
                                 </select>
                             </div>
                         </div>
@@ -175,26 +175,75 @@
                         <div class="input-group mb-2">
                             <div class="form-group col-6 mb-0 ml-0">
                                 <select class="form-control" name="state" data-placeholder="Select State" style="width: 100%;" value={{ old('state') }} >
+                                    <option>Alabama</option>
                                     <option>Alaska</option>
+                                    <option>Arizona</option>
+                                    <option>Arkansas</option>
                                     <option>California</option>
+                                    <option>Colorado</option>
+                                    <option>Connecticut</option>
                                     <option>Delaware</option>
+                                    <option>Florida</option>
+                                    <option>Georgia</option>
+                                    <option>Hawaii</option>
+                                    <option>Idaho</option>
+                                    <option>Illinois</option>
+                                    <option>Indiana</option>
+                                    <option>Iowa</option>
+                                    <option>Kansas</option>
+                                    <option>Kentucky</option>
+                                    <option>Louisiana</option>
+                                    <option>Maine</option>
+                                    <option>Massachusetts</option>
+                                    <option>Michigan</option>
+                                    <option>Minnesota</option>
+                                    <option>Mississippi</option>
+                                    <option>Missouri</option>
+                                    <option>Montana</option>
+                                    <option>Nebraska</option>
+                                    <option>Nevada</option>
+                                    <option>New Hampshire</option>
+                                    <option>New Jersey</option>
+                                    <option>New Mexico</option>
+                                    <option>New York</option>
+                                    <option>North Carolina</option>
+                                    <option>North Dakota</option>
+                                    <option>Ohio</option>
+                                    <option>Oklahoma</option>
+                                    <option>Oregon</option>
+                                    <option>Pennsylvania</option>
+                                    <option>Rhode Island</option>
+                                    <option>South Carolina</option>
+                                    <option>South Dakota</option>
                                     <option>Tennessee</option>
                                     <option>Texas</option>
+                                    <option>Utah</option>
+                                    <option>Vermont</option>
+                                    <option>Virginia</option>
                                     <option>Washington</option>
+                                    <option>West Virginia</option>
                                 </select>
                             </div>
                             @error('state')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                             <div class="form-group col-6 mb-0 ml-0">
-                                <select class="form-control" name="city" data-placeholder="Select City" style="width: 100%;" value={{ old('city') }} >
+                                <div class="input-group mb-2">
+                                    <input type="text" name="city" class="form-control" autocomplete="disabled" placeholder="City" value={{ old('city') }} >
+                                    {{-- <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-user"></span>
+                                        </div>
+                                    </div> --}}
+                                </div>
+                                {{-- <select class="form-control" name="city" data-placeholder="Select City" style="width: 100%;" value={{ old('city') }} >
                                     <option>Alaska</option>
                                     <option>California</option>
                                     <option>Delaware</option>
                                     <option>Tennessee</option>
                                     <option>Texas</option>
                                     <option>Washington</option>
-                                </select>
+                                </select> --}}
                             </div>
                             @error('city')
                                 <div class="alert alert-danger">{{ $message }}</div>

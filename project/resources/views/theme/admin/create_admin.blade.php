@@ -170,7 +170,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="social-auth-links text-center">
                             <button class="btn btn-block btn-primary" name="signup" id="signup" >
                                 <em class="fas fa-check-circle mr-2"></em>
-                                Sign up
+                                Create
                             </button>
                         </div>
     

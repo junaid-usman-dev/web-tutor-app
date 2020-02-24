@@ -1,5 +1,14 @@
 <?php
 
+
+
+
+Route::get('/test', function () {
+    return view('theme.register.forget_password.email_template.reset_password');
+});
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,10 +25,6 @@ Route::get('/', function () {
 });
 Route::get('/about', function () {
     return view('about');
-});
-
-Route::get('/test', function () {
-    return view('popover');
 });
 
 /*
@@ -56,13 +61,13 @@ Route::get('/confirm-email-address', function () {
     return view('theme.register.forget_password.send_email');
 });
 Route::post('/forgetpassword/verification', 'Registration\RegistrationController@ForgetPassword'); // check username/email address
-Route::get('/reset-password/{email}/{key}', 'Registration\RegistrationController@ResetPassword'); // view update page
+Route::get('/reset-password', 'Registration\RegistrationController@ResetPassword'); // view update page
 Route::post('/password/updated', 'Registration\RegistrationController@UpdatePassword')->name('user.password.update'); // updpate password
 // end forget password url
 
 // Reset Password
-Route::get('/reset-password', 'Registration\RegistrationController@UserResetPassword'); // reset user password
-Route::post('/reset-password', 'Registration\RegistrationController@UserResetPasswordData')->name('user.reset.password'); // reset user password
+// Route::get('/reset-password', 'Registration\RegistrationController@UserResetPassword'); // reset user password
+// Route::post('/reset-password', 'Registration\RegistrationController@UserResetPasswordData')->name('user.reset.password'); // reset user password
 // end Reset Password
 
 
@@ -77,7 +82,9 @@ Route::post('/username', 'Registration\RegistrationController@AddUsername');
 // Route::get('/profile/picture', function () {
 //     return view('theme.register.upload_image');
 // });
-Route::get('/profile/image', 'Registration\RegistrationController@UploadPicture')->name('upload.profile'); // Upload profile picture
+Route::post('/upload-profile-image', 'Registration\RegistrationController@UploadPicture')->name('upload.profile.image'); // Upload profile picture
+Route::get('/upload-profile-image/skip', 'Registration\RegistrationController@SkipUploadPicture')->name('skip.upload.profile.image'); // Skip Upload profile picture
+
 Route::post('/submit/payment', 'Registration\RegistrationController@Payment')->name('tutor.fee.submission'); // Submit Registration Fee
 Route::post('/setup_profile', 'Registration\RegistrationController@UploadQualification')->name('tutor.profile.setup'); // Add Qualification
 
@@ -196,22 +203,6 @@ Route::prefix('tutor')->group(function () {
 |
 */
 
-// Route::get('/admin/signin', function () {
-//     return view('theme.admin.signin.admin_signin');
-// })->name('admin.signin');
-
-// Route::post('/admin/home', 'Users\Admin\AdminController@AdminLogin'); 
-
-// Route::get('/admin/index', 'Users\Admin\AdminController@index'); // Display Admin List
-
-// Route::get('/admin/create', 'Users\Admin\AdminController@create'); // Create specific admin
-
-// Route::get('/admin/update', 'Users\Admin\AdminController@update'); // update specific user
-
-// Route::get('/admin/destroy/{id}', 'Users\Admin\AdminController@destroy'); // destroy specific user
-
-
-
 Route::prefix('admin')->group(function () {
 
     /*
@@ -249,13 +240,13 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/list', 'Subject\SubjectController@index')->name('subject.list'); // display all subjects
 
-        Route::get('/create', 'Subject\SubjectController@create'); // create a new subject
-        Route::post('/store', 'Subject\SubjectController@store'); // store a new created subject to db
+        Route::get('/create', 'Subject\SubjectController@create')->name('admin.subject.create'); // create a new subject
+        Route::post('/store', 'Subject\SubjectController@store')->name('admin.subject.store'); // store a new created subject to db
 
-        Route::get('/delete/{id}', 'Subject\SubjectController@destroy'); // delete specific resource from db
+        Route::get('/delete/{id}', 'Subject\SubjectController@destroy')->name('admin.subject.delete'); // delete specific resource from db
 
-        Route::get('/edit/{id}', 'Subject\SubjectController@edit'); // edit a specific subject
-        Route::post('/update', 'Subject\SubjectController@update'); // update a specific subject
+        Route::get('/edit/{id}', 'Subject\SubjectController@edit')->name('admin.subject.edit'); // edit a specific subject
+        Route::post('/update', 'Subject\SubjectController@update')->name('admin.subject.update'); // update a specific subject
 
     });
 

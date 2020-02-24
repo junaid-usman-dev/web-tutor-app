@@ -344,11 +344,11 @@ class RegistrationController extends Controller
             $user->save();
  
             // Send Email 
-            // Mail::to($user->email_address)->send(new SendMailable($user));
+            Mail::to($user->email_address)->send(new SendMailable($user));
 
             // Mail::send(new SendMailable($user), function ($m) use ($user) {
             //     $m->from('hello@app.com', 'Your Application');
-    
+
             //     $m->to($user->email, $user->name)->subject('Your Reminder!');
             // });
 
@@ -487,8 +487,11 @@ class RegistrationController extends Controller
      * @param  \App\Student  $Student
      * @return \Illuminate\Http\Response
      */
-    public function ResetPassword(string $email, string $key)
+    public function ResetPassword(Request $request)
     {
+        $email = $request->input('email');
+        $key = $request->input('key');
+        // dd($request->input('email'), $request->input('key') );
         return view ('theme.register.forget_password.reset_password')->with(['email'=>$email,'key'=>$key]);
     }
 
@@ -708,6 +711,7 @@ class RegistrationController extends Controller
         
         if ($request->hasFile('image'))
         {
+            // Upload Custom Profile Image
             $file = $request->file('image');
             $new_name = rand() . '.' . $file->getClientOriginalExtension();
             // $file->move(public_path("images"), $new_name ); working
@@ -721,6 +725,7 @@ class RegistrationController extends Controller
         }
         else
         {
+            // Upload Default Profile Image
             $image->user_id = $id;
             $image->name = "default-profile-image.jpg";
             $image->path = "images";
@@ -742,6 +747,51 @@ class RegistrationController extends Controller
             return view ('theme.tutor.tutor_dashboard')->with(['user' => $user]);
         }
     }
+
+    /**
+     * Skip Upload user profile Image
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function SkipUploadPicture(Request $request )
+    {  
+        $student_id = $request->session()->get('session_student_id');
+        $tutor_id = $request->session()->get('session_tutor_id');
+        if (!empty($student_id) )
+        {
+            $id = $student_id;
+        }
+        else if (!empty($tutor_id))
+        {
+            $id = $tutor_id;
+        }
+        else
+        {
+            return ("Error! User Session not found");
+        }
+
+        $image = new Image();
+       
+        // Upload Default Profile Image
+        $image->user_id = $id;
+        $image->name = "default-profile-image.jpg";
+        $image->path = "images";
+        
+        $image->save();
+      
+        $user = User::findOrFail($id);
+        if ($user->type == "student")
+        {
+            // Student Dashboard
+            return view ('theme.student.student_dashboard')->with(['user' => $user]);
+        }
+        else
+        {
+            // Tutor Dashboard
+            return view ('theme.tutor.tutor_dashboard')->with(['user' => $user]);
+        }
+    }
+
 
     /**
      * Store pyament form data

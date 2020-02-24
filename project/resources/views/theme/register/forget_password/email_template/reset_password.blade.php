@@ -45,6 +45,36 @@
         }
 
     </style>
+
+
+    <style>
+        .reset-btn{
+            margin-top: 36px;
+            -ms-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            -webkit-font-smoothing: antialiased;
+            -webkit-text-size-adjust: 100%;
+            color: white !important;
+            font-family: 'Postmates Std', 'Helvetica', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; 
+            font-size: 12px;
+            font-smoothing: always;
+            font-style: normal;
+            font-weight: 600;
+            letter-spacing: 0.7px;
+            line-height: 48px;
+            mso-line-height-rule: exactly;
+            text-decoration: none;
+            vertical-align: top;
+            width: 220px;
+            background-color: #234781;
+            border-radius: 28px;
+            display: block;
+            text-align: center;
+            text-transform: uppercase
+        }
+    </style>
+
+
 </head>
 
 <body style="background-color: #f4f4f5;">
@@ -63,8 +93,7 @@
                                         <tbody>
                                             <tr>
                                                 <td style="padding-top: 24px;">
-                                                    <img src="https://d1pgqke3goo8l6.cloudfront.net/wRMe5oiRRqYamUFBvXEw_logo.png"
-                                                        style="width: 56px;">
+                                                    <img src="http://digilynx.net/web-tutor-app/theme_asset/home/images/tl_logo.png">
                                                 </td>
                                             </tr>
                                             <tr>
@@ -100,9 +129,8 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    /reset-password/{email}/{key}
-                                                    <a data-click-track-id="37" href="{{ url('reset-password') }}/{{ $user->email_address }}/{{ $verification_key }}"
-                                                        style="margin-top: 36px; -ms-text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; color: #ffffff; font-family: 'Postmates Std', 'Helvetica', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 12px; font-smoothing: always; font-style: normal; font-weight: 600; letter-spacing: 0.7px; line-height: 48px; mso-line-height-rule: exactly; text-decoration: none; vertical-align: top; width: 220px; background-color: #00cc99; border-radius: 28px; display: block; text-align: center; text-transform: uppercase"
+                                                    <a data-click-track-id="37" href="{{ url('reset-password') }}/?email={{ $user->email_address }}&key={{ $verification_key }}"
+                                                        class="reset-btn"
                                                         target="_blank">
                                                         Reset Password
                                                     </a>
@@ -115,7 +143,7 @@
                         </tbody>
                     </table>
                     <table align="center" cellpadding="0" cellspacing="0" id="footer"
-                        style="background-color: #000; width: 100%; max-width: 680px; height: 100%;">
+                        style="background-color: #234781; width: 100%; max-width: 680px; height: 100%;">
                         <tbody>
                             <tr>
                                 <td>
@@ -125,8 +153,9 @@
                                             <tr>
                                                 <td colspan="2"
                                                     style="padding-top: 72px; padding-bottom: 24px; width: 100%;">
-                                                    <img src="https://d1pgqke3goo8l6.cloudfront.net/DFcmHWqyT2CXk2cfz1QB_wordmark.png"
-                                                        style="width: 124px; height: 20px">
+                                                    <h1 style="font-family: Rockwell Std Bold Condensed; font-weight: bold; color: white;">TutorLynx</h1>
+                                                    {{-- <img src="{{ asset('theme_asset/dist/img/TL_txt_img.png') }}" --}}
+                                                        {{-- style="width: 124px; height: 20px"> --}}
                                                 </td>
                                             </tr>
                                             <tr>
@@ -147,7 +176,7 @@
                                                     style="-ms-text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; color: #9095A2; font-family: 'Postmates Std', 'Helvetica', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 15px; font-smoothing: always; font-style: normal; font-weight: 400; letter-spacing: 0; line-height: 24px; mso-line-height-rule: exactly; text-decoration: none; vertical-align: top; width: 100%;">
                                                     If you have any questions or concerns, we're here to help. Contact
                                                     us via our <a data-click-track-id="1053"
-                                                        href="https://support.postmates.com/buyer"
+                                                        href="{{ url('/') }}"
                                                         style="font-weight: 500; color: #ffffff" target="_blank">Help
                                                         Center</a>.
                                                 </td>

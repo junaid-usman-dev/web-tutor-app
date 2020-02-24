@@ -30,14 +30,14 @@
 <body class="hold-transition register-page">
     <div class="register-box">
         <div class="register-logo">
-            <a href="../../index2.html"><img src="{{ asset('theme_asset/dist/img/TLLogo.png') }}" style="width: 60px">
+            <a href="{{ url('/') }}"><img src="{{ asset('theme_asset/dist/img/TLLogo.png') }}" style="width: 60px">
                 <img src="{{ asset('theme_asset/dist/img/TL_txt_img.png') }}"></a>
         </div>
 
         <div class="card card-primary card-outline" >
             <div class="card-body register-card-body">
                 <p class="login-box-msg">Sign up for TutorLynx</p>
-                <form action="{{ Route('upload.profile') }}" method="GET" accept-charset="UTF-8" autocomplete="off" enctype="multipart/form-data" >
+                <form action="{{ Route('upload.profile.image') }}" method="POST" accept-charset="UTF-8" autocomplete="off" enctype="multipart/form-data" >
                     @csrf
                     
                     <div class="input-group mb-2" >
@@ -64,7 +64,7 @@
 
                 </form>
 
-                <a href="{{ route('upload.profile') }}" class="text-center">SKIP</a>
+                <a href="{{ route('skip.upload.profile.image') }}" class="text-center">SKIP</a>
 
             </div>
             <!-- /.form-box -->

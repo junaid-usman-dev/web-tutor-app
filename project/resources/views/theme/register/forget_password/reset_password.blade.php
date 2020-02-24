@@ -40,7 +40,7 @@
 <body class="hold-transition register-page">
     <div class="register-box">
         <div class="register-logo">
-            <a href="../../index2.html"><img src="{{ asset('theme_asset/dist/img/TLLogo.png') }}" style="width: 60px">
+            <a href="{{ url('/') }}"><img src="{{ asset('theme_asset/dist/img/TLLogo.png') }}" style="width: 60px">
                 <img src="{{ asset('theme_asset/dist/img/TL_txt_img.png') }}"></a>
         </div>
 
@@ -48,7 +48,7 @@
             <div class="card-body register-card-body">
                 <h3 class="login-box-msg">Reset Password</h3>
                 {{-- action="{{ route('user.password.update') }}" method="POST" --}}
-                <form  accept-charset="UTF-8" >
+                <form accept-charset="UTF-8" >
                     @csrf
 
                     <div class="input-group mb-2 alert alert-danger" role="alert">
@@ -137,8 +137,8 @@
             {
 				if (pass == re_pass)
 				{
-					var URL = "/password/updated";
-					console.log(URL);
+					// var URL = "/password/updated";
+					// console.log(URL);
 					console.log ("Ajax Calling !!!!");
                 	jQuery.ajax({
                     url: "{{ url('/password/updated') }}",
@@ -163,8 +163,7 @@
                             jQuery('.alert-success').html(response.success);
                             console.log(response.success);						
 
-                            // console.log("Flag : "+response.flag);
-                            location.href = '/signin'						
+                            location.href =  "{{ url('/signin') }}"						
                         }
                     }
                 });

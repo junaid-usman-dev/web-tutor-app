@@ -142,7 +142,7 @@
                     @enderror
 
                     <div class="input-group mb-2">
-                        <input type="date" name="birthday" class="form-control only-numeric" autocomplete="disabled" placeholder="mm/dd/yyyy" value={{ old('birthday') }} >
+                        <input type="type" name="birthday" class="form-control only-numeric" onfocus="(this.type='date')" autocomplete="disabled" placeholder="Birthday (mm/dd/yyyy)" value={{ old('birthday') }} >
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-birthday-cake"></span>

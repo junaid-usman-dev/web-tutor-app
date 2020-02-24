@@ -45,7 +45,7 @@ Route::get('/about', function () {
 // signup
 Route::get('/signup', 'Registration\RegistrationController@create')->name('signup');
 Route::post('/store', 'Registration\RegistrationController@store')->name('submit.user.info');
-Route::get('/verify/{email}/{key}', 'Registration\RegistrationController@ListStudent');
+Route::get('/verify', 'Registration\RegistrationController@ListStudent');
 
 //Signin
 Route::get('/signin', 'Registration\RegistrationController@index')->name('signin'); 

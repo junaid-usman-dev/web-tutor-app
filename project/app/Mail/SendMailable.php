@@ -35,7 +35,7 @@ class SendMailable extends Mailable
 
         if ($this->User->verified_email == 0)
         {
-            return $this->from('example@example.com')->view('theme/register/forget_password/email_template/welcome')
+            return $this->from('example@example.com')->subject('Account Verification')->view('theme/register/forget_password/email_template/welcome')
                 ->with([
                         'verification_key' => $this->User->verification_key,
                         'user' => $this->User,

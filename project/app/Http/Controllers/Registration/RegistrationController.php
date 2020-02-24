@@ -432,9 +432,12 @@ class RegistrationController extends Controller
      * @param  \App\Student  $Student
      * @return \Illuminate\Http\Response
      */
-    public function ListStudent(string $email, string $key)
+    public function ListStudent(Request $request)
     {
         //
+        $email = $request->input('email');
+        $key = $request->input('key');
+        // dd ($email = $request->input('email'), $key = $request->input('key') );
         $Students = User::where('email_address',$email)->where('verification_key',$key)->first();
        
         if (!empty($Students) > 0)

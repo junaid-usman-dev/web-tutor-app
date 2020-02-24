@@ -1,3 +1,11 @@
+
+<?php
+if ( empty(session()->get('session_tutor_id')) && empty(session()->get('session_student_id')) )
+{
+
+?>
+
+
 <!DOCTYPE html>
 <html>
 
@@ -173,5 +181,28 @@ jQuery(document).ready(function(){
 
     });
 });
+
+
+<?php 
+}
+else
+{
+    if ( !empty(session()->get('session_tutor_id')) )
+    {
+        header("Location: ".url('/tutor'));exit;
+    }
+    else if ( !empty(session()->get('session_student_id')) )
+    {
+        header("Location: ".url('/student'));exit;
+    }
+    else
+    {
+        echo ("test");
+        // console.log("dfdfdfd");
+        // header("Location: ".url('/student'));exit;
+    }
+    // Go to welcome page
+}
+?>
 
 </script>

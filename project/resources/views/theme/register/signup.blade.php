@@ -1,3 +1,11 @@
+
+<?php
+if ( empty(session()->get('session_tutor_id')) && empty(session()->get('session_student_id')) )
+{
+
+?>
+
+
 <!DOCTYPE html>
 <html>
 
@@ -227,7 +235,7 @@
                             @error('state')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
-                            <div class="form-group col-6 mb-0 ml-0">
+                            <div class="form-group col-4 mb-0 ml-0">
                                 <div class="input-group mb-2">
                                     <input type="text" name="city" class="form-control" autocomplete="disabled" placeholder="City" value={{ old('city') }} >
                                     {{-- <div class="input-group-append">
@@ -317,6 +325,9 @@
 
 <script type="text/javascript">
  
+
+ 
+
 //  function phonenumber(myInput)
 //     {
        
@@ -455,6 +466,30 @@ myInput.onkeyup = function() {
     // End password foramt validation
     //----------------------------------------------------------
     });
+
+
+
+<?php 
+}
+else
+{
+    if ( !empty(session()->get('session_tutor_id')) )
+    {
+        header("Location: ".url('/tutor'));exit;
+    }
+    else if ( !empty(session()->get('session_student_id')) )
+    {
+        header("Location: ".url('/student'));exit;
+    }
+    else
+    {
+        echo ("test");
+        // console.log("dfdfdfd");
+        // header("Location: ".url('/student'));exit;
+    }
+    // Go to welcome page
+}
+?>
 
 
 </script>

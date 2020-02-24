@@ -1,3 +1,9 @@
+<?php
+if (empty(session()->get('session_admin_id')) )
+{
+
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -159,3 +165,13 @@
         });
     });
 </script>
+
+
+<?php 
+}
+else
+{
+    // Go to welcome page
+    header("Location: ".url('/admin'));exit;
+}
+?>

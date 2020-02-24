@@ -32,7 +32,7 @@ class ResetPasswordMail extends Mailable
     public function build()
     {
         return $this->from('example@example.com')
-                    ->subject('Reset Password')
+                    ->subject('Reset Password for TutorLynx')
                     ->view('theme/register/forget_password/email_template/reset_password')
                     ->with([
                         'verification_key' => $this->User->verification_key,

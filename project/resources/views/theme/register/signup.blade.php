@@ -235,7 +235,7 @@ if ( empty(session()->get('session_tutor_id')) && empty(session()->get('session_
                             @error('state')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
-                            <div class="form-group col-4 mb-0 ml-0">
+                            <div class="form-group col-6 mb-0 ml-0">
                                 <div class="input-group mb-2">
                                     <input type="text" name="city" class="form-control" autocomplete="disabled" placeholder="City" value={{ old('city') }} >
                                     {{-- <div class="input-group-append">

@@ -158,7 +158,7 @@ $(".chosen-select").chosen();
                     <div class="social-auth-links text-center">
                         <button class="btn btn-block btn-primary" name="signup" id="signup" >
                             <em class="fas fa-check-circle mr-2"></em>
-                            Sign up
+                            Signup
                         </button>
                     </div>
 

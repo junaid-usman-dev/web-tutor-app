@@ -85,7 +85,7 @@ if (empty(session()->get('session_admin_id')) )
                         </div>
                         <!-- /.col -->
                         <div class="col-4">
-                            <button id="login" class="btn btn-primary btn-block">Sign In</button>
+                            <button id="login" class="btn btn-primary btn-block">Signin</button>
                         </div>
                         <!-- /.col -->
                     </div>

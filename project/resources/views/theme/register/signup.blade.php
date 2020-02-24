@@ -301,13 +301,13 @@ if ( empty(session()->get('session_tutor_id')) && empty(session()->get('session_
                     <div class="social-auth-links text-center">
                         <button class="btn btn-block btn-primary" name="signup" id="signup" >
                             <em class="fas fa-check-circle mr-2"></em>
-                                Sign up
+                                Signup
                         </button>
                     </div>
 
                 </form>
 
-                <a href="{{ url('signin') }}" class="text-center">I already have an account. Sign In</a>
+                <a href="{{ url('signin') }}" class="text-center">I already have an account. Signin</a>
 
             </div>
             <!-- /.form-box -->

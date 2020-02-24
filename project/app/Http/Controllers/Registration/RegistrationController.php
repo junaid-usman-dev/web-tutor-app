@@ -439,7 +439,7 @@ class RegistrationController extends Controller
         $key = $request->input('key');
         // dd ($email = $request->input('email'), $key = $request->input('key') );
         $Students = User::where('email_address',$email)->where('verification_key',$key)->first();
-       
+        // dd ($Students->verified_email);
         if (!empty($Students) > 0)
         {
             $Students->verified_email = '1';

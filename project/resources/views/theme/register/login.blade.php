@@ -87,7 +87,7 @@ if ( empty(session()->get('session_tutor_id')) && empty(session()->get('session_
                         </div>
                         <!-- /.col -->
                         <div class="col-4">
-                            <button id="login" class="btn btn-primary btn-block">Sign In</button>
+                            <button id="login" class="btn btn-primary btn-block">Signin</button>
                         </div>
                         <!-- /.col -->
                     </div>

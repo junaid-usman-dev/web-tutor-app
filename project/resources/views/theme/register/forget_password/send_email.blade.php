@@ -112,7 +112,8 @@
             {
                 console.log ("Ajax Calling !!!! Email Verification !!!! ");
                 jQuery.ajax({
-                    url: "/forgetpassword/verification",
+                    url: "{{ url('/forgetpassword/verification') }}",
+                    // url: "/forgetpassword/verification",
                     type: "POST",
                     data: {'user':user },
                     success: function(response)

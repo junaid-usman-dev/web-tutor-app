@@ -678,10 +678,14 @@ class TutorController extends Controller
         $user_id = $request->session()->get('session_tutor_id');
         $user_type = $request->session()->get('session_tutor_type');
 
-        $user = User::findOrFail($user_id);
-        if ($user->type == "tutor")
+        $user = User::where('id',$user_id)->first();
+        if ( !empty($user) )
         {
             return view ('theme.tutor.tutor_dashboard')->with(['user' => $user]);
+        }
+        else
+        {
+            return redirect()->to('signin');
         }
     }
     

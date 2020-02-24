@@ -355,10 +355,14 @@ class StudentController extends Controller
         $user_id = $request->session()->get('session_student_id');
         $user_type = $request->session()->get('session_student_type');
 
-        $user = User::findOrFail($user_id);
-        if ($user->type == "student")
+        $user = User::where('id',$user_id)->first();
+        if ( !empty($user) )
         {
             return view ('theme.student.student_dashboard')->with(['user' => $user]);
+        }
+        else
+        {
+            return redirect()->to('signin');
         }
     }
 }

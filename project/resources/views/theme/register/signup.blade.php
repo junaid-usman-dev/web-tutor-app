@@ -47,6 +47,10 @@ if ( empty(session()->get('session_tutor_id')) && empty(session()->get('session_
     color: red;
     display: none;
 }
+.bdr-right
+{
+    border-right: groove 1px !important;
+}
 </style>
 
 
@@ -182,7 +186,7 @@ if ( empty(session()->get('session_tutor_id')) && empty(session()->get('session_
                     <div class="row">
                         <div class="input-group mb-2">
                             <div class="form-group col-6 mb-0 ml-0">
-                                <select class="form-control" name="state" data-placeholder="Select State" style="width: 100%;" value={{ old('state') }} >
+                                <select class="form-control bdr-right" name="state" data-placeholder="Select State" style="width: 100%;" value={{ old('state') }} >
                                     <option>Alabama</option>
                                     <option>Alaska</option>
                                     <option>Arizona</option>
@@ -237,7 +241,7 @@ if ( empty(session()->get('session_tutor_id')) && empty(session()->get('session_
                             @enderror
                             <div class="form-group col-6 mb-0 ml-0">
                                 <div class="input-group mb-2">
-                                    <input type="text" name="city" class="form-control" autocomplete="disabled" placeholder="City" value={{ old('city') }} >
+                                    <input type="text" name="city" class="form-control bdr-right" autocomplete="disabled" placeholder="City" value={{ old('city') }} >
                                     {{-- <div class="input-group-append">
                                         <div class="input-group-text">
                                             <span class="fas fa-user"></span>

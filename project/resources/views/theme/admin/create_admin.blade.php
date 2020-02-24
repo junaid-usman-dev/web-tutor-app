@@ -401,7 +401,19 @@ myInput.onkeyup = function() {
     }
     else
     {
-		// Go to welcome page
-        header("Location: ".url('/admin/signin'));exit;
+        if ( !empty(session()->get('session_student_id')) )
+        {
+            header("Location: ".url('/student'));exit;
+        }
+        else if ( !empty(session()->get('session_tutor_id')) )
+        {
+            header("Location: ".url('/tutor'));exit;
+        }
+        else
+        {
+            // Go to welcome page
+            header("Location: ".url('/admin/signin'));exit;
+        }
+		
     }
 ?>

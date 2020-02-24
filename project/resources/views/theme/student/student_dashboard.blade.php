@@ -1,8 +1,9 @@
 
 <?php
-    if ( !empty(session()->get('session_student_id')) )
+    if (!empty(session()->get('session_student_id')) )
     {
-    
+
+        // echo ( session()->get('session_student_id') );
 ?>
 
 
@@ -914,6 +915,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     else
     {
 		// Go to welcome page
-        header("Location: ".route('signin') );exit;
+        header("Location: ".url('/signin'));exit;
     }
 ?>

@@ -73,12 +73,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                             <div class="card-body card-comments">
                                                                 <div class="row">
                                                                     <div class="col-2 text-left">
-                                                                        <img src="{{ asset('theme_asset/dist/img/user7-128x128.jpg') }}" alt=""
+                                                                        {{-- {{ asset('theme_asset/dist/img/user7-128x128.jpg') }} --}}
+                                                                        <img src="{{ url('/') }}/{{ $user->images->path }}/{{ $user->images->name }}" alt=""
                                                                             class="img-circle img-fluid">
                                                                     </div>
                                                                     <div class="col-9 ">
-                                                                        <h2 class="username"><strong>Jane
-                                                                                Micheal</strong></h2>
+                                                                        <h2 class="username"><strong>{{ $user->first_name }}
+                                                                                {{ $user->last_name }}</strong></h2>
                                                                         <p class="text-lg">Student, Physics,
                                                                             Electronics, Biology, Chemistry</p>
 
@@ -88,12 +89,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                             out of 563 hours. </p>
                                                                     </div>
 
-
-
                                                                 </div>
                                                             </div>
                                                             <div style="margin-top: 20px; ">
-                                                                <h3>About Jane</h3>
+                                                                <h3>About {{ $user->first_name }}</h3>
                                                                 <hr>
                                                             </div>
 
@@ -218,26 +217,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <div class="card-body box-profile">
                                     <div class="text-center ">
                                         <img class="profile-user-img img-fluid img-circle img-bordered-sm"
-                                            src="{{ asset('theme_asset/dist/img/user7-128x128.jpg') }}" alt="User profile picture">
+                                        {{-- {{ asset('theme_asset/dist/img/user7-128x128.jpg') }}     --}}
+                                            src="{{ url('/') }}/{{ $user->images->path }}/{{ $user->images->name }}" alt="User profile picture">
                                     </div>
 
-                                    <h3 class="profile-username text-center">Jane Michael</h3>
+                                    <h3 class="profile-username text-center">{{ $user->first_name }} {{ $user->last_name }}</h3>
 
-                                    <a href="#" class="btn btn-primary btn-block"><strong>Update Profle</strong></a>
+                                    <a href="{{ route('student.edit.profile') }}" class="btn btn-primary btn-block"><strong>Update Profle</strong></a>
                                     <hr>
                                     <strong><em class="fas fa-map-marker-alt mr-1"></em> Location</strong>
-                                    <p class="text-muted">140 GCP, Johar Town, Lahore, Pakistan</p>
+                                    <p class="text-muted">{{ $user->country }}, {{ $user->city }}, {{ $user->state }}</p>
 
                                     <hr>
                                     <strong><em class="fas fa-mobile-alt mr-1"></em> Cell No.</strong>
                                     <p class="text-muted">
-                                        +92 332 1234567
+                                        +{{ $user->phone }}
                                     </p>
 
                                     <hr>
                                     <strong><em class="fas fa-birthday-cake mr-1"></em> Birthday</strong>
                                     <p class="text-muted">
-                                        12 Aug, 2005
+                                        {{ Carbon\Carbon::parse( $user->birthday )->format('d M, Y') }}
                                     </p>
 
                                     <hr>
@@ -245,7 +245,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                                     <strong><i class="fas fa-envelope mr-1"></i> E-mail</strong>
 
-                                    <p class="text-muted">student@gmail.com</p>
+                                    <p class="text-muted">{{ $user->email_address }}</p>
 
 
                                 </div>

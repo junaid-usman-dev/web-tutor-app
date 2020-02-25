@@ -36,7 +36,7 @@
 
         <div class="card card-primary card-outline" >
             <div class="card-body register-card-body">
-                <p class="login-box-msg">Signup for TutorLynx</p>
+                <p class="login-box-msg">Sign up for TutorLynx</p>
                 <form action="{{ Route('upload.profile.image') }}" method="POST" accept-charset="UTF-8" autocomplete="off" enctype="multipart/form-data" >
                     @csrf
                     
@@ -58,7 +58,7 @@
                     <div class="social-auth-links text-center">
                         <button class="btn btn-block btn-primary" name="signup" id="signup" >
                             <em class="fas fa-check-circle mr-2"></em>
-                            Signup
+                            Sign up
                         </button>
                     </div>
 

@@ -64,7 +64,7 @@ if ( empty(session()->get('session_tutor_id')) && empty(session()->get('session_
 
         <div class="card card-primary card-outline">
             <div class="card-body register-card-body">
-                <p class="login-box-msg">Signup for TutorLynx</p>
+                <p class="login-box-msg">Sign up for TutorLynx</p>
                 <form action="{{ route('submit.user.info') }}" method="POST" accept-charset="UTF-8" >
                       @csrf
 
@@ -301,7 +301,7 @@ if ( empty(session()->get('session_tutor_id')) && empty(session()->get('session_
                     <div class="social-auth-links text-center">
                         <button class="btn btn-block btn-primary" name="signup" id="signup" >
                             <em class="fas fa-check-circle mr-2"></em>
-                                Signup
+                                Sign up
                         </button>
                     </div>
 

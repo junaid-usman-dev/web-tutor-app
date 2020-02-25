@@ -91,7 +91,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <b>Total Subjects</b> <a class="float-right">07</a>
                                         </li>
                                     </ul>
-                                    <a href="#" class="btn btn-primary btn-block"><strong>Edit Profile</strong></a>
+                                    <a href="{{ route('student.profile') }}" class="btn btn-primary btn-block"><strong>Edit Profile</strong></a>
                                 </div>
                                 <!-- /.card-body -->
                             </div>

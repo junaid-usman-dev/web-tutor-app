@@ -3,9 +3,9 @@
 
 
 
-Route::get('/test', function () {
-    return view('theme.student.student_profile');
-});
+// Route::get('/test', function () {
+//     return view('theme.student.student_profile_edit');
+// });
 // Route::get('/test', 'Registration\RegistrationController@test')->name('test');
 
 
@@ -123,9 +123,9 @@ Route::prefix('student')->group(function () {
     Route::get('/profile', 'Users\Student\StudentController@Profile')->name('student.profile');
 
 
-    Route::get('/home/{id}', 'Users\Student\StudentController@show')->name('student.home'); // Home Page
+    // Route::get('/home/{id}', 'Users\Student\StudentController@show')->name('student.home'); // Home Page
 
-    Route::get('/edit/{id}', 'Users\Student\StudentController@edit')->name('student.edit.profile'); // Edit student profile
+    Route::get('/edit', 'Users\Student\StudentController@edit')->name('student.edit.profile'); // Edit student profile
     Route::post('/update', 'Users\Student\StudentController@update')->name('student.update.profile'); // Update student profile
 
     Route::get('/add/favorit/tutor/{user_id}/{favorite_user_id}', 'Users\Student\StudentController@AddFavorite')->name('add.favorite.tutors'); // Add tutor to Favorite category

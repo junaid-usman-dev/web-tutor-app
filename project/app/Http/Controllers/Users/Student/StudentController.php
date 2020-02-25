@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Users\Student;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Auth;
 
 use App\User;
@@ -171,18 +172,20 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
         //
-        $student = User::where('id',$id)->where('type', 'student')->first();
+        $id = Auth::user()->id;
+        $user = User::where('id',$id)->where('type', 'student')->first();
 
-        if ( empty($student) )
+        if ( empty($user) )
         {
             dd ("Error: Something went wrong.");
         }
         else
         {
-            return view('student.edit_profile')->with(['student'=>$student]);
+            return view('theme.student.student_profile_edit')->with(['user'=>$user]);
+            // return view('student.edit_profile')->with(['student'=>$student]);
         }
         
     }
@@ -196,24 +199,24 @@ class StudentController extends Controller
      */
     public function update(Request $request)
     {
-        //
+        
         $request->validate([
             'fname' => 'required',
             'lname' => 'required',
-            'email_addr' => new EmailFormat,
+            'email' => new EmailFormat,
             'phone' => 'required',
             'birthday' => 'required|date',
             'country' => 'required',
             'state' => 'required',
             'city' => 'required',
             'zipcode' => 'required',
-            'password' => 'required',
+            'password' => new Password,
 
         ],
         [   
             'fname.required'    => 'first name field is required.',
             'lname.required'    => 'last name field is required.',
-            'email_addr.required'    => 'The email must be a valid email address.',
+            'email.required'    => 'The email must be a valid email address.',
             'phone.required'    => 'phone field is required.',
             'birthday.required'    => 'birthday field is required.',
             'country.required'    => 'country field is required.',
@@ -223,18 +226,18 @@ class StudentController extends Controller
             'password.required'    => 'password field is required.',
         
             'birthday.date'    => 'Enter a valid birthday date.',
-            'password.min'    => 'Password length should be more than 8 character or digit.',
-            'password.alpha_num'    => 'Password should atlear 1 digit.',
-            'password.character'    => 'Password should atlear 1 character.',
+            //'password.min'    => 'Password length should be more than 8 character or digit.',
+            //'password.alpha_num'    => 'Password should atlear 1 digit.',
+            //'password.character'    => 'Password should atlear 1 character.',
 
         ]);
-
+     
         $id = $request->id;
-
+    
         $fname = $request->fname;
         $lname = $request->lname;
-        $email_addr = $request->email_addr;
-        $password = $request->password;
+        $email = $request->email;
+        $password = $request->old_password;
 
         $phone = $request->phone;
         $birthday = $request->birthday;
@@ -243,14 +246,18 @@ class StudentController extends Controller
         $city = $request->city;
         $zipcode = $request->zipcode;
 
-        $hash_pasword = md5(time().$password); // email key 
+        // dd ($id, $fname, $lname, $email, $password, $phone, $birthday, $country, $state, $city, $zipcode);
+
+        // $hash_pasword = md5(time().$password); // email key 
+        $encrypt_pass = Hash::make($password);
+
 
         $student = User::findOrFail($id);
     
         $student->first_name = $fname;
         $student->last_name = $lname;
-        $student->email_address = $email_addr;
-        $student->password = $hash_pasword;
+        $student->email_address = $email;
+        $student->password = $encrypt_pass;
         $student->phone = $phone;
         $student->birthday = $birthday;
         $student->country = $country;
@@ -259,8 +266,8 @@ class StudentController extends Controller
         $student->zipcode = $zipcode;
 
         $student->save();
-       
-        return redirect()->route('student.home', ['id' => $id]);
+
+        return redirect()->route('student.profile');
     }
 
     /**

@@ -335,7 +335,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <h3 class="profile-username text-center">{{ $user->first_name }}
                                         {{ $user->last_name }}</h3>
 
-                                    <p class="text-muted text-center">History Professor</p>
+                                    {{-- <p class="text-muted text-center">History Professor</p> --}}
 
                                     <ul class="list-group list-group-unbordered mb-3">
                                         <li class="list-group-item"> <strong>My Students</strong> <a
@@ -380,7 +380,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </p>
 
                                     <hr>
+                                    <strong><em class="fas fa-birthday-cake mr-1"></em> Birthday</strong>
+                                    <p class="text-muted">
+                                        {{ Carbon\Carbon::parse( $user->birthday )->format('d M, Y') }}
+                                    </p>
 
+                                    <hr>
 
                                     <strong><i class="fas fa-envelope mr-1"></i> E-mail</strong>
 

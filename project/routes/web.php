@@ -3,10 +3,10 @@
 
 
 
-Route::get('/test', function () {
-    return view('theme.register.forget_password.email_template.reset_password');
-});
-
+// Route::get('/test', function () {
+//     return view('theme.register.forget_password.email_template.reset_password');
+// });
+Route::get('/test', 'Registration\RegistrationController@test')->name('test');
 
 
 /*

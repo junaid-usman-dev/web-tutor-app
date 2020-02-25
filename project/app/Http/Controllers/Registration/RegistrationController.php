@@ -11,7 +11,7 @@ use Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 
-
+use Carbon\Carbon;
 
 use App\User;
 use App\Tutor;
@@ -27,6 +27,16 @@ use App\Mail\ResetPasswordMail;
 
 class RegistrationController extends Controller
 {
+
+    // use this function test purpose
+    public function test()
+    {
+        // 2020-3-15
+        // $current = Carbon::today();
+        return Carbon::parse('11/06/1990')->format('d M, Y');
+    }
+
+
     /**
      * Display a listing of the resource.
      *

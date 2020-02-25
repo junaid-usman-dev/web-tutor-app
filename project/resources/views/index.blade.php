@@ -49,7 +49,7 @@
 
 
     <header>
-        <div class="main_img">
+        <div class="main_img padding-top-zero">
             <div class="container ">
                 <div class="row p-0 m-0">
                     <div class="col-md-6 p-0 m-0 hide">
@@ -57,7 +57,7 @@
                                 class="img-fluid">
                     </div>
                     <div class="col-md-12">
-                        <div class="margin-desk">
+                        <div class="margin-desk margin-top-bottom">
                             <h1 class="text-center heading_color_blue "><strong>LEARN</strong> on your terms from an
                                 expert tutor.</h1>
                             <p class="text-center txt_med">Private, 1–on–1 lessons with the expert instructor of your

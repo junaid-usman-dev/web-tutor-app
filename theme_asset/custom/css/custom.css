@@ -4,3 +4,13 @@
 {
     display: none;
 }
+.padding-top-zero
+{
+    padding-top: 0px;
+}
+
+.margin-top-bottom
+{
+    margin-top: 80px;
+    margin-bottom: 80px;
+}

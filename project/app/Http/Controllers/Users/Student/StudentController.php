@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Users\Student;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Auth;
 
 use App\User;
 use App\Image;
@@ -17,6 +18,20 @@ use App\Mail\SendMailable;
 
 class StudentController extends Controller
 {
+
+    /**
+     * Student Profile
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function Profile(Request $request)
+    {
+        //
+        // $user_id = $request->session()->get('session_student_id');
+        $user = User::where('id',Auth::user()->id)->first();
+        return view ('theme.student.student_profile')->with(['user'=> $user ]);
+    }
+
     /**
      * Display a listing of the resource.
      *

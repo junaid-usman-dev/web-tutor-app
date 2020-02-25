@@ -20117,6 +20117,13 @@ html.maximized-card {
   font-size: 21px;
   margin-top: 5px;
 }
+.b_username
+{
+  color: #234781;
+  display: block;
+  font-weight: 600;
+}
+
 
 .post {
   border-bottom: 1px solid #adb5bd;

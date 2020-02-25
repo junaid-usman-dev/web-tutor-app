@@ -3,10 +3,10 @@
 
 
 
-// Route::get('/test', function () {
-//     return view('theme.register.forget_password.email_template.reset_password');
-// });
-Route::get('/test', 'Registration\RegistrationController@test')->name('test');
+Route::get('/test', function () {
+    return view('theme.student.student_profile');
+});
+// Route::get('/test', 'Registration\RegistrationController@test')->name('test');
 
 
 /*
@@ -119,6 +119,9 @@ Route::get('/appointment', function () {
 Route::prefix('student')->group(function () {
 
     Route::get('/', 'Users\Student\StudentController@dashboard')->name('student.dashboard');
+
+    Route::get('/profile', 'Users\Student\StudentController@Profile')->name('student.profile');
+
 
     Route::get('/home/{id}', 'Users\Student\StudentController@show')->name('student.home'); // Home Page
 

@@ -97,10 +97,13 @@ class RegistrationController extends Controller
 
             if (Auth::check())
             {
+                $user = Auth::user();
+                Auth::login($user);
                 $user_id = Auth::user()->id;
                 $user_email = Auth::user()->email_address;
                 $user_phone = Auth::user()->phone;
                 $user_type = Auth::user()->type;
+
                 if (Auth::user()->type == "student")
                 {
                     // Go to Student Welcome Page.
@@ -109,7 +112,7 @@ class RegistrationController extends Controller
                     $this->StoreStudentSession($request, $user_id, $user_email, $user_phone, $user_type ); 
                     return response()->json([
                         'success'=> 'Go to Student Welcome Page.'
-                        ]);
+                    ]);
                 }
                 else if (Auth::user()->type == "tutor")
                 {
@@ -204,54 +207,76 @@ class RegistrationController extends Controller
      */
     public function dashboard (Request $request)
     {
-        $student_id = $request->session()->get('session_student_id');
-        $tutor_id = $request->session()->get('session_tutor_id');
-        if (!empty($student_id))
+        $user = User::findOrFail(Auth::user()->id);
+        if ( !empty($user) )
         {
-            $user = User::findOrFail($student_id);
-            // dd ($user->type);
-            if ($user->type == "student")
+            if (Auth::user()->type == "student")
             {
                 return redirect()->route('student.dashboard');
             }
-            else
+            else if (Auth::user()->type == "tutor")
             {
                 // Error
-                return ("Error! Student Session is not set.");
+                return redirect()->route('tutor.dashboard');
+                // return ("Error! Student Session is not set.");
             }
         }
-        else if (!empty($tutor_id))
+        else
         {
-            // $user = User::where('id',$tutor_id)->get();
-            $user = User::findOrFail($tutor_id);
-          
-            if ($user->type == "tutor")
-            {
-                try {
-                    if (!empty($user->payments->user_id))
-                    {
-                        return redirect()->route('tutor.dashboard');
-                    }
-                    else
-                    {
-                        return view('theme.register.tutor.payment')->with(['id'=>$tutor_id]);
-                    }
-                }
-                //catch exception
-                catch(Exception $e) {
-                    return view('theme.register.tutor.payment')->with(['id'=>$tutor_id]);
-                } 
-            }
-            else
-            {
-                // Error
-                return ("Error! Tutor Session is not set.");
-            }
+            dd ("User Does not found.");
+            // return ("");
         }
-       else
-       {
-           dd ("Error! Something went wrong.");
-       }
+        
+        
+    //     $student_id = $request->session()->get('session_student_id');
+    //     $tutor_id = $request->session()->get('session_tutor_id');
+
+    //     if (!empty($student_id))
+    //     {
+    //         $user = User::findOrFail($student_id);
+    //         // dd ($user->type);
+    //         if ($user->type == "student")
+    //         {
+    //             return redirect()->route('student.dashboard');
+    //         }
+    //         else
+    //         {
+    //             // Error
+    //             return ("Error! Student Session is not set.");
+    //         }
+    //     }
+    //     else if (!empty($tutor_id))
+    //     {
+    //         // $user = User::where('id',$tutor_id)->get();
+    //         $user = User::findOrFail($tutor_id);
+          
+    //         if ($user->type == "tutor")
+    //         {
+    //             try {
+    //                 if (!empty($user->payments->user_id))
+    //                 {
+    //                     return redirect()->route('tutor.dashboard');
+    //                 }
+    //                 else
+    //                 {
+    //                     return view('theme.register.tutor.payment')->with(['id'=>$tutor_id]);
+    //                 }
+    //             }
+    //             //catch exception
+    //             catch(Exception $e) {
+    //                 return view('theme.register.tutor.payment')->with(['id'=>$tutor_id]);
+    //             } 
+    //         }
+    //         else
+    //         {
+    //             // Error
+    //             return ("Error! Tutor Session is not set.");
+    //         }
+    //     }
+    //    else
+    //    {
+    //        dd ("Error! Something went wrong.");
+    //    }
 
     }
 
@@ -688,6 +713,7 @@ class RegistrationController extends Controller
     public function Logout(Request $request)
     {
         $request->session()->flush();
+        Auth::logout();
         return redirect ('/signin');
     }
 

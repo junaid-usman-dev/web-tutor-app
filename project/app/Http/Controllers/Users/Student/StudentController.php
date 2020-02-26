@@ -199,7 +199,6 @@ class StudentController extends Controller
      */
     public function update(Request $request)
     {
-        
         $request->validate([
             'fname' => 'required',
             'lname' => 'required',
@@ -210,8 +209,9 @@ class StudentController extends Controller
             'state' => 'required',
             'city' => 'required',
             'zipcode' => 'required',
-            'password' => new Password,
-
+            'old_password' => 'nullable',
+            'new_password' => ['nullable',new Password],
+            'confirm_password' => 'nullable',
         ],
         [   
             'fname.required'    => 'first name field is required.',
@@ -223,13 +223,11 @@ class StudentController extends Controller
             'state.required'    => 'state field is required.',
             'city.required'    => 'city field is required.',
             'zipcode.required'    => 'zipcode field is required.',
-            'password.required'    => 'password field is required.',
+            // 'old_password.required'    => 'password field is required.',
+            // 'new_password.required'    => 'password field is required.',
+            // 'confirm_password.required'    => 'password field is required.',
         
             'birthday.date'    => 'Enter a valid birthday date.',
-            //'password.min'    => 'Password length should be more than 8 character or digit.',
-            //'password.alpha_num'    => 'Password should atlear 1 digit.',
-            //'password.character'    => 'Password should atlear 1 character.',
-
         ]);
      
         $id = $request->id;
@@ -237,7 +235,10 @@ class StudentController extends Controller
         $fname = $request->fname;
         $lname = $request->lname;
         $email = $request->email;
-        $password = $request->old_password;
+
+        $old_password = $request->old_password;
+        $new_password = $request->new_password;
+        $confirm_password = $request->confirm_password;
 
         $phone = $request->phone;
         $birthday = $request->birthday;
@@ -246,28 +247,70 @@ class StudentController extends Controller
         $city = $request->city;
         $zipcode = $request->zipcode;
 
-        // dd ($id, $fname, $lname, $email, $password, $phone, $birthday, $country, $state, $city, $zipcode);
-
-        // $hash_pasword = md5(time().$password); // email key 
-        $encrypt_pass = Hash::make($password);
-
+        // dd ($id, $fname, $lname, $email, $phone, $birthday, $country, $state, $city, $zipcode);
+        // $encrypt_pass = Hash::make($password);
 
         $student = User::findOrFail($id);
+        
+        // Make sure user want to update his/her password
+        if ( (!empty($old_password)) && (!empty($new_password)) && (!empty($confirm_password)) )
+        {
+            // Is password match with old password
+            if (Hash::check($old_password, $student->password)) {
+                if ( $new_password == $confirm_password )
+                {
+                    $student->first_name = $fname;
+                    $student->last_name = $lname;
+                    $student->email_address = $email;
+                    $student->password = Hash::make($new_password);
+                    $student->phone = $phone;
+                    $student->birthday = $birthday;
+                    $student->country = $country;
+                    $student->state = $state;
+                    $student->city = $city;
+                    $student->zipcode = $zipcode;
     
-        $student->first_name = $fname;
-        $student->last_name = $lname;
-        $student->email_address = $email;
-        $student->password = $encrypt_pass;
-        $student->phone = $phone;
-        $student->birthday = $birthday;
-        $student->country = $country;
-        $student->state = $state;
-        $student->city = $city;
-        $student->zipcode = $zipcode;
+                    $student->save();
+    
+                    return response()->json([
+                        'success'=> 'Success! Your profile information has been updated. Password Server'
+                    ]);
+                }
+                else
+                {
+                    return response()->json([
+                        'error'=> 'Password does not match. Server'
+                    ]);
+                }
+            }
+            else
+            {
+                return response()->json([
+                    'error'=> 'Unknown Old Password.'
+                ]);
+            }
+        }
+        else
+        {
+            // User does not want to update his/her password
+            $student->first_name = $fname;
+            $student->last_name = $lname;
+            $student->email_address = $email;
+            // $student->password = Hash::make($new_password);
+            $student->phone = $phone;
+            $student->birthday = $birthday;
+            $student->country = $country;
+            $student->state = $state;
+            $student->city = $city;
+            $student->zipcode = $zipcode;
 
-        $student->save();
+            $student->save();
 
-        return redirect()->route('student.profile');
+            return response()->json([
+                'success'=> "Success! Your profile information has been updated. Server"
+            ]);
+        }
+        
     }
 
     /**

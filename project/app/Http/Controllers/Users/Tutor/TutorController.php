@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Users\Tutor;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Auth;
 
 use App\Image;
 use App\User;
@@ -24,29 +25,17 @@ use App\Mail\SendMailable;
 
 class TutorController extends Controller
 {
-
-
-    /**  
-     * Define variables
+    /**
+     * Display a listing of the resource.
      *
-     *
-    */
-    // public static $total_marks = 0;
-    // public static $correct_answer = 0;
-    // public static $wrong_answers = 0;
-    
-
-
-
-
-    // function __construct(Request $request) {
-
-    //     $request->session()->put('total_marks', '0');
-    //     $request->session()->put('correct_answers',  '0');
-    //     $request->session()->put('wrong_answers', '0');
-    
-    // }
-
+     * @return \Illuminate\Http\Response
+     */
+    public function Profile()
+    {
+        //
+        // $tutors = User::where('type','tutor')->get();
+        return view ('theme.tutor.tutor_profile');
+    }
 
 
 
@@ -427,15 +416,15 @@ class TutorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function TutorProfile($id)
-    {
-        //
-        $tutor = User::where('id',$id)->where('type','tutor')->first();
+    // public function TutorProfile($id)
+    // {
+    //     //
+    //     $tutor = User::where('id',$id)->where('type','tutor')->first();
 
-        // print_r($tutor);
-        // dd ($tutor->subjects[0]->name);
-        return view ('tutor.profile')->with('tutor',$tutor);
-    }
+    //     // print_r($tutor);
+    //     // dd ($tutor->subjects[0]->name);
+    //     return view ('tutor.profile')->with('tutor',$tutor);
+    // }
     
     /**
      * Set time availability to specified tutor 

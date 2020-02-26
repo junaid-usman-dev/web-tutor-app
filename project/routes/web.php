@@ -4,7 +4,7 @@
 
 
 // Route::get('/test', function () {
-//     return view('theme.student.student_profile_edit');
+//     return view('theme.tutor.tutor_profile');
 // });
 // Route::get('/test', 'Registration\RegistrationController@test')->name('test');
 
@@ -165,16 +165,18 @@ Route::prefix('tutor')->group(function () {
     // });
     Route::get('/', 'Users\Tutor\TutorController@dashboard')->name('tutor.dashboard');
 
+    Route::get('/profile', 'Users\Tutor\TutorController@Profile')->name('tutor.profile');
+
     // Route::post('/setup_profile', 'Users\Tutor\TutorController@UploadQualification')->name('tutor.profile.setup'); // Add Qualification
     // Route::post('/uploaded', 'Users\Tutor\TutorController@UploadPicture')->name('tutor.upload.tutor.image'); // Upload profile picture
-    Route::get('/home/{id}', 'Users\Tutor\TutorController@show')->name('tutor.home'); // Home Page
+    // Route::get('/home/{id}', 'Users\Tutor\TutorController@show')->name('tutor.home'); // Home Page
 
     Route::get('/edit/{id}', 'Users\Tutor\TutorController@edit')->name('tutor.edit.profile'); // Edit tutor profile
     Route::post('/update', 'Users\Tutor\TutorController@update')->name('tutor.update.profile'); // Update tutor profile
 
     Route::get('/list', 'Users\Tutor\TutorController@index')->name('tutor.list'); // Display All Tutors
 
-    Route::get('/profile/{id}', 'Users\Tutor\TutorController@TutorProfile')->name('tutor.profile'); // View specific tutor profile as a student
+    // Route::get('/profile/{id}', 'Users\Tutor\TutorController@TutorProfile')->name('tutor.profile'); // View specific tutor profile as a student
 
     Route::get('/general-availability/{id}', 'Users\Tutor\TutorController@GeneralAvailability')->name('tutor.general.availability'); // Tutor General Availability
 

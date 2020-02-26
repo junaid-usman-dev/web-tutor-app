@@ -27,6 +27,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('theme_asset/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.css') }}">
 </head>
 
+
+<style>
+.valid {
+	color: green;
+}
+.invalid {
+    color: red;
+}
+/* .error-fn{
+    display: none;
+} */
+.error-message{
+    display: none;
+}
+</style>
+
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
 
@@ -100,13 +116,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </div>
                                         <!-- /.card-header -->
                                         <div class="card-body">
-                                            <form role="form" method="POST" 
-                                            action="{{ Route('student.update.profile') }}"   accept-charset="UTF-8" enctype="multipart/form-data" >
+                                            <form role="form"
+                                                accept-charset="UTF-8" enctype="multipart/form-data" >
                                               @csrf
 
 
                                                 <div class="row">
                                                     <div class="col-sm-12">
+                                                        {{-- Error --}}
+                                                        <div class="alert error-message alert-danger alert-dismissible fade show profile-error" role="alert">
+                                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                            <strong>Error!</strong> Something went wronge, Please try later.
+                                                        </div>
+                                                        {{-- End Error --}}
+                                                        {{-- Success --}}
+                                                        <div class="alert error-message alert-success alert-dismissible fade show profile-success" role="alert">
+                                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                            <strong>Success!</strong> Your profile information has been updated.
+                                                        </div>
+                                                        {{-- End Success --}}
                                                         <!-- text input -->
                                                         <div class="form-group">
                                                             <div class="input-group mb-2">
@@ -135,6 +167,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         @error('fname')
                                                             <div class="alert alert-danger">{{ $message }}</div>
                                                         @enderror
+                                                        <div class="error-message alert alert-danger error-fn" role="alert">
+                                                            Error Message Goes Here
+                                                        </div>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
@@ -152,6 +187,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         @error('lname')
                                                             <div class="alert alert-danger">{{ $message }}</div>
                                                         @enderror
+                                                        <div class="error-message alert alert-danger error-ln" role="alert">
+                                                            Error Message Goes Here
+                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -173,6 +211,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         @error('email')
                                                             <div class="alert alert-danger">{{ $message }}</div>
                                                         @enderror
+                                                        <div class="error-message alert alert-danger error-em" role="alert">
+                                                            Error Message Goes Here
+                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -194,6 +235,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         @error('phone')
                                                             <div class="alert alert-danger">{{ $message }}</div>
                                                         @enderror
+                                                        <div class="error-message alert alert-danger error-p" role="alert">
+                                                            Error Message Goes Here
+                                                        </div>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
@@ -213,6 +257,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         @error('birthday')
                                                             <div class="alert alert-danger">{{ $message }}</div>
                                                         @enderror
+                                                        <div class="error-message alert alert-danger error-b" role="alert">
+                                                            Error Message Goes Here
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -221,8 +268,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         <div class="form-group">
                                                             <label>Old Password</label>
                                                             <div class="input-group mb-2">
-                                                                <input type="text" class="form-control @error('old_password') is-invalid @enderror" name="old_password"
-                                                                    placeholder="Enter Old Password" value="{{ $user->password }}">
+                                                                <input type="password" class="form-control password-popover22 @error('old_password') is-invalid @enderror" id="old_password" name="old_password"
+                                                                    placeholder="Enter Old Password" 
+                                                                    {{-- title='<strong>Password must contain the following:</strong>' data-html="true" 
+                                                                    data-toggle="popover" data-trigger="focus" 
+                                                                    data-content='
+                                                                        <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                                                                        <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                                                                        <p id="number" class="invalid">A <b>number</b></p>
+                                                                        <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+                                                                    ' --}}
+                                                                    >                                                                  
+                                                                    
                                                                 <div class="input-group-append">
                                                                     <div class="input-group-text">
                                                                         <span class="fas fa-lock"></span>
@@ -233,6 +290,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         @error('old_password')
                                                             <div class="alert alert-danger">{{ $message }}</div>
                                                         @enderror
+                                                        <div class="error-message alert alert-danger error-op" role="alert">
+                                                            Error Message Goes Here
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -241,8 +301,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         <div class="form-group">
                                                             <label>New Password</label>
                                                             <div class="input-group mb-2">
-                                                                <input type="text" class="form-control @error('new_password') is-invalid @enderror" name="new_password"
-                                                                    placeholder="Enter Password">
+                                                                <input type="password" class="form-control new-password-popover @error('new_password') is-invalid @enderror" id="new_password" name="new_password"
+                                                                    placeholder="Enter Password"
+                                                                    title='<strong>Password must contain the following:</strong>' data-html="true" 
+                                                                    data-toggle="popover" data-trigger="focus" 
+                                                                    data-content='
+                                                                        <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                                                                        <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                                                                        <p id="number" class="invalid">A <b>number</b></p>
+                                                                        <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+                                                                    '>
                                                                 <div class="input-group-append">
                                                                     <div class="input-group-text">
                                                                         <span class="fas fa-lock"></span>
@@ -253,12 +321,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         @error('new_password')
                                                             <div class="alert alert-danger">{{ $message }}</div>
                                                         @enderror
+                                                        <div class="error-message alert alert-danger error-np" role="alert">
+                                                            Error Message Goes Here
+                                                        </div>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
                                                             <label>Confirm Password</label>
                                                             <div class="input-group mb-2">
-                                                                <input type="text" class="form-control @error('confirm_password') is-invalid @enderror" name="confirm_password"
+                                                                <input type="password" class="form-control @error('confirm_password') is-invalid @enderror" name="confirm_password"
                                                                     placeholder="Confirm Password">
                                                                 <div class="input-group-append">
                                                                     <div class="input-group-text">
@@ -270,6 +341,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         @error('confirm_password')
                                                             <div class="alert alert-danger">{{ $message }}</div>
                                                         @enderror
+                                                        <div class="error-message alert alert-danger error-cp" role="alert">
+                                                            Error Message Goes Here
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -294,6 +368,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         @error('country')
                                                             <div class="alert alert-danger">{{ $message }}</div>
                                                         @enderror
+                                                        <div class="error-message alert alert-danger error-c" role="alert">
+                                                            Error Message Goes Here
+                                                        </div>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
@@ -311,6 +388,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         @error('state')
                                                             <div class="alert alert-danger">{{ $message }}</div>
                                                         @enderror
+                                                        <div class="error-message alert alert-danger error-s" role="alert">
+                                                            Error Message Goes Here
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -331,6 +411,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         @error('city')
                                                             <div class="alert alert-danger">{{ $message }}</div>
                                                         @enderror
+                                                        <div class="error-message alert alert-danger error-cty" role="alert">
+                                                            Error Message Goes Here
+                                                        </div>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
@@ -348,6 +431,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         @error('zipcode')
                                                             <div class="alert alert-danger">{{ $message }}</div>
                                                         @enderror
+                                                        <div class="error-message alert alert-danger error-zc" role="alert">
+                                                            Error Message Goes Here
+                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -425,6 +511,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- date-range-picker -->
     <script src="{{ asset('theme_asset/plugins/daterangepicker/daterangepicker.js') }}"></script>
 
+    {{-- Custom Js  --}}
+    {{-- <script src="{{ asset('theme_asset/custom/js/student_edit_profile.js') }}"></script> --}}
+
+
     <script>
         $(function () {
             //Initialize Select2 Elements
@@ -500,74 +590,454 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 
+//------------------------------------------------------------------------------
+//                My Script
+//------------------------------------------------------------------------------
+
+
+        jQuery(document).ready(function(){
+
+        //-----------------------------------------------------------------------
+        //         password popover
+        //-----------------------------------------------------------------------
+
+        jQuery('.password-popover').popover({
+            trigger: 'focus'
+        });
+        jQuery('.new-password-popover').popover({
+            trigger: 'focus'
+        }); 
+        //-----------------------------------------------------------------------
+        //        End password popover
+        //-----------------------------------------------------------------------
+
+
+
+        // Start password format validation
+        //----------------------------------------------------------
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+        var myInput = document.getElementById("new_password")
+
+        // Password Bool
+        var uper = false;
+        var lower = false;
+        var num = false;
+        var len = false;
+        // Other Bool
+
+        // var email_flag = false;
+        var pass_flag = false;
+        // var username_flag = false;
+
+        // When the user clicks on the password field, show the message box
+        myInput.onfocus = function() {
+            // document.getElementById("message").style.display = "block";
+        }
+
+        // When the user clicks outside of the password field, hide the message box
+        myInput.onblur = function() {
+            // document.getElementById("message").style.display = "none";
+        }
+
+        // When the user starts to type something inside the password field
+        myInput.onkeyup = function() {
+            var letter = document.getElementById("letter");
+            var capital = document.getElementById("capital");
+            var number = document.getElementById("number");
+            var length = document.getElementById("length");
+
+            // Validate lowercase letters
+            var lowerCaseLetters = /[a-z]/g;
+            if(myInput.value.match(lowerCaseLetters)) {
+                letter.classList.remove("invalid");
+                letter.classList.add("valid");
+                lower = true;
+            } else {
+                letter.classList.remove("valid");
+                letter.classList.add("invalid");
+                lower = false;
+            }
+
+            // Validate capital letters
+            var upperCaseLetters = /[A-Z]/g;
+            if(myInput.value.match(upperCaseLetters)) {
+                capital.classList.remove("invalid");
+                capital.classList.add("valid");
+                uper = true;
+            } else {
+                capital.classList.remove("valid");
+                capital.classList.add("invalid");
+                uper = false
+            }
+
+            // Validate numbers
+            var numbers = /[0-9]/g;
+            if(myInput.value.match(numbers)) {
+                number.classList.remove("invalid");
+                number.classList.add("valid");
+                num = true;
+            } else {
+                number.classList.remove("valid");
+                number.classList.add("invalid");
+                num = false;
+            }
+
+            // Validate length
+            if(myInput.value.length >= 8) {
+                length.classList.remove("invalid");
+                length.classList.add("valid");
+                len = true;
+            } else {
+                length.classList.remove("valid");
+                length.classList.add("invalid");
+                len = false;
+            }
+        }
+        //----------------------------------------------------------
+        // End password foramt validation
+        //----------------------------------------------------------
+
 
         //-------------------------------------------------------------------------------------------
-        //              Update
+        //              Validation and AJAX Calling
         //-------------------------------------------------------------------------------------------
         jQuery(document).ready(function(){
 
             $.ajaxSetup({ headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} });
 
-            jQuery("#update333").click(function(event){
+            jQuery("#update").click(function(event){
                 event.preventDefault();
 
                 console.log("Button Pressed.");
-                // var user = jQuery("#user").val();
-                var user = jQuery("input[name=fname]").val();
-                var user = jQuery("input[name=lname]").val();
-                var user = jQuery("input[name=email]").val();
-
-
-                var pass = jQuery("#password").val();
+                var id = jQuery("input[name=id]").val();
+                var fname = jQuery("input[name=fname]").val();
+                var lname = jQuery("input[name=lname]").val();
+                var email = jQuery("input[name=email]").val();
+                var phone = jQuery("input[name=phone]").val();
+                var birthday = jQuery("input[name=birthday]").val();
+                var old_password = jQuery("input[name=old_password]").val();
+                var new_password = jQuery("input[name=new_password]").val();
+                var confirm_password = jQuery("input[name=confirm_password]").val();
+                var country = jQuery("select[name=country] option:selected").val();
+                var state = jQuery("select[name=state] option:selected").val();
+                var city = jQuery("select[name=city] option:selected").val();
+                var zipcode = jQuery("input[name=zipcode]").val();
                 
-                // var remember = jQuery("#remember").val();
-                // console.log("CheckMark : "+ remember);
-                // var type = jQuery("#type").val();
+                var is_id = false;
+                var is_fname = false;
+                var is_lname = false;
+                var is_email = false;
+                var is_phone = false;
+                var is_birthday = false;
+                var is_old_password = false;
+                var is_new_password = false;
+                var is_confirm_password = false;
+                var is_country = false;
+                var is_state = false;
+                var is_city = false;
+                var is_zipcode = false;
 
-                var error = false;
-
-                if(user != '' && pass != '')
+                // console.log(fname);
+                if (!id )
                 {
-                    // error = false;
-                    console.log ("Ajax Calling !!!");
-                    jQuery.ajax({
-                        url: "{{ url('home') }}",
-                        type: "POST",
-                        data: {'user':user, 'password':pass, 'remember':remember},
-                        success: function(response)
+                    // Error
+                    is_id = false;
+                    // jQuery('.error-fn').css("display","block");
+                    // jQuery('.error-fn').html("First name field is required.");
+                    console.log("ID Missing.");
+                }
+                else
+                {
+                    // Success
+                    is_id = true;
+                    // jQuery('.error-fn').css("display","none");
+                }
+                if (!fname )
+                {
+                    // Error
+                    is_fname = false;
+                    jQuery('.error-fn').css("display","block");
+                    jQuery('.error-fn').html("First name field is required.");
+                }
+                else
+                {
+                    // Success
+                    is_fname = true;
+                    jQuery('.error-fn').css("display","none");
+                }
+                if (!lname)
+                {
+                    // Error
+                    is_lname = false;
+                    jQuery('.error-ln').css("display","block");
+                    jQuery('.error-ln').html("Last name field is required.");
+                }
+                else
+                {
+                    // Success
+                    is_lname = true;
+                    jQuery('.error-ln').css("display","none");
+                }
+                if (!email)
+                {
+                    // Error
+                    is_email = false;
+                    jQuery('.error-em').css("display","block");
+                    jQuery('.error-em').html("Email field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_email = true;
+                    jQuery('.error-em').css("display","none");
+                }
+                if (!phone)
+                {
+                    // Error
+                    is_phone = false;
+                    jQuery('.error-p').css("display","block");
+                    jQuery('.error-p').html("Phone field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_phone = true;
+                    jQuery('.error-p').css("display","none");
+                }
+                if (!birthday)
+                {
+                    // Error
+                    is_birthday = false;
+                    jQuery('.error-b').css("display","block");
+                    jQuery('.error-b').html("Birthday field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_birthday = true;
+                    jQuery('.error-b').css("display","none");
+                }
+                if (!old_password)
+                {
+                    // Error
+                    is_old_password = false;
+                    // jQuery('.error-p').css("display","block");
+                    // jQuery('.error-p').html("Password field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_old_password = true;
+                    jQuery('.error-p').css("display","none");
+                }
+                if (!new_password)
+                {
+                    // Error
+                    is_new_password = false;
+                    // jQuery('.error-np').css("display","block");
+                    // jQuery('.error-np').html("Password field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_new_password = true;
+                    jQuery('.error-np').css("display","none");
+                }
+                if (!confirm_password)
+                {
+                    // Error
+                    is_confirm_password = false;
+                    // jQuery('.error-cp').css("display","block");
+                    // jQuery('.error-cp').html("Password field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_confirm_password = true;
+                    jQuery('.error-cp').css("display","none");
+                }
+                if (!country)
+                {
+                    // Error
+                    is_country = false;
+                    jQuery('.error-c').css("display","block");
+                    jQuery('.error-c').html("Country field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_country = true;
+                    jQuery('.error-c').css("display","none");
+                }
+                if (!state)
+                {
+                    // Error
+                    is_state = false;
+                    jQuery('.error-s').css("display","block");
+                    jQuery('.error-s').html("State field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_state = true;
+                    jQuery('.error-s').css("display","none");
+                }
+                if (!city)
+                {
+                    // Error
+                    is_city = false;
+                    jQuery('.error-cty').css("display","block");
+                    jQuery('.error-cty').html("City field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_city = true;
+                    jQuery('.error-cty').css("display","none");
+                }
+                if (!zipcode)
+                {
+                    // Error
+                    is_zipcode = false;
+                    jQuery('.error-zc').css("display","block");
+                    jQuery('.error-zc').html("Zipcode field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_zipcode = true;
+                    jQuery('.error-zc').css("display","none");
+                }
+
+
+                if( (is_id== true) && (is_fname== true) && (is_lname== true) && (is_email== true) && 
+                    (is_phone== true) && (is_birthday== true) && (is_country== true) && (is_state== true) && 
+                    (is_zipcode== true) )
+                {
+                    // IF user want to udpate his/her password
+                    if ( (is_old_password == true) || (is_new_password == true) || (is_old_password == true) )
+                    {
+                        //------------------------------------------------------------------------
+                        // User want to update his/her password
+                        //------------------------------------------------------------------------
+                        if ( is_old_password == true )
                         {
-                            if ( (response.success == null || response.success == undefined) )
+                            // Success
+                            if (is_new_password == true)
                             {
-                                console.log("Error Message");
-                                jQuery(".alert-danger").css("display", "block");
-                                jQuery("#login_success").empty();
-                                jQuery('.alert-danger').html(response.error);
-                            }
-                            else  
-                            {
-                                console.log("Success Message");
-                                jQuery(".alert-danger").css("display", "none");
-                                jQuery("#error_creditional").empty();
-                                jQuery('#login_success').html(response.success);
+                                // Success: Old and New Password Found
+                                jQuery(".error-op").css("display", "none");
+                                jQuery(".error-np").css("display", "none");
+                                if ( new_password == confirm_password )
+                                {
+                                    // Success: New Password and Confirm Password Match 
+                                    jQuery(".profile-error").css("display", "none");
+                                    console.log ("Ajax Calling !!! Update profile with password.");
+                                    jQuery.ajax({
+                                        url: "{{ url('/student/update') }}",
+                                        type: "POST",
+                                        data: { 'id':id, 'fname':fname, 'lname':lname, 'email':email, 'phone':phone, 'birthday':birthday, 'old_password':old_password, 'new_password':new_password,'confirm_password':confirm_password, 'country':country, 'state':state, 'city':city, 'zipcode':zipcode },
+                                        success: function(response)
+                                        {
+                                            if ( (response.success == null || response.success == undefined) )
+                                            {
+                                                console.log("Error Message");
+                                                // jQuery(".profile-error").css("display", "block");
+                                                jQuery(".profile-success").css("display", "none");
+                                                jQuery(".error-op").css("display", "block");
+                                                // jQuery(".error-np").empty();
+                                                jQuery('.error-op').html(response.error);
+                                            }
+                                            else  
+                                            {
+                                                console.log("Success Message");
+                                                jQuery(".profile-error").css("display", "none");
+                                                jQuery('.error-op').css("display","none");
+                                                jQuery(".profile-success").css("display", "block");
+                                                jQuery('.profile-success').html(response.success);
+
+
+                                                // jQuery("#error_creditional").empty();
+                                                // jQuery('#login_success').html(response.success);
+                                                
+                                                // location.href = "{{ url('/student/edit') }}"						
+                                            }
+                                        }
+                                    });
                                 
-                                location.href = "{{ url('/dashboard') }}"						
+                                }
+                                else
+                                {
+                                    // Error
+                                    jQuery(".error-op").css("display", "block");
+                                    jQuery('.error-op').html("New and Confirm Password Does not Match.");
+                                }
+                            }
+                            else
+                            {
+                                // Error: New password is missing
+                                jQuery('.error-np').css("display","block");
+                                jQuery('.error-np').html("Password field is requried.");
                             }
                         }
-                    });
+                        else
+                        {
+                            // Error: Old password is missing
+                            jQuery('.error-p').css("display","block");
+                            jQuery('.error-p').html("Password field is requried.");
+                        }
+                    }
+                    else
+                    {
+                        //------------------------------------------------------------------------
+                        // User does not want to update his/her password
+                        //------------------------------------------------------------------------
+                        jQuery(".profile-error").css("display", "none");
+                        console.log ("Ajax Calling !!! Update profile without password.");
+                        jQuery.ajax({
+                            url: "{{ url('/student/update') }}",
+                            type: "POST",
+                            data: { 'id':id, 'fname':fname, 'lname':lname, 'email':email, 'phone':phone, 'birthday':birthday, 'country':country, 'state':state, 'city':city, 'zipcode':zipcode },
+                            success: function(response)
+                            {
+                                if ( (response.success == null || response.success == undefined) )
+                                {
+                                    console.log("Error Message");
+                                    jQuery(".profile-error").css("display", "block");
+                                    jQuery(".profile-success").css("display", "none");
+                                    // jQuery("#login_success").empty();
+                                    // jQuery('.alert-danger').html(response.error);
+                                }
+                                else  
+                                {
+                                    console.log("Success Message");
+                                    jQuery(".profile-error").css("display", "none");
+                                    jQuery(".profile-success").css("display", "block");
+
+                                    // jQuery("#error_creditional").empty();
+                                    // jQuery('#login_success').html(response.success);
+                                    
+                                    // location.href = "{{ url('/student/edit') }}"						
+                                }
+                            }
+                        });
+                    }
                 }
                 else
                 {
                     console.log('These are required fields.');
-                    jQuery(".alert-danger").css("display", "block");
-                    jQuery(".alert-danger").text('Error! These are required fields.');
-                    // error = true;
+                    jQuery(".profile-error").css("display", "block");
+                    jQuery(".profile-success").css("display", "none");
+                    // jQuery(".alert-danger").text('Error! These are required fields.');
                 }
-            
             });
         });
+        //-------------------------------------------------------------------------------------------
+        //             End Validation and AJAX Calling
+        //-------------------------------------------------------------------------------------------
 
-
-
+        });
 
 
     </script>

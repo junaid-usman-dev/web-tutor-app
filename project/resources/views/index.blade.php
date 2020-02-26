@@ -39,7 +39,7 @@
                         <li class="nav-item "> <a class="btn btn-info" href="#">Start Tutoring</a> </li>
                         <li class="nav-item "> <a class="btn btn-info" href="{{ url('/about') }}">About Us</a> </li>
                         <li class="nav-item "> <a class="btn btn-warning" href="{{ url('/signin') }}">Sign in</a> </li>
-                        <li class="nav-item "> <a class="btn btn-warning" href="{{ url('/signup') }}">Sing up</a> </li>
+                        <li class="nav-item "> <a class="btn btn-warning" href="{{ url('/signup') }}">Sign up</a> </li>
                     </ul>
 
                 </div>

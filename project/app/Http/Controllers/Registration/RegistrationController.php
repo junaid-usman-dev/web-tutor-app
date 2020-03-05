@@ -773,18 +773,18 @@ class RegistrationController extends Controller
             $image->save();
         }
         
-        
-        
         $user = User::findOrFail($id);
         if ($user->type == "student")
         {
             // Student Dashboard
-            return view ('theme.student.student_dashboard')->with(['user' => $user]);
+            return redirect()->route('student.dashboard');
+            // return view ('theme.student.student_dashboard')->with(['user' => $user]);
         }
         else
         {
             // Tutor Dashboard
-            return view ('theme.tutor.tutor_dashboard')->with(['user' => $user]);
+            return redirect()->route('tutor.dashboard');
+            // return view ('theme.tutor.tutor_dashboard')->with(['user' => $user]);
         }
     }
 
@@ -906,7 +906,7 @@ class RegistrationController extends Controller
             dd ("Some thing went wrong.");
         }
         
-        return view ('theme.register.upload_image')->with(['id' => $id ]);
+        return view('theme.register.upload_image')->with(['id' => $id ]);
         // return view ('tutor.profile_picture',['id' => $id ]);
     }
 

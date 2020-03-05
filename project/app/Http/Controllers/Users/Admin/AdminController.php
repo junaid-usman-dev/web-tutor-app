@@ -36,7 +36,7 @@ class AdminController extends Controller
             'tutors'=>$tutors,
             'subjects'=>$subjects,
             'tests'=>$tests,
-            ]);
+        ]);
     }
     
     /**
@@ -173,6 +173,20 @@ class AdminController extends Controller
     public function show($id)
     {
         //
+        $user = User::findOrFail($id);
+        if ($user->type == "student")
+        {
+            return view ('theme.admin.student_profile')->with(['user'=> $user ]);
+        }
+        else if ($user->type == "tutor")
+        {
+            return view ('theme.admin.tutor_profile')->with(['user'=>$user]);
+        } 
+        else
+        {
+            dd ("Not valid user.");
+        }
+
     }
 
     /**
@@ -252,5 +266,21 @@ class AdminController extends Controller
         $request->session()->put('session_admin_id', $admin_id);
         $request->session()->put('session_admin_email', $admin_email);
     }
+
+    /**
+     * Tutor ALl reviews.
+     *
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function AllReview(Request $request,$id)
+    {
+        //
+        // $user = Auth::user();
+        $tutor = User::findOrFail($id);
+        // dd ($user);
+        return view('theme.admin.tutor_reviews')->with(['tutor'=> $tutor ]);
+    }
+    
     
 }

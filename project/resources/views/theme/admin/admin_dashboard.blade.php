@@ -126,9 +126,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <!-- /.col -->
                     </div>
                     <!-- /.row -->
-
-
-
+                    
                     <!-- Main row -->
                     <div class="row">
                         <!-- Left col -->
@@ -142,7 +140,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <div class="card">
                                         <div class="card-header">
                                             <h3 class="card-title">Latest Students <span
-                                                    class="badge badge-info">8</span></h3>
+                                                    class="badge badge-info">{{ count($students) }}</span></h3>
 
                                             <div class="card-tools">
 
@@ -156,22 +154,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <div class="card-body p-0">
                                             <ul class="users-list clearfix">
 
-                                                <?php // $i=0; ?>
-                                                {{-- @foreach ($students as $student) --}}
-                                                    <?php // $i += 1; ?> 
-                                                    {{-- @if ($i > 8) --}}
-                                                        <?php // break; ?>
-                                                    {{-- @else --}}
-                                                        {{-- <li> --}}
-                                                            {{-- <img src="/{{ $student->images->path }}/{{ $student->images->name }}" --}}
-                                                                {{-- width="200" height="200" alt="User Image"> --}}
-                                                            {{-- <a class="users-list-name" href="#">{{ $student->first_name }}</a> --}}
-                                                            {{-- <span class="users-list-date">Today</span> --}}
-                                                        {{-- </li> --}}
-                                                    {{-- @endif --}}
-                                                {{-- @endforeach --}}
+                                                @php
+                                                    $i=0;
+                                                @endphp
+                                                @foreach ($students as $student)
+                                                    @php
+                                                        $i += 1;
+                                                    @endphp 
+                                                    @if ($i > 8)
+                                                        @php
+                                                            break;
+                                                        @endphp
+                                                    @else
+                                                        <li>
+                                                            <a href="{{ url('/admin/student/profile') }}/{{ $student->id }}">
+                                                                <img src="/{{ $student->images->path }}/{{ $student->images->name }}"
+                                                                    width="200" height="200" alt="User Image">
+                                                            </a>
+                                                            <a class="users-list-name" href="{{ url('/admin/student/profile') }}/{{ $student->id }}">{{ $student->first_name }}</a>
+                                                            <span class="users-list-date">Today</span>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
 
-                                                <li>
+                                                {{-- <li>
                                                     <img src="{{ asset('theme_asset/dist/img/user1-128x128.jpg') }}" alt="User Image">
                                                     <a class="users-list-name" href="#">Alexander Pierce</a>
                                                     <span class="users-list-date">Today</span>
@@ -217,7 +223,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         alt="User Image">
                                                     <a class="users-list-name" href="#">Nadia</a>
                                                     <span class="users-list-date">15 Jan</span>
-                                                </li>
+                                                </li> --}}
                                             </ul>
                                             <!-- /.users-list -->
                                         </div>
@@ -234,7 +240,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <div class="card">
                                         <div class="card-header">
                                             <h3 class="card-title">Latest Tutors <span
-                                                    class="badge badge-danger">8</span></h3>
+                                                    class="badge badge-danger">{{ count($tutors) }}</span></h3>
 
                                             <div class="card-tools">
 
@@ -248,23 +254,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <div class="card-body p-0">
                                             <ul class="users-list clearfix">
 
-                                                <?php // $tutor_count=0; ?>
-                                                {{-- @foreach ($tutors as $tutor) --}}
-                                                    <?php // $tutor_count += 1; ?>
+                                                <?php $tutor_count=0; ?>
+                                                @foreach ($tutors as $tutor)
+                                                    <?php  $tutor_count += 1; ?>
 
-                                                    {{-- @if ($tutor_count > 8) --}}
-                                                        <?php // break; ?>
-                                                    {{-- @else --}}
-                                                        {{-- <li> --}}
-                                                            {{-- <img src="/{{ $tutor->images->path }}/{{ $tutor->images->name }}" --}}
-                                                                {{-- width="200" height="200" alt="User Image"> --}}
-                                                            {{-- <a class="users-list-name" href="#">{{ $tutor->first_name }}</a> --}}
-                                                            {{-- <span class="users-list-date">Today</span> --}}
-                                                        {{-- </li> --}}
-                                                    {{-- @endif --}}
-                                                {{-- @endforeach --}}
+                                                    @if ($tutor_count > 8)
+                                                        <?php  break; ?>
+                                                    @else
+                                                        <li>
+                                                            <a href="{{ url('/admin/tutor/profile') }}/{{ $tutor->id }}">
+                                                                <img src="/{{ $tutor->images->path }}/{{ $tutor->images->name }}"
+                                                                    width="200" height="200" alt="User Image">
+                                                            </a>
+                                                            <a class="users-list-name" href="{{ url('/admin/tutor/profile') }}/{{ $tutor->id }}">{{ $tutor->first_name }}</a>
+                                                            <span class="users-list-date">Today</span>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
 
-                                                <li>
+                                                {{-- <li>
                                                 <img src="{{ asset('theme_asset/dist/img/user1-128x128.jpg') }}" alt="User Image">
                                                 <a class="users-list-name" href="#">Alexander Pierce</a>
                                                 <span class="users-list-date">Today</span>
@@ -310,7 +318,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         alt="User Image">
                                                     <a class="users-list-name" href="#">Nadia</a>
                                                     <span class="users-list-date">15 Jan</span>
-                                                </li>
+                                                </li> --}}
                                             </ul>
                                             <!-- /.users-list -->
                                         </div>

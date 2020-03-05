@@ -182,6 +182,8 @@ jQuery(document).ready(function(){
     });
 });
 
+</script>
+
 
 <?php 
 }
@@ -204,5 +206,3 @@ else
     // Go to welcome page
 }
 ?>
-
-</script>

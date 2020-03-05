@@ -8,7 +8,6 @@ use Session;
 use Laravel\Socialite\Facades\Socialite; // Social Account Integration package
 use Illuminate\Support\Facades\Mail;
 use Auth;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 
 use Carbon\Carbon;
@@ -18,6 +17,10 @@ use App\Tutor;
 use App\ProfileTutor;
 use App\Image;
 use App\Payment;
+use App\Model\Subject;
+use App\Model\SubjectUser;
+use App\Model\Review;
+
 
 use App\Rules\EmailFormat; // Custom Rules for Email
 use App\Rules\Password; // Custom Rules for Password
@@ -31,9 +34,13 @@ class RegistrationController extends Controller
     // use this function test purpose
     public function test()
     {
-        // 2020-3-15
-        // $current = Carbon::today();
-        return Carbon::parse('11/06/1990')->format('d M, Y');
+        // $comments = App\Post::find(1)->comments;
+        $review = Review::where('tutor_id',3)->get();
+        // $user = User::findOrFail(3);
+        // $user = user::where('type','tutor')->get();
+        // dd ($user->reviews);
+        dd ($review->user->first_name);
+
     }
 
 
@@ -216,9 +223,18 @@ class RegistrationController extends Controller
             }
             else if (Auth::user()->type == "tutor")
             {
-                // Error
-                return redirect()->route('tutor.dashboard');
-                // return ("Error! Student Session is not set.");
+                // Tutor Dashboard
+                if (Auth::user()->paid_fee == "1")
+                {
+                    // Paid
+                    return redirect()->route('tutor.dashboard');
+                    // return ("Error! Student Session is not set.");
+                }
+                else
+                {
+                    // Not Paid
+                    return view ('theme.register.tutor.payment')->with(['id' => $user->id]);
+                }
             }
         }
         else
@@ -380,22 +396,7 @@ class RegistrationController extends Controller
  
             // Send Email 
             Mail::to($user->email_address)->send(new SendMailable($user));
-
-            // Mail::send(new SendMailable($user), function ($m) use ($user) {
-            //     $m->from('hello@app.com', 'Your Application');
-
-            //     $m->to($user->email, $user->name)->subject('Your Reminder!');
-            // });
-
-            // Mail::to('thebooster786@gmail.com')
-            // ->cc('junaid@gmail.com')
-            // ->subject("Welcom mail")       
-            // ->send(new SendMailable($user));
-
-            // User Profile 
-
-            // Store user info into session
-            // $this->StoreSession($request, $user->id, $user->email_address, $user->phone, $user->type);
+            Auth::login($user);
 
             if ($type == 'student')
             {
@@ -794,20 +795,9 @@ class RegistrationController extends Controller
      */
     public function SkipUploadPicture(Request $request )
     {  
-        $student_id = $request->session()->get('session_student_id');
-        $tutor_id = $request->session()->get('session_tutor_id');
-        if (!empty($student_id) )
-        {
-            $id = $student_id;
-        }
-        else if (!empty($tutor_id))
-        {
-            $id = $tutor_id;
-        }
-        else
-        {
-            return ("Error! User Session not found");
-        }
+        // $student_id = $request->session()->get('session_student_id');
+        // $tutor_id = $request->session()->get('session_tutor_id');
+        $id = Auth::user()->id;
 
         $image = new Image();
        
@@ -822,12 +812,15 @@ class RegistrationController extends Controller
         if ($user->type == "student")
         {
             // Student Dashboard
-            return view ('theme.student.student_dashboard')->with(['user' => $user]);
+            return redirect()->route('student.dashboard');
+            // return view ('theme.student.student_dashboard')->with(['user' => $user]);
         }
         else
         {
             // Tutor Dashboard
-            return view ('theme.tutor.tutor_dashboard')->with(['user' => $user]);
+            // return view ('theme.tutor.tutor_dashboard')->with(['user' => $user]);
+            return redirect()->route('tutor.dashboard');
+
         }
     }
 
@@ -855,10 +848,14 @@ class RegistrationController extends Controller
         $payment->expiry_month = $month;
         $payment->expiry_year = $year;
         $payment->cvv_number = $cvv;
-
         $payment->save();
 
-        return view ('theme.register.tutor.qualification')->with(['id' => $id ]);
+        $user = User::findOrFail($id);
+        $user->paid_fee = "1";
+        $user->save();
+
+        $subjects = Subject::all();
+        return view ('theme.register.tutor.qualification')->with(['id' => $id, 'subjects'=>$subjects ]);
     }
 
     /**
@@ -870,7 +867,7 @@ class RegistrationController extends Controller
     {  
         $request->validate([
             'id' => 'nullable',
-            // 'subject' => 'nullable',
+            'subject' => 'nullable',
             'summary' => 'nullable',
             'method' => 'nullable',
             'price_per_hour' => 'nullable',
@@ -880,8 +877,11 @@ class RegistrationController extends Controller
         ]);
 
         $id = $request->input('id');
-        // $subject = $request->input('subject');
-        $summary = $request->input('summary');
+        $subjects = $request->input('subject');
+        // $subjects = $request->subject;
+        // $subject = explode(',', $subjects);
+        // dd ( $subjects );
+        $summary = $request->summary;
         $method = $request->input('method');
         $price_per_hour = $request->input('price_per_hour');
         
@@ -890,6 +890,14 @@ class RegistrationController extends Controller
         $tutor = User::findOrFail($id);
         if ($tutor->type == 'tutor')
         {
+            // add subjects
+            foreach ($subjects as $subject)
+            {
+                $AddSubject = new SubjectUser();
+                $AddSubject->user_id = $id;
+                $AddSubject->subject_id = $subject;
+                $AddSubject->save();
+            }
             // Tutor Panel
             $tutor = User::findOrFail($id)->update(['summary' => $summary, 'teaching_method' => $method, 'price_per_hour' => $price_per_hour ]);
         }
@@ -984,9 +992,58 @@ class RegistrationController extends Controller
     */
     public function RememberMe(Request $request)
     {
-        
         User::where()->get();
-
         return ('Password has been updated.');
+    }
+
+    /**
+     * Change Profile Mode 
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function ChangeMode(Request $request)
+    {
+        //
+        $user = User::where('id',Auth::user()->id)->first();
+        // dd ($user);
+        if ($user->type == "student")
+        {
+            if ($user->paid_fee == "1")
+            {
+                // Change to Tutor Mode
+                // Logout and relogin
+                $user->type = "tutor";
+                $user->save();
+                return redirect()->route("logout");
+                // dd ("Change to Tutor Mode");
+            }
+            else 
+            {
+                // Pay Change Mode Fee First.
+                // Rediret to Payment form
+                return redirect()->route('student.payment');
+                // dd ("Student Pay First");
+            }
+        }
+        else if ($user->type == "tutor")
+        {
+            if ($user->paid_fee == "1")
+            {
+                // Change to Student Mode
+                // Logout and relogin
+                $user->type = "student";
+                $user->save();
+                return redirect()->route("logout");
+                // dd ("Change to Student Mode");
+            }
+            else
+            {
+                // Pay Change Mode Fee First.
+                // Rediret to Payment form
+                return redirect()->route('tutor.payment');
+
+                // dd ("Tutor Pay First");
+            }
+        }
     }
 }

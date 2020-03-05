@@ -16,6 +16,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('theme_asset/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('theme_asset/dist/css/adminlte.css') }}">
+    {{-- Custom Style --}}
     <link rel="stylesheet" href="{{ asset('theme_asset/custom/css/custom.css') }}">
 
     <!-- Google Font: Source Sans Pro -->
@@ -58,7 +59,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container-fluid">
                     <div class="row">
                         <!-- /.col -->
-                        <div class="col-md-9">
+                        {{-- <div class="col-md-9">
 
                             <div class="row">
                                 <div class="col-md-12">
@@ -73,7 +74,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                             <div class="card-body card-comments">
                                                                 <div class="row">
                                                                     <div class="col-2 text-left">
-                                                                        {{-- {{ asset('theme_asset/dist/img/user7-128x128.jpg') }} --}}
                                                                         <img src="{{ url('/') }}/{{ $user->images->path }}/{{ $user->images->name }}" alt=""
                                                                             class="img-circle img-fluid">
                                                                     </div>
@@ -136,88 +136,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 PhD </p>
                                                             <p>Electrical Engineering / Physics / Nuclear Engineering
                                                                 Masters
-
                                                             </p>
-
-
-
-
                                                             <hr>
-
-
-
-
-
-
-
-
-
-
-
-
                                                             <!-- /.user-block -->
-
-
-
-
-
-
-
-
-
-
-
-
                                                         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                                     </div>
                                                 </div>
-
-
                                                 </p>
-
                                             </div>
-
-
-
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
+                        </div> --}}
 
-                        </div>
-
-                        <div class="col-md-3 text-center">
+                        <div class="ju-m-zero col-md-5 text-center ">
 
                             <!-- Profile Image -->
                             <div class="card-style_mobile text-center hide">
                                 <a href="#" class="btn btn-primary"><strong>Contact Jane</strong></a>
                                 <p class="text-center"> Biology Student </p>
                             </div>
-
-
                             <div class="card card-primary card-outline hide-card card-style card-style_desktop">
                                 <div class="card-body box-profile">
                                     <div class="text-center ">
                                         <img class="profile-user-img img-fluid img-circle img-bordered-sm"
-                                        {{-- {{ asset('theme_asset/dist/img/user7-128x128.jpg') }}     --}}
                                             src="{{ url('/') }}/{{ $user->images->path }}/{{ $user->images->name }}" alt="User profile picture">
                                     </div>
 
@@ -233,7 +176,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <p class="text-muted">
                                         +{{ $user->phone }}
                                     </p>
-
                                     <hr>
                                     <strong><em class="fas fa-birthday-cake mr-1"></em> Birthday</strong>
                                     <p class="text-muted">
@@ -241,8 +183,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </p>
 
                                     <hr>
-
-
                                     <strong><i class="fas fa-envelope mr-1"></i> E-mail</strong>
 
                                     <p class="text-muted">{{ $user->email_address }}</p>

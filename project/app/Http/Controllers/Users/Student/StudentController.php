@@ -10,6 +10,8 @@ use Auth;
 use App\User;
 use App\Image;
 use App\Model\Favorite;
+use App\Model\Review;
+use App\Payment;
 
 use App\Rules\EmailFormat;
 use App\Rules\Password;
@@ -31,6 +33,21 @@ class StudentController extends Controller
         // $user_id = $request->session()->get('session_student_id');
         $user = User::where('id',Auth::user()->id)->first();
         return view ('theme.student.student_profile')->with(['user'=> $user ]);
+    }
+
+    /**
+     * Tutor Profile
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function TutorProfile(Request $request, $id)
+    {
+        //
+        // $user = Auth::user();
+        // dd ($user->subjects);
+        $user = User::where('id',Auth::user()->id)->first();
+        $tutor = User::findOrFail($id);
+        return view ('theme.student.tutor_profile')->with(['user'=> $user, 'tutor'=>$tutor ]);
     }
 
     /**
@@ -319,6 +336,38 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function UpdateImage(Request $request)
+    {
+        //
+        $user = User::findOrFail(Auth::user()->id);
+
+        if ($request->hasFile('upload_image'))
+        {
+            // Upload Custom Profile Image
+            $file = $request->file('upload_image');
+            $new_name = rand() . '.' . $file->getClientOriginalExtension();
+            // $file->move(public_path("images"), $new_name ); working
+            $file->move("images", $new_name );
+         
+            $user->images->name = $new_name;
+            
+            $user->images->save();
+
+            return redirect()->route('student.dashboard');
+        }
+        else
+        {
+            // Redirect to dashboard without updating profile image 
+            return redirect()->route('student.dashboard');
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function destroy($id)
     {
         //
@@ -334,16 +383,16 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function AddFavorite(Request $request, $user_id, $favorite_user_id )
+    public function AddFavorite(Request $request, $favorite_user_id )
     {  
         $favorite = new Favorite();
 
-        $favorite->user_id = $user_id;
+        $favorite->user_id = Auth::user()->id;
         $favorite->favorite_user_id = $favorite_user_id;
         
         $favorite->save();
 
-        return ("Added to Favoite.");
+        return redirect()->route('student.dashboard');
     }
     
 
@@ -352,33 +401,41 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function ListFavorite(Request $request, $id)
+    public function ListFavorite(Request $request)
     {  
-        $favorites =  Favorite::where('user_id',$id)->get();
-
-        if (count ($favorites) > 0)
+        $user_id = Auth::user()->id;
+        if (Auth::user()->type== "student")
         {
+            $user = User::findOrFail($user_id);
+            $favorites =  Favorite::where('user_id',$user_id)->get();
+            // dd ($favorites);
             foreach ($favorites as $favorite)
             {
-                $item = new \stdClass();
-                $item = User::where('id',$favorite->favorite_user_id)->first();
-                
-                $items[] = clone $item;
+                $tutor = new \stdClass();
+                $tutor = User::where('id',$favorite->favorite_user_id)->first();
+             
+                $tutors[] = clone $tutor;
                 
             }
-            // dd($items[1]->id);
-            // dd ($favorite[0]->id);
-            // dd ($user->favorites);
 
-            return view('tutor.favorite')->with(['items'=> $items]);
+            $min_price = User::min('price_per_hour');
+            $max_price = User::max('price_per_hour');
+            return view ('theme.student.favorite_tutors')->with([
+                'user' => $user, 
+                'tutors' => $tutors,
+                'min_price' => $min_price,
+                'max_price' => $max_price,
+            ]);
+            // dd($tutors[0]->first_name);
+            // return view('theme.student.favorite_tutors')->with(['user'=>$user, 'tutors'=> $tutors]);
         }
         else
         {
-            dd ("Your Favorite list is empty.");
+            dd ("Error! Unknown Users.");
         }
     }
 
-     /**
+    /**
      * Upload user profile Image
      *
      * @return \Illuminate\Http\Response
@@ -417,17 +474,286 @@ class StudentController extends Controller
      */
     public function dashboard(Request $request )
     {
-        $user_id = $request->session()->get('session_student_id');
-        $user_type = $request->session()->get('session_student_type');
+        // $user_id = $request->session()->get('session_student_id');
+        // $user_type = $request->session()->get('session_student_type');
+
+        $user_id = Auth::user()->id;
+        $user_type = Auth::user()->type;
+
+        $user = User::findOrFail($user_id);
+        $favorites =  Favorite::where('user_id',$user_id)->get();
+        
+        $tutors = array();
+        foreach ($favorites as $favorite)
+        {
+            $tutor = new \stdClass();
+            $tutor = User::where('id',$favorite->favorite_user_id)->first();
+            $tutors[] = clone $tutor;
+        }
+        // dd($tutors[0]->first_name); working
 
         $user = User::where('id',$user_id)->first();
         if ( !empty($user) )
         {
-            return view ('theme.student.student_dashboard')->with(['user' => $user]);
+            return view ('theme.student.student_dashboard')->with(['user' => $user, 'tutors'=>$tutors]);
         }
         else
         {
             return redirect()->to('signin');
         }
     }
+
+    /**
+     * Tutors List
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function TutorList(Request $request )
+    {
+        $user = Auth::user();
+        if (Auth::user()->type== "student")
+        {
+            $user = User::findOrFail(Auth::user()->id);
+            $tutors = User::all()->where('type', 'tutor');
+            
+            $min_price = User::min('price_per_hour');
+            $max_price = User::max('price_per_hour');
+
+            // dd ($min_price, $max_price);
+
+            return view ('theme.student.tutor_list')->with([
+                'user' => $user, 
+                'tutors' => $tutors,
+                'min_price' => $min_price,
+                'max_price' => $max_price,
+            ]);
+        }
+        else
+        {
+            dd ("Error! Unknown Users.");
+        }
+    }
+
+    /**
+     * Filter Tutors by Teaching Method
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function FilterMethod(Request $request )
+    {  
+        $is_favorite = $request->input('is_favorite');
+        $teaching_method = $request->input('teaching_method');
+        $filter_price = $request->input('filter_price');
+
+        // dd ($teaching_method, $filter_price);
+        
+        $user = Auth::user();
+        if (Auth::user()->type== "student")
+        {
+            $user = User::findOrFail(Auth::user()->id);
+            // $tutors = User::all()->where('type', 'tutor');
+            $tutors = User::all()->where('type', 'tutor');
+
+            if ( !empty($teaching_method) )
+            {
+                if ($teaching_method == "online")
+                {
+                    // online
+                    // if ($is_favorite == "1")
+                    // {
+                    //     $user_id = Auth::user()->id;
+                    //     $favorites =  Favorite::where('user_id',$user_id)->get();
+                    //     // dd ($favorites);
+                    //     foreach ($favorites as $favorite)
+                    //     {
+                    //         $tutor = new \stdClass();
+                    //         $tutor = User::where('id',$favorite->favorite_user_id)->where('type', 'online')->orWhere('type','both')->first();
+                        
+                    //         $tutors_array[] = clone $tutor;
+                    //     }
+                    //     $tutors = $tutors_array;
+                    // }
+                    // else
+                    // {
+                        $tutors = $tutors->filter(function($tutor) {
+                            if ($tutor->teaching_method == 'online' || $tutor->teaching_method == 'both')
+                            {
+                                return true;
+                            }
+                            return false;
+                        });
+                    // }
+                    // $tutor_list = view ('theme.student.partial.find_tutors')->with(['user'=> $user, 'tutors'=>$tutors])->render();
+                    // return response()->json([
+                    //     'success' => true,
+                    //     'tutor_list' => $tutor_list,
+                    // ]);
+                    
+                }
+                else if ($teaching_method == "in-person")
+                {
+                    // if ($is_favorite == "1")
+                    // {
+                    //     $user_id = Auth::user()->id;
+                    //     $favorites =  Favorite::where('user_id',$user_id)->get();
+                    //     // dd ($favorites);
+                    //     foreach ($favorites as $favorite)
+                    //     {
+                    //         $tutor = new \stdClass();
+                    //         $tutor = User::where('id',$favorite->favorite_user_id)->where('type', 'in-person')->orWhere('type','both')->first();
+                        
+                    //         $tutors_array[] = clone $tutor;
+                    //     }
+                    //     $tutors = $tutors_array;
+                    // }
+                    // else
+                    // {
+                        $tutors = $tutors->filter(function($tutor) {
+                            if ($tutor->teaching_method == 'in-person' || $tutor->teaching_method == 'both')
+                            {
+                                return true;
+                            }
+                            return false;
+                        });
+                    // }
+                }
+                else
+                {
+                    // $tutors = User::where('type','tutor');
+                }
+            }
+            if ( !empty($filter_price) )
+            {
+                // $min = implode(",",$filter_price);
+                $price = explode(",",$filter_price);
+                $min_price = $price[0];
+                $max_price = $price[1];
+
+                $tutors = $tutors->where('price_per_hour', '>=',$min_price)->where('price_per_hour','<=',$max_price); 
+            }
+
+            // $tutor_list = $price_filter . $method_filter;
+            $tutor_list = view ('theme.student.partial.find_tutors')->with(['user'=> $user, 'tutors'=>$tutors])->render();
+            return response()->json([
+                    'success' => true,
+                    'tutor_list' => $tutor_list,
+                ]);
+            
+        }
+        else
+        {
+            dd ("Error! Unknown User.");
+        }
+        
+    }
+
+    /*
+    * Student Payment Submission
+    *
+    *@return \Illuminate\Http\Response
+    */
+    public function Payment(Request $request)
+    {
+        $user = Auth::user();
+        return view('theme.student.student_payment')->with(['user'=>$user]);
+    }
+
+    /*
+    * Student Payment Submission
+    *
+    *@return \Illuminate\Http\Response
+    */
+    public function SubmitPayment(Request $request)
+    {
+        
+        $id = $request->input('id');
+        $card_number = $request->input('card_number');
+        $month = $request->input('month');
+        $year = $request->input('year');
+        $cvv = $request->input('cvv_number');
+
+        $payment = new Payment();
+
+        $payment->user_id = $id;
+
+        $payment->card_number = $card_number;
+        $payment->expiry_month = $month;
+        $payment->expiry_year = $year;
+        $payment->cvv_number = $cvv;
+        $payment->save();
+
+        $user = User::findOrFail($id);
+        $user->paid_fee = "1";
+        $user->save();
+
+        return redirect()->route('student.dashboard');
+    }
+
+    /*
+    * Tutor Review
+    *
+    *@return \Illuminate\Http\Response
+    */
+    public function AllReview(Request $request, $id)
+    {
+        $user = Auth::user();
+        $tutor = User::findOrFail($id);
+        // dd ($user);
+        return view('theme.student.tutor_review')->with(['user'=>$user, 'tutor'=>$tutor ]);
+    }
+    /*
+    * Tutor Review
+    *
+    *@return \Illuminate\Http\Response
+    */
+    public function WriteReview(Request $request)
+    {
+        $request->validate([
+            'student_id' => 'required',
+            'tutor_id' => 'required',
+            'subject' => 'required',
+            // 'email' => 'required',
+            'review' => 'required',
+            'star' => 'required',
+        ],
+        [
+            'student_id.required' => 'Student field is required.',
+            'tutor_id.required' => 'Tutor field is required.',
+            'subject.required' => 'Subject field is required.',
+            // 'email.required' => 'Email field is required.',
+            'review.required' => 'Review field is required.',
+            'star.required' => 'Star field is required.',
+        ]);
+
+        $student_id = $request->input('student_id');
+        $tutor_id = $request->input('tutor_id');
+        $title = $request->input('subject');
+        // $email = $request->input('email');
+        $description = $request->input('review');
+        $star_rating = $request->input('star');
+
+        // dd ($student_id, $tutor_id, $subject, $email, $review, $star);
+
+        $review = new Review();
+        $review->student_id = $student_id;
+        $review->tutor_id = $tutor_id;
+        $review->title = $title;
+        $review->description = $description;
+        $review->star_rating = $star_rating;
+
+        $review->save();
+
+        // return response()->json([
+        //     'success'=> 'Success! Your review has been submitted.'
+        // ]);
+        
+        $user = Auth::user();
+        $tutor = User::findOrFail($tutor_id);
+        $tutor = view ('theme.student.partial.star_rating')->with(['user'=>$user, 'tutor'=>$tutor])->render();
+        return response()->json([
+            'success' => true,
+            'tutor' => $tutor,
+        ]);
+    }
+
 }

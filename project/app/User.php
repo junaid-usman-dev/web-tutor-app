@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email_address', 'password', 'image_id', 'summary', 'teaching_method', 'price_per_hour'
+        'first_name', 'last_name', 'email_address', 'password', 'images', 'summary', 'teaching_method', 'price_per_hour'
     ];
 
     /**
@@ -59,6 +59,12 @@ class User extends Authenticatable
     public function favorites()
     {
         return $this->hasMany("App\Model\Favorite","user_id");
+    }
+
+    //One to Many Relationship
+    public function reviews()
+    {
+        return $this->hasMany("App\Model\Review","tutor_id");
     }
 
     // Many to Many Relationship

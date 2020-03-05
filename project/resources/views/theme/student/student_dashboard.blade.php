@@ -26,6 +26,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('theme_asset/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('theme_asset/dist/css/adminlte.css') }}">
+    {{-- Custom Style --}}
+    <link rel="stylesheet" href="{{ asset('theme_asset/custom/css/custom.css') }}">
+
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -91,7 +94,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <b>Total Subjects</b> <a class="float-right">07</a>
                                         </li>
                                     </ul>
-                                    <a href="{{ route('student.profile') }}" class="btn btn-primary btn-block"><strong>Edit Profile</strong></a>
+                                    <a href="{{ route('student.profile') }}" class="btn btn-primary btn-block"><strong>View Profile</strong></a>
                                 </div>
                                 <!-- /.card-body -->
                             </div>
@@ -159,20 +162,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <div class="card">
                                         <div class="card-header">
                                             <h3 class="card-title">Favorite Tutors <span
-                                                    class="badge badge-danger">8</span></h3>
-
+                                                    class="badge badge-danger">{{ count($tutors) }}</span></h3>
                                             <div class="card-tools">
 
                                                 <button type="button" class="btn btn-tool"
                                                     data-card-widget="collapse"><i class="fas fa-minus"></i>
                                                 </button>
-
                                             </div>
                                         </div>
                                         <!-- /.card-header -->
                                         <div class="card-body p-0">
                                             <ul class="users-list clearfix">
-                                                <li>
+                                                @if ( count($tutors) > 0 )
+                                                    @foreach ($tutors as $tutor)
+                                                        <li>
+                                                            <a href="{{ url('student/tutor-profile') }}/{{ $tutor->id }}"> 
+                                                                <img src="{{ url('/') }}/{{ $tutor->images->path }}/{{ $tutor->images->name }}"
+                                                                    alt="User Image">
+                                                            </a>
+                                                            <a class="users-list-name" href="{{ url('student/tutor-profile') }}/{{ $tutor->id }}">{{ $tutor->first_name }} {{ $tutor->last_name }}</a>
+                                                            <span class="users-list-date">Today</span>
+                                                        </li>
+                                                    @endforeach
+                                                @else
+                                                    <div class="ju-ta">
+                                                        <p>There is no favorite tutor.</p>
+                                                    </div>
+                                                @endif
+
+                                                {{-- <li>
                                                     <img src="{{ asset('theme_asset/dist/img/user1-128x128.jpg') }}"
                                                         alt="User Image">
                                                     <a class="users-list-name" href="#">Alexander Pierce</a>
@@ -219,7 +237,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         alt="User Image">
                                                     <a class="users-list-name" href="#">Nadia</a>
                                                     <span class="users-list-date">15 Jan</span>
-                                                </li>
+                                                </li> --}}
 
                                             </ul>
                                             <!-- /.users-list -->

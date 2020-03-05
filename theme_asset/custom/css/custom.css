@@ -14,3 +14,25 @@
     margin-top: 80px;
     margin-bottom: 80px;
 }
+
+.ju-ta
+{
+    text-align: center;
+    margin-top: 2%;
+}
+.ju-di
+{
+    display: inline-block;
+}
+.ju-fl
+{
+    float: right;
+}
+.ju-m-zero
+{
+    margin: 0px auto;
+}
+.ju-mt
+{
+    margin-top: 5%;
+}

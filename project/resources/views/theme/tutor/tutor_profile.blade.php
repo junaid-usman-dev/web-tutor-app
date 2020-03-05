@@ -1,3 +1,59 @@
+
+
+{{-------   Star Rating  -----------------}}
+@php
+    $total_rating = 0;
+    $obtain_rating = 0.0; // Obtain rating out of 5
+    $number_of_ratings = count($user->reviews)*5;
+    $five_star = 0; // total number of five stars
+    $four_star = 0; // total number of four stars
+    $three_star = 0; // total number of three stars
+    $two_star = 0; // total number of two stars
+    $one_star = 0; // total number of one stars
+@endphp
+
+@foreach ($user->reviews as $review) 
+    @php
+        $total_rating += intval($review->star_rating); // calculating total reviews
+    @endphp
+    @if ($review->star_rating == "5")
+    @php
+        $five_star += 1; // sum of total five stars
+    @endphp
+    @elseif ($review->star_rating == "4")
+        @php
+            $four_star += 1; // sum of total four stars
+        @endphp
+    @elseif ($review->star_rating == "3")
+        @php
+            $three_star += 1; // sum of total three stars
+        @endphp
+    @elseif ($review->star_rating == "2")
+        @php
+            $two_star += 1; // sum of total two stars
+        @endphp
+    @elseif ($review->star_rating == "1")
+        @php
+            $one_star += 1; // sum of total one stars
+        @endphp
+    @endif
+    
+@endforeach
+@php
+    $obtain_rating = ($total_rating/$number_of_ratings)*5; // obtaining rating reviews percentage out of 5
+    
+    $five_star_progress = ( ($five_star*5)/$number_of_ratings)*100; // calculating five stars rating percentage out of 100
+    $four_star_progress = ( ($four_star*4)/$number_of_ratings)*100; // calculating fourstars rating percentage out of 100
+    $three_star_progress = ( ($three_star*3)/$number_of_ratings)*100;  // calculating three stars rating percentage out of 100
+    $two_star_progress = ( ($two_star*3)/$number_of_ratings)*100; // calculating two stars rating percentage out of 100
+    $one_star_progress = ( ($one_star*3)/$number_of_ratings)*100; // calculating one stars rating percentage out of 100
+
+@endphp
+{{-------   End Star Rating  -----------------}}
+
+
+
+
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -18,268 +74,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('theme_asset/profile/dist/css/adminlte.css') }}">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    {{-- Start Rating SVG Master --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme_asset/star-rating-svg-master/src/css/star-rating-svg.css') }}">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+
+
+
 </head>
 
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
 
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-            <!-- Left navbar links -->
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="index3.html" class="nav-link">Home</a>
-                </li>
-                <!--  <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li> -->
-            </ul>
-
-            <!-- SEARCH FORM -->
-            <form class="form-inline ml-3">
-                <div class="input-group input-group-sm">
-                    <input class="form-control form-control-navbar" type="search" placeholder="Search"
-                        aria-label="Search">
-                    <div class="input-group-append">
-                        <button class="btn btn-navbar" type="submit">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-
-            <!-- Right navbar links -->
-            <ul class="navbar-nav ml-auto">
-                <!-- Messages Dropdown Menu -->
-                <li class="nav-item dropdown"><a class="nav-link" data-toggle="dropdown" href="#"> <em
-                            class="far fa-comments"></em> <span class="badge badge-danger navbar-badge">3</span> </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
-                            <div class="media">
-                                <img src="{{ asset('theme_asset/profile/dist/img/user1-128x128.jpg') }}" alt="User Avatar"
-                                    class="img-size-50 mr-3 img-circle">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        Brad Diesel
-                                        <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                                    </h3>
-                                    <p class="text-sm">Call me whenever you can...</p>
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                </div>
-                            </div>
-                            <!-- Message End -->
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
-                            <div class="media">
-                                <img src="{{ asset('theme_asset/profile/dist/img/user8-128x128.jpg') }}" alt="User Avatar"
-                                    class="img-size-50 img-circle mr-3">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        John Pierce
-                                        <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                                    </h3>
-                                    <p class="text-sm">I got your message bro</p>
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                </div>
-                            </div>
-                            <!-- Message End -->
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
-                            <div class="media">
-                                <img src="{{ asset('theme_asset/profile/dist/img/user3-128x128.jpg') }}" alt="User Avatar"
-                                    class="img-size-50 img-circle mr-3">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        Nora Silvester
-                                        <span class="float-right text-sm text-warning"><i
-                                                class="fas fa-star"></i></span>
-                                    </h3>
-                                    <p class="text-sm">The subject goes here</p>
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                </div>
-                            </div>
-                            <!-- Message End -->
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-                    </div>
-                </li>
-                <!-- Notifications Dropdown Menu -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="far fa-bell"></i>
-                        <span class="badge badge-warning navbar-badge">15</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <span class="dropdown-header">15 Notifications</span>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-envelope mr-2"></i> 4 new messages
-                            <span class="float-right text-muted text-sm">3 mins</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-users mr-2"></i> 8 friend requests
-                            <span class="float-right text-muted text-sm">12 hours</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-file mr-2"></i> 3 new reports
-                            <span class="float-right text-muted text-sm">2 days</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-                    </div>
-                </li>
-
-                <!--  <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"><i
-            class="fas fa-th-large"></i></a>
-      </li> -->
-            </ul>
-        </nav>
-        <!-- /.navbar -->
+        @include('theme.tutor.inc.header');
+        <!-- End navbar -->
 
         <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            <!-- Brand Logo -->
-            <a href="#" class="brand-link navbar-white">
-                <img src="{{ asset('theme_asset/profile/dist/img/TLLogo.png" alt="TutorLynx Logo') }}" class="brand-image img-circle" style="opacity: 1">
-                <span class="brand-text font-weight-light"><img src="{{ asset('theme_asset/profile/dist/img/TL_txt_img.png') }}"></span>
-            </a>
+        @include('theme.tutor.inc.sidebar');
+        <!-- End Main Sidebar Container -->
 
-            <!-- Sidebar -->
-            <div class="sidebar">
-                <!-- Sidebar user panel (optional) -->
-                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                    <div class="image">
-                        <img src="{{ asset('theme_asset/profile/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
-                    </div>
-                    <div class="info">
-                        <a href="#" class="d-block">Alexander Pierce</a>
-                    </div>
-                </div>
-
-                <!-- Sidebar Menu -->
-                <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column text-sm nav-child-indent" data-widget="treeview"
-                        role="menu" data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-                        <!-- <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Starter Pages
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Active Page</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inactive Page</p>
-                </a>
-              </li>
-            </ul>
-          </li> -->
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-copy"></i>
-                                <p>
-                                    Test
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="./index.html" class="nav-link active">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Take a Test</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="./index2.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Result</p>
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </li>
-
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link"><em class="nav-icon fas fa-calendar-check"></em>
-                                <p>
-                                    Availability Calendar
-                                    <!--  <span class="right badge badge-danger">New</span> -->
-                                </p>
-                            </a>
-                        </li>
-
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-cog"></i>
-                                <p>
-                                    Admin Manager
-                                    <!--  <span class="right badge badge-danger">New</span> -->
-                                </p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link ">
-                                <i class="nav-icon fas fa-user"></i>
-                                <p>
-                                    Profile Manager
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link ">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Edit Profile</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Change Mode</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Payment</p>
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-                <!-- /.sidebar-menu -->
-            </div>
-            <!-- /.sidebar -->
-        </aside>
-
+        
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
@@ -320,21 +135,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                             <div class="card-body card-comments">
                                                                 <div class="row">
                                                                     <div class="col-2 text-left">
-                                                                        <img src="{{ asset('theme_asset/profile/dist/img/user1-128x128.jpg') }}" alt=""
+                                                                        <img src="{{ url('/') }}/{{ $user->images->path }}/{{ $user->images->name }}" alt=""
                                                                             class="img-circle img-fluid">
                                                                     </div>
                                                                     <div class="col-9 ">
-                                                                        <h2 class="username"><strong>Nicole
-                                                                                Pearson</strong></h2>
-                                                                        <p class="text-lg">Private Tutor -Calculus,
-                                                                            Physics, Electronics, Biology, Chemistry</p>
-                                                                        <span class="text-sm"><em
-                                                                                class="fas fa-star  text-warning"></em><em
-                                                                                class="fas fa-star text-warning"></em><em
-                                                                                class="fas fa-star text-warning"></em><em
-                                                                                class="fas fa-star text-warning"></em><em
-                                                                                class="fas fa-star text-warning"></em>
-                                                                            5.0 <a href="#">(320 Ratings)</a></span>
+                                                                        <h2 class="username"><strong>{{ $user->first_name }}
+                                                                            {{ $user->last_name }}</strong></h2>
+                                                                        <p class="text-lg">
+                                                                            @if (count($user->subjects) > 0)
+                                                                                @foreach ($user->subjects as $subject)
+                                                                                    {{ $subject->name }}, 
+                                                                                @endforeach    
+                                                                            @endif
+                                                                            
+                                                                        </p>
+                                                                        <span class="text-sm">
+                                                                            {{-- <em class="fas fa-star  text-warning"></em>
+                                                                            <em class="fas fa-star text-warning"></em>
+                                                                            <em class="fas fa-star text-warning"></em>
+                                                                            <em class="fas fa-star text-warning"></em>
+                                                                            <em class="fas fa-star text-warning"></em> --}}
+                                                                            <div class="my-rating-7 d-inline" data-rating="{{ $obtain_rating }}"></div>
+                                                                            <div class="d-inline">
+                                                                                {{ $obtain_rating }}
+                                                                                <a href="#">( {{ $total_rating }} Ratings)</a>
+                                                                            </div>
+                                                                        </span>
                                                                         <p class="text-sm"> <em
                                                                                 class="fas fa-clock  mr-1"></em>
                                                                             <strong>15 hours tutoring english</strong>
@@ -344,7 +170,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 </div>
                                                             </div>
                                                             <div style="margin-top: 20px; ">
-                                                                <h3>About Nicole</h3>
+                                                                <h3>About {{ $user->first_name }}</h3>
                                                                 <hr>
                                                             </div>
 
@@ -358,7 +184,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                                                                 <!-- /.user-block -->
                                                                 <p>
-                                                                    I have more than 10 years of experience in teaching.
+                                                                    {{ $user->summary }}
+                                                                    {{-- I have more than 10 years of experience in teaching.
                                                                     I hold a Ph.D. and three Master's degrees in the
                                                                     fields of Physics, Electrical Engineering, Applied
                                                                     Mathematics, and Nuclear Engineering. I completed my
@@ -367,7 +194,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                     non-comprehensive list of some of the subjects in
                                                                     which I have tutored past students. I am qualified
                                                                     to teach other subjects not listed, so please call
-                                                                    or text me.
+                                                                    or text me. --}}
                                                                 </p>
 
                                                             </div>
@@ -399,7 +226,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 Policies
                                                             </span> <!-- /.user-block -->
                                                             <p><i class="fas fa-dollar-sign"></i> Hourly Rate:
-                                                                <b>$55</b></br></p>
+                                                                <b>${{ $user->price_per_hour }}</b></br></p>
                                                             <p>
                                                                 Rate details:<b> Sessions cancelled within 24 hours will
                                                                     be charged a one hour cancellation fee. Students who
@@ -459,7 +286,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                             Midnight - 3:00 AM
                                                                         </p>
                                                                     </div>
-
                                                                 </p>
 
                                                             </div>
@@ -470,23 +296,43 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 Subjects
                                                             </span>
 
-
                                                             <!-- /.user-block -->
                                                             <p>
                                                                 <div class="row">
-                                                                    <div class="col-md-6">
-
-                                                                        <p><b>Business</b></br>
-                                                                            GRE, Microeconomics</p>
-
-                                                                        <p><b>Computer</b></br>
-                                                                            General Computer</p>
-
-                                                                        <p><b>Corporate Training</b></br>
+                                                                    @if ( count($user->subjects) > 0 )
+                                                                        @foreach ($user->subjects as $subject)
+                                                                            <div class="col-md-6">
+                                                                                <p>
+                                                                                    <b>{{ $subject->name }}</b></br>
+                                                                                    {{ $subject->description }}
+                                                                                </p>
+                                                                                {{-- <p>
+                                                                                    <b>Computer</b></br>
+                                                                                    General Computer
+                                                                                </p> --}}
+                                                                                {{-- <p>
+                                                                                    <b>Corporate Training</b></br>
+                                                                                    General Computer, Microeconomics, Statistics
+                                                                                </p> --}}
+                                                                            </div>
+                                                                        @endforeach
+                                                                    @endif
+                                                                    
+                                                                    {{-- <div class="col-md-6">
+                                                                        <p>
+                                                                            <b>Business</b></br>
+                                                                            GRE, Microeconomics
+                                                                        </p>
+                                                                        <p>
+                                                                            <b>Computer</b></br>
+                                                                            General Computer
+                                                                        </p>
+                                                                        <p>
+                                                                            <b>Corporate Training</b></br>
                                                                             General Computer, Microeconomics, Statistics
                                                                         </p>
-
                                                                     </div>
+
                                                                     <div class="col-md-6">
                                                                         <p><b>Math</b></br>
                                                                             <a href="#">Chemical Engineering</a>,
@@ -495,10 +341,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                             Geometry, Physics, Prealgebra, Precalculus,
                                                                             SAT Math, Statistics </p>
 
-                                                                        <p><b>Test Preparation</b></br>
+                                                                        <p>
+                                                                            <b>Test Preparation</b></br>
                                                                             ACT English, ACT Math, ACT Reading, ACT
-                                                                            Science, GRE, SAT Math, SAT Writing </p>
-                                                                    </div>
+                                                                            Science, GRE, SAT Math, SAT Writing 
+                                                                        </p>
+                                                                    </div> --}}
+
                                                                 </div>
                                                             </p>
 
@@ -512,51 +361,57 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 Rating
                                                             </span>
 
-                                                            <p> <span class="text-sm"><em
-                                                                        class="fas fa-star  text-warning"></em><em
-                                                                        class="fas fa-star text-warning"></em><em
-                                                                        class="fas fa-star text-warning"></em><em
-                                                                        class="fas fa-star text-warning"></em><em
-                                                                        class="fas fa-star text-warning"></em> 5.0 <a
-                                                                        href="#">(320 Ratings)</a></span></p>
+                                                            <p> <span class="text-sm">
+                                                                    {{-- <em class="fas fa-star  text-warning"></em>
+                                                                    <em class="fas fa-star text-warning"></em>
+                                                                    <em class="fas fa-star text-warning"></em>
+                                                                    <em class="fas fa-star text-warning"></em>
+                                                                    <em class="fas fa-star text-warning"></em> --}}
+                                                                    <div class="my-rating-7 d-inline" data-rating="{{ $obtain_rating }}"></div>
+                                                                    <div class="d-inline">
+                                                                        {{ $obtain_rating }}
+                                                                        <a href="#">( {{ $total_rating }} Ratings)</a>
+                                                                    </div>
+                                                                </span>
+                                                            </p>
                                                             <!-- /.user-block -->
 
-                                                            <span>5 Star (75)</span>
+                                                            <span>5 Star ({{ $five_star }})</span>
                                                             <div class="progress mb-3">
                                                                 <div class="progress-bar bg-warning" role="progressbar"
-                                                                    aria-valuenow="80" aria-valuemin="0"
-                                                                    aria-valuemax="100" style="width: 80%"></div>
+                                                                    aria-valuenow="{{ $five_star_progress }}" aria-valuemin="0"
+                                                            aria-valuemax="100" style="width: {{ $five_star_progress }}%"></div>
                                                             </div>
 
 
-                                                            <span>4 Star (30)</span>
+                                                            <span>4 Star ({{ $four_star }})</span>
                                                             <div class="progress mb-3">
                                                                 <div class="progress-bar bg-warning" role="progressbar"
-                                                                    aria-valuenow="10" aria-valuemin="0"
-                                                                    aria-valuemax="100" style="width: 10%"></div>
+                                                                    aria-valuenow="{{ $four_star_progress }}" aria-valuemin="0"
+                                                                    aria-valuemax="100" style="width: {{ $four_star_progress }}%"></div>
                                                             </div>
 
-                                                            <span>3 Star (0)</span>
+                                                            <span>3 Star ({{ $three_star }})</span>
                                                             <div class="progress mb-3">
                                                                 <div class="progress-bar bg-warning" role="progressbar"
-                                                                    aria-valuenow="0" aria-valuemin="0"
-                                                                    aria-valuemax="100" style="width: 0%"></div>
-                                                            </div>
-
-
-                                                            <span>2 Star (0)</span>
-                                                            <div class="progress mb-3">
-                                                                <div class="progress-bar bg-warning" role="progressbar"
-                                                                    aria-valuenow="0" aria-valuemin="0"
-                                                                    aria-valuemax="100" style="width: 0%"></div>
+                                                                    aria-valuenow="{{ $three_star_progress }}" aria-valuemin="0"
+                                                                    aria-valuemax="100" style="width: {{ $three_star_progress }}%"></div>
                                                             </div>
 
 
-                                                            <span>1 Star (0)</span>
+                                                            <span>2 Star ({{ $two_star }})</span>
                                                             <div class="progress mb-3">
                                                                 <div class="progress-bar bg-warning" role="progressbar"
-                                                                    aria-valuenow="0" aria-valuemin="0"
-                                                                    aria-valuemax="100" style="width: 0%"></div>
+                                                                    aria-valuenow="{{ $two_star_progress }}" aria-valuemin="0"
+                                                                    aria-valuemax="100" style="width: {{ $two_star_progress }}%"></div>
+                                                            </div>
+
+
+                                                            <span>1 Star ({{ $one_star }})</span>
+                                                            <div class="progress mb-3">
+                                                                <div class="progress-bar bg-warning" role="progressbar"
+                                                                    aria-valuenow="{{ $one_star_progress }}" aria-valuemin="0"
+                                                                    aria-valuemax="100" style="width: {{ $one_star_progress }}%"></div>
                                                             </div>
 
                                                             <hr>
@@ -567,9 +422,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                             </span>
 
                                                             <!-- /.user-block -->
-                                                            <p class="lead">Show reviews that mention</p>
+                                                            {{-- <p class="lead">Show reviews that mention</p> --}}
                                                             <p>
-                                                                <form action="#" method="post">
+                                                                {{-- <form action="#" method="post">
                                                                     <div class="input-group">
                                                                         <input type="text" name="message"
                                                                             placeholder="Search Reviews ..."
@@ -582,12 +437,38 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                                                                     </div>
 
-                                                                </form>
-                                                                <button type="button" class="btn btn-primary"
-                                                                    style=" margin-top:15px !important;">All
-                                                                    Reviews</button>
+                                                                </form> --}}
+                                                                <a href="{{ route('tutor.all.review') }}" class="btn btn-primary"
+                                                                    style=" margin-top:15px !important;">All Reviews
+                                                                </a>
                                                             </p>
-                                                            <p>
+                                                            
+                                                            @if ( count($user->reviews) > 0 )
+                                                                @php
+                                                                    $count = 0;
+                                                                @endphp
+                                                                @foreach ($user->reviews as $review)
+                                                                    
+                                                                    @if ( $count < 3)
+                                                                        <p>
+                                                                            <b>{{ $review->title }}</b></br>
+                                                                            {{ $review->description }} 
+                                                                            </br>
+                                                                            <span class="text-muted text-sm">
+                                                                                <em>Allison, 13 lessons with Nicole </em>
+                                                                            </span>
+                                                                        </p>
+                                                                    @endif
+                                                                    @php
+                                                                        $count += 1;
+                                                                    @endphp
+                                                                    
+                                                                @endforeach
+                                                            @else
+                                                                The tutor has no review.
+                                                            @endif
+                                                            
+                                                            {{-- <p>
                                                                 <b>Solid tutoring</b></br>
 
                                                                 Nicole is very thorough on reinforcing materials,
@@ -596,9 +477,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 with progress.</br>
                                                                 <span class="text-muted text-sm"><em>Allison, 13 lessons
                                                                         with Nicole </em></span>
-                                                            </p>
+                                                            </p> --}}
 
-                                                            <p>
+                                                            {{-- <p>
                                                                 <b>Excellent chemistry tutor</b></br>
 
                                                                 Nicole helped my daughter for two hours for her AP
@@ -608,10 +489,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 knowledge in Chemistry. I highly recommend him. </br>
                                                                 <span class="text-muted text-sm"><em>Fernanda, 3 lessons
                                                                         with Nicole</em></span>
-                                                            </p>
+                                                            </p> --}}
 
 
-                                                            <p>
+                                                            {{-- <p>
                                                                 <b>Knowledgeable Tutor</b></br>
 
                                                                 After Nicole reviewed with my daughter the confusing
@@ -620,7 +501,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 better and practical ways. Thank you, Nicole.</br>
                                                                 <span class="text-muted text-sm"><em>Nasser, 1 lesson
                                                                         with Nicole</em></span>
-                                                            </p>
+                                                            </p> --}}
 
 
 
@@ -658,8 +539,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="col-md-3">
 
                             <!-- Profile Image -->
-                            <div class="card-style_mobile text-center"><a href="#"
-                                    class="btn btn-primary"><strong>Contact Nicole</strong></a>
+                            <div class="card-style_mobile text-center">
+                                {{-- <a href="#" class="btn btn-primary"><strong>Contact {{ $user->first_name }}</strong></a> --}}
                                 <p class="text-center"> Response time: <b>7 hours</b> </p>
                             </div>
 
@@ -668,12 +549,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <div class="card-body box-profile">
                                     <div class="text-center ">
                                         <img class="profile-user-img img-fluid img-circle img-bordered-sm"
-                                            src="{{ asset('theme_asset/profile/dist/img/user1-128x128.jpg') }}" alt="User profile picture">
+                                            src="{{ url('/') }}/{{ $user->images->path }}/{{ $user->images->name }}" alt="User profile picture">
                                     </div>
 
-                                    <h3 class="profile-username text-center">Nicole Pearson</h3>
+                                    <h3 class="profile-username text-center">{{ $user->first_name }} {{ $user->last_name }}</h3>
 
-                                    <p class="text-center lead"><strong>$55</strong>/hour</p>
+                                    <p class="text-center lead"><strong>${{ $user->price_per_hour }}</strong>/hour</p>
 
                                     <ul class="list-group list-group-unbordered mb-3 text-center">
                                         <li class="list-group-item">No subscriptions or upfront payments </li>
@@ -684,7 +565,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             Find the right fit, or your first hour is free
                                         </li>
                                     </ul>
-                                    <a href="#" class="btn btn-primary btn-block"><strong>Contact Nicole</strong></a>
+                                    {{-- <a href="#" class="btn btn-primary btn-block"><strong>Contact {{ $user->first_name }}</strong></a> --}}
                                     <p class="text-center"> Response time: <b>7 hours</b> </p>
                                 </div>
                                 <!-- /.card-body -->
@@ -722,14 +603,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- /.control-sidebar -->
 
     <!-- Main Footer -->
-    <footer class="main-footer text-sm">
-        <!-- To the right -->
-        <div class="float-right d-none d-sm-inline">
-            <img src="{{ asset('theme_asset/profile/dist/img/TLLogo.png') }}" style="width: 30px; height: 30px; margin-top: -3px;">
-        </div>
-        <!-- Default to the left -->
-        Copyright &copy; 2020 <a href="#">TutorLynx</a>. All rights reserved.
-    </footer>
+    @include('theme.tutor.inc.footer');
+
     </div>
     <!-- ./wrapper -->
 
@@ -741,6 +616,38 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ asset('theme_asset/profile/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('theme_asset/profile/dist/js/adminlte.min.js') }}"></script>
+
+    {{-- Start Rating SVG Master --}}
+    <script src="{{ asset('theme_asset/star-rating-svg-master/src/jquery.star-rating-svg.js') }}"></script>
+
+<script>
+    jQuery(".my-rating-8").starRating({
+        totalStars: 5,
+        starShape: 'rounded',
+        starSize: 30,
+        emptyColor: 'lightgray',
+        hoverColor: 'salmon',
+        activeColor: 'crimson',
+        useGradient: false,
+        useFullStars: true,
+        // setRating: 3,
+        // initialRating: 3,
+        // callback: function(currentRating, $el){
+        //     // alert('rated ' + currentRating);
+        //     WriteReview (currentRating);
+        //     // console.log('DOM element ', getRating);
+        // }
+    });
+    // Only read able rating
+    $(".my-rating-7").starRating({
+        totalStars: 5,
+        starShape: 'rounded',
+        activeColor: '#FFC108',
+        starSize: 20,
+        useGradient: false,
+        readOnly: true
+    });
+</script>
 </body>
 
 </html>

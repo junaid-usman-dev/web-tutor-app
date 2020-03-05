@@ -80,27 +80,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-3">
+                            <form role="form" method="POST" action="{{ route('student.update.image') }}" accept-charset="UTF-8" enctype="multipart/form-data" >
+                                @csrf
+                                <!-- Profile Image -->
+                                <div class="card card-primary card-outline">
+                                    <div class="card-body box-profile">
+                                        <div class="text-center">
+                                            <input type="file" id="upload_image" name="upload_image" class="d-none">
+                                            <img id="image" class="profile-user-img img-fluid img-circle" style="cursor:pointer;"
+                                                src="{{ url('/') }}/{{ $user->images->path }}/{{ $user->images->name }}" alt="User profile picture">
+                                        </div>
 
-                            <!-- Profile Image -->
-                            <div class="card card-primary card-outline">
-                                <div class="card-body box-profile">
-                                    <div class="text-center">
-                                        <img class="profile-user-img img-fluid img-circle"
-                                            src="{{ asset('theme_asset/dist/img/user4-128x128.jpg') }}" alt="User profile picture">
+                                        <h3 class="profile-username text-center">{{ $user->first_name }} {{ $user->last_name }}</h3>
+                                        <input type="submit" class="btn btn-primary btn-block" value="Update Profile Pic">
+                                        {{-- <a href="#" class="btn btn-primary btn-block"><strong>Update Profile
+                                                Pic</strong></a> --}}
                                     </div>
-
-                                    <h3 class="profile-username text-center">{{ $user->first_name }} {{ $user->last_name }}</h3>
-
-
-                                    <a href="#" class="btn btn-primary btn-block"><strong>Update Profile
-                                            Pic</strong></a>
-
-
+                                    <!-- /.card-body -->
                                 </div>
-                                <!-- /.card-body -->
-                            </div>
-                            <!-- /.card -->
-
+                                <!-- /.card -->
+                            </form>
 
                         </div>
                         <!-- /.col -->
@@ -511,9 +510,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- date-range-picker -->
     <script src="{{ asset('theme_asset/plugins/daterangepicker/daterangepicker.js') }}"></script>
 
-    {{-- Custom Js  --}}
-    {{-- <script src="{{ asset('theme_asset/custom/js/student_edit_profile.js') }}"></script> --}}
-
 
     <script>
         $(function () {
@@ -610,7 +606,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
         //-----------------------------------------------------------------------
         //        End password popover
         //-----------------------------------------------------------------------
-
+        //
+        //-----    Preview Image
+        //
+        //
+        jQuery("#upload_image").change(function() {
+            readURL(this);
+        });
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    jQuery('#image').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        jQuery(document).on('click', '#image', function(event) {
+            jQuery('#upload_image').trigger('click')
+        })
 
 
         // Start password format validation
@@ -956,7 +971,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 jQuery('.error-op').css("display","none");
                                                 jQuery(".profile-success").css("display", "block");
                                                 jQuery('.profile-success').html(response.success);
-
 
                                                 // jQuery("#error_creditional").empty();
                                                 // jQuery('#login_success').html(response.success);

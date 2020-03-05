@@ -12,4 +12,10 @@ class Subject extends Model
     {
         return $this->belongsToMany('App\User');
     }
+
+    // One To Many Relationship
+    public function categories()
+    {
+        return $this->belongsToMany('App\Model\Category');
+    }
 }

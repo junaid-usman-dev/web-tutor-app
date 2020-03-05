@@ -34,10 +34,11 @@ class CreateUsersTable extends Migration
 
             $table->string('type')->nullable();
 
-            $table->string('summary')->nullable();
+            $table->text('summary')->nullable();
             $table->string('price_per_hour')->nullable();
             $table->string('teaching_method')->nullable();
-            $table->string('paid_fee')->default('0');
+            // "paid_fee" Boolean to check weather the user has paid his fee or not
+            $table->string('paid_fee')->default('0'); 
 
             $table->integer('approve')->default(0);
             $table->integer('active')->default(1);

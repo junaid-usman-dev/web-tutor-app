@@ -17,11 +17,14 @@
     <link rel="stylesheet" href="{{ asset('theme_asset/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('theme_asset/dist/css/adminlte.css') }}">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ asset('theme_asset/plugins/select2/css/select2.css') }}">
+
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
     {{-- Multi Select Dropdown --}}
-    <link href="{{ asset('theme_asset/multi/jquery.multiselect.css') }}" rel="stylesheet" type="text/css">
+    {{-- <link href="{{ asset('theme_asset/multi/jquery.multiselect.css') }}" rel="stylesheet" type="text/css"> --}}
       
 </head>
 
@@ -47,64 +50,30 @@ $(".chosen-select").chosen();
 
         <div class="card card-primary card-outline">
             <div class="card-body register-card-body">
-                <p class="login-box-msg">Payment for TutorLynx</p>
+                <p class="login-box-msg">Profile for TutorLynx</p>
                 <form action="{{ Route('tutor.profile.setup') }}" method="POST" accept-charset="UTF-8" >
                     @csrf
 
                     <div class="input-group mb-2">
                         <input type="hidden" name="id" class="form-control" autocomplete="disabled" value="{{ $id }}" >
-                        {{-- <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
-                            </div>
-                        </div> --}}
                     </div>
 
-                    {{-- <div class="input-group mb-2" >
-                        <input type="text" name="subject" class="form-control" autocomplete="disabled" placeholder="Subject" value={{ old('subject') }} >
-                        <div class="input-group-append" >
-                            <div class="input-group-text" >
-                                <span class="fas fa-envelope"></span>
-                            </div>
-                        </div>
-                    </div>
-                    @error('subject')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror --}}
-
-                    {{-- Multiple Select Options --}}
                     <div class="row">
-                        <div class="input-group mb-2">
-                            <div class="form-group col-12 mb-0 ml-0">
-                                <select name="langOptgroup[]" multiple id="langOptgroup" class="form-control">
-                                    <optgroup label="Programming Languages">
-                                        <option value="C++ / C#">C++ / C#</option>
-                                        <option value="Java">Java</option>
-                                        <option value="Objective-C">Objective-C</option>
-                                    </optgroup>
-                                    <optgroup label="Client-side scripting Languages">
-                                        <option value="JavaScript">JavaScript</option>
-                                    </optgroup>
-                                    <optgroup label="Server-side scripting Languages">
-                                        <option value="Perl">Perl</option>
-                                        <option value="PHP">PHP</option>
-                                        <option value="Ruby on Rails">Ruby on Rails</option>
-                                    </optgroup>
-                                    <optgroup label="Mobile Platforms">
-                                        <option value="Android">Android</option>
-                                        <option value="iOS">iOS</option>
-                                    </optgroup>
-                                    <optgroup label="Document Markup Languages">
-                                        <option value="HTML">HTML</option>
-                                        <option value="XML">XML</option>
-                                    </optgroup>
-                                </select>
+                        <div class="col-sm-12">
+                          <!-- textarea -->
+                            <div class="form-group">
+                                <label>Choose Subjects</label>
+                                <div class="form-group">
+                                    <select class="select2" name="subject[]" multiple="multiple" data-placeholder="Select a Subject"
+                                        style="width: 100%;" >
+                                        @foreach ($subjects as $subject)
+                                            <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    
-                    
-
 
                     <div class="input-group mb-2">
                         <input type="text" name="price_per_hour" class="form-control" autocomplete="disabled" placeholder="Price Per Hour" >
@@ -119,7 +88,7 @@ $(".chosen-select").chosen();
                     @enderror
 
                     <div class="input-group mb-2" >
-                        <textarea placeholder="Profile Summary" name="summmary" id="summary" name="summary" cols="40" rows="10"></textarea>
+                        <textarea placeholder="Profile Summary" name="summary" id="summary" cols="40" rows="10"></textarea>
                     </div>
 
                     <div class="row">
@@ -128,7 +97,7 @@ $(".chosen-select").chosen();
                         </div>
                         <div class="col-4">
                             <div class="icheck-primary">
-                                <input type="radio" name="method" id="onlinelabel" value="online" value={{ old('type') }} >
+                                <input type="radio" name="method" id="onlinelabel" value="online" >
                                 <label for="onlinelabel">
                                     Online
                                 </label>
@@ -136,7 +105,7 @@ $(".chosen-select").chosen();
                         </div>
                         <div class="col-4">
                             <div class="icheck-primary">
-                                <input type="radio" name="method" id="inpersonlabel" value="in-person" value={{ old('type') }} >
+                                <input type="radio" name="method" id="inpersonlabel" value="in-person" >
                                 <label for="inpersonlabel">
                                     In Person
                                 </label>
@@ -144,7 +113,7 @@ $(".chosen-select").chosen();
                         </div>
                         <div class="col-4">
                             <div class="icheck-primary">
-                                <input type="radio" name="method" id="bothlable" value="both" value={{ old('type') }} >
+                                <input type="radio" name="method" id="bothlable"  value="both" checked>
                                 <label for="bothlable">
                                     Both
                                 </label>
@@ -176,38 +145,24 @@ $(".chosen-select").chosen();
     <script src="{{ asset('theme_asset/plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->
     <script src="{{ asset('theme_asset/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- Select2 -->
+    <script src="{{ asset('theme_asset/plugins/select2/js/select2.full.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('theme_asset/dist/js/adminlte.min.js') }}"></script>
 
-    {{-- Multi Select --}}
-    <script src="{{ asset('theme_asset/multi/jquery.min.js') }}"></script>
-  <script src="{{ asset('theme_asset/multi/jquery.multiselect.js') }}"></script>
-  <script>
-    $('#langOpt').multiselect({
-        columns: 1,
-        placeholder: 'Select Languages'
-    });
-    
-    $('#langOpt2').multiselect({
-        columns: 1,
-        placeholder: 'Select Languages',
-        search: true
-    });
-    
-    $('#langOpt3').multiselect({
-        columns: 1,
-        placeholder: 'Select Languages',
-        search: true,
-        selectAll: true
-    });
-    
-    $('#langOptgroup').multiselect({
-        columns: 1,
-        placeholder: 'Select Subjects',
-        search: true,
-        selectAll: true
-    });
-    </script>
+
+
+<script>
+    $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2()
+
+        //Initialize Select2 Elements
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
+    })
+</script>
 
 </body>
 

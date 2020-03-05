@@ -90,7 +90,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <b>Tests Taken</b> <a class="float-right">07</a>
                                         </li>
                                     </ul>
-                                    <a href="{{ route('tutor.profile') }}" class="btn btn-primary btn-block"><strong>Edit Profile</strong></a>
+                                    <a href="{{ route('tutor.profile') }}" class="btn btn-primary btn-block"><strong>View Profile</strong></a>
                                 </div>
                                 <!-- /.card-body -->
                             </div>

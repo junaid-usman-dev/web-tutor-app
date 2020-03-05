@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Users\Tutor;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+
 use Auth;
 
 use App\Image;
@@ -13,6 +16,7 @@ use App\Model\Subject;
 use App\Model\Review;
 use App\Model\Test;
 use App\Model\TestUser;
+use App\Model\SubjectUser;
 
 // use App\Model\Result;
 
@@ -33,11 +37,24 @@ class TutorController extends Controller
     public function Profile()
     {
         //
-        // $tutors = User::where('type','tutor')->get();
-        return view ('theme.tutor.tutor_profile');
+        // $users = DB::table('categories')
+        //              ->groupBy('subject_id')
+        //              ->get();
+
+        // dd ($users);
+
+        $user = Auth::user();
+        if (Auth::user()->type == "tutor")
+        {
+            // $subjects = Subject::all()->distinct('category')->get();
+            // dd ($user->subjects);
+            return view ('theme.tutor.tutor_profile')->with(['user'=>$user]);
+        }
+        else
+        {
+            dd ("Error Unkown User");
+        }
     }
-
-
 
     /**
      * Display a listing of the resource.
@@ -47,8 +64,25 @@ class TutorController extends Controller
     public function index()
     {
         //
-        $tutors = User::where('type','tutor')->get();
-        return view ('tutor.tutor_list')->with(['tutors'=> $tutors]);
+        // $user = Auth::user();
+        if (Auth::user()->type== "student")
+        {
+            $user = User::findOrFail(Auth::user()->id);
+            $tutors = User::all()->where('type', 'tutor');
+
+            $tutor_list = view ('theme.student.partial.find_tutors')->with(['user'=> $user, 'tutors'=>$tutors])->render();
+
+            return response()->json([
+                'success' => true,
+                'tutor_list' => $tutor_list,
+            ]);
+            // return view ('theme.student.tutor_list')->with(['user'=> $user, 'tutors'=>$tutors]);
+        }
+        else
+        {
+            dd ("Error! Unknown User.");
+        }
+        
     }
 
     /**
@@ -196,11 +230,10 @@ class TutorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
-        //
-        $tutor = User::findOrFail($id);
-        return view('tutor.edit_profile')->with(['tutor'=>$tutor]);
+        $user = User::findOrFail(Auth::user()->id);
+        return view('theme.tutor.tutor_profile_edit')->with(['user'=>$user]);
     }
 
     /**
@@ -216,45 +249,51 @@ class TutorController extends Controller
         $request->validate([
             'fname' => 'required',
             'lname' => 'required',
-            'email_addr' => new EmailFormat,
+            'email' => new EmailFormat,
             'phone' => 'required',
             'birthday' => 'required|date',
             'country' => 'required',
             'state' => 'required',
             'city' => 'required',
             'zipcode' => 'required',
-            'password' => 'nullable',
-            'subject' => 'nullable',
-            'summary' => 'nullable',
-            'teaching_method' => 'nullable',
-            'price_per_hour' => 'nullable',
             
+            'old_password' => 'nullable',
+            'new_password' => ['nullable', new Password],
+            'confirm_password' => 'nullable',
+
+            'subject' => 'required',
+            'summary' => 'required',
+            'teaching_method' => 'required',
+            'price_per_hour' => 'required',
         ],
         [   
             'fname.required'    => 'first name field is required.',
             'lname.required'    => 'last name field is required.',
-            'email_addr.required'    => 'The email must be a valid email address.',
+            'email.unique'    => 'The email has already been taken.dfdffdfadfs',
             'phone.required'    => 'phone field is required.',
             'birthday.required'    => 'birthday field is required.',
             'country.required'    => 'country field is required.',
             'state.required'    => 'state field is required.',
             'city.required'    => 'city field is required.',
             'zipcode.required'    => 'zipcode field is required.',
-            'password.required'    => 'password field is required.',
-        
+            // 'password.required'    => 'password field is required.',
             'birthday.date'    => 'Enter a valid birthday date.',
-            'password.min'    => 'Password length should be more than 8 character or digit.',
-            'password.alpha_num'    => 'Password should atlear 1 digit.',
-            'password.character'    => 'Password should atlear 1 character.',
+
+            'subject.required'    => 'subject field is required.',
+            'summary.required'    => 'summary field is required.',
+            'teaching_method.required'    => 'teaching method field is required.',
+            'price_per_hour.required'    => 'price per hour field is required.',
+
         ]);
 
         $id = $request->id;
 
         $fname = $request->fname;
         $lname = $request->lname;
-        $email_addr = $request->email_addr;
-        $password = $request->password;
-
+        $email = $request->email;
+        $old_password = $request->old_password;
+        $new_password = $request->new_password;
+        $confirm_password = $request->confirm_password;
         $phone = $request->phone;
         $birthday = $request->birthday;
         $country = $request->country;
@@ -262,35 +301,118 @@ class TutorController extends Controller
         $city = $request->city;
         $zipcode = $request->zipcode;
 
-        // $subject = $request->subject;
-        // $summary = $request->summary;
-        // $price_per_hour = $request->price_per_hour;
-        // $teaching_method = $request->teaching_method;
-
-        $hash_pasword = md5(time().$password); // email key 
+        $subject = $request->subject;
+        $summary = $request->summary;
+        $price_per_hour = $request->price_per_hour;
+        $teaching_method = $request->teaching_method;
+        
+        // dd ($subject[0]);
+        // dd ($id, $fname, $lname, $email, $old_password, $new_password,
+        //     $confirm_password, $phone, $birthday, $country, $state, $city, $zipcode, $subject,
+        //     $summary, $price_per_hour, $teaching_method );
 
         $tutor = User::findOrFail($id);
+
+        if ( (!empty($old_password)) && (!empty($new_password)) && (!empty($confirm_password)) )
+        {
+            // IF user want to update his password
+            if (Hash::check($old_password, $tutor->password)) {
+                if ( $new_password == $confirm_password )
+                {
+                    $tutor->first_name = $fname;
+                    $tutor->last_name = $lname;
+                    $tutor->email_address = $email;
+                    $tutor->password = Hash::make($new_password);
+                    $tutor->phone = $phone;
+                    $tutor->birthday = $birthday;
+                    $tutor->country = $country;
+                    $tutor->state = $state;
+                    $tutor->city = $city;
+                    $tutor->zipcode = $zipcode;
+
+                    // $tutor->subject = $subject;
+                    $tutor->summary = $summary;
+                    $tutor->price_per_hour = $price_per_hour;
+                    $tutor->teaching_method = $teaching_method;
+
+                    $tutor->save();
     
-        $tutor->first_name = $fname;
-        $tutor->last_name = $lname;
-        $tutor->email_address = $email_addr;
-        // $tutor->password = $hash_pasword;
-        $tutor->phone = $phone;
-        $tutor->birthday = $birthday;
-        $tutor->country = $country;
-        $tutor->state = $state;
-        $tutor->city = $city;
-        $tutor->zipcode = $zipcode;
+                    return response()->json([
+                        'success'=> 'Success! Your profile information has been updated. Password Server'
+                    ]);
+                }
+                else
+                {
+                    return response()->json([
+                        'error'=> 'Password does not match. Server'
+                    ]);
+                }
+            }
+            else
+            {
+                return response()->json([
+                    'error'=> 'Unknown Old Password.'
+                ]);
+            }
+        }
+        else
+        {
+            // User does not want to update his/her password
+            $tutor->first_name = $fname;
+            $tutor->last_name = $lname;
+            $tutor->email_address = $email;
+            // $tutor->password = $hash_pasword;
+            $tutor->phone = $phone;
+            $tutor->birthday = $birthday;
+            $tutor->country = $country;
+            $tutor->state = $state;
+            $tutor->city = $city;
+            $tutor->zipcode = $zipcode;
 
-        // $tutor->summary = $summary;
-        // $tutor->price_per_hour = $price_per_hour;
-        // $tutor->teaching_method = $teaching_method;
+            // $tutor->subject = $subject;
+            $tutor->summary = $summary;
+            $tutor->price_per_hour = $price_per_hour;
+            $tutor->teaching_method = $teaching_method;
 
+            $tutor->save();
 
-        $tutor->save();
-       
-        return redirect()->route('tutor.home', ['id' => $id]);
+            return response()->json([
+                'success'=> "Success! Your profile information has been updated. Server Response"
+            ]);
+        }
     }
+
+    /**
+     * Update Image for specified resource from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function UpdateImage(Request $request)
+    {
+        //
+        $user = User::findOrFail(Auth::user()->id);
+
+        if ($request->hasFile('upload_image'))
+        {
+            // Upload Custom Profile Image
+            $file = $request->file('upload_image');
+            $new_name = rand() . '.' . $file->getClientOriginalExtension();
+            // $file->move(public_path("images"), $new_name ); working
+            $file->move("images", $new_name );
+         
+            $user->images->name = $new_name;
+    
+            $user->images->save();
+
+            return redirect()->route('tutor.dashboard');
+        }
+        else
+        {
+            // Redirect to dashboard without updating profile image 
+            return redirect()->route('tutor.dashboard');
+        }
+    }
+
 
     /**
      * Remove the specified resource from storage.
@@ -677,5 +799,60 @@ class TutorController extends Controller
             return redirect()->to('signin');
         }
     }
+
+    /*
+    * Tutor Payment Submission
+    *
+    *@return \Illuminate\Http\Response
+    */
+    public function Payment(Request $request)
+    {
+        $user = Auth::user();
+        return view('theme.tutor.tutor_payment')->with(['user'=>$user]);
+    }
+
+    /*
+    * Tutor Payment Submission
+    *
+    *@return \Illuminate\Http\Response
+    */
+    public function SubmitPayment(Request $request)
+    {
+        $id = $request->input('id');
+        $card_number = $request->input('card_number');
+        $month = $request->input('month');
+        $year = $request->input('year');
+        $cvv = $request->input('cvv_number');
+
+        $payment = new Payment();
+
+        $payment->user_id = $id;
+
+        $payment->card_number = $card_number;
+        $payment->expiry_month = $month;
+        $payment->expiry_year = $year;
+        $payment->cvv_number = $cvv;
+        $payment->save();
+
+        $user = User::findOrFail($id);
+        $user->paid_fee = "1";
+        $user->save();
+
+        return redirect()->route('tutor.dashboard');
+    }
     
+
+    /*
+    * Tutor Review
+    *
+    *@return \Illuminate\Http\Response
+    */
+    public function AllReview(Request $request)
+    {
+       
+        $user = Auth::user();
+        // $tutor = User::findOrFail($id);
+        // dd ($user);
+        return view('theme.tutor.all_review')->with(['user'=>$user ]);
+    }
 }

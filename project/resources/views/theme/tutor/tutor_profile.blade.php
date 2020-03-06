@@ -10,6 +10,12 @@
     $three_star = 0; // total number of three stars
     $two_star = 0; // total number of two stars
     $one_star = 0; // total number of one stars
+    $five_star_progress = 0;
+    $four_star_progress = 0;
+    $three_star_progress = 0;
+    $two_star_progress = 0;
+    $one_star_progress = 0;
+
 @endphp
 
 @foreach ($user->reviews as $review) 
@@ -40,18 +46,28 @@
     
 @endforeach
 @php
-    $obtain_rating = ($total_rating/$number_of_ratings)*5; // obtaining rating reviews percentage out of 5
+    if ($number_of_ratings != 0) 
+    {    
+        $obtain_rating = ($total_rating/$number_of_ratings)*5; // obtaining rating reviews percentage out of 5
     
-    $five_star_progress = ( ($five_star*5)/$number_of_ratings)*100; // calculating five stars rating percentage out of 100
-    $four_star_progress = ( ($four_star*4)/$number_of_ratings)*100; // calculating fourstars rating percentage out of 100
-    $three_star_progress = ( ($three_star*3)/$number_of_ratings)*100;  // calculating three stars rating percentage out of 100
-    $two_star_progress = ( ($two_star*3)/$number_of_ratings)*100; // calculating two stars rating percentage out of 100
-    $one_star_progress = ( ($one_star*3)/$number_of_ratings)*100; // calculating one stars rating percentage out of 100
+        $five_star_progress = ( ($five_star*5)/$number_of_ratings)*100; // calculating five stars rating percentage out of 100
+        $four_star_progress = ( ($four_star*4)/$number_of_ratings)*100; // calculating fourstars rating percentage out of 100
+        $three_star_progress = ( ($three_star*3)/$number_of_ratings)*100;  // calculating three stars rating percentage out of 100
+        $two_star_progress = ( ($two_star*3)/$number_of_ratings)*100; // calculating two stars rating percentage out of 100
+        $one_star_progress = ( ($one_star*3)/$number_of_ratings)*100; // calculating one stars rating percentage out of 100
+    }
+    
 
+    
 @endphp
 {{-------   End Star Rating  -----------------}}
 
 
+<?php
+    if (!empty(session()->get('session_tutor_id')))
+    {
+
+?>
 
 
 <!DOCTYPE html>
@@ -651,3 +667,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </body>
 
 </html>
+
+
+<?php 
+    }
+    else
+    {
+		// Go to welcome page
+        header("Location: ".url('/signin'));exit;
+    }
+?>

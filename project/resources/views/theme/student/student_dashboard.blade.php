@@ -2,8 +2,7 @@
 <?php
     if (!empty(session()->get('session_student_id')) )
     {
-
-        // echo ( session()->get('session_student_id') );
+  
 ?>
 
 

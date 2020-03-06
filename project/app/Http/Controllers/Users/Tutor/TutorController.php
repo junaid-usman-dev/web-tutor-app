@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
-
 use Auth;
 
 use App\Image;
@@ -233,7 +232,9 @@ class TutorController extends Controller
     public function edit()
     {
         $user = User::findOrFail(Auth::user()->id);
-        return view('theme.tutor.tutor_profile_edit')->with(['user'=>$user]);
+        $subjects = Subject::all();
+        // dd ($user->subjects);
+        return view('theme.tutor.tutor_profile_edit')->with(['user'=>$user, 'subjects'=>$subjects]);
     }
 
     /**
@@ -789,16 +790,41 @@ class TutorController extends Controller
         $user_id = $request->session()->get('session_tutor_id');
         $user_type = $request->session()->get('session_tutor_type');
 
+        // $user_id = Auth::user()->id;
+        // $user_type = Auth::user()->id;
+        
         $user = User::where('id',$user_id)->first();
         if ( !empty($user) )
         {
-            return view ('theme.tutor.tutor_dashboard')->with(['user' => $user]);
+            if (Auth::user()->paid_fee == "1")
+            {
+                // $this->StoreTutorSession($request, Auth::user()->id, Auth::user()->email_address, Auth::user()->phone, Auth::user()->type);
+                return view ('theme.tutor.tutor_dashboard')->with(['user' => $user]);
+            }
+            else
+            {
+                // Payment form
+                return view ('theme.register.tutor.payment')->with(['id' => Auth::user()->id]);
+            }
+            
         }
         else
         {
             return redirect()->to('signin');
         }
     }
+    /**
+     * Store Tutor Session
+     *
+     * @return \Illuminate\Http\Response
+     */
+    // public function StoreTutorSession(Request $request, $user_id, $user_email, $user_phone, $user_type)
+    // {
+    //     $request->session()->put('session_tutor_id',$user_id); // storing id into session
+    //     $request->session()->put('session_tutor_email',$user_email); // storing user email into session
+    //     $request->session()->put('session_tutor_phone',$user_phone); // storing user phone into session
+    //     $request->session()->put('session_tutor_type',$user_type); // storing user type into session
+    // }
 
     /*
     * Tutor Payment Submission

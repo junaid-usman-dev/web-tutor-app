@@ -48,14 +48,18 @@
     
 @endforeach
 @php
-    $obtain_rating = ($total_rating/$number_of_ratings)*5; // obtaining rating reviews percentage out of 5
-    $obtain_rating = number_format($obtain_rating,1);
+    if ($number_of_ratings != 0)
+    {
+        $obtain_rating = ($total_rating/$number_of_ratings)*5; // obtaining rating reviews percentage out of 5
+        $obtain_rating = number_format($obtain_rating,1);
     
-    $five_star_progress = ( ($five_star*5)/$number_of_ratings)*100; // calculating five stars rating percentage out of 100
-    $four_star_progress = ( ($four_star*4)/$number_of_ratings)*100; // calculating fourstars rating percentage out of 100
-    $three_star_progress = ( ($three_star*3)/$number_of_ratings)*100;  // calculating three stars rating percentage out of 100
-    $two_star_progress = ( ($two_star*3)/$number_of_ratings)*100; // calculating two stars rating percentage out of 100
-    $one_star_progress = ( ($one_star*3)/$number_of_ratings)*100; // calculating one stars rating percentage out of 100
+        $five_star_progress = ( ($five_star*5)/$number_of_ratings)*100; // calculating five stars rating percentage out of 100
+        $four_star_progress = ( ($four_star*4)/$number_of_ratings)*100; // calculating fourstars rating percentage out of 100
+        $three_star_progress = ( ($three_star*3)/$number_of_ratings)*100;  // calculating three stars rating percentage out of 100
+        $two_star_progress = ( ($two_star*3)/$number_of_ratings)*100; // calculating two stars rating percentage out of 100
+        $one_star_progress = ( ($one_star*3)/$number_of_ratings)*100; // calculating one stars rating percentage out of 100
+    }
+    
 @endphp
 {{-------   End Star Rating  -----------------}}
 
@@ -94,8 +98,11 @@
                                                     {{ $tutor->last_name }}</strong></h2>
                                                     <a href="{{ url('/student/add-to-favorit-list') }}/{{ $tutor->id }}" class="btn btn-info ju-fl" >Add To Favorite</a>
                                                 <p class="text-lg">
-                                                    @foreach ($tutor->subjects as $subject)
-                                                        {{ $subject->name }},
+                                                    {{-- @foreach ($tutor->categories as $category) --}}
+                                                        @foreach ($tutor->subjects as $subject)
+                                                            {{ $subject->name }},
+                                                        {{-- @endforeach --}}
+                                                        {{-- {{ $category->name }}, --}}
                                                     @endforeach
                                                 </p>
                                                 <span class="text-sm">
@@ -247,12 +254,14 @@
                                     <!-- /.user-block -->
                                     <p>
                                         <div class="row">
-                                            @if ( count($tutor->subjects) > 0 )
+                                            @if ( count($tutor->subjects) > 0)
                                                 @foreach ($tutor->subjects as $subject)
                                                     <div class="col-md-6">
                                                         <p>
                                                             <b>{{ $subject->name }}</b></br>
-                                                            {{ $subject->description }}
+                                                            {{-- @foreach ($category->subjects as $subject) --}}
+                                                                {{ $subject->description }}
+                                                            {{-- @endforeach --}}
                                                         </p>
                                                         {{-- <p>
                                                             <b>Computer</b></br>

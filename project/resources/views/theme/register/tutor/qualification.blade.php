@@ -133,7 +133,7 @@ $(".chosen-select").chosen();
 
                 </form>
 
-                <a href="login.html" class="text-center">I already have an account. Sign In</a>
+                {{-- <a href="login.html" class="text-center">I already have an account. Sign In</a> --}}
 
             </div>
             <!-- /.form-box -->

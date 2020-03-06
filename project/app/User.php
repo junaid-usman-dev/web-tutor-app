@@ -73,6 +73,14 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Model\Subject');
     }
 
+    /**
+     * Get all of the categories for the user.
+     */
+    // public function subjects()
+    // {
+    //     return $this->hasManyThrough('App\Model\Subject', 'App\Model\Category', 'user_id', 'category_id');
+    // }
+
     // Many to Many Relationship
     public function tests()
     {
@@ -84,5 +92,7 @@ class User extends Authenticatable
     {
         return $this->hasMany("App\Model\Message","sender_id");
     }
+
+    
 
 }

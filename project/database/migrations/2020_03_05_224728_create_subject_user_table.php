@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCategorySubjectTable extends Migration
+class CreateSubjectUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateCategorySubjectTable extends Migration
      */
     public function up()
     {
-        Schema::create('category_subject', function (Blueprint $table) {
+        Schema::create('subject_user', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->bigInteger('category_id')->nullable();
             $table->bigInteger('subject_id')->nullable();
+            $table->bigInteger('user_id')->nullable();
 
             $table->timestamps();
         });
@@ -30,6 +30,6 @@ class CreateCategorySubjectTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category_subject');
+        Schema::dropIfExists('subject_user');
     }
 }

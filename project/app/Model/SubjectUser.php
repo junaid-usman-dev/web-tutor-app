@@ -11,6 +11,6 @@ class SubjectUser extends Model
     protected $table = 'subject_user';
 
     protected $fillable = [
-        'user_id', 'subject_id'
+        'subject_id', 'user_id'
     ];
 }

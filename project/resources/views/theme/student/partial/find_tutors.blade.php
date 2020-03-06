@@ -25,9 +25,18 @@
                                         {{ $tutor->last_name }}</a>
                                 </span>
                                 <span class="description">
-                                    @foreach ($tutor->subjects as $subject)
-                                        {{ $subject->name }},
-                                    @endforeach
+                                    {{-- foreach ($user->categories as $category) --}}
+                                    {{-- foreach ($category->subjects as $subject) --}}
+                                    @if ( count($tutor->subjects) > 0)
+                                        {{-- @foreach ($tutor->categories as $category) --}}
+                                            @foreach ($tutor->subjects as $subject)
+                                                {{ $subject->name }},
+                                            @endforeach
+
+                                            {{-- {{ $subject->name }}, --}}
+                                        {{-- @endforeach --}}
+                                    @endif
+                                    
                                 </span>
 
                             </div>
@@ -54,7 +63,9 @@
                                     @endphp
                                 @endforeach
                                 @php
-                                    $obtain_rating = ($total_rating/$number_of_ratings)*5; // obtaining rating reviews percentage out of 5
+                                    if ($number_of_ratings != 0) {
+                                        $obtain_rating = ($total_rating/$number_of_ratings)*5; // obtaining rating reviews percentage out of 5
+                                    }
                                 @endphp
 
                                 <div class="my-rating-7 d-inline" data-rating="{{ $obtain_rating }}"></div>

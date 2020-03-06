@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Users\Student;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Auth;
 
 use App\User;
 use App\Image;
 use App\Model\Favorite;
 use App\Model\Review;
+use App\Model\Category;
+use App\Model\Subject;
 use App\Payment;
 
 use App\Rules\EmailFormat;
@@ -385,13 +388,14 @@ class StudentController extends Controller
      */
     public function AddFavorite(Request $request, $favorite_user_id )
     {  
-        $favorite = new Favorite();
-
-        $favorite->user_id = Auth::user()->id;
-        $favorite->favorite_user_id = $favorite_user_id;
-        
-        $favorite->save();
-
+        $found = Favorite::where('favorite_user_id',$favorite_user_id)->get();
+        if ( count($found) < 1 )
+        {
+            $favorite = new Favorite();
+            $favorite->user_id = Auth::user()->id;
+            $favorite->favorite_user_id = $favorite_user_id;
+            $favorite->save();
+        }
         return redirect()->route('student.dashboard');
     }
     
@@ -408,16 +412,23 @@ class StudentController extends Controller
         {
             $user = User::findOrFail($user_id);
             $favorites =  Favorite::where('user_id',$user_id)->get();
-            // dd ($favorites);
-            foreach ($favorites as $favorite)
+            if ( count($favorites) > 0)
             {
-                $tutor = new \stdClass();
-                $tutor = User::where('id',$favorite->favorite_user_id)->first();
-             
-                $tutors[] = clone $tutor;
+                // dd ($favorites);
+                foreach ($favorites as $favorite)
+                {
+                    $tutor = new \stdClass();
+                    $tutor = User::where('id',$favorite->favorite_user_id)->first();
                 
+                    $tutors[] = clone $tutor;
+                }
             }
-
+            else
+            {
+                $tutors = array();
+                // dd ($tutors);
+            }
+        
             $min_price = User::min('price_per_hour');
             $max_price = User::max('price_per_hour');
             return view ('theme.student.favorite_tutors')->with([
@@ -474,27 +485,26 @@ class StudentController extends Controller
      */
     public function dashboard(Request $request )
     {
-        // $user_id = $request->session()->get('session_student_id');
-        // $user_type = $request->session()->get('session_student_type');
+        $user_id = $request->session()->get('session_student_id');
+        $user_type = $request->session()->get('session_student_type');
 
-        $user_id = Auth::user()->id;
-        $user_type = Auth::user()->type;
-
-        $user = User::findOrFail($user_id);
-        $favorites =  Favorite::where('user_id',$user_id)->get();
-        
-        $tutors = array();
-        foreach ($favorites as $favorite)
-        {
-            $tutor = new \stdClass();
-            $tutor = User::where('id',$favorite->favorite_user_id)->first();
-            $tutors[] = clone $tutor;
-        }
-        // dd($tutors[0]->first_name); working
-
+        // $user_id = Auth::user()->id;
+        // $user_type = Auth::user()->type;
         $user = User::where('id',$user_id)->first();
         if ( !empty($user) )
         {
+            $user = User::findOrFail($user_id);
+            $favorites =  Favorite::where('user_id',$user_id)->get();
+        
+            $tutors = array();
+            foreach ($favorites as $favorite)
+            {
+                $tutor = new \stdClass();
+                $tutor = User::where('id',$favorite->favorite_user_id)->first();
+                $tutors[] = clone $tutor;
+            }
+            // dd($tutors[0]->first_name); working
+            // $this->StoreStudentSession($request, Auth::user()->id, Auth::user()->email_address, Auth::user()->phone, Auth::user()->type);
             return view ('theme.student.student_dashboard')->with(['user' => $user, 'tutors'=>$tutors]);
         }
         else
@@ -502,6 +512,18 @@ class StudentController extends Controller
             return redirect()->to('signin');
         }
     }
+    /**
+     * Store Student Session
+     *
+     * @return \Illuminate\Http\Response
+     */
+    // public function StoreStudentSession(Request $request, $user_id, $user_email, $user_phone, $user_type)
+    // {
+    //     $request->session()->put('session_student_id',$user_id); // storing id into session
+    //     $request->session()->put('session_student_email',$user_email); // storing user email into session
+    //     $request->session()->put('session_student_phone',$user_phone); // storing user phone into session
+    //     $request->session()->put('session_student_type',$user_type); // storing user type into session
+    // }
 
     /**
      * Tutors List
@@ -696,9 +718,41 @@ class StudentController extends Controller
     */
     public function AllReview(Request $request, $id)
     {
-        $user = Auth::user();
-        $tutor = User::findOrFail($id);
+        // $user = SubjectUser::findOrFail(3)->groupBy('user_id')->get();
         // dd ($user);
+
+        // $users = DB::table('subjects')
+        //             ->select(DB::raw('count(*) as subject_id, category_id'))
+        //             ->where(
+        //                 DB::table('subject_user')
+        //                     ->select(DB::raw('count(*) as subject_id') )
+        //                     ->where('user_id', '==', 3)
+        //                 )
+        //             ->groupBy('category_id')
+        //             ->get();
+        // dd ($users);
+        // $cat = Subject::findOrFail(2);
+        // dd ($user->subjects);
+        // foreach ($user->subjects as $subject)
+        // {
+            // print ($subject->category->id);
+            // foreach ($category->subjects as $subject)
+            // {
+            //     print ($subject->name);
+            // }
+        // }
+
+    //    $info =  DB::table('category_subject')
+    //              ->select('subject_id', DB::raw('count(*) as total_subject'))
+    //              ->groupBy('subject_id')
+    //              ->get();
+    //     dd ($info);
+
+        $user = Auth::user();
+        // dd ($user); // Auth User
+        $tutor = User::findOrFail($id);
+        // $review = Review::where('tutor_id', $id)->get();
+        // dd ( $review->user );
         return view('theme.student.tutor_review')->with(['user'=>$user, 'tutor'=>$tutor ]);
     }
     /*

@@ -9,6 +9,6 @@ class Favorite extends Model
     // One to Many Relationship
     public function users()
     {
-        return $this->hasMany("App\User","id");
+        return $this->hasMany("App\User","user_id");
     }
 }

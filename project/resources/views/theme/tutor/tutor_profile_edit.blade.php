@@ -1,3 +1,11 @@
+
+<?php
+    if (!empty(session()->get('session_tutor_id')))
+    {
+
+?>
+
+
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -459,16 +467,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         <div class="form-group">
                                                             <label>Choose Subjects</label>
                                                             <div class="form-group">
-                                                                <select class="select2 @error('subject') is-invalid @enderror" id="subject" name="subject" multiple="multiple"
+                                                                <select class="select2 @error('subject') is-invalid @enderror" name="subject[]" multiple="multiple"
                                                                     data-placeholder="Select a State"
                                                                     style="width: 100%;">
-                                                                    <option>English</option>
+                                                                    @foreach ($subjects as $subject)
+                                                                        <option value="{{ $subject->id }}"
+                                                                            @foreach ($user->subjects as $user_sub)
+                                                                                @if ($user_sub->id == $subject->id)
+                                                                                    selected
+                                                                                @endif
+                                                                            @endforeach
+                                                                            >{{ $subject->name }}</option>
+                                                                    @endforeach
+
+                                                                    {{-- <option>English</option>
                                                                     <option>Science</option>
                                                                     <option>History</option>
                                                                     <option>Mathematics</option>
                                                                     <option>Geography</option>
                                                                     <option>Economics</option>
-                                                                    <option>Computer Science</option>
+                                                                    <option>Computer Science</option> --}}
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -634,6 +652,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         $(function () {
             //Initialize Select2 Elements
             $('.select2').select2()
+            console.log( $('.select2').select2() );
 
             //Initialize Select2 Elements
             $('.select2bs4').select2({
@@ -1308,11 +1327,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         });
 
-
-
-
-
     </script>
 </body>
 
 </html>
+
+
+
+<?php 
+    }
+    else
+    {
+		// Go to welcome page
+        header("Location: ".url('/signin'));exit;
+    }
+?>

@@ -224,17 +224,17 @@ class RegistrationController extends Controller
             else if (Auth::user()->type == "tutor")
             {
                 // Tutor Dashboard
-                if (Auth::user()->paid_fee == "1")
-                {
+                // if (Auth::user()->paid_fee == "1")
+                // {
                     // Paid
                     return redirect()->route('tutor.dashboard');
                     // return ("Error! Student Session is not set.");
-                }
-                else
-                {
-                    // Not Paid
-                    return view ('theme.register.tutor.payment')->with(['id' => $user->id]);
-                }
+                // }
+                // else
+                // {
+                //     // Not Paid
+                //     return view ('theme.register.tutor.payment')->with(['id' => $user->id]);
+                // }
             }
         }
         else
@@ -402,14 +402,14 @@ class RegistrationController extends Controller
             {
                 // student panel
                 // Store user info into session
-                $this->StoreStudentSession($request, $user->id, $user->email_address, $user->phone, $user->type);
+                // $this->StoreStudentSession($request, $user->id, $user->email_address, $user->phone, $user->type);
                 return view ('theme.register.upload_image')->with(['id'=> $user->id]);
             }
             else
             {
                 // tutor panel
                 // Store user info into session
-                $this->StoreTutorSession($request, $user->id, $user->email_address, $user->phone, $user->type);
+                // $this->StoreTutorSession($request, $user->id, $user->email_address, $user->phone, $user->type);
                 return view ('theme.register.tutor.payment')->with(['id' => $user->id]);
             }
             
@@ -776,13 +776,15 @@ class RegistrationController extends Controller
         $user = User::findOrFail($id);
         if ($user->type == "student")
         {
-            // Student Dashboard
+            // Student 
+            $this->StoreStudentSession($request, $user->id, $user->email_address, $user->phone, $user->type);
             return redirect()->route('student.dashboard');
             // return view ('theme.student.student_dashboard')->with(['user' => $user]);
         }
         else
         {
             // Tutor Dashboard
+            $this->StoreTutorSession($request, $user->id, $user->email_address, $user->phone, $user->type);
             return redirect()->route('tutor.dashboard');
             // return view ('theme.tutor.tutor_dashboard')->with(['user' => $user]);
         }
@@ -1008,6 +1010,7 @@ class RegistrationController extends Controller
         // dd ($user);
         if ($user->type == "student")
         {
+            // dd ($user->paid_fee);
             if ($user->paid_fee == "1")
             {
                 // Change to Tutor Mode

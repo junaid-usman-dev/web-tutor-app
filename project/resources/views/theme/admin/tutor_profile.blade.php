@@ -10,6 +10,11 @@
     $three_star = 0; // total number of three stars
     $two_star = 0; // total number of two stars
     $one_star = 0; // total number of one stars
+    $five_star_progress = 0;
+    $four_star_progress = 0;
+    $three_star_progress = 0;
+    $two_star_progress = 0;
+    $one_star_progress = 0;
 @endphp
 
 @foreach ($user->reviews as $review) 

@@ -732,8 +732,11 @@ class RegistrationController extends Controller
             'image.image'    => 'file should be image type.',
         ]);
 
-        $student_id = $request->session()->get('session_student_id');
-        $tutor_id = $request->session()->get('session_tutor_id');
+        // $student_id = $request->session()->get('session_student_id');
+        // $tutor_id = $request->session()->get('session_tutor_id');
+        $student_id = Auth::user()->id;
+        $tutor_id = Auth::user()->id;
+
         if (!empty($student_id) )
         {
             $id = $student_id;

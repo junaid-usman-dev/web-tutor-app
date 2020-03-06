@@ -166,7 +166,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                                     <h3 class="profile-username text-center">{{ $user->first_name }} {{ $user->last_name }}</h3>
 
-                                    <a href="{{ route('student.edit.profile') }}" class="btn btn-primary btn-block"><strong>Update Profle</strong></a>
+                                    {{-- <a href="{{ route('student.edit.profile') }}" class="btn btn-primary btn-block"><strong>Update Profle</strong></a> --}}
                                     <hr>
                                     <strong><em class="fas fa-map-marker-alt mr-1"></em> Location</strong>
                                     <p class="text-muted">{{ $user->country }}, {{ $user->city }}, {{ $user->state }}</p>

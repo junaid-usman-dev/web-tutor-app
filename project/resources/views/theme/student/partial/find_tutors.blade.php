@@ -55,9 +55,11 @@
                                     $total_rating = 0;
                                     $obtain_rating = 0.0; // Obtain rating out of 5
                                     $number_of_ratings = 0;
+                                    $total_review = 0; // Total Reviews
                                 @endphp
                                 @foreach ($tutor->reviews as $review) 
                                     @php
+                                        $total_review = count($tutor->reviews);
                                         $number_of_ratings = count($tutor->reviews)*5;
                                         $total_rating += intval($review->star_rating); // calculating total reviews
                                     @endphp
@@ -69,11 +71,10 @@
                                 @endphp
 
                                 <div class="my-rating-7 d-inline" data-rating="{{ $obtain_rating }}"></div>
-                                 {{ number_format($obtain_rating,1) }} ({{ $total_rating }})
+                                {{ number_format($obtain_rating,1) }} ({{ $total_review }})
                             </span>
                             <p class="text-sm"> <em class="fas fa-clock  mr-1"></em>
-                                <strong>15 hours tutoring english</strong> out of
-                                563 hours. </p>
+                                <strong>15 hours tutoring english</strong> out of 563 hours. </p>
                         </div>
                         @endforeach
                         @else
@@ -90,6 +91,8 @@
                             <a href="#">English Writing Teacher with
                                 Patience</a>
                         </span>
+                     
+
                         <span class="description">Jonathan Burke Jr.</span>
 
                     </div>

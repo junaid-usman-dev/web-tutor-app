@@ -49,12 +49,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0 text-dark">Manage Tutors</h1>
+                            <h1 class="m-0 text-dark">Manage Admins</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Manage Tutors</li>
+                                <li class="breadcrumb-item active">Manage Admins</li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -92,31 +92,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 </thead>
                                                 <tbody>
 
-                                                    @foreach ($admins as $admin)
-                                                        <tr>
-                                                            <td>01</td>
-                                                            <td>{{ $admin->first_name }} </td>
-                                                            <td>{{ $admin->last_name }}</td>
-                                                            <td>{{ $admin->email_address }}</td>
-                                                            <td>Active</td>
-                                                            <td><button type="button"
-                                                                    class="btn btn-primary dropdown-toggle"
-                                                                    data-toggle="dropdown" aria-expanded="false">
-                                                                    Action
-                                                                </button>
-                                                                <ul class="dropdown-menu" x-placement="bottom-start"
-                                                                    style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 48px, 0px);">
-                                                                    <li class="dropdown-item"><a href="{{ url('admin/edit') }}/{{ $admin->id }}">Edit</a></li>
-                                                                    <li class="dropdown-item"><a href="{{ url('admin/destroy') }}/{{ $admin->id }}">Delete</a>
-                                                                    </li>
-                                                                    
-                                                                    <li class="dropdown-divider"></li>
-                                                                    <li class="dropdown-item"><a href="#">Separated link</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
+                                                    @if ( count ($admins) > 0 )
+                                                        @foreach ($admins as $admin)
+                                                            <tr>
+                                                                <td>01</td>
+                                                                <td>{{ $admin->first_name }} </td>
+                                                                <td>{{ $admin->last_name }}</td>
+                                                                <td>{{ $admin->email_address }}</td>
+                                                                <td>Active</td>
+                                                                <td><button type="button"
+                                                                        class="btn btn-primary dropdown-toggle"
+                                                                        data-toggle="dropdown" aria-expanded="false">
+                                                                        Action
+                                                                    </button>
+                                                                    <ul class="dropdown-menu" x-placement="bottom-start"
+                                                                        style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 48px, 0px);">
+                                                                        <li class="dropdown-item"><a href="{{ url('admin/edit') }}/{{ $admin->id }}">Edit</a></li>
+                                                                        <li class="dropdown-item"><a href="{{ url('admin/destroy') }}/{{ $admin->id }}">Delete</a>
+                                                                        </li>
+                                                                        
+                                                                        <li class="dropdown-divider"></li>
+                                                                        <li class="dropdown-item"><a href="#">Separated link</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    @else
+                                                            Empty Admin List.
+                                                    @endif
 
                                                 </tbody>
 

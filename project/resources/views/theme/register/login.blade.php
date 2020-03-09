@@ -150,6 +150,11 @@ jQuery(document).ready(function(){
                 url: "{{ url('home') }}",
                 type: "POST",
                 data: {'user':user, 'password':pass, 'remember':remember},
+
+                beforeSend: function(){
+                    $('#login').attr("disabled", true);
+                    console.log("Request");
+                },
                 success: function(response)
                 {
                     if ( (response.success == null || response.success == undefined) )
@@ -168,6 +173,11 @@ jQuery(document).ready(function(){
                         
                         location.href = "{{ url('/dashboard') }}"						
                     }
+                },
+                complete: function(){
+                    $("#login").attr("disabled", false);
+                    console.log("Response");
+                    // $('#login').hide();
                 }
             });
         }

@@ -4,7 +4,7 @@
 
 {{-------   Star Rating  -----------------}}
 @php
-    $total_rating = 0;
+    $total_review = count($tutor->reviews); // Count total Reviews
     $obtain_rating = 0.0; // Obtain rating out of 5
     $number_of_ratings = count($tutor->reviews)*5;
     $five_star = 0; // total number of five stars
@@ -17,6 +17,8 @@
     $three_star_progress = 0;
     $two_star_progress = 0;
     $one_star_progress = 0;
+
+    $total_rating = 0;
 
 @endphp
 
@@ -114,7 +116,7 @@
                                                     <div class="my-rating-7 d-inline" data-rating="{{ $obtain_rating }}"></div>
                                                         <div class="d-inline">
                                                             {{ $obtain_rating }}
-                                                            <a href="#">( {{ $total_rating }} Ratings)</a>
+                                                            <a href="#">( {{ $total_review }} Ratings)</a>
                                                         </div>
                                                     </span>
                                                 <p class="text-sm"> <em
@@ -310,7 +312,7 @@
                                             <div class="my-rating-7 d-inline" data-rating="{{ $obtain_rating }}"></div>
                                             <div class="d-inline">
                                                 {{ $obtain_rating }}  
-                                                <a href="#" >( {{ $total_rating }} Ratings)</a>
+                                                <a href="#" >( {{ $total_review }} Ratings)</a>
                                             </div>
                                             
                                         </span>
@@ -381,8 +383,8 @@
                                         <a href="{{ url('/student/tutor-all-review') }}/{{ $tutor->id }}" class="btn btn-primary"
                                             style=" margin-top:15px !important;">All Reviews</a>
                                         
-                                        <button type="button" id="create_review" name="create_review" class="btn btn-primary"
-                                            style=" margin-top:15px !important;">Create Reviews</button>
+                                        <button type="button" id="write_review" name="write_review" class="btn btn-primary"
+                                            style=" margin-top:15px !important;">Write Review</button>
                                     </p>
                                     
                                 {{-- Start Review Form --}}
@@ -414,7 +416,7 @@
                                     </div>
                                 </div>
                                   
-                                <div class="container border d-none create_review" id="create_review">
+                                <div class="container border d-none review_form_toggle">
                                     <form id="review_form">
 
                                         <div class="row">
@@ -472,30 +474,6 @@
                                             </div>
                                         </div>
 
-                                        {{-- <div class="row">
-                                            <div class="col-sm-12">
-                                                <!-- text input -->
-                                                <div class="form-group">
-                                                    <label>Email</label>
-                                                    <div class="input-group mb-2">
-                                                        <input type="text" name="email" class="form-control @error('email') is-invalid @enderror"
-                                                            placeholder="Enter Email" >
-                                                        <div class="input-group-append">
-                                                            <div class="input-group-text">
-                                                                <span class="fas fa-envelope"></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @error('email')
-                                                    <div class="alert alert-danger">{{ $message }}</div>
-                                                @enderror
-                                                <div class="error-message alert alert-danger error-em" role="alert">
-                                                    Error Message Goes Here
-                                                </div>
-                                            </div>
-                                        </div> --}}
-
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <!-- text input -->
@@ -516,9 +494,9 @@
 
                                         {{-- Button --}}
                                         <div class="card-footer text-left">
-                                            <button id="write_review" name="write_review" class="btn btn-primary">
+                                            <button id="submit_review" name="submit_review" class="btn btn-primary">
                                                 <i class="fas fa-check"></i>
-                                                    Submit
+                                                    Submit Review
                                             </button>
                                         </div>
                                     </form>
@@ -617,3 +595,39 @@
 <!-- /.card-body -->
 
 {{-- End Right Small Card --}}
+
+
+{{-- Start Rating SVG Master --}}
+{{-- <script src="{{ asset('theme_asset/star-rating-svg-master/src/jquery.star-rating-svg.js') }}"></script> --}}
+<!-- jQuery -->
+{{-- <script src="{{ asset('theme_asset/profile/plugins/jquery/jquery.min.js') }}"></script> --}}
+<script>
+// jQuery(".my-rating-8").starRating({
+//     totalStars: 5,
+//     starShape: 'rounded',
+//     starSize: 30,
+//     emptyColor: 'lightgray',
+//     hoverColor: '#FFD700',
+//     activeColor: '#FFC107',
+//     ratedColor: '#FFC107',
+//     useGradient: false,
+//     useFullStars: true,
+//     // setRating: 3,
+//     // initialRating: 3,
+//     // callback: function(currentRating, $el){
+//     //     // alert('rated ' + currentRating);
+//     //     WriteReview (currentRating);
+//     //     // console.log('DOM element ', getRating);
+//     // }
+// });
+// // Only read able rating
+// jQuery(".my-rating-7").starRating({
+//     totalStars: 5,
+//     starShape: 'rounded',
+//     activeColor: '#FFC108',
+//     starSize: 20,
+//     useGradient: false,
+//     readOnly: true
+// });
+</script>
+

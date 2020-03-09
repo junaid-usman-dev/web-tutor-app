@@ -4,6 +4,7 @@
     $total_rating = 0;
     $obtain_rating = 0.0; // Obtain rating out of 5
     $number_of_ratings = count($tutor->reviews)*5;
+    $total_reviews = count($tutor->reviews);
     $five_star = 0; // total number of five stars
     $four_star = 0; // total number of four stars
     $three_star = 0; // total number of three stars
@@ -110,7 +111,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Main Sidebar Container -->
         @include('theme.student.inc.sidebar');
         <!-- End Main Sidebar Container -->
-
         
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -140,13 +140,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <!-- /.col -->
 
                         {{-- Left large card --}}
-                            @include('theme.student.partial.star_rating',[
+                            @include('theme.student.partial.partial_tutor_profile',[
                             'tutor'=>$tutor
                             ])
                         {{-- End Left Large Card --}}
                         
-                        
-
                     </div>
                 </div>
         </div>
@@ -154,7 +152,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- /.nav-tabs-custom -->
     </div>
     <!-- /.col -->
-
 
     </div>
     <!-- /.row -->
@@ -191,166 +188,167 @@ scratch. This page gets rid of all links and provides the needed markup only.
     {{-- Start Rating SVG Master --}}
     <script src="{{ asset('theme_asset/star-rating-svg-master/src/jquery.star-rating-svg.js') }}"></script>
     
+    <script>
+        function init_ratings() {
+            jQuery(".my-rating-8").starRating({
+                totalStars: 5,
+                starShape: 'rounded',
+                starSize: 30,
+                emptyColor: 'lightgray',
+                hoverColor: '#FFD700',
+                activeColor: '#FFC107',
+                ratedColor: '#FFC107',
+                useGradient: false,
+                useFullStars: true,
+                // setRating: 3,
+                // initialRating: 3,
+                // callback: function(currentRating, $el){
+                //     // alert('rated ' + currentRating);
+                //     WriteReview (currentRating);
+                //     // console.log('DOM element ', getRating);
+                // }
+            });
+            // Only read able rating
+            $(".my-rating-7").starRating({
+                totalStars: 5,
+                starShape: 'rounded',
+                activeColor: '#FFC108',
+                starSize: 20,
+                useGradient: false,
+                readOnly: true
+            });
+        }
 
-<script>
-    jQuery(".my-rating-8").starRating({
-        totalStars: 5,
-        starShape: 'rounded',
-        starSize: 30,
-        emptyColor: 'lightgray',
-        hoverColor: '#FFD700',
-        activeColor: '#FFC107',
-        ratedColor: '#FFC107',
-        useGradient: false,
-        useFullStars: true,
-        // setRating: 3,
-        // initialRating: 3,
-        // callback: function(currentRating, $el){
-        //     // alert('rated ' + currentRating);
-        //     WriteReview (currentRating);
-        //     // console.log('DOM element ', getRating);
-        // }
-    });
-    // Only read able rating
-    $(".my-rating-7").starRating({
-        totalStars: 5,
-        starShape: 'rounded',
-        activeColor: '#FFC108',
-        starSize: 20,
-        useGradient: false,
-        readOnly: true
-    });
+        jQuery(document).ready(function(){
+            $.ajaxSetup({ headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} });
+
+            init_ratings()
+
+            // Performing toggle form action 
+            $(document).on('click', "#write_review", function(event){
+                event.preventDefault();
+
+                ToggleForm();
+            });
+
+            // Submitting Reviews
+            $(document).on('click', "#submit_review", function(event){
+                event.preventDefault();
+
+                SubmittingReview();
+            });
+        });
+
+        // ------  Submitting Review ---------
+        function SubmittingReview()
+        {
+            console.log("Button Pressed.");
+
+            var student_id = jQuery("input[name=student_id]").val();
+            var tutor_id = jQuery("input[name=tutor_id]").val();
+
+            var subject = jQuery("input[name=subject]").val();
+            // var email = jQuery("input[name=email]").val();
+            var review = jQuery("textarea[name=review]").val();
+            var star =  Math.round( jQuery('.my-rating-8').starRating('getRating') );
+
+            // console.log("Student ID : "+student_id);
+            // console.log("Tutor ID : "+tutor_id);
+            // console.log("Subject : "+subject);
+            // console.log("Email : "+email);
+            // console.log("Review : "+review);
+            // console.log("Star Rating: "+ star );
+
+            var is_subject = false;
+            // var is_email = false;
+            var is_review = false;
+            var is_star = false;
+
+            if (!subject )
+            {
+                // Error
+                is_subject = false;
+                jQuery('.error-sb').css("display","block");
+                jQuery('.error-sb').html("Subject field is required.");
+                console.log("Subject field is required");
+            }
+            else
+            {
+                // Success
+                is_subject = true;
+                jQuery('.error-sb').css("display","none");
+                // console.log("Subject Field is required.");
+            }
+            
+            if (!review )
+            {
+                // Error
+                is_review = false;
+                jQuery('.error-re').css("display","block");
+                jQuery('.error-re').html("Review field is required.");
+                console.log("Review field is required");
+            }
+            else
+            {
+                // Success
+                is_review = true;
+                jQuery('.error-re').css("display","none");
+            }
+
+            if ( (is_subject == true) && (is_review == true) )
+            {
+                console.log("Ajax Calling !!!!  Write Review !!!!");
+                jQuery.ajax({
+                    url: "{{ url('/student/write-review') }}",
+                    type: "GET",
+                    data: { 'student_id':student_id,'tutor_id':tutor_id, 'subject':subject, 'review':review, 'star':star },
+                    success: function(data)
+                    {
+                        if ( (data.success == null || data.success == undefined) )
+                        {
+                            console.log("Error Message");
+                            jQuery(".review-success").css("display", "none");
+                            jQuery(".review-error").css("display", "block");
+                            // jQuery('.alert-danger').html(response.error);
+                        }
+                        else  
+                        {
+                            console.log("Success Message");
+                            jQuery(".review-error").css("display", "none");
+                            jQuery(".review-success").css("display", "block");
+
+                            jQuery('#left_large_card').html(data.tutor);
+
+                            init_ratings()
+                            // $("#review_form")[0].reset(); // Reset Review Form
+                            // jQuery("#review_form").trigger("reset"); // Reset Review Form
+                            // $('.create_review').toggleClass('d-none'); // toggle review form
+
+                            // jQuery('#tutor_list').html(data.success);
+                            // location.href = "{{ url('/dashboard') }}"
+                            // location.reload(); // reload the page.	
+                    
+                        }
+                    }
+                });
+            }
+            else
+            {
+                jQuery(".review-success").css("display", "none");
+                // jQuery(".review-error").css("display", "block");
+                console.log("Some field are empty.");
+            }
+        }
+
+        // ------ Performing Toggle Form Action
+        function ToggleForm()
+        {
+            console.log("<<<<<< Render Toggle >>>>>");
+            jQuery('.review_form_toggle').toggleClass('d-none')
+        }
+    </script>
     
-</script>
-
 </body>
 
 </html>
 
-
-<script text="">
-
-jQuery(document).ready(function(){
-    $.ajaxSetup({ headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} });
-
-    jQuery("#write_review").click(function(event){
-        event.preventDefault();
-
-        console.log("Button Pressed.");
-
-        var student_id = jQuery("input[name=student_id]").val();
-        var tutor_id = jQuery("input[name=tutor_id]").val();
-
-        var subject = jQuery("input[name=subject]").val();
-        // var email = jQuery("input[name=email]").val();
-        var review = jQuery("textarea[name=review]").val();
-        var star =  Math.round( jQuery('.my-rating-8').starRating('getRating') );
-
-        // console.log("Student ID : "+student_id);
-        // console.log("Tutor ID : "+tutor_id);
-        // console.log("Subject : "+subject);
-        // console.log("Email : "+email);
-        // console.log("Review : "+review);
-        // console.log("Star Rating: "+ star );
-
-        var is_subject = false;
-        // var is_email = false;
-        var is_review = false;
-        var is_star = false;
-
-        if (!subject )
-        {
-            // Error
-            is_subject = false;
-            jQuery('.error-sb').css("display","block");
-            jQuery('.error-sb').html("Subject field is required.");
-            console.log("Subject field is required");
-        }
-        else
-        {
-            // Success
-            is_subject = true;
-            jQuery('.error-sb').css("display","none");
-            // console.log("Subject Field is required.");
-        }
-        // if (!email )
-        // {
-        //     // Error
-        //     is_email = false;
-        //     jQuery('.error-em').css("display","block");
-        //     jQuery('.error-em').html("Email field is required.");
-        //     console.log("Email field is required");
-        // }
-        // else
-        // {
-        //     // Success
-        //     is_email = true;
-        //     jQuery('.error-em').css("display","none");
-        //     // console.log("Subject Field is required.");
-        // }
-        if (!review )
-        {
-            // Error
-            is_review = false;
-            jQuery('.error-re').css("display","block");
-            jQuery('.error-re').html("Review field is required.");
-            console.log("Review field is required");
-        }
-        else
-        {
-            // Success
-            is_review = true;
-            jQuery('.error-re').css("display","none");
-        }
-
-        if ( (is_subject == true) && (is_review == true) )
-        {
-            console.log("Ajax Calling !!!!  Write Review !!!!");
-            jQuery.ajax({
-                url: "{{ url('/student/write-review') }}",
-                type: "GET",
-                data: { 'student_id':student_id,'tutor_id':tutor_id, 'subject':subject, 'review':review, 'star':star },
-                success: function(data)
-                {
-                    if ( (data.success == null || data.success == undefined) )
-                    {
-                        console.log("Error Message");
-                        jQuery(".review-success").css("display", "none");
-                        jQuery(".review-error").css("display", "block");
-                        // jQuery('.alert-danger').html(response.error);
-                    }
-                    else  
-                    {
-                        console.log("Success Message");
-                        $("#review_form")[0].reset(); // Reset Review Form 
-                        jQuery(".review-error").css("display", "none");
-                        jQuery(".review-success").css("display", "block");
-                        $('.create_review').toggleClass('d-none'); // toggle review form
-
-                        // jQuery('#tutor_list').html(data.success);
-                        // location.href = "{{ url('/dashboard') }}"
-                        // location.reload(); // reload the page.	
-                        jQuery('#left_large_card').html(data.tutor);
-				
-                    }
-                }
-            });
-        }
-        else
-        {
-            jQuery(".review-success").css("display", "none");
-            // jQuery(".review-error").css("display", "block");
-            console.log("Some field are empty.");
-        }
-    });
-});
-
-
-jQuery(document).ready(function() {
-    jQuery("#create_review").click(function(){
-
-        $('.create_review').toggleClass('d-none')
-        
-    });
-});
-</script>

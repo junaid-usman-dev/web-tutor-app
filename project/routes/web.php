@@ -85,7 +85,6 @@ Route::post('/submit/payment', 'Registration\RegistrationController@Payment')->n
 Route::post('/setup_profile', 'Registration\RegistrationController@UploadQualification')->name('tutor.profile.setup'); // Add Qualification
 
 
-
 // Google Location
 // Route::get('/google-map', function () {
 //     return view('location');
@@ -274,11 +273,11 @@ Route::prefix('admin')->group(function () {
     */
     Route::prefix('student')->group(function () {
 
-        Route::get('/list', 'Users\Student\StudentController@index')->name('student.list'); // display all student
+        Route::get('/list', 'Users\Student\StudentController@index')->name('admin.student.list'); // display all student
 
         Route::get('/profile/{id}', 'Users\Admin\AdminController@show')->name('admin.student.profile'); // display all student
 
-        Route::get('/create', 'Users\Student\StudentController@create'); // create a new student
+        Route::get('/create', 'Users\Student\StudentController@create')->name('admin.student.create'); // create a new student
         Route::post('/store', 'Users\Student\StudentController@store'); // store a new created student to db
         Route::post('/upload-image', 'Users\Student\StudentController@UploadPicture')->name('student.upload.profile'); // Upload profile picture
 

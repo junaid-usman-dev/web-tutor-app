@@ -15,9 +15,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
     <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="{{ asset('theme_asset/plugins/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('theme_asset/profile/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('theme_asset/dist/css/adminlte.css') }}">
+    <link rel="stylesheet" href="{{ asset('theme_asset/profile/dist/css/adminlte.css') }}">
     {{-- Custom Style --}}
     <link rel="stylesheet" href="{{ asset('theme_asset/custom/css/custom.css') }}">
 
@@ -119,6 +119,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                                         <div class="row">
                                             <div class="col-sm-12">
+                                                <div class="alert alert-info" role="alert">
+                                                    After submitting fee, The system will logout your student account and login again as a tutor.
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
                                                 <!-- text input -->
                                                 <div class="form-group">
                                                     <label>Card Number</label>
@@ -211,9 +220,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                                         <!-- /.card-body -->
                                         <div class="card-footer text-left">
-                                            <button id="update" class="btn btn-primary">
+                                            <button id="submit" class="btn btn-primary">
                                                 <i class="fas fa-check"></i>
-                                                Update
+                                                Submit
                                             </button>
                                         </div>
                                         <!-- /.card-footer -->
@@ -233,7 +242,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
         </div>
 
-
             <!-- Main Footer -->
             @include('theme.student.inc.footer')
 
@@ -241,11 +249,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
     <!-- jQuery -->
-    <script src="{{ asset('theme_asset/plugins/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('theme_asset/profile/plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->
-    <script src="{{ asset('theme_asset/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- Bootstrap Switch -->
-    <script src="{{ asset('theme_asset/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}"></script>
+    <script src="{{ asset('theme_asset/profile/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ asset('theme_asset/profile/dist/js/adminlte.min.js') }}"></script>
 
 </body>
 

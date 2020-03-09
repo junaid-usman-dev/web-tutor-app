@@ -636,7 +636,7 @@ class TutorController extends Controller
     {
         //
         $tutors = User::all()->where('type','tutor');
-        return view('tutor.admin_tutor_list')->with(['tutors'=> $tutors]);
+        return view('theme.admin.tutor.tutor_manage')->with(['tutors'=> $tutors]);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 {{-------   Star Rating  -----------------}}
 @php
+    $total_review = count($user->reviews); // Count total number of reviews
     $total_rating = 0;
     $obtain_rating = 0.0; // Obtain rating out of 5
     $number_of_ratings = count($user->reviews)*5;
@@ -173,8 +174,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                             <em class="fas fa-star text-warning"></em> --}}
                                                                             <div class="my-rating-7 d-inline" data-rating="{{ $obtain_rating }}"></div>
                                                                             <div class="d-inline">
-                                                                                {{ $obtain_rating }}
-                                                                                <a href="#">( {{ $total_rating }} Ratings)</a>
+                                                                                {{ number_format($obtain_rating,1) }}
+                                                                                <a href="#">( {{ $total_review }} Ratings)</a>
                                                                             </div>
                                                                         </span>
                                                                         <p class="text-sm"> <em
@@ -332,6 +333,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                                 </p> --}}
                                                                             </div>
                                                                         @endforeach
+                                                                    @else
+                                                                        Tutor has no subject list.
                                                                     @endif
                                                                     
                                                                     {{-- <div class="col-md-6">
@@ -385,8 +388,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                     <em class="fas fa-star text-warning"></em> --}}
                                                                     <div class="my-rating-7 d-inline" data-rating="{{ $obtain_rating }}"></div>
                                                                     <div class="d-inline">
-                                                                        {{ $obtain_rating }}
-                                                                        <a href="#">( {{ $total_rating }} Ratings)</a>
+                                                                        {{ number_format($obtain_rating,1) }}
+                                                                        <a href="#">( {{ $total_review }} Ratings)</a>
                                                                     </div>
                                                                 </span>
                                                             </p>
@@ -463,8 +466,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 @php
                                                                     $count = 0;
                                                                 @endphp
-                                                                @foreach ($user->reviews as $review)
-                                                                    
+                                                                @foreach ($user->reviews->sortByDesc('id') as $review)
                                                                     @if ( $count < 3)
                                                                         <p>
                                                                             <b>{{ $review->title }}</b></br>

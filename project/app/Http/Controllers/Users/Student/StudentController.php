@@ -62,7 +62,7 @@ class StudentController extends Controller
     {
         //
         $students = User::all()->where('type','student');
-        return view ('student.student_list')->with(['students'=>$students]);
+        return view ('theme.admin.student.student_manage')->with(['students'=>$students]);
     }
 
     /**
@@ -375,8 +375,7 @@ class StudentController extends Controller
     {
         //
         $student = User::findOrFail($id)->delete();
-
-        return redirect()->route('student.list');
+        return redirect()->route('admin.student.list');
     }
 
     
@@ -708,7 +707,8 @@ class StudentController extends Controller
         $user->paid_fee = "1";
         $user->save();
 
-        return redirect()->route('student.dashboard');
+        return redirect()->route('change.mode');
+        // return redirect()->route('student.dashboard');
     }
 
     /*
@@ -718,40 +718,12 @@ class StudentController extends Controller
     */
     public function AllReview(Request $request, $id)
     {
-        // $user = SubjectUser::findOrFail(3)->groupBy('user_id')->get();
-        // dd ($user);
-
-        // $users = DB::table('subjects')
-        //             ->select(DB::raw('count(*) as subject_id, category_id'))
-        //             ->where(
-        //                 DB::table('subject_user')
-        //                     ->select(DB::raw('count(*) as subject_id') )
-        //                     ->where('user_id', '==', 3)
-        //                 )
-        //             ->groupBy('category_id')
-        //             ->get();
-        // dd ($users);
-        // $cat = Subject::findOrFail(2);
-        // dd ($user->subjects);
-        // foreach ($user->subjects as $subject)
-        // {
-            // print ($subject->category->id);
-            // foreach ($category->subjects as $subject)
-            // {
-            //     print ($subject->name);
-            // }
-        // }
-
-    //    $info =  DB::table('category_subject')
-    //              ->select('subject_id', DB::raw('count(*) as total_subject'))
-    //              ->groupBy('subject_id')
-    //              ->get();
-    //     dd ($info);
 
         $user = Auth::user();
         // dd ($user); // Auth User
         $tutor = User::findOrFail($id);
-        // $review = Review::where('tutor_id', $id)->get();
+        $review = User::where('id', $id);
+        
         // dd ( $review->user );
         return view('theme.student.tutor_review')->with(['user'=>$user, 'tutor'=>$tutor ]);
     }
@@ -803,7 +775,16 @@ class StudentController extends Controller
         
         $user = Auth::user();
         $tutor = User::findOrFail($tutor_id);
-        $tutor = view ('theme.student.partial.star_rating')->with(['user'=>$user, 'tutor'=>$tutor])->render();
+        $tutor = view ('theme.student.partial.partial_tutor_profile')->with([
+            'user'=>$user,
+            'tutor'=>$tutor
+            ])->render();
+
+        // $tutor = view ('theme.student.tutor_profile')->with([
+        //     'user'=>$user,
+        //     'tutor'=>$tutor
+        //     ])->render();
+
         return response()->json([
             'success' => true,
             'tutor' => $tutor,

@@ -18,9 +18,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('theme_asset/profile/dist/css/adminlte.css') }}">
     {{-- Add Custom CSS File --}}
     <link rel="stylesheet" href="{{ asset('theme_asset/custom/css/custom.css') }}">
-
+ 
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+   <!-- DataTables -->
+   {{-- <link rel="stylesheet" href="{{ asset('theme_asset/plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}"> --}}
+   {{-- <link rel="stylesheet" href="{{ asset('theme_asset/dist/css/adminlte.css') }}"> --}}
+
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -88,6 +93,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     @else
                                                         The tutor has no review.
                                                     @endif
+
+
+                                                    {{-- <table id="example2" class="table table-bordered" >
+                                                        <a href="#" class="btn col-2 btn-primary">Create</a>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>First Name</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>fdf</td>
+                                                        </tr>
+                                                    </tbody>
+    
+                                                </table> --}}
+
+
+
                                                     {{-- <p>
                                                         <b>Solid tutoring</b></br>
 
@@ -178,6 +202,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <script src="{{ asset('theme_asset/profile/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <!-- AdminLTE App -->
         <script src="{{ asset('theme_asset/profile/dist/js/adminlte.min.js') }}"></script>
+
+    <!-- DataTables -->
+    {{-- <script src="{{ asset('theme_asset/plugins/datatables/jquery.dataTables.js') }}"></script> --}}
+    {{-- <script src="{{ asset('theme_asset/plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script> --}}
+
+
+    <script>
+        $('#demo').pagination({
+        dataSource: [1, 2, 3, 4, 5, 6, 7, ... , 100],
+        pageSize: 5,
+        showPrevious: false,
+        showNext: false,
+        callback: function(data, pagination) {
+            // template method of yourself
+            var html = template(data);
+            dataContainer.html(html);
+        }
+    })
+    </script>
+    
+        
+
 </body>
 
 </html>

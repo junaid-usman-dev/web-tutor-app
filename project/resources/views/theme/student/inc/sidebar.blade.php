@@ -100,11 +100,17 @@
                 </button>
             </div>
             <div class="modal-body">
-                To change your mode, The system will logout your student account and login again as a tutor.
+                @if ($user->paid_fee == "0")
+                    Please pay 20 dollar fee, if you want to resgister as a tutor.
+                @else
+                    To change your mode, The system will logout your student account and login again as a tutor.
+                @endif
+                
+                {{-- To change your mode, The system will logout your student account and login again as a tutor. --}}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <a href="{{ route('change.mode') }}" type="button" class="btn btn-primary">OK, Logout Me</a>
+                <a href="{{ route('change.mode') }}" type="button" class="btn btn-primary">Agree</a>
             </div>
         </div>
     </div>

@@ -79,7 +79,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <div class="card-body table-responsive">
                                             
                                             <table id="example2" class="table table-bordered" >
-                                                    <a href="{{ route('admin.student.create') }}" class="btn col-2 btn-primary">Create</a>
+                                                    <a href="#" class="btn col-2 btn-primary">Create</a>
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>

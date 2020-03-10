@@ -150,6 +150,10 @@ Route::prefix('student')->group(function () {
 
     });
 
+
+    Route::get('/pagination', 'Users\Student\StudentController@Pagination'); // all reviews
+
+
 });
 
 /*

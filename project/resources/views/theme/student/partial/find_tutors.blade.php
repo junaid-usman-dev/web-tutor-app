@@ -13,70 +13,73 @@
 
                         @if ( count($tutors) > 0 )
 
-                        @foreach ($tutors as $tutor)
-                        <div class="post">
-                            <div class="user-block"><span
-                                    class="badge text-md badge-primary float-right">${{ $tutor->price_per_hour }}/hr</span>
-                                <img class="img-circle img-bordered-sm"
-                                    src="{{ url('/') }}/{{ $tutor->images->path }}/{{ $tutor->images->name }}"
-                                    alt="user image">
-                                <span class="username">
-                                    <a href="{{ url('student/tutor-profile') }}/{{ $tutor->id }}">{{ $tutor->first_name }}
-                                        {{ $tutor->last_name }}</a>
-                                </span>
-                                <span class="description">
-                                    {{-- foreach ($user->categories as $category) --}}
-                                    {{-- foreach ($category->subjects as $subject) --}}
-                                    @if ( count($tutor->subjects) > 0)
-                                        {{-- @foreach ($tutor->categories as $category) --}}
-                                            @foreach ($tutor->subjects as $subject)
-                                                {{ $subject->name }},
-                                            @endforeach
+                            @foreach ($tutors as $tutor)
+                                <div class="post">
+                                    <div class="user-block"><span
+                                            class="badge text-md badge-primary float-right">${{ $tutor->price_per_hour }}/hr</span>
+                                        <img class="img-circle img-bordered-sm"
+                                            src="{{ url('/') }}/{{ $tutor->images->path }}/{{ $tutor->images->name }}"
+                                            alt="user image">
+                                        <span class="username">
+                                            <a href="{{ url('student/tutor-profile') }}/{{ $tutor->id }}">{{ $tutor->first_name }}
+                                                {{ $tutor->last_name }}</a>
+                                        </span>
+                                        <span class="description">
+                                            {{-- foreach ($user->categories as $category) --}}
+                                            {{-- foreach ($category->subjects as $subject) --}}
+                                            @if ( count($tutor->subjects) > 0)
+                                                {{-- @foreach ($tutor->categories as $category) --}}
+                                                    @foreach ($tutor->subjects as $subject)
+                                                        {{ $subject->name }},
+                                                    @endforeach
 
-                                            {{-- {{ $subject->name }}, --}}
-                                        {{-- @endforeach --}}
-                                    @endif
-                                    
-                                </span>
+                                                    {{-- {{ $subject->name }}, --}}
+                                                {{-- @endforeach --}}
+                                            @endif
+                                            
+                                        </span>
 
+                                    </div>
+                                    <!-- /.user-block -->
+                                    <p>
+                                        {{ $tutor->summary }}
+                                    </p>
+
+                                    <span class="text-sm">
+                                        {{-- <i class="fas fa-star  text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i> --}}
+                                        @php
+                                            $total_rating = 0;
+                                            $obtain_rating = 0.0; // Obtain rating out of 5
+                                            $number_of_ratings = 0;
+                                            $total_review = 0; // Total Reviews
+                                        @endphp
+                                        @foreach ($tutor->reviews as $review) 
+                                            @php
+                                                $total_review = count($tutor->reviews);
+                                                $number_of_ratings = count($tutor->reviews)*5;
+                                                $total_rating += intval($review->star_rating); // calculating total reviews
+                                            @endphp
+                                        @endforeach
+                                        @php
+                                            if ($number_of_ratings != 0) {
+                                                $obtain_rating = ($total_rating/$number_of_ratings)*5; // obtaining rating reviews percentage out of 5
+                                            }
+                                        @endphp
+
+                                        <div class="my-rating-7 d-inline" data-rating="{{ $obtain_rating }}"></div>
+                                        {{ number_format($obtain_rating,1) }} ({{ $total_review }})
+                                    </span>
+                                    <p class="text-sm"> <em class="fas fa-clock  mr-1"></em>
+                                        <strong>15 hours tutoring english</strong> out of 563 hours. </p>
+                                </div>
+                            @endforeach
+                            <div class="card-tools">
+                                {{ $tutors->links() }}
                             </div>
-                            <!-- /.user-block -->
-                            <p>
-                                {{ $tutor->summary }}
-                            </p>
-
-                            <span class="text-sm">
-                                {{-- <i class="fas fa-star  text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i> --}}
-                                @php
-                                    $total_rating = 0;
-                                    $obtain_rating = 0.0; // Obtain rating out of 5
-                                    $number_of_ratings = 0;
-                                    $total_review = 0; // Total Reviews
-                                @endphp
-                                @foreach ($tutor->reviews as $review) 
-                                    @php
-                                        $total_review = count($tutor->reviews);
-                                        $number_of_ratings = count($tutor->reviews)*5;
-                                        $total_rating += intval($review->star_rating); // calculating total reviews
-                                    @endphp
-                                @endforeach
-                                @php
-                                    if ($number_of_ratings != 0) {
-                                        $obtain_rating = ($total_rating/$number_of_ratings)*5; // obtaining rating reviews percentage out of 5
-                                    }
-                                @endphp
-
-                                <div class="my-rating-7 d-inline" data-rating="{{ $obtain_rating }}"></div>
-                                {{ number_format($obtain_rating,1) }} ({{ $total_review }})
-                            </span>
-                            <p class="text-sm"> <em class="fas fa-clock  mr-1"></em>
-                                <strong>15 hours tutoring english</strong> out of 563 hours. </p>
-                        </div>
-                        @endforeach
                         @else
                         <p>Result does not match to your choice.</p>
                         @endif
@@ -198,7 +201,7 @@
                 563 hours. </p>
         </div> --}}
 
-        <div class="card-tools">
+        {{-- <div class="card-tools">
             <ul class="pagination pagination-sm float-right">
                 <li class="page-item"><a class="page-link" href="#">«</a></li>
                 <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -206,7 +209,7 @@
                 <li class="page-item"><a class="page-link" href="#">3</a></li>
                 <li class="page-item"><a class="page-link" href="#">»</a></li>
             </ul>
-        </div>
+        </div> --}}
     </div>
 </div>
 </div>

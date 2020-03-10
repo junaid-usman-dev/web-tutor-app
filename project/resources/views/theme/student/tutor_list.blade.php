@@ -144,9 +144,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             </label>
                                         </div>
                                     {{-- </form> --}}
-                                    <hr>
+                                    {{-- <hr> --}}
 
-                                    <p class="text-muted mb-1">
+                                    {{-- <p class="text-muted mb-1">
                                         <strong>Tutor Age:</strong> 18 and up
                                     </p>
                                     <div class="slider-light">
@@ -155,8 +155,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             data-slider-orientation="horizontal" data-slider-selection="before"
                                             data-slider-tooltip="show" >
                                     </div>
-                                    <hr>
-                                    <p class="text-muted mb-1">
+                                    <hr> --}}
+                                    {{-- <p class="text-muted mb-1">
                                         <strong> Gender:</strong>
                                     </p>
                                     <div class="form-group">
@@ -165,15 +165,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <option>Male</option>
                                             <option>Female</option>
                                         </select>
-                                    </div>
-                                    <div class="form-check">
+                                    </div> --}}
+                                    {{-- <div class="form-check">
                                         <input class="form-check-input" type="checkbox">
                                         <label class="form-check-label"><strong>Backgound check on file</strong></label>
-                                    </div>
+                                    </div> --}}
 
-                                    <hr>
+                                    {{-- <hr> --}}
 
-                                    <p class="text-muted mb-1">
+                                    {{-- <p class="text-muted mb-1">
                                         <strong> Student's Level:</strong>
                                     </p>
                                     <div class="form-group">
@@ -181,7 +181,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <option>Adult</option>
                                             <option>Child</option>
                                         </select>
-                                    </div>
+                                    </div> --}}
 
                                 </div>
                                 <!-- /.card-body -->
@@ -377,9 +377,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
             FilterMethod();
         });
 
+        $(document).on('click', 'nav ul.pagination a.page-link', function (event) {
+            event.preventDefault()
+
+            let url = $(this).attr('href')
+            let page = url.split('=')[1]
+            FilterMethod(page)
+        })
+
     });
 
-    function FilterMethod()
+    function FilterMethod(page = 1)
     {
         console.log("Tutor List.");
         var is_favorite = false;
@@ -388,13 +396,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
         // console.log("Filter Price : "+ filter_price);
         // console.log("Teaching Method : "+ teaching_m);
 
-
         console.log ("Ajax Calling !!!");
         // console.log("student/filter-by-teaching-meTthod'/"+teaching_methhod);
         jQuery.ajax({
             url: "{{ url('/student/tutor-list-filter') }}",
             type: "GET",
-            data: { 'is_favorite':is_favorite, 'teaching_method':teaching_method,'filter_price': filter_price },
+            data: { 'is_favorite':is_favorite, 'teaching_method':teaching_method,'filter_price': filter_price, 'page': page },
             success: function(data)
             {
                 if ( (data.success == null || data.success == undefined) )

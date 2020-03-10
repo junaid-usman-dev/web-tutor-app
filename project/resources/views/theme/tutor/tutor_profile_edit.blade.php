@@ -467,7 +467,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         <div class="form-group">
                                                             <label>Choose Subjects</label>
                                                             <div class="form-group">
-                                                                <select class="select2 @error('subject') is-invalid @enderror" name="subject[]" multiple="multiple"
+                                                                <select class="select2 @error('subject') is-invalid @enderror" name="subject" multiple="multiple"
                                                                     data-placeholder="Select a State"
                                                                     style="width: 100%;">
                                                                     @foreach ($subjects as $subject)
@@ -637,7 +637,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- AdminLTE App -->
     <script src="{{ asset('theme_asset/dist/js/adminlte.min.js') }}"></script>
     <!-- Bootstrap 4 -->
-    <script src="{{ asset('theme_asset/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    {{-- <script src="{{ asset('theme_asset/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script> --}}
     <!-- Select2 -->
     <script src="{{ asset('theme_asset/plugins/select2/js/select2.full.min.js') }}"></script>
     <!-- Bootstrap4 Duallistbox -->
@@ -700,26 +700,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 }
             )
 
-            //Timepicker
-            $('#timepicker').datetimepicker({
-                format: 'LT'
-            })
+            // // Timepicker
+            // $('#timepicker').datetimepicker({
+            //     format: 'LT'
+            // })
 
-            //Bootstrap Duallistbox
-            $('.duallistbox').bootstrapDualListbox()
+            // //Bootstrap Duallistbox
+            // $('.duallistbox').bootstrapDualListbox()
 
-            //Colorpicker
-            $('.my-colorpicker1').colorpicker()
-            //color picker with addon
-            $('.my-colorpicker2').colorpicker()
+            // //Colorpicker
+            // $('.my-colorpicker1').colorpicker()
+            // //color picker with addon
+            // $('.my-colorpicker2').colorpicker()
 
-            $('.my-colorpicker2').on('colorpickerChange', function (event) {
-                $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
-            });
+            // $('.my-colorpicker2').on('colorpickerChange', function (event) {
+            //     $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
+            // });
 
-            $("input[data-bootstrap-switch]").each(function () {
-                $(this).bootstrapSwitch('state', $(this).prop('checked'));
-            });
+            // $("input[data-bootstrap-switch]").each(function () {
+            //     $(this).bootstrapSwitch('state', $(this).prop('checked'));
+            // });
 
         });
 
@@ -734,9 +734,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
         jQuery(document).ready(function(){
-        //-----------------------------------------------------------------------
-        //         password popover
-        //-----------------------------------------------------------------------
+            $.ajaxSetup({ headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} });
+
+            //-----------------------------------------------------------------------
+            //         password popover
+            //-----------------------------------------------------------------------
             jQuery('.password-popover').popover({
                 trigger: 'focus'
             });
@@ -764,6 +766,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 }
             }
             jQuery(document).on('click', '#image', function(event) {
+                event.preventDefault();
                 jQuery('#upload_image').trigger('click')
             })
 
@@ -858,474 +861,470 @@ scratch. This page gets rid of all links and provides the needed markup only.
             //-------------------------------------------------------------------------------------------
             //              Validation and AJAX Calling
             //-------------------------------------------------------------------------------------------
-            jQuery(document).ready(function(){
+            // jQuery(document).ready(function(){
 
-                $.ajaxSetup({ headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} });
+                // $.ajaxSetup({ headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} });
+            jQuery(document).on('click', "#update", function(event){
+                event.preventDefault();
 
-                jQuery("#update").click(function(event){
-                    event.preventDefault();
+                console.log("Button Pressed.");
+                var id = jQuery("input[name=id]").val();
+                var fname = jQuery("input[name=fname]").val();
+                var lname = jQuery("input[name=lname]").val();
+                var email = jQuery("input[name=email]").val();
+                var phone = jQuery("input[name=phone]").val();
+                var birthday = jQuery("input[name=birthday]").val();
+                var old_password = jQuery("input[name=old_password]").val();
+                var new_password = jQuery("input[name=new_password]").val();
+                var confirm_password = jQuery("input[name=confirm_password]").val();
+                var country = jQuery("select[name=country] option:selected").val();
+                var state = jQuery("select[name=state] option:selected").val();
+                var city = jQuery("input[name=city]").val();
+                var zipcode = jQuery("input[name=zipcode]").val();
 
-                    console.log("Button Pressed.");
-                    var id = jQuery("input[name=id]").val();
-                    var fname = jQuery("input[name=fname]").val();
-                    var lname = jQuery("input[name=lname]").val();
-                    var email = jQuery("input[name=email]").val();
-                    var phone = jQuery("input[name=phone]").val();
-                    var birthday = jQuery("input[name=birthday]").val();
-                    var old_password = jQuery("input[name=old_password]").val();
-                    var new_password = jQuery("input[name=new_password]").val();
-                    var confirm_password = jQuery("input[name=confirm_password]").val();
-                    var country = jQuery("select[name=country] option:selected").val();
-                    var state = jQuery("select[name=state] option:selected").val();
-                    var city = jQuery("input[name=city]").val();
-                    var zipcode = jQuery("input[name=zipcode]").val();
+                // var subject = jQuery("select[name=subject] option:selected").val();
+                // var subject = jQuery("select[name=subject] option:selected");
+                var subject = jQuery("select[name=subject]").val();
 
-                    // var subject = jQuery("select[name=subject] option:selected").val();
-                    var subject = jQuery("select[name=subject]").val();
-                    var summary = jQuery("textarea[name=summary]").val();
-                    var price_per_hour = jQuery("input[name=price_per_hour]").val();
-                    var teaching_method = jQuery("input[name=teaching_method]:checked").val();
+                
+                var summary = jQuery("textarea[name=summary]").val();
+                var price_per_hour = jQuery("input[name=price_per_hour]").val();
+                var teaching_method = jQuery("input[name=teaching_method]:checked").val();
 
-                    // console.log("ID: ", id);
-                    // console.log("First Name: ", fname);
-                    // console.log("Last Name: ", lname);
-                    // console.log("Email: ", email);
-                    // console.log("Phone: ", phone);
-                    // console.log("birthday: ", birthday);
-                    // console.log("old_password: ", old_password);
-                    // console.log("new_password: ", new_password);
-                    // console.log("confirm_password: ", confirm_password);
-                    // console.log("country: ", country);
-                    // console.log("state: ", state);
-                    // console.log("city: ", city);
-                    // console.log("zipcode: ", zipcode);
-                    console.log("subject: ", subject);
-                    // console.log("subject: ", subject);
+                // console.log("ID: ", id);
+                // console.log("First Name: ", fname);
+                // console.log("Last Name: ", lname);
+                // console.log("Email: ", email);
+                // console.log("Phone: ", phone);
+                // console.log("birthday: ", birthday);
+                // console.log("old_password: ", old_password);
+                // console.log("new_password: ", new_password);
+                // console.log("confirm_password: ", confirm_password);
+                // console.log("country: ", country);
+                // console.log("state: ", state);
+                // console.log("city: ", city);
+                // console.log("zipcode: ", zipcode);
+                console.log(subject.length);
+                // console.log("subject: ", subject);
 
-                    // console.log("summary: ", summary);
-                    // console.log("Price Pr Hour: ", price_pr_hour);
-                    // console.log("Teaching Method: ", teaching_method);
-                    
-                    var is_id = false;
-                    var is_fname = false;
-                    var is_lname = false;
-                    var is_email = false;
-                    var is_phone = false;
-                    var is_birthday = false;
-                    var is_old_password = false;
-                    var is_new_password = false;
-                    var is_confirm_password = false;
-                    var is_country = false;
-                    var is_state = false;
-                    var is_city = false;
-                    var is_zipcode = false;
+                // console.log("summary: ", summary);
+                // console.log("Price Pr Hour: ", price_per_hour);
+                // console.log("Teaching Method: ", teaching_method);
+                
+                var is_id = false;
+                var is_fname = false;
+                var is_lname = false;
+                var is_email = false;
+                var is_phone = false;
+                var is_birthday = false;
+                var is_old_password = false;
+                var is_new_password = false;
+                var is_confirm_password = false;
+                var is_country = false;
+                var is_state = false;
+                var is_city = false;
+                var is_zipcode = false;
 
-                    var is_subject = false;
-                    var is_summary = false;
-                    var is_price_per_hour = false;
-                    var is_teaching_method = false;
-
-
-                    // console.log(fname);
-                    if (!id )
-                    {
-                        // Error
-                        is_id = false;
-                        // jQuery('.error-fn').css("display","block");
-                        // jQuery('.error-fn').html("First name field is required.");
-                        console.log("ID Missing.");
-                    }
-                    else
-                    {
-                        // Success
-                        is_id = true;
-                        // jQuery('.error-fn').css("display","none");
-                    }
-                    if (!fname )
-                    {
-                        // Error
-                        is_fname = false;
-                        jQuery('.error-fn').css("display","block");
-                        jQuery('.error-fn').html("First name field is required.");
-                    }
-                    else
-                    {
-                        // Success
-                        is_fname = true;
-                        jQuery('.error-fn').css("display","none");
-                    }
-                    if (!lname)
-                    {
-                        // Error
-                        is_lname = false;
-                        jQuery('.error-ln').css("display","block");
-                        jQuery('.error-ln').html("Last name field is required.");
-                    }
-                    else
-                    {
-                        // Success
-                        is_lname = true;
-                        jQuery('.error-ln').css("display","none");
-                    }
-                    if (!email)
-                    {
-                        // Error
-                        is_email = false;
-                        jQuery('.error-em').css("display","block");
-                        jQuery('.error-em').html("Email field is requried.");
-                    }
-                    else
-                    {
-                        // Success
-                        is_email = true;
-                        jQuery('.error-em').css("display","none");
-                    }
-                    if (!phone)
-                    {
-                        // Error
-                        is_phone = false;
-                        jQuery('.error-p').css("display","block");
-                        jQuery('.error-p').html("Phone field is requried.");
-                    }
-                    else
-                    {
-                        // Success
-                        is_phone = true;
-                        jQuery('.error-p').css("display","none");
-                    }
-                    if (!birthday)
-                    {
-                        // Error
-                        is_birthday = false;
-                        jQuery('.error-b').css("display","block");
-                        jQuery('.error-b').html("Birthday field is requried.");
-                    }
-                    else
-                    {
-                        // Success
-                        is_birthday = true;
-                        jQuery('.error-b').css("display","none");
-                    }
-                    if (!old_password)
-                    {
-                        // Error
-                        is_old_password = false;
-                        // jQuery('.error-p').css("display","block");
-                        // jQuery('.error-p').html("Password field is requried.");
-                    }
-                    else
-                    {
-                        // Success
-                        is_old_password = true;
-                        jQuery('.error-p').css("display","none");
-                    }
-                    if (!new_password)
-                    {
-                        // Error
-                        is_new_password = false;
-                        // jQuery('.error-np').css("display","block");
-                        // jQuery('.error-np').html("Password field is requried.");
-                    }
-                    else
-                    {
-                        // Success
-                        is_new_password = true;
-                        jQuery('.error-np').css("display","none");
-                    }
-                    if (!confirm_password)
-                    {
-                        // Error
-                        is_confirm_password = false;
-                        // jQuery('.error-cp').css("display","block");
-                        // jQuery('.error-cp').html("Password field is requried.");
-                    }
-                    else
-                    {
-                        // Success
-                        is_confirm_password = true;
-                        jQuery('.error-cp').css("display","none");
-                    }
-                    if (!country)
-                    {
-                        // Error
-                        is_country = false;
-                        jQuery('.error-c').css("display","block");
-                        jQuery('.error-c').html("Country field is requried.");
-                    }
-                    else
-                    {
-                        // Success
-                        is_country = true;
-                        jQuery('.error-c').css("display","none");
-                    }
-                    if (!state)
-                    {
-                        // Error
-                        is_state = false;
-                        jQuery('.error-s').css("display","block");
-                        jQuery('.error-s').html("State field is requried.");
-                    }
-                    else
-                    {
-                        // Success
-                        is_state = true;
-                        jQuery('.error-s').css("display","none");
-                    }
-                    if (!city)
-                    {
-                        // Error
-                        is_city = false;
-                        jQuery('.error-cty').css("display","block");
-                        jQuery('.error-cty').html("City field is requried.");
-                    }
-                    else
-                    {
-                        // Success
-                        is_city = true;
-                        jQuery('.error-cty').css("display","none");
-                    }
-                    if (!zipcode)
-                    {
-                        // Error
-                        is_zipcode = false;
-                        jQuery('.error-zc').css("display","block");
-                        jQuery('.error-zc').html("Zipcode field is requried.");
-                    }
-                    else
-                    {
-                        // Success
-                        is_zipcode = true;
-                        jQuery('.error-zc').css("display","none");
-                    }
-
-                    if (subject.length < 1)
-                    {
-                        // Error
-                        is_subject = false;
-                        jQuery('.error-sb').css("display","block");
-                        jQuery('.error-sb').html("Subject field is requried.");
-                    }
-                    else
-                    {
-                        // Success
-                        is_subject = true;
-                        jQuery('.error-sb').css("display","none");
-                    }
-                    if (!summary)
-                    {
-                        // Error
-                        is_summary = false;
-                        jQuery('.error-sm').css("display","block");
-                        jQuery('.error-sm').html("Summary field is requried.");
-                    }
-                    else
-                    {
-                        // Success
-                        is_summary = true;
-                        jQuery('.error-sm').css("display","none");
-                    }
-                    if (!price_per_hour)
-                    {
-                        // Error
-                        is_price_per_hour = false;
-                        jQuery('.error-pph').css("display","block");
-                        jQuery('.error-pph').html("Price per hour field is requried.");
-                    }
-                    else
-                    {
-                        // Success
-                        is_price_per_hour = true;
-                        jQuery('.error-pph').css("display","none");
-                    }
-                    if (!teaching_method)
-                    {
-                        // Error
-                        is_teaching_method = false;
-                        // jQuery('.error-zc').css("display","block");
-                        // jQuery('.error-zc').html("Zipcode field is requried.");
-                    }
-                    else
-                    {
-                        // Success
-                        is_teaching_method = true;
-                        // jQuery('.error-zc').css("display","none");
-                    }
+                var is_subject = false;
+                var is_summary = false;
+                var is_price_per_hour = false;
+                var is_teaching_method = false;
 
 
-                    if( (is_id== true) && (is_fname== true) && (is_lname== true) && (is_email== true) && 
-                        (is_phone== true) && (is_birthday== true) && (is_country== true) && (is_state== true) && 
-                        (is_zipcode== true ) && (is_subject == true) && (is_summary == true) &&
-                        (is_price_per_hour == true) && (is_teaching_method) )
+                // console.log(fname);
+                if (!id )
+                {
+                    // Error
+                    is_id = false;
+                    // jQuery('.error-fn').css("display","block");
+                    // jQuery('.error-fn').html("First name field is required.");
+                    console.log("ID Missing.");
+                }
+                else
+                {
+                    // Success
+                    is_id = true;
+                    // jQuery('.error-fn').css("display","none");
+                }
+                if (!fname )
+                {
+                    // Error
+                    is_fname = false;
+                    jQuery('.error-fn').css("display","block");
+                    jQuery('.error-fn').html("First name field is required.");
+                }
+                else
+                {
+                    // Success
+                    is_fname = true;
+                    jQuery('.error-fn').css("display","none");
+                }
+                if (!lname)
+                {
+                    // Error
+                    is_lname = false;
+                    jQuery('.error-ln').css("display","block");
+                    jQuery('.error-ln').html("Last name field is required.");
+                }
+                else
+                {
+                    // Success
+                    is_lname = true;
+                    jQuery('.error-ln').css("display","none");
+                }
+                if (!email)
+                {
+                    // Error
+                    is_email = false;
+                    jQuery('.error-em').css("display","block");
+                    jQuery('.error-em').html("Email field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_email = true;
+                    jQuery('.error-em').css("display","none");
+                }
+                if (!phone)
+                {
+                    // Error
+                    is_phone = false;
+                    jQuery('.error-p').css("display","block");
+                    jQuery('.error-p').html("Phone field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_phone = true;
+                    jQuery('.error-p').css("display","none");
+                }
+                if (!birthday)
+                {
+                    // Error
+                    is_birthday = false;
+                    jQuery('.error-b').css("display","block");
+                    jQuery('.error-b').html("Birthday field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_birthday = true;
+                    jQuery('.error-b').css("display","none");
+                }
+                if (!old_password)
+                {
+                    // Error
+                    is_old_password = false;
+                    // jQuery('.error-p').css("display","block");
+                    // jQuery('.error-p').html("Password field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_old_password = true;
+                    jQuery('.error-p').css("display","none");
+                }
+                if (!new_password)
+                {
+                    // Error
+                    is_new_password = false;
+                    // jQuery('.error-np').css("display","block");
+                    // jQuery('.error-np').html("Password field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_new_password = true;
+                    jQuery('.error-np').css("display","none");
+                }
+                if (!confirm_password)
+                {
+                    // Error
+                    is_confirm_password = false;
+                    // jQuery('.error-cp').css("display","block");
+                    // jQuery('.error-cp').html("Password field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_confirm_password = true;
+                    jQuery('.error-cp').css("display","none");
+                }
+                if (!country)
+                {
+                    // Error
+                    is_country = false;
+                    jQuery('.error-c').css("display","block");
+                    jQuery('.error-c').html("Country field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_country = true;
+                    jQuery('.error-c').css("display","none");
+                }
+                if (!state)
+                {
+                    // Error
+                    is_state = false;
+                    jQuery('.error-s').css("display","block");
+                    jQuery('.error-s').html("State field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_state = true;
+                    jQuery('.error-s').css("display","none");
+                }
+                if (!city)
+                {
+                    // Error
+                    is_city = false;
+                    jQuery('.error-cty').css("display","block");
+                    jQuery('.error-cty').html("City field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_city = true;
+                    jQuery('.error-cty').css("display","none");
+                }
+                if (!zipcode)
+                {
+                    // Error
+                    is_zipcode = false;
+                    jQuery('.error-zc').css("display","block");
+                    jQuery('.error-zc').html("Zipcode field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_zipcode = true;
+                    jQuery('.error-zc').css("display","none");
+                }
+
+                if (subject.length < 1)
+                {
+                    // Error
+                    is_subject = false;
+                    jQuery('.error-sb').css("display","block");
+                    jQuery('.error-sb').html("Subject field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_subject = true;
+                    jQuery('.error-sb').css("display","none");
+                }
+                if (!summary)
+                {
+                    // Error
+                    is_summary = false;
+                    jQuery('.error-sm').css("display","block");
+                    jQuery('.error-sm').html("Summary field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_summary = true;
+                    jQuery('.error-sm').css("display","none");
+                }
+                if (!price_per_hour)
+                {
+                    // Error
+                    is_price_per_hour = false;
+                    jQuery('.error-pph').css("display","block");
+                    jQuery('.error-pph').html("Price per hour field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_price_per_hour = true;
+                    jQuery('.error-pph').css("display","none");
+                }
+                if (!teaching_method)
+                {
+                    // Error
+                    is_teaching_method = false;
+                    // jQuery('.error-zc').css("display","block");
+                    // jQuery('.error-zc').html("Zipcode field is requried.");
+                }
+                else
+                {
+                    // Success
+                    is_teaching_method = true;
+                    // jQuery('.error-zc').css("display","none");
+                }
+
+
+                if( (is_id== true) && (is_fname== true) && (is_lname== true) && (is_email== true) && 
+                    (is_phone== true) && (is_birthday== true) && (is_country== true) && (is_state== true) && 
+                    (is_zipcode== true ) && (is_subject == true) && (is_summary == true) &&
+                    (is_price_per_hour == true) && (is_teaching_method) )
+                {
+                    // IF user want to udpate his/her password
+                    if ( (is_old_password == true) || (is_new_password == true) || (is_old_password == true) )
                     {
-                        // IF user want to udpate his/her password
-                        if ( (is_old_password == true) || (is_new_password == true) || (is_old_password == true) )
+                        //------------------------------------------------------------------------
+                        // User want to update his/her password
+                        //------------------------------------------------------------------------
+                        if ( is_old_password == true )
                         {
-                            //------------------------------------------------------------------------
-                            // User want to update his/her password
-                            //------------------------------------------------------------------------
-                            if ( is_old_password == true )
+                            // Success
+                            if (is_new_password == true)
                             {
-                                // Success
-                                if (is_new_password == true)
+                                // Success: Old and New Password Found
+                                jQuery(".error-op").css("display", "none");
+                                jQuery(".error-np").css("display", "none");
+                                if ( new_password == confirm_password )
                                 {
-                                    // Success: Old and New Password Found
-                                    jQuery(".error-op").css("display", "none");
-                                    jQuery(".error-np").css("display", "none");
-                                    if ( new_password == confirm_password )
-                                    {
-                                        // Success: New Password and Confirm Password Match 
-                                        jQuery(".profile-error").css("display", "none");
-                                        console.log ("Ajax Calling !!! Update profile with password.");
-                                        jQuery.ajax({
-                                            url: "{{ url('/tutor/update') }}",
-                                            type: "POST",
-                                            data: { 
-                                                  'id':id, 'fname':fname, 'lname':lname, 'email':email, 'phone':phone,
-                                                  'birthday':birthday, 'country':country, 'state':state, 'city':city, 
-                                                  'zipcode':zipcode,'old_password':old_password, 'new_password':new_password,
-                                                  'confirm_password':confirm_password, 'subject':subject, 'summary':summary,
-                                                  'price_per_hour':price_per_hour, 'teaching_method':teaching_method
-                                                  },
-                                            success: function(response)
-                                            {
-                                                if ( (response.success == null || response.success == undefined) )
-                                                {
-                                                    console.log("Error Message");
-                                                    jQuery(".profile-success").css("display", "none");
-                                                    jQuery(".error-op").css("display", "block");
-                                                    jQuery('.error-op').html(response.error);
-                                                }
-                                                else  
-                                                {
-                                                    console.log("Success Message");
-                                                    jQuery(".profile-error").css("display", "none");
-                                                    jQuery('.error-op').css("display","none");
-                                                    jQuery(".profile-success").css("display", "block");
-                                                    jQuery('.profile-success').html(response.success);
-
-                                                    // jQuery("#error_creditional").empty();
-                                                    // jQuery('#login_success').html(response.success);
-                                                    
-                                                    // location.href = "{{ url('/student/edit') }}"						
-                                                }
-                                            }
-                                        });
-                                    
-                                    }
-                                    else
-                                    {
-                                        // Error
-                                        jQuery(".error-op").css("display", "block");
-                                        jQuery('.error-op').html("New and Confirm Password Does not Match.");
-                                    }
+                                    // Success: New Password and Confirm Password Match 
+                                    jQuery(".profile-error").css("display", "none");
+                                    console.log("Calling Function to upadate password" ); 
+                                    PasswordProfile(id, fname, lname, email, phone, birthday, country,state, city, zipcode, subject, summary, price_per_hour, teaching_method, old_password, new_password, confirm_password);
+                                
                                 }
                                 else
                                 {
-                                    // Error: New password is missing
-                                    jQuery('.error-np').css("display","block");
-                                    jQuery('.error-np').html("Password field is requried.");
+                                    // Error
+                                    jQuery(".error-op").css("display", "block");
+                                    jQuery('.error-op').html("New and Confirm Password Does not Match.");
                                 }
                             }
                             else
                             {
-                                // Error: Old password is missing
-                                jQuery('.error-p').css("display","block");
-                                jQuery('.error-p').html("Password field is requried.");
+                                // Error: New password is missing
+                                jQuery('.error-np').css("display","block");
+                                jQuery('.error-np').html("Password field is requried.");
                             }
                         }
                         else
                         {
-                            //------------------------------------------------------------------------
-                            // User does not want to update his/her password
-                            //------------------------------------------------------------------------
-                            jQuery(".profile-error").css("display", "none");
-                            console.log ("Ajax Calling !!! Update profile without password.");
-                            jQuery.ajax({
-                                url: "{{ url('/tutor/update') }}",
-                                type: "POST",
-                                data: {
-                                        'id':id, 'fname':fname, 'lname':lname, 'email':email, 'phone':phone,
-                                        'birthday':birthday, 'country':country, 'state':state, 'city':city, 
-                                        'zipcode':zipcode, 'subject':subject, 'summary':summary,
-                                        'price_per_hour':price_per_hour, 'teaching_method':teaching_method
-                                       },
-                                success: function(response)
-                                {
-                                    if ( (response.success == null || response.success == undefined) )
-                                    {
-                                        console.log("Error Message");
-                                        jQuery(".profile-error").css("display", "block");
-                                        jQuery(".profile-success").css("display", "none");
-                                        // jQuery("#login_success").empty();
-                                        // jQuery('.alert-danger').html(response.error);
-                                    }
-                                    else  
-                                    {
-                                        console.log("Success Message");
-                                        jQuery(".profile-error").css("display", "none");
-                                        jQuery(".profile-success").css("display", "block");
-
-                                        // jQuery("#error_creditional").empty();
-                                        jQuery('.profile-success').html(response.success);
-                                        
-                                        // location.href = "{{ url('/student/edit') }}"						
-                                    }
-                                }
-                            });
+                            // Error: Old password is missing
+                            jQuery('.error-p').css("display","block");
+                            jQuery('.error-p').html("Password field is requried.");
                         }
                     }
                     else
                     {
-                        console.log('These are required fields.');
-                        jQuery(".profile-error").css("display", "block");
-                        jQuery(".profile-success").css("display", "none");
-                        // jQuery(".alert-danger").text('Error! These are required fields.');
+                        //------------------------------------------------------------------------
+                        // User does not want to update his/her password
+                        //------------------------------------------------------------------------
+                        jQuery(".profile-error").css("display", "none");
+                        console.log ("Function Calling !!! Update profile without password.");
+                        UpdateProfile(id, fname, lname, email, phone, birthday, country,state, city, zipcode, subject, summary, price_per_hour, teaching_method );
+                        
                     }
-                });
-          });
-          //-------------------------------------------------------------------------------------------
-          //             End Validation and AJAX Calling
-          //-------------------------------------------------------------------------------------------
-
-          // console.log ("Ajax Calling !!! Update profile Image.");
-          // jQuery.ajax({
-          //     url: "{{ url('/tutor/update') }}",
-          //     type: "POST",
-          //     data: { 
-          //           'id':id, 'fname':fname, 'lname':lname, 'email':email, 'phone':phone,
-          //           'birthday':birthday, 'country':country, 'state':state, 'city':city, 
-          //           'zipcode':zipcode,'old_password':old_password, 'new_password':new_password,
-          //           'confirm_password':confirm_password, 'subject':subject, 'summary':summary,
-          //           'price_per_hour':price_per_hour, 'teaching_method':teaching_method
-          //           },
-          //     success: function(response)
-          //     {
-          //         if ( (response.success == null || response.success == undefined) )
-          //         {
-          //             console.log("Error Message");
-          //             jQuery(".profile-success").css("display", "none");
-          //             jQuery(".error-op").css("display", "block");
-          //             jQuery('.error-op').html(response.error);
-          //         }
-          //         else  
-          //         {
-          //             console.log("Success Message");
-          //             jQuery(".profile-error").css("display", "none");
-          //             jQuery('.error-op').css("display","none");
-          //             jQuery(".profile-success").css("display", "block");
-          //             jQuery('.profile-success').html(response.success);
-
-          //             // jQuery("#error_creditional").empty();
-          //             // jQuery('#login_success').html(response.success);
-                      
-          //             // location.href = "{{ url('/student/edit') }}"						
-          //         }
-          //     }
-          // });
-
-
+                }
+                else
+                {
+                    console.log('These are required fields.');
+                    jQuery(".profile-error").css("display", "block");
+                    jQuery(".profile-success").css("display", "none");
+                    // jQuery(".alert-danger").text('Error! These are required fields.');
+                }
+            });
 
         });
+
+        // ----------------------------------------------------------------
+        // Update Profile with password
+        // ----------------------------------------------------------------
+        function PasswordProfile ( id, fname, lname, email, phone, birthday, country,state, city, zipcode, subject, summary, price_per_hour, teaching_method, old_password, new_password, confirm_password )
+        {
+            console.log ("Ajax Calling !!! Update profile with password.");
+            jQuery.ajax({
+                url: "{{ url('/tutor/update') }}",
+                type: "POST",
+                data: { 
+                        'id':id, 'fname':fname, 'lname':lname, 'email':email, 'phone':phone,
+                        'birthday':birthday, 'country':country, 'state':state, 'city':city, 
+                        'zipcode':zipcode, 'subject': subject, 'summary':summary,
+                        'price_per_hour':price_per_hour, 'teaching_method':teaching_method,
+                        'old_password':old_password, 'new_password':new_password, 'confirm_password':confirm_password
+                        },
+                success: function(response)
+                {
+                    if ( (response.success == null || response.success == undefined) )
+                    {
+                        console.log("Error Message");
+                        jQuery(".profile-success").css("display", "none");
+                        jQuery(".error-op").css("display", "block");
+                        jQuery('.error-op').html(response.error);
+                    }
+                    else  
+                    {
+                        console.log("Success Message");
+                        jQuery(".profile-error").css("display", "none");
+                        jQuery('.error-op').css("display","none");
+                        jQuery(".profile-success").css("display", "block");
+                        jQuery('.profile-success').html(response.success);
+
+                        // jQuery("#error_creditional").empty();
+                        // jQuery('#login_success').html(response.success);
+                        
+                        // location.href = "{{ url('/student/edit') }}"						
+                    }
+                }
+            });
+        }
+
+        // ----------------------------------------------------------------
+        // Update Profile without udating password
+        // ----------------------------------------------------------------
+        function UpdateProfile ( id, fname, lname, email, phone, birthday, country,state, city, zipcode, subject, summary, price_per_hour, teaching_method )
+        {
+            console.log ("Ajax Calling !!! Update profile without password updating.");
+            // console.log(id);
+            // console.log(fname);
+            // console.log( lname);
+            // console.log( email);
+            // console.log( phone);
+            // console.log( birthday);
+            // console.log( country);
+            // console.log(state);
+            // console.log( city);
+            // console.log( zipcode);
+            // console.log( "Subject: "+ subject.lenght); // missing
+            // console.log("Summary : "+ summary); // missing
+            // console.log( price_per_hour);
+            // console.log( teaching_method);
+            
+            jQuery.ajax({
+                url: "{{ url('/tutor/update') }}",
+                type: "POST",
+                data: {
+                        'id':id, 'fname':fname, 'lname':lname, 'email':email, 'phone':phone,
+                        'birthday':birthday, 'country':country, 'state':state, 'city':city, 
+                        'zipcode':zipcode, 'subject': subject, 'summary':summary,
+                        'price_per_hour':price_per_hour, 'teaching_method':teaching_method
+                        },
+                success: function(response)
+                {
+                    if ( (response.success == null || response.success == undefined) )
+                    {
+                        console.log("Error Message");
+                        jQuery(".profile-error").css("display", "block");
+                        jQuery(".profile-success").css("display", "none");
+                        // jQuery("#login_success").empty();
+                        // jQuery('.alert-danger').html(response.error);
+                    }
+                    else  
+                    {
+                        console.log("Success Message");
+                        jQuery(".profile-error").css("display", "none");
+                        jQuery(".profile-success").css("display", "block");
+
+                        // jQuery("#error_creditional").empty();
+                        jQuery('.profile-success').html(response.success);
+                        
+                        // location.href = "{{ url('/student/edit') }}"						
+                    }
+                }
+            });
+        }
+
+
 
     </script>
 </body>

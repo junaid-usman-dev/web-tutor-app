@@ -369,26 +369,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
     //     var chkYes = document.getElementById("teaching_method");
     // }
 
-    jQuery(document).ready(function(){
-        $.ajaxSetup({ headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} });
+    // jQuery(document).ready(function(){
+    //     $.ajaxSetup({ headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} });
 
-        jQuery("input[name='teaching_method']").change(function(event){
-            event.preventDefault();
-            FilterMethod ();
-        });
+    //     jQuery("input[name='teaching_method']").change(function(event){
+    //         event.preventDefault();
+    //         FilterMethod ();
+    //     });
 
-        jQuery("input[name='filter_price']").change(function(event){
-            event.preventDefault();
+    //     jQuery("input[name='filter_price']").change(function(event){
+    //         event.preventDefault();
             
-            // var filter_price = jQuery("#filter_price:min").val();
+    //         // var filter_price = jQuery("#filter_price:min").val();
 
-            // console.log(filter_price);
-            // console.log("Price Filter Running.");
-            FilterMethod();
+    //         // console.log(filter_price);
+    //         // console.log("Price Filter Running.");
+    //         FilterMethod();
 
-        });
+    //     });
 
-    });
+    // });
 
     function FilterMethod()
     {

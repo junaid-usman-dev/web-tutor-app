@@ -410,24 +410,27 @@ class StudentController extends Controller
         if (Auth::user()->type== "student")
         {
             $user = User::findOrFail($user_id);
-            $favorites =  Favorite::where('user_id',$user_id)->get();
-            if ( count($favorites) > 0)
-            {
-                // dd ($favorites);
-                foreach ($favorites as $favorite)
-                {
-                    $tutor = new \stdClass();
-                    $tutor = User::where('id',$favorite->favorite_user_id)->first();
+            $favorites =  Favorite::where('user_id',$user_id)->pluck('favorite_user_id');
+            $tutors = User::whereIn('id',$favorites)->paginate(15);
+
+            // if ( count($favorites) > 0)
+            // {
+            //     // dd ($favorites);
+            //     foreach ($favorites as $favorite)
+            //     {
+            //         $tutor = new \stdClass();
+            //         $tutor = User::where('id',$favorite->favorite_user_id)->first();
                 
-                    $tutors[] = clone $tutor;
-                }
-            }
-            else
-            {
-                $tutors = array();
-                // dd ($tutors);
-            }
-        
+            //         $tutors[] = clone $tutor;
+            //     }
+            // }
+            // else
+            // {
+            //     $tutors = array();
+            //     // dd ($tutors);
+            // }
+            // $tutors = $tutors->paginate(5);
+
             $min_price = User::min('price_per_hour');
             $max_price = User::max('price_per_hour');
             return view ('theme.student.favorite_tutors')->with([
@@ -535,7 +538,7 @@ class StudentController extends Controller
         if (Auth::user()->type== "student")
         {
             $user = User::findOrFail(Auth::user()->id);
-            $tutors = User::all()->where('type', 'tutor');
+            $tutors = User::where('type', 'tutor')->paginate(15);
             
             $min_price = User::min('price_per_hour');
             $max_price = User::max('price_per_hour');
@@ -573,85 +576,125 @@ class StudentController extends Controller
         {
             $user = User::findOrFail(Auth::user()->id);
             // $tutors = User::all()->where('type', 'tutor');
-            $tutors = User::all()->where('type', 'tutor');
+            $tutors = User::where('type', 'tutor')
+                            ->where(function ($query) use ($teaching_method, $filter_price) {
+                                $query->where(function ($query) use ($teaching_method) {
+                                    if ($teaching_method == 'both')
+                                    {
+                                        $query->where('teaching_method', 'both')
+                                                ->orWhere('teaching_method', 'online')
+                                                ->orWhere('teaching_method', 'in-person');
+                                    }
+                                    else if ($teaching_method == "online")
+                                    {
+                                        $query->where('teaching_method', 'both')
+                                                ->orWhere('teaching_method', 'online');
+                                    }
+                                    else if ($teaching_method == "in-person")
+                                    {
+                                        $query->where('teaching_method', 'both')
+                                                ->orWhere('teaching_method', 'in-person');
+                                    }
+                                    else
+                                    {
+                                        // $query->where('teaching_method', 'both');
+                                        $query->where('teaching_method', 'both')
+                                                ->orWhere('teaching_method', 'online')
+                                                ->orWhere('teaching_method', 'in-person');
+                                    }
+                                });
 
-            if ( !empty($teaching_method) )
-            {
-                if ($teaching_method == "online")
-                {
-                    // online
-                    // if ($is_favorite == "1")
-                    // {
-                    //     $user_id = Auth::user()->id;
-                    //     $favorites =  Favorite::where('user_id',$user_id)->get();
-                    //     // dd ($favorites);
-                    //     foreach ($favorites as $favorite)
-                    //     {
-                    //         $tutor = new \stdClass();
-                    //         $tutor = User::where('id',$favorite->favorite_user_id)->where('type', 'online')->orWhere('type','both')->first();
+                                // price filter
+                                if (!empty($filter_price))
+                                {
+                                    $price = explode(",",$filter_price);
+                                    $min_price = $price[0];
+                                    $max_price = $price[1];
+
+                                    $query->where(function ($query) use ($min_price, $max_price) {
+                                        $query->orWhere('price_per_hour', '>=',$min_price)->where('price_per_hour','<=',$max_price);
+                                    });
+                                }
+                            })
+                            ->paginate(15);
+                // dd ($tutors);
+            // if ( !empty($teaching_method) )
+            // {
+            //     if ($teaching_method == "online")
+            //     {
+            //         // online
+            //         // if ($is_favorite == "1")
+            //         // {
+            //         //     $user_id = Auth::user()->id;
+            //         //     $favorites =  Favorite::where('user_id',$user_id)->get();
+            //         //     // dd ($favorites);
+            //         //     foreach ($favorites as $favorite)
+            //         //     {
+            //         //         $tutor = new \stdClass();
+            //         //         $tutor = User::where('id',$favorite->favorite_user_id)->where('type', 'online')->orWhere('type','both')->first();
                         
-                    //         $tutors_array[] = clone $tutor;
-                    //     }
-                    //     $tutors = $tutors_array;
-                    // }
-                    // else
-                    // {
-                        $tutors = $tutors->filter(function($tutor) {
-                            if ($tutor->teaching_method == 'online' || $tutor->teaching_method == 'both')
-                            {
-                                return true;
-                            }
-                            return false;
-                        });
-                    // }
-                    // $tutor_list = view ('theme.student.partial.find_tutors')->with(['user'=> $user, 'tutors'=>$tutors])->render();
-                    // return response()->json([
-                    //     'success' => true,
-                    //     'tutor_list' => $tutor_list,
-                    // ]);
+            //         //         $tutors_array[] = clone $tutor;
+            //         //     }
+            //         //     $tutors = $tutors_array;
+            //         // }
+            //         // else
+            //         // {
+            //             $tutors = $tutors->filter(function($tutor) {
+            //                 if ($tutor->teaching_method == 'online' || $tutor->teaching_method == 'both')
+            //                 {
+            //                     return true;
+            //                 }
+            //                 return false;
+            //             });
+            //         // }
+            //         // $tutor_list = view ('theme.student.partial.find_tutors')->with(['user'=> $user, 'tutors'=>$tutors])->render();
+            //         // return response()->json([
+            //         //     'success' => true,
+            //         //     'tutor_list' => $tutor_list,
+            //         // ]);
                     
-                }
-                else if ($teaching_method == "in-person")
-                {
-                    // if ($is_favorite == "1")
-                    // {
-                    //     $user_id = Auth::user()->id;
-                    //     $favorites =  Favorite::where('user_id',$user_id)->get();
-                    //     // dd ($favorites);
-                    //     foreach ($favorites as $favorite)
-                    //     {
-                    //         $tutor = new \stdClass();
-                    //         $tutor = User::where('id',$favorite->favorite_user_id)->where('type', 'in-person')->orWhere('type','both')->first();
+            //     }
+            //     else if ($teaching_method == "in-person")
+            //     {
+            //         // if ($is_favorite == "1")
+            //         // {
+            //         //     $user_id = Auth::user()->id;
+            //         //     $favorites =  Favorite::where('user_id',$user_id)->get();
+            //         //     // dd ($favorites);
+            //         //     foreach ($favorites as $favorite)
+            //         //     {
+            //         //         $tutor = new \stdClass();
+            //         //         $tutor = User::where('id',$favorite->favorite_user_id)->where('type', 'in-person')->orWhere('type','both')->first();
                         
-                    //         $tutors_array[] = clone $tutor;
-                    //     }
-                    //     $tutors = $tutors_array;
-                    // }
-                    // else
-                    // {
-                        $tutors = $tutors->filter(function($tutor) {
-                            if ($tutor->teaching_method == 'in-person' || $tutor->teaching_method == 'both')
-                            {
-                                return true;
-                            }
-                            return false;
-                        });
-                    // }
-                }
-                else
-                {
-                    // $tutors = User::where('type','tutor');
-                }
-            }
-            if ( !empty($filter_price) )
-            {
-                // $min = implode(",",$filter_price);
-                $price = explode(",",$filter_price);
-                $min_price = $price[0];
-                $max_price = $price[1];
+            //         //         $tutors_array[] = clone $tutor;
+            //         //     }
+            //         //     $tutors = $tutors_array;
+            //         // }
+            //         // else
+            //         // {
+            //             $tutors = $tutors->filter(function($tutor) {
+            //                 if ($tutor->teaching_method == 'in-person' || $tutor->teaching_method == 'both')
+            //                 {
+            //                     return true;
+            //                 }
+            //                 return false;
+            //             });
+            //         // }
+            //     }
+            //     else
+            //     {
+            //         // $tutors = User::where('type','tutor');
+            //     }
+            // }
+            // if ( !empty($filter_price) )
+            // {
+            //     // $min = implode(",",$filter_price);
+            //     $price = explode(",",$filter_price);
+            //     $min_price = $price[0];
+            //     $max_price = $price[1];
 
-                $tutors = $tutors->where('price_per_hour', '>=',$min_price)->where('price_per_hour','<=',$max_price); 
-            }
+            //     $tutors = $tutors->where('price_per_hour', '>=',$min_price)->where('price_per_hour','<=',$max_price); 
+            // }
 
             // $tutor_list = $price_filter . $method_filter;
             $tutor_list = view ('theme.student.partial.find_tutors')->with(['user'=> $user, 'tutors'=>$tutors])->render();
@@ -721,12 +764,45 @@ class StudentController extends Controller
 
         $user = Auth::user();
         // dd ($user); // Auth User
-        $tutor = User::findOrFail($id);
-        $review = User::where('id', $id);
+        // $tutor = User::findOrFail($id);
+        $reviews = Review::orderBy('id','DESC')->where("tutor_id",$id )->paginate(10);
+
+        // dd ($reviews[0]->user->first_name);
+        // foreach ($reviews as $review)
+        // {
+        //     // dd ( $review[0]->user );
+        // }
         
         // dd ( $review->user );
-        return view('theme.student.tutor_review')->with(['user'=>$user, 'tutor'=>$tutor ]);
+        return view('theme.student.tutor_review')->with(['user'=>$user, 'reviews'=>$reviews ]);
+        // return view('test')->with[''];
+
     }
+
+    /*
+    * Tutor Review
+    *
+    *@return \Illuminate\Http\Response
+    */
+    public function Pagination(Request $request )
+    {
+
+        $user = Auth::user();
+        // dd ($user); // Auth User
+        $reviews = Review::where("tutor_id", "7" )->get();
+        // $all_review = [];
+        // $all_review = $tutor->reviews;
+        // dd ($tutor);
+        foreach ($reviews as $review)
+        {
+            // dd ($review->title, $review->user->first_name, $review->);
+        }
+        // dd ( $review->user );
+        // return view('theme.student.tutor_review')->with(['user'=>$user, 'tutor'=>$tutor ]);
+        return view('test')->with(['reviews' => $reviews]);
+
+    }
+
     /*
     * Tutor Review
     *

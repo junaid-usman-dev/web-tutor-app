@@ -526,7 +526,7 @@
                                         The tutor has no review.
                                     @endif
                                     
-                                    <hr>
+                                    {{-- <hr>
                                     <div style="margin-top: 20px; ">
                                         <h3> <b>Other Fort Collins, CO Tutors</b></h3>
                                         <p> <a href="#">Fort Collins</a>, <a href="#">CO Math
@@ -538,7 +538,7 @@
                                                 Collins</a>, <a href="#">CO English Tutors -
                                                 Fort Collins</a>, <a href="#">CO Art Lessons</a>
                                         </p>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                             </p>

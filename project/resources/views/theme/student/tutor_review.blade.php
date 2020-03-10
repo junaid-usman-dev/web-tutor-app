@@ -79,7 +79,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <!-- text input -->
                                                 <div class="form-group">
 
-                                                    @if ( count($tutor->reviews) > 0 )
+                                                    {{-- @if ( count($tutor->reviews) > 0 )
                                                         @foreach ($tutor->reviews->sortByDesc('id') as $review)
                                                             <p>
                                                                 <b>{{ $review->title }}</b></br>
@@ -90,6 +90,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 </span>
                                                             </p>
                                                         @endforeach
+                                                    @else
+                                                        The tutor has no review.
+                                                    @endif --}}
+
+
+                                                    @if ( count($reviews) > 0 )
+                                                        @foreach ($reviews->sortByDesc('id') as $review)
+                                                            <p>
+                                                                <b>{{ $review->title }}</b></br>
+                                                                {{ $review->description }} 
+                                                                </br>
+                                                                <span class="text-muted text-sm">
+                                                                    <em>English, 13 lessons with Nicole </em>
+                                                                </span>
+                                                            </p>
+                                                        @endforeach
+                                                        <hr>
+                                                        <div class="card-tools float-right">
+                                                            {{ $reviews->links() }}
+                                                        </div>
                                                     @else
                                                         The tutor has no review.
                                                     @endif
@@ -162,8 +182,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </form>
                                 </div>
                                 <!-- /.card-body -->
-                                <hr>
-                                <div class="card-tools">
+                                {{-- <hr> --}}
+                                {{-- <div class="card-tools">
                                     <ul class="pagination pagination-sm float-right">
                                         <li class="page-item"><a class="page-link" href="#">«</a></li>
                                         <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -171,7 +191,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <li class="page-item"><a class="page-link" href="#">3</a></li>
                                         <li class="page-item"><a class="page-link" href="#">»</a></li>
                                     </ul>
-                                </div>
+                                </div> --}}
                                 {{-- <div class="card-footer">
                                     <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>
                                         Submit</button>

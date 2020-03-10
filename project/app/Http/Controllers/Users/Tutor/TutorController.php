@@ -307,7 +307,6 @@ class TutorController extends Controller
         $price_per_hour = $request->price_per_hour;
         $teaching_method = $request->teaching_method;
         
-        // dd ($subject[0]);
         // dd ($id, $fname, $lname, $email, $old_password, $new_password,
         //     $confirm_password, $phone, $birthday, $country, $state, $city, $zipcode, $subject,
         //     $summary, $price_per_hour, $teaching_method );

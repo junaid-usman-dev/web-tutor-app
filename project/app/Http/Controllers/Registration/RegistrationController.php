@@ -35,11 +35,11 @@ class RegistrationController extends Controller
     public function test()
     {
         // $comments = App\Post::find(1)->comments;
-        $review = Review::where('tutor_id',3)->get();
+        // $review = Review::where('tutor_id',3)->get();
         // $user = User::findOrFail(3);
         // $user = user::where('type','tutor')->get();
         // dd ($user->reviews);
-        dd ($review->user->first_name);
+        dd ("Test Controller !!!!");
 
     }
 
@@ -395,7 +395,7 @@ class RegistrationController extends Controller
             $user->save();
  
             // Send Email 
-            Mail::to($user->email_address)->send(new SendMailable($user));
+            // Mail::to($user->email_address)->send(new SendMailable($user));
             Auth::login($user);
 
             if ($type == 'student')
@@ -505,7 +505,7 @@ class RegistrationController extends Controller
         
         if (!empty($User) )
         {
-            Mail::to($User->email_address)->send(new ResetPasswordMail($User) );
+            // Mail::to($User->email_address)->send(new ResetPasswordMail($User) );
         
             return response()->json([
                 'success' => 'A email for verification has been sent to your email address.'
@@ -734,16 +734,18 @@ class RegistrationController extends Controller
 
         // $student_id = $request->session()->get('session_student_id');
         // $tutor_id = $request->session()->get('session_tutor_id');
-        $student_id = Auth::user()->id;
-        $tutor_id = Auth::user()->id;
+        $user_id = Auth::user()->id;
+        // $tutor_id = Auth::user()->id;
 
-        if (!empty($student_id) )
+        if ( Auth::user()->type == "student" )
         {
-            $id = $student_id;
+            // For Student
+            $id = $user_id;
         }
-        else if (!empty($tutor_id))
+        else if ( Auth::user()->type == "tutor" )
         {
-            $id = $tutor_id;
+            // For Tutor
+            $id = $user_id;
         }
         else
         {
@@ -765,6 +767,9 @@ class RegistrationController extends Controller
             $image->path = "images";
             
             $image->save();
+
+            // dd ("Custom Image");
+
         }
         else
         {
@@ -774,6 +779,8 @@ class RegistrationController extends Controller
             $image->path = "images";
             
             $image->save();
+
+            dd ("Default Image");
         }
         
         $user = User::findOrFail($id);

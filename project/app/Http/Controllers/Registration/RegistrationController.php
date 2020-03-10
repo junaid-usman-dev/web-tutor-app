@@ -780,7 +780,7 @@ class RegistrationController extends Controller
             
             $image->save();
 
-            dd ("Default Image");
+            // dd ("Default Image");
         }
         
         $user = User::findOrFail($id);

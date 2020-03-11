@@ -355,7 +355,7 @@ class RegistrationController extends Controller
         $zipcode = $request->input('zipcode');
         $type = $request->input('type');
 
-        $veri_key = md5(time().$password); // email key 
+        $veri_key = md5(time().$password); // email verificatioin key 
         // $encrypt_pass = base64_encode($password); # encrypting password
         $encrypt_pass = Hash::make($password);
         // $encrypt_pass = Crypt::encryptString($password);

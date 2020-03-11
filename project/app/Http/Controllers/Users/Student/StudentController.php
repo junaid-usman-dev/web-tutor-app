@@ -765,7 +765,7 @@ class StudentController extends Controller
         $user = Auth::user();
         // dd ($user); // Auth User
         // $tutor = User::findOrFail($id);
-        $reviews = Review::orderBy('id','DESC')->where("tutor_id",$id )->paginate(10);
+        $reviews = Review::orderBy('id','DESC')->where("tutor_id",$id )->paginate(15);
 
         // dd ($reviews[0]->user->first_name);
         // foreach ($reviews as $review)

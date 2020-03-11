@@ -69,7 +69,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <!-- Default box -->
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">All Review</h3>
+                                    <h3 class="card-title">All Reviews ({{ $reviews->total() }})</h3>
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">

@@ -302,11 +302,11 @@ Route::prefix('admin')->group(function () {
         Route::get('/profile/{id}', 'Users\Admin\AdminController@show')->name('admin.tutor.profile'); //View Specific Tutor Profile
         Route::get('/all-review/{id}', 'Users\Admin\AdminController@AllReview')->name('admin.tutor.all.review'); // all reviews
 
-        Route::get('/create', 'Users\Tutor\TutorController@create'); // create a new tutor
+        Route::get('/create', 'Users\Tutor\TutorController@create')->name('admin.tutor.create'); // create a new tutor
         Route::post('/store', 'Users\Tutor\TutorController@store')->name('admin.tutor.store'); // store a new created tutor to db
         Route::post('/upload-image', 'Users\Tutor\TutorController@UploadPicture')->name('admin.tutor.upload.profile'); // Upload profile picture
 
-        Route::get('/delete/{id}', 'Users\Tutor\TutorController@destroy'); // delete specific resource from db
+        Route::get('/delete/{id}', 'Users\Tutor\TutorController@destroy')->name('admin.tutor.delete'); // delete specific resource from db
 
         Route::get('/edit/{id}', 'Users\Tutor\TutorController@edit'); // edit a specific tutor
         Route::post('/update', 'Users\Tutor\TutorController@update'); // update a specific tutor

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Users\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Auth;
 
 use App\Admin;
 use App\User;
@@ -91,8 +93,22 @@ class AdminController extends Controller
         $password = $request->input('password');
 
         $encrypt_pass =  base64_encode($password);
+        // Hash::check('secret', $hashedPassword)
+        // $encrypt_pass =  Hash::make($password);
+
+        // dd ($encrypt_pass); 
 
         $user = Admin::where('email_address',$email)->where('password',$encrypt_pass)->get();
+        // $admin = Admin::attempt(['email_address' => $email, 'password' => $password ]);
+        // dd ($admin);
+        // if ( Admin::check() )
+        // {
+        //     dd ("Found");
+        // }
+        // else
+        // {
+        //     dd ("Invalid User -----------");
+        // }
         if (count($user) > 0)
         {
             // Login
@@ -104,7 +120,6 @@ class AdminController extends Controller
             return response()->json([
                 'success' => 'Go to home page.'
             ]); 
-
         }
         else
         {
@@ -114,7 +129,6 @@ class AdminController extends Controller
                 'error' => 'Unknown Email or Password.'
             ]); 
         }
-
     }
 
 
@@ -147,7 +161,10 @@ class AdminController extends Controller
         $password = $request->input('password');
         
         $encrypt_pass = base64_encode($password); # encrypting password
-        
+        // $encrypt_pass = Hash::make($password);
+
+        // dd ($encrypt_pass, $encrypt_pass2 );
+
         $admin = new Admin ();
 
         $admin->first_name = $first_name;
@@ -160,7 +177,7 @@ class AdminController extends Controller
         
         $admin->save();
         
-        return redirect()->to("/admin/list");
+        return redirect()->route("admin.list");
     
     }
 

@@ -361,7 +361,7 @@
 
 
                                     <span class="b_username">
-                                        Reviews
+                                        Reviews ({{ $total_review }})
                                     </span>
 
                                     <!-- /.user-block -->

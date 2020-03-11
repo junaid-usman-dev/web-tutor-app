@@ -93,9 +93,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <tbody>
 
                                                     @if ( count ($admins) > 0 )
+                                                        @php
+                                                            $i = 0;
+                                                        @endphp
                                                         @foreach ($admins as $admin)
+                                                            @php
+                                                                $i += 1; 
+                                                            @endphp    
                                                             <tr>
-                                                                <td>01</td>
+                                                                <td>{{ $i }}</td>
                                                                 <td>{{ $admin->first_name }} </td>
                                                                 <td>{{ $admin->last_name }}</td>
                                                                 <td>{{ $admin->email_address }}</td>

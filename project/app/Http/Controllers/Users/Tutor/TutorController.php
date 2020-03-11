@@ -92,7 +92,7 @@ class TutorController extends Controller
     public function create()
     {
         //
-        return view('tutor.admin_tutor_create');
+        return view('theme.admin.tutor.tutor_create');
     }
 
     /**
@@ -104,46 +104,46 @@ class TutorController extends Controller
     public function store(Request $request)
     {
         //
-        // $request->validate([
-        //     'fname' => 'required',
-        //     'lname' => 'required',
-        //     'email_addr' => new EmailFormat,
-        //     'phone' => 'required',
-        //     'birthday' => 'required|date',
-        //     'country' => 'required',
-        //     'state' => 'required',
-        //     'city' => 'required',
-        //     'zipcode' => 'required',
-        //     'password' => new Password,
-        //     'type' => 'nullable|max:255',
+        $request->validate([
+            'fname' => 'required',
+            'lname' => 'required',
+            'email' => new EmailFormat,
+            'phone' => 'required',
+            'birthday' => 'required|date',
+            'country' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'zipcode' => 'required',
+            'password' => new Password,
+            // 'type' => 'nullable|max:255',
 
-        //     'subject' => 'required',
-        //     'summary' => 'required',
-        //     'teaching_method' => 'required',
-        //     'price_per_hour' => 'required',
+            // 'subject' => 'required',
+            // 'summary' => 'required',
+            // 'teaching_method' => 'required',
+            // 'price_per_hour' => 'required',
 
-        // ],
-        // [   
-        //     'fname.required'    => 'first name field is required.',
-        //     'lname.required'    => 'last name field is required.',
-        //     'email_addr.required'    => 'The email must be a valid email address.',
-        //     'phone.required'    => 'phone field is required.',
-        //     'birthday.required'    => 'birthday field is required.',
-        //     'country.required'    => 'country field is required.',
-        //     'state.required'    => 'state field is required.',
-        //     'city.required'    => 'city field is required.',
-        //     'zipcode.required'    => 'zipcode field is required.',
-        //     'password.required'    => 'password field is required.',
+        ],
+        [   
+            'fname.required'    => 'first name field is required.',
+            'lname.required'    => 'last name field is required.',
+            'email_addr.required'    => 'The email must be a valid email address.',
+            'phone.required'    => 'phone field is required.',
+            'birthday.required'    => 'birthday field is required.',
+            'country.required'    => 'country field is required.',
+            'state.required'    => 'state field is required.',
+            'city.required'    => 'city field is required.',
+            'zipcode.required'    => 'zipcode field is required.',
+            'password.required'    => 'password field is required.',
         
-        //     'birthday.date'    => 'Enter a valid birthday date.',
-        //     'password.min'    => 'Password length should be more than 8 character or digit.',
-        //     'password.alpha_num'    => 'Password should atlear 1 digit.',
-        //     'password.character'    => 'Password should atlear 1 character.',
-        // ]);
+            'birthday.date'    => 'Enter a valid birthday date.',
+            'password.min'    => 'Password length should be more than 8 character or digit.',
+            'password.alpha_num'    => 'Password should atlear 1 digit.',
+            'password.character'    => 'Password should atlear 1 character.',
+        ]);
         
         $fname = $request->fname;
         $lname = $request->lname;
-        $email_addr = $request->email_addr;
+        $email = $request->email;
         $password = $request->password;
 
         $phone = $request->phone;
@@ -152,20 +152,20 @@ class TutorController extends Controller
         $state = $request->state;
         $city = $request->city;
         $zipcode = $request->zipcode;
-        $type = $request->type;
+        // $type = $request->type;
 
-        $subject = $request->subject;
-        $summary = $request->summary;
-        $teaching_method = $request->teaching_method;
-        $price_per_hour = $request->price_per_hour;
+        // $subject = $request->subject;
+        // $summary = $request->summary;
+        // $teaching_method = $request->teaching_method;
+        // $price_per_hour = $request->price_per_hour;
 
-        $veri_key = md5(time().$password); // email key 
-        $encrypt_pass = base64_encode($password); # encrypting password
-        
+        $veri_key = md5(time().$password); // email verification key 
+        $encrypt_pass = Hash::make($password); # encrypting password
+        // $encrypt_pass = base64_encode($password); # encrypting password
         
         //--------   Student Panel   -----------
         $user_phone = User::where('phone',$phone)->get();
-        $user_mail = User::where('email_address',$email_addr)->get();
+        $user_mail = User::where('email_address',$email)->get();
         if ( count($user_phone) > 0 )
         {
             dd("Phone number already exist.");
@@ -176,14 +176,12 @@ class TutorController extends Controller
         }
         else
         {
-           
-
             // Store user data to database
             $user = new User();
 
             $user->first_name = $fname;
             $user->last_name = $lname;
-            $user->email_address = $email_addr;
+            $user->email_address = $email;
             $user->password = $encrypt_pass;
             $user->verification_key = $veri_key;
 
@@ -193,16 +191,25 @@ class TutorController extends Controller
             $user->state = $state;
             $user->city = $city;
             $user->zipcode = $zipcode;
-            $user->type = $type;
+            $user->type = "tutor";
 
-            $user->summary = $summary;
-            $user->teaching_method = $teaching_method;
-            $user->price_per_hour = $price_per_hour;
+            // $user->summary = $summary;
+            // $user->teaching_method = $teaching_method;
+            // $user->price_per_hour = $price_per_hour;
 
             $user->save();
-            
+
+            // $image = new Image();
+
+            // $image->user_id = $id;
+            // $image->name = "default-profile-image.jpg";
+            // $image->path = "images";
+            // $iamge->save();
+
+
+            // dd ($user->id);
             // Send Email 
-            Mail::to('thebooster786@gmail.com')->send(new SendMailable($user));
+            // Mail::to('thebooster786@gmail.com')->send(new SendMailable($user));
             // User Profile 
          
             return redirect()->route("admin.tutor.list");
@@ -229,12 +236,25 @@ class TutorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit()
+    public function edit(Request $request)
     {
-        $user = User::findOrFail(Auth::user()->id);
-        $subjects = Subject::all();
-        // dd ($user->subjects);
-        return view('theme.tutor.tutor_profile_edit')->with(['user'=>$user, 'subjects'=>$subjects]);
+        // if (Auth::user()->type == "tutor")
+        // {
+            $user = User::findOrFail( Auth::user()->id );
+            $subjects = Subject::all();
+            return view('theme.tutor.tutor_profile_edit')->with(['user'=>$user, 'subjects'=>$subjects]);
+        // }
+        // else if (Auth::user()->type == "admin")
+        // {
+            
+        //     $tutor = User::findOrFail( $request->id );
+        //     $subjects = Subject::all();
+        //     return view('theme.admin.tutor.tutor_edit')->with(['tutor'=>$tutor, 'subjects'=>$subjects]);
+        // }
+        // else
+        // {
+        //     dd("Error! Some thing bad happend.");
+        // }
     }
 
     /**
@@ -445,9 +465,13 @@ class TutorController extends Controller
      */
     public function destroy($id)
     {
-        //
-        $tutor = User::findOrFail($id)->delete();
-        return redirect('admin/tutor/list');
+        // Delete all specific user data
+        $del_user = User::findOrFail($id)->delete();
+        $del_user_img = Image::where('user_id',$id)->delete();
+        $del_user_payment = Payment::where('user_id',$id)->delete();
+        $del_user_subject = SubjectUser::where('user_id',$id)->delete();
+
+        return redirect()->route('admin.tutor.list');
     }
 
     // /**
@@ -657,7 +681,7 @@ class TutorController extends Controller
     public function AdminIndex(Request $request)
     {
         //
-        $tutors = User::all()->where('type','tutor');
+        $tutors = User::orderBy('id','DESC')->where('type','tutor')->get();
         return view('theme.admin.tutor.tutor_manage')->with(['tutors'=> $tutors]);
     }
 

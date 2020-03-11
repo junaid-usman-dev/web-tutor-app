@@ -1,7 +1,7 @@
 
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title"><strong>{{ count($tutors) }} tutors</strong> fit to your choice
+        <h3 class="card-title"><strong>{{ $tutors->total() }} tutors</strong> fit to your choice
         </h3>
     </div>
     <div class="card-body">

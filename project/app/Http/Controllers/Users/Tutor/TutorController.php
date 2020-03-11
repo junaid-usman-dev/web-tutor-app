@@ -289,6 +289,9 @@ class TutorController extends Controller
 
         $id = $request->id;
 
+        // $subjects = SubjectUser::where('user_id',$id)->delete();
+        // dd($subjects);
+
         $fname = $request->fname;
         $lname = $request->lname;
         $email = $request->email;
@@ -307,6 +310,7 @@ class TutorController extends Controller
         $price_per_hour = $request->price_per_hour;
         $teaching_method = $request->teaching_method;
         
+        // dd (($subject[0]));
         // dd ($id, $fname, $lname, $email, $old_password, $new_password,
         //     $confirm_password, $phone, $birthday, $country, $state, $city, $zipcode, $subject,
         //     $summary, $price_per_hour, $teaching_method );
@@ -330,12 +334,20 @@ class TutorController extends Controller
                     $tutor->city = $city;
                     $tutor->zipcode = $zipcode;
 
-                    // $tutor->subject = $subject;
                     $tutor->summary = $summary;
                     $tutor->price_per_hour = $price_per_hour;
                     $tutor->teaching_method = $teaching_method;
 
                     $tutor->save();
+
+                    // Update Subjects
+                    for ($i=0; $i< count($subject); $i++)
+                    {
+                        $subject_user = new SubjectUser();
+                        $subject_user->subject_id = $subject[$i];
+                        $subject_user->user_id = $id;
+                        $subject_user->save();
+                    }
     
                     return response()->json([
                         'success'=> 'Success! Your profile information has been updated. Password Server'
@@ -357,6 +369,9 @@ class TutorController extends Controller
         }
         else
         {
+            // Delete existing user subjects
+            $del_subjects = SubjectUser::where('user_id',$id)->delete();
+
             // User does not want to update his/her password
             $tutor->first_name = $fname;
             $tutor->last_name = $lname;
@@ -369,12 +384,20 @@ class TutorController extends Controller
             $tutor->city = $city;
             $tutor->zipcode = $zipcode;
 
-            // $tutor->subject = $subject;
             $tutor->summary = $summary;
             $tutor->price_per_hour = $price_per_hour;
             $tutor->teaching_method = $teaching_method;
 
             $tutor->save();
+            
+            // update subjects 
+            for ($i=0; $i< count($subject); $i++)
+            {
+                $subject_user = new SubjectUser();
+                $subject_user->subject_id = $subject[$i];
+                $subject_user->user_id = $id;
+                $subject_user->save();
+            }
 
             return response()->json([
                 'success'=> "Success! Your profile information has been updated. Server Response"

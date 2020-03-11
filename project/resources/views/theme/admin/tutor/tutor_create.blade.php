@@ -92,22 +92,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             @csrf
                     
                             <!-- Profile Image -->
-                            <div class="card card-primary card-outline">
-                                <div class="card-body box-profile">
-                                    <div class="text-center">
+                            {{-- <div class="card card-primary card-outline">
+                                <div class="card-body box-profile"> --}}
+                                    {{-- <div class="text-center">
                                         <input type="file" id="upload_image" name="upload_image" value=""  class="d-none">
                                             <img name="image" id="image" style="cursor:pointer;" class="profile-user-img img-fluid img-circle"
                                                 src="#" alt="User profile picture">
-                                    </div>
-                                    <br>
+                                    </div> --}}
+                                    {{-- <br> --}}
                                     {{-- <h3 class="profile-username text-center">FirstName LastName</h3> --}}
-                                    <input type="submit" class="btn btn-primary btn-block" value="Update Profile Pic">
+                                    {{-- <input type="submit" class="btn btn-primary btn-block" value="Update Profile Pic"> --}}
                                     {{-- <button class="btn btn-primary btn-block">
                                         <strong>Update Profile Pic</strong>
                                     </button> --}}
-                                </div>
+                                {{-- </div> --}}
                                     <!-- /.card-body -->
-                            </div>
+                            {{-- </div> --}}
                               <!-- /.card -->
                         </form>
 

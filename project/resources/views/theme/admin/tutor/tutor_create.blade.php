@@ -356,12 +356,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         <select class="form-control @error('country') is-invalid @enderror" name="country"
                                                             data-placeholder="Select Country" style="width: 100%;" >
 
-                                                            <option>Alaska</option>
-                                                            <option>California</option>
+                                                            <option selected>USA</option>
+                                                            {{-- <option>California</option>
                                                             <option>Delaware</option>
                                                             <option>Tennessee</option>
                                                             <option>Texas</option>
-                                                            <option>Washington</option>
+                                                            <option>Washington</option> --}}
+
                                                         </select>
                                                     </div>
                                                     @error('country')
@@ -376,12 +377,55 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         <label>State</label>
                                                         <select class="form-control @error('state') is-invalid @enderror" name="state" data-placeholder="Select State"
                                                             style="width: 100%;" >
+
+                                                            <option>Alabama</option>
                                                             <option>Alaska</option>
+                                                            <option>Arizona</option>
+                                                            <option>Arkansas</option>
                                                             <option>California</option>
+                                                            <option>Colorado</option>
+                                                            <option>Connecticut</option>
                                                             <option>Delaware</option>
+                                                            <option>Florida</option>
+                                                            <option>Georgia</option>
+                                                            <option>Hawaii</option>
+                                                            <option>Idaho</option>
+                                                            <option>Illinois</option>
+                                                            <option>Indiana</option>
+                                                            <option>Iowa</option>
+                                                            <option>Kansas</option>
+                                                            <option>Kentucky</option>
+                                                            <option>Louisiana</option>
+                                                            <option>Maine</option>
+                                                            <option>Massachusetts</option>
+                                                            <option>Michigan</option>
+                                                            <option>Minnesota</option>
+                                                            <option>Mississippi</option>
+                                                            <option>Missouri</option>
+                                                            <option>Montana</option>
+                                                            <option>Nebraska</option>
+                                                            <option>Nevada</option>
+                                                            <option>New Hampshire</option>
+                                                            <option>New Jersey</option>
+                                                            <option>New Mexico</option>
+                                                            <option>New York</option>
+                                                            <option>North Carolina</option>
+                                                            <option>North Dakota</option>
+                                                            <option>Ohio</option>
+                                                            <option>Oklahoma</option>
+                                                            <option>Oregon</option>
+                                                            <option>Pennsylvania</option>
+                                                            <option>Rhode Island</option>
+                                                            <option>South Carolina</option>
+                                                            <option>South Dakota</option>
                                                             <option>Tennessee</option>
                                                             <option>Texas</option>
+                                                            <option>Utah</option>
+                                                            <option>Vermont</option>
+                                                            <option>Virginia</option>
                                                             <option>Washington</option>
+                                                            <option>West Virginia</option>
+
                                                         </select>
                                                     </div>
                                                     @error('state')

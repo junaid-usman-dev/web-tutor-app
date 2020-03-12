@@ -21,6 +21,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    {{-- Start Rating SVG Master --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme_asset/star-rating-svg-master/src/css/star-rating-svg.css') }}">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+
+
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -78,6 +83,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     @if ( count($tutor->reviews) > 0 )
                                                         @foreach ($tutor->reviews as $review)
                                                             <p>
+                                                                <div class="my-rating-7 d-inline" data-rating="{{ $review->star_rating }}"></div>
+                                                                </br>
                                                                 <b>{{ $review->title }}</b></br>
                                                                 {{ $review->description }} 
                                                                 </br>
@@ -180,6 +187,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <script src="{{ asset('theme_asset/profile/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <!-- AdminLTE App -->
         <script src="{{ asset('theme_asset/profile/dist/js/adminlte.min.js') }}"></script>
+
+        {{-- Start Rating SVG Master --}}
+        <script src="{{ asset('theme_asset/star-rating-svg-master/src/jquery.star-rating-svg.js') }}"></script>
+        
+    <script>
+        jQuery(".my-rating-7").starRating({
+                totalStars: 5,
+                starShape: 'rounded',
+                activeColor: '#FFC108',
+                starSize: 20,
+                useGradient: false,
+                readOnly: true
+            });
+    </script>
 </body>
 
 </html>

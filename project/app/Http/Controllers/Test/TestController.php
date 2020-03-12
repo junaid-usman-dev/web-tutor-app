@@ -77,7 +77,7 @@ class TestController extends Controller
 
         $test->save();
 
-        return view ('test.question.question_create')->with([ 'test_id'=>$test->id ]);
+        return view ('theme.admin.test.question.question_create')->with([ 'test_id'=>$test->id ]);
 
     }
 

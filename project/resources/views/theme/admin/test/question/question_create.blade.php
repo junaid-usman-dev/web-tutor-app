@@ -139,7 +139,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <!-- text input -->
                                                     <div class="form-group">
                                                         <div class="input-group mb-2">
-                                                            <input name="id" type="hidden" class="form-control" value={{ $test->id }} >
+                                                            <input name="id" type="hidden" class="form-control" value={{ $test_id }} >
                                                         </div>
                                                     </div>
                                                 </div>
@@ -264,7 +264,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <i class="fas fa-check"></i>
                                                     Create
                                                 </button>
-                                          </div>
+                                            </div>
+                                            <div class="card-footer text-left">
+                                                <button id="next" class="btn btn-primary">
+                                                    <i class="fas fa-check"></i>
+                                                    Next
+                                                </button>
+                                            </div>
+                                            
                                             <!-- input states -->
                                         </form>
                                         <!-- /.users-list -->

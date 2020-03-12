@@ -88,8 +88,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" type="text/css" href="{{ asset('theme_asset/star-rating-svg-master/src/css/star-rating-svg.css') }}">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 
-
-
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -458,6 +456,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 @foreach ($user->reviews->sortByDesc('id') as $review)
                                                                     @if ( $count < 3)
                                                                         <p>
+                                                                            <div class="my-rating-7 d-inline" data-rating="{{ $review->star_rating }}"></div>
+                                                                            </br>
                                                                             <b>{{ $review->title }}</b></br>
                                                                             {{ $review->description }} 
                                                                             </br>

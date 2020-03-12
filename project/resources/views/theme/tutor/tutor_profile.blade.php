@@ -469,6 +469,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 @foreach ($user->reviews->sortByDesc('id') as $review)
                                                                     @if ( $count < 3)
                                                                         <p>
+                                                                            <div class="my-rating-7 d-inline" data-rating="{{ $review->star_rating }}"></div>
+                                                                            </br>
                                                                             <b>{{ $review->title }}</b></br>
                                                                             {{ $review->description }} 
                                                                             </br>

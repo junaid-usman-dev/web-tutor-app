@@ -364,12 +364,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                             <select class="form-control @error('country') is-invalid @enderror" name="country"
                                                                 data-placeholder="Select Country" style="width: 100%; " value="{{ $student->country }}">
 
-                                                                <option>Alaska</option>
-                                                                <option>California</option>
-                                                                <option>Delaware</option>
-                                                                <option>Tennessee</option>
-                                                                <option>Texas</option>
-                                                                <option>Washington</option>
+                                                                <option value="USA" selected>USA</option>
+
                                                             </select>
 
                                                         </div>
@@ -385,12 +381,281 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                             <label>State</label>
                                                             <select class="form-control @error('state') is-invalid @enderror" name="state" data-placeholder="Select State" style="width: 100%;" value="{{ $student->State }}">
 
-                                                                <option>Alaska</option>
-                                                                <option>California</option>
-                                                                <option>Delaware</option>
-                                                                <option>Tennessee</option>
-                                                                <option>Texas</option>
-                                                                <option>Washington</option>
+                                                                <option value="Alaska"
+                                                                    @if ($student->state == "Alaska")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Alaska</option>
+
+                                                                <option value="Arizona"
+                                                                    @if ($student->state == "Arizona")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Arizona</option>
+
+                                                                <option value="Arkansas"
+                                                                    @if ($student->state == "Arkansas")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Arkansas</option>
+
+                                                                <option value="California"
+                                                                    @if ($student->state == "California")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >California</option>
+
+                                                                <option value="Colorado"
+                                                                    @if ($student->state == "Colorado")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Colorado</option>
+                                                                
+                                                                <option value="Connecticut"
+                                                                    @if ($student->state == "Connecticut")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Connecticut</option>
+
+                                                                <option value="Delaware"
+                                                                    @if ($student->state == "Delaware")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Delaware</option>
+
+                                                                <option value="Florida"
+                                                                    @if ($student->state == "Florida")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Florida</option>
+                                                                
+                                                                <option value="Georgia"
+                                                                    @if ($student->state == "Georgia")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Georgia</option>
+                                                                
+                                                                <option value="Hawaii"
+                                                                    @if ($student->state == "Hawaii")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Hawaii</option>
+                                                                
+                                                                <option value="Idaho"
+                                                                    @if ($student->state == "Idaho")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Idaho</option>
+
+                                                                <option value="Illinois"
+                                                                    @if ($student->state == "Illinois")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Illinois</option>
+
+                                                                <option value="Indiana"
+                                                                    @if ($student->state == "Indiana")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Indiana</option>
+
+                                                                <option value="Iowa"
+                                                                    @if ($student->state == "Iowa")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Iowa</option>
+                                                                
+                                                                <option value="Kansas"
+                                                                    @if ($student->state == "Kansas")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Kansas</option>
+
+                                                                <option value="Kentucky"
+                                                                    @if ($student->state == "Kentucky")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Kentucky</option>
+
+                                                                <option value="Louisiana"
+                                                                    @if ($student->state == "Louisiana")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Louisiana</option>
+
+                                                                <option value="Maine"
+                                                                    @if ($student->state == "Maine")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Maine</option>
+
+                                                                <option value="Massachusetts"
+                                                                    @if ($student->state == "Massachusetts")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Massachusetts</option>
+
+                                                                <option value="Michigan"
+                                                                    @if ($student->state == "Michigan")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Michigan</option>
+
+                                                                <option value="Minnesota"
+                                                                    @if ($student->state == "Minnesota")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Minnesota</option>
+
+                                                                <option value="Mississippi"
+                                                                    @if ($student->state == "Mississippi")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Mississippi</option>
+
+                                                                <option value="Missouri"
+                                                                    @if ($student->state == "Missouri")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Missouri</option>
+                                                                
+                                                                <option value="Montana"
+                                                                    @if ($student->state == "Montana")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Montana</option>
+
+                                                                <option value="Nebraska"
+                                                                    @if ($student->state == "Nebraska")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Nebraska</option>
+
+                                                                <option value="Nevada"
+                                                                    @if ($student->state == "Nevada")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Nevada</option>
+
+                                                                <option value="New Hampshire"
+                                                                    @if ($student->state == "New Hampshire")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >New Hampshire</option>
+
+                                                                <option value="New Jersey"
+                                                                    @if ($student->state == "New Jersey")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >New Jersey</option>
+                                                                
+                                                                <option value="New Mexico"
+                                                                    @if ($student->state == "New Mexico")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >New Mexico</option>
+                                                                
+                                                                <option value="New York"
+                                                                    @if ($student->state == "New York")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >New York</option>
+
+                                                                <option value="North Carolina"
+                                                                    @if ($student->state == "North Carolina")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >North Carolina</option>
+
+                                                                <option value="North Dakota"
+                                                                    @if ($student->state == "North Dakota")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >North Dakota</option>
+
+                                                                <option value="Ohio"
+                                                                    @if ($student->state == "Ohio")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Ohio</option>
+
+                                                                <option value="Oklahoma"
+                                                                    @if ($student->state == "Oklahoma")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Oklahoma</option>
+                                                                
+                                                                <option value="Oregon"
+                                                                    @if ($student->state == "Oregon")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Oregon</option>
+                                                                
+                                                                <option value="Pennsylvania"
+                                                                    @if ($student->state == "Pennsylvania")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Pennsylvania</option>
+                                                                
+                                                                <option value="Rhode Island"
+                                                                    @if ($student->state == "Rhode Island")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Rhode Island</option>
+
+                                                                <option value="South Carolina"
+                                                                    @if ($student->state == "South Carolina")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >South Carolina</option>
+                                                                
+                                                                <option value="South Dakota"
+                                                                    @if ($student->state == "South Dakota")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >South Dakota</option>
+
+                                                                <option value="Tennessee"
+                                                                    @if ($student->state == "Tennessee")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Tennessee</option>
+
+                                                                <option value="Texas"
+                                                                    @if ($student->state == "Texas")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Texas</option>
+
+                                                                <option value="Utah"
+                                                                    @if ($student->state == "Utah")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Utah</option>
+
+                                                                <option value="Vermont"
+                                                                    @if ($student->state == "Vermont")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Vermont</option>
+                                                                
+                                                                <option value="Virginia"
+                                                                    @if ($student->state == "Virginia")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Virginia</option>
+
+                                                                <option value="Washington"
+                                                                    @if ($student->state == "Washington")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >Washington</option>
+                                                                <option value="West Virginia"
+                                                                    @if ($student->state == "West Virginia")
+                                                                        selected="selected"
+                                                                    @endif
+                                                                >West Virginia</option>
+
                                                             </select>
                                                         </div>
                                                         @error('state')
@@ -406,15 +671,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         <!-- text input -->
                                                         <div class="form-group">
                                                             <label>City</label>
-                                                            <select class="form-control @error('city') is-invalid @enderror" name="city" data-placeholder="Select City" style="width: 100%;" value="{{ $student->city }}">
-
-                                                                <option>Alaska</option>
-                                                                <option>California</option>
-                                                                <option>Delaware</option>
-                                                                <option>Tennessee</option>
-                                                                <option>Texas</option>
-                                                                <option>Washington</option>
-                                                            </select>
+                                                            <div class="input-group mb-2">
+                                                                <input type="text" class="form-control @error('city') is-invalid @enderror" name="city"
+                                                                    placeholder="City" value="{{ $student->city }}" >
+                                                                <div class="input-group-append">
+                                                                    <div class="input-group-text">
+                                                                        <span class="fas fa-city"></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         @error('city')
                                                             <div class="alert alert-danger">{{ $message }}</div>
@@ -745,7 +1010,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 var confirm_password = jQuery("input[name=confirm_password]").val();
                 var country = jQuery("select[name=country] option:selected").val();
                 var state = jQuery("select[name=state] option:selected").val();
-                var city = jQuery("select[name=city] option:selected").val();
+                var city = jQuery("input[name=city]").val();
                 var zipcode = jQuery("input[name=zipcode]").val();
                 
                 var is_id = false;

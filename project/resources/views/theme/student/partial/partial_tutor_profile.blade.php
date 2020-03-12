@@ -510,7 +510,10 @@
                                         @foreach ($tutor->reviews->sortByDesc('id') as $review)
                                             @if ($count < 3)
                                                 <p>
-                                                    <b>{{ $review->title }}</b></br>
+                                                    <div class="my-rating-7 d-inline" data-rating="{{ $review->star_rating }}"></div>
+                                                    </br>
+                                                    <b class="d-inline" >{{ $review->title }}</b>
+                                                    </br>
                                                     {{ $review->description }} 
                                                     </br>
                                                     <span class="text-muted text-sm">

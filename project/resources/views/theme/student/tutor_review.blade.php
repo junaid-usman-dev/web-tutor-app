@@ -21,10 +21,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
  
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-
-   <!-- DataTables -->
-   {{-- <link rel="stylesheet" href="{{ asset('theme_asset/plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}"> --}}
-   {{-- <link rel="stylesheet" href="{{ asset('theme_asset/dist/css/adminlte.css') }}"> --}}
+    {{-- Start Rating SVG Master --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme_asset/star-rating-svg-master/src/css/star-rating-svg.css') }}">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 
 </head>
 
@@ -79,25 +78,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <!-- text input -->
                                                 <div class="form-group">
 
-                                                    {{-- @if ( count($tutor->reviews) > 0 )
-                                                        @foreach ($tutor->reviews->sortByDesc('id') as $review)
-                                                            <p>
-                                                                <b>{{ $review->title }}</b></br>
-                                                                {{ $review->description }} 
-                                                                </br>
-                                                                <span class="text-muted text-sm">
-                                                                    <em>Allison, 13 lessons with Nicole </em>
-                                                                </span>
-                                                            </p>
-                                                        @endforeach
-                                                    @else
-                                                        The tutor has no review.
-                                                    @endif --}}
-
-
                                                     @if ( count($reviews) > 0 )
                                                         @foreach ($reviews->sortByDesc('id') as $review)
                                                             <p>
+
+                                                                <div class="my-rating-7 d-inline" data-rating="{{ $review->star_rating }}"></div>
+                                                                </br>
                                                                 <b>{{ $review->title }}</b></br>
                                                                 {{ $review->description }} 
                                                                 </br>
@@ -114,58 +100,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         The tutor has no review.
                                                     @endif
 
-
-                                                    {{-- <table id="example2" class="table table-bordered" >
-                                                        <a href="#" class="btn col-2 btn-primary">Create</a>
-                                                    <thead>
-                                                        <tr>
-                                                            <th>First Name</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>fdf</td>
-                                                        </tr>
-                                                    </tbody>
-    
-                                                </table> --}}
-
-
-
                                                     {{-- <p>
-                                                        <b>Solid tutoring</b></br>
-
-                                                        Nicole is very thorough on reinforcing materials,
-                                                        studying and helping organize to get work done. Very
-                                                        effective use of time and super helpful. Very pleased
-                                                        with progress.</br>
-                                                        <span class="text-muted text-sm"><em>Allison, 13 lessons
-                                                                with Nicole </em></span>
-                                                    </p>
-
-                                                    <p>
-                                                        <b>Solid tutoring</b></br>
-
-                                                        Nicole is very thorough on reinforcing materials,
-                                                        studying and helping organize to get work done. Very
-                                                        effective use of time and super helpful. Very pleased
-                                                        with progress.</br>
-                                                        <span class="text-muted text-sm"><em>Allison, 13 lessons
-                                                                with Nicole </em></span>
-                                                    </p> --}}
-
-                                                    {{-- <p>
-                                                        <b>Solid tutoring</b></br>
-
-                                                        Nicole is very thorough on reinforcing materials,
-                                                        studying and helping organize to get work done. Very
-                                                        effective use of time and super helpful. Very pleased
-                                                        with progress.</br>
-                                                        <span class="text-muted text-sm"><em>Allison, 13 lessons
-                                                                with Nicole </em></span>
-                                                    </p>
-                                                    
-                                                    <p>
                                                         <b>Solid tutoring</b></br>
 
                                                         Nicole is very thorough on reinforcing materials,
@@ -223,26 +158,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- AdminLTE App -->
         <script src="{{ asset('theme_asset/profile/dist/js/adminlte.min.js') }}"></script>
 
-    <!-- DataTables -->
-    {{-- <script src="{{ asset('theme_asset/plugins/datatables/jquery.dataTables.js') }}"></script> --}}
-    {{-- <script src="{{ asset('theme_asset/plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script> --}}
-
-
-    <script>
-        $('#demo').pagination({
-        dataSource: [1, 2, 3, 4, 5, 6, 7, ... , 100],
-        pageSize: 5,
-        showPrevious: false,
-        showNext: false,
-        callback: function(data, pagination) {
-            // template method of yourself
-            var html = template(data);
-            dataContainer.html(html);
-        }
-    })
-    </script>
-    
+        {{-- Start Rating SVG Master --}}
+        <script src="{{ asset('theme_asset/star-rating-svg-master/src/jquery.star-rating-svg.js') }}"></script>
         
+    <script>
+        jQuery(".my-rating-7").starRating({
+                totalStars: 5,
+                starShape: 'rounded',
+                activeColor: '#FFC108',
+                starSize: 20,
+                useGradient: false,
+                readOnly: true
+            });
+    </script>
+
 
 </body>
 

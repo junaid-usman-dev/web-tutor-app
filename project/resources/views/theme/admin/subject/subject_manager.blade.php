@@ -49,12 +49,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0 text-dark">Manage Admins</h1>
+                            <h1 class="m-0 text-dark">Manage Subjects</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Manage Admins</li>
+                                <li class="breadcrumb-item active">Manage Subjects</li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -78,33 +78,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <!-- /.card-header -->
                                         <div class="card-body table-responsive">
                                             
-                                            <table id="example2" class="table table-bordered" >
-                                                    <a href="{{ route('admin.student.create') }}" class="btn col-2 btn-primary">Create</a>
+                                            <table id="example2" class="table table-bordered">
+                                                    <a href="{{ route('admin.subject.create') }}" class="btn col-2 btn-primary">Create</a>
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>First Name</th>
-                                                        <th>Last Name</th>
-                                                        <th>Email Address</th>
-                                                        <th>Status</th>
-                                                        <th>Action</th>
+                                                        <th>Subject Name</th>
+                                                        <th>Category</th>
+                                                        <th>Description</th>
+                                                        <th>Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @if ( count($students) > 0)
+
+                                                    @if ( count ($subjects) > 0 )
                                                         @php
-                                                            $count = 0;
+                                                            $i = 0;
                                                         @endphp
-                                                        @foreach ($students as $student)
+                                                        @foreach ($subjects as $subject)
                                                             @php
-                                                                $count += 1;
-                                                            @endphp
+                                                                $i += 1; 
+                                                            @endphp    
                                                             <tr>
-                                                                <td>{{ $count }}</td>
-                                                                <td>{{ $student->first_name }}</td>
-                                                                <td>{{ $student->last_name }}</td>
-                                                                <td>{{ $student->email_address }}</td>
-                                                                <td>{{ $student->paid_fee }}</td>
+                                                                <td>{{ $i }}</td>
+                                                                <td>{{ $subject->name }} </td>
+                                                                <td>{{ $subject->category->name }}</td>
+                                                                <td>{{ $subject->description }} </td>
                                                                 <td><button type="button"
                                                                         class="btn btn-primary dropdown-toggle"
                                                                         data-toggle="dropdown" aria-expanded="false">
@@ -112,8 +111,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                     </button>
                                                                     <ul class="dropdown-menu" x-placement="bottom-start"
                                                                         style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 48px, 0px);">
-                                                                        <li class="dropdown-item"><a href="{{ url('admin/student/edit') }}/{{ $student->id }}">Edit</a></li>
-                                                                        <li class="dropdown-item"><a href="{{ url('admin/student/delete') }}/{{ $student->id }}">Delete</a>
+                                                                        <li class="dropdown-item"><a href="{{ url('admin/subject/edit') }}/{{ $subject->id }}">Edit</a></li>
+                                                                        <li class="dropdown-item"><a href="{{ url('admin/subject/delete') }}/{{ $subject->id }}">Delete</a>
                                                                         </li>
                                                                         
                                                                         <li class="dropdown-divider"></li>
@@ -124,9 +123,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                             </tr>
                                                         @endforeach
                                                     @else
-                                                        Empty Student List.
+                                                            Empty Admin List.
                                                     @endif
-                                                    
 
                                                 </tbody>
 

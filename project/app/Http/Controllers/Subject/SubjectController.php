@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Subject;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Auth;
 
 use App\Model\Subject;
+use App\Model\Category;
+use App\Model\SubjectUser;
 
 class SubjectController extends Controller
 {
@@ -17,8 +20,8 @@ class SubjectController extends Controller
     public function index()
     {
         //
-        $subjects = Subject::all();
-        return view ('subjects.subject_list')->with(['subjects'=>$subjects]);
+        $subjects = Subject::orderBy('id', 'DESC')->get();
+        return view ('theme.admin.subject.subject_manager')->with(['subjects'=>$subjects]);
     }
 
     /**
@@ -29,7 +32,17 @@ class SubjectController extends Controller
     public function create()
     {
         //
-        return view("subjects.subject_create");
+        if ( !empty(Auth::guard('admin')->user()) )
+        {
+            $categories = Category::all();
+            return view("theme.admin.subject.subject_create")->with([
+                'categories' => $categories
+                ]);
+        }
+        else
+        {
+            dd ("Error 400! Some thing bad happend.");
+        }
     }
 
     /**
@@ -42,12 +55,16 @@ class SubjectController extends Controller
     {
         //
         $request->validate([
-            'name' => 'required',
+            'subject' => 'required',
             'description' => 'required',
+            'category' => 'required',
         ]);
 
-        $name = $request->input("name");
+        $name = ucwords($request->input("subject"));
         $description = $request->input("description");
+        $category = $request->input("category");
+
+        // dd ($subject, $description, $category);
 
         $already_exist = Subject::where('name',$name)->get();
 
@@ -60,10 +77,12 @@ class SubjectController extends Controller
             $subject = new Subject();
             $subject->name = $name;
             $subject->description = $description;
+            $subject->category_id = $category;
 
             $subject->save();
 
-            return ("A new subject has been created"); 
+            return redirect()->route('admin.subject.list');
+            // return ("A new subject has been created"); 
         }
         
     }
@@ -85,11 +104,13 @@ class SubjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         //
         $subject  = Subject::findOrFail($id);
-        return view("subjects.subject_edit")->with(['subject'=>$subject]);
+        $categories  = Category::all();
+
+        return view("theme.admin.subject.subject_edit")->with(['subject'=>$subject, 'categories'=> $categories]);
     }
 
     
@@ -104,8 +125,9 @@ class SubjectController extends Controller
     {
         //
         $id = $request->input('id');
-        $name = $request->input('name');
+        $name = ucwords($request->input('subject'));
         $description = $request->input('description');
+        $category = $request->input('category');
 
         $subject  = Subject::findOrFail($id);
 
@@ -113,14 +135,21 @@ class SubjectController extends Controller
         {
             $subject->name = $name;
             $subject->description = $description;
+            $subject->category_id = $category;
 
             $subject->save();
 
-            return redirect()->route('subject.list');
+            return response()->json([
+                'success' => 'Success! Your subject data has been updated. Server Response'
+            ]);
+            // return redirect()->route('admin.subject.list');
         }
         else
         {
-            dd("Error: Subject not found.");
+            return response()->json([
+                'error' => 'Error! Something went wronge, Please try later. Server Response'
+            ]);
+            // dd("Error 400: Subject not found.");
         }
     }
 
@@ -133,8 +162,9 @@ class SubjectController extends Controller
     public function destroy($id)
     {
         //
-        $subject  = Subject::findOrFail($id)->delete();
+        $del_subject  = Subject::findOrFail($id)->delete();
+        $del_subject_user  = SubjectUser::where('subject_id',$id)->delete();
 
-        return redirect()->route('subject.list');
+        return redirect()->route('admin.subject.list');
     }
 }

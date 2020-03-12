@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Test;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Auth;
 
 use App\Model\Test;
 use App\Model\TestUser;
@@ -19,8 +20,16 @@ class TestController extends Controller
     public function index()
     {
         //
-        $tests  = Test::all();
-        return view ('test.test_list')->with(['tests'=>$tests]);
+        if ( !empty(Auth::guard('admin')->user()) )
+        {   
+            $tests  = Test::orderBy('id', 'DESC')->get();
+            return view ('theme.admin.test.test_manager')->with(['tests'=>$tests]);
+        }
+        else
+        {
+            dd ("Error 400! Some bad happend.");
+        }
+
     }
 
     /**
@@ -31,7 +40,15 @@ class TestController extends Controller
     public function create()
     {
         //
-        return view ("test.test_create");
+        if ( !empty(Auth::guard('admin')->user()) )
+        {
+            return view ("theme.admin.test.test_create");
+        }
+        else
+        {
+            // Error
+            dd("Error 400! Something bad happend.");
+        }
     }
 
     /**
@@ -44,12 +61,14 @@ class TestController extends Controller
     {
         //
         $request->validate([
-            'name' => 'required',
+            'test' => 'required',
             'description' => 'required',
         ]);
 
-        $name = $request->input('name');
+        $name = ucwords($request->input('test'));
         $description = $request->input('description');
+
+        // dd ($name, $description);
 
         $test = new Test();
 

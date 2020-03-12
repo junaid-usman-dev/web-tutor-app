@@ -228,7 +228,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <!-- /.users-list -->
                                         </div>
                                         <!-- /.card-body -->
-                                        <div class="card-footer text-center"><a href="javascript::">View All
+                                        <div class="card-footer text-center"><a href="{{ route('admin.student.list') }}">View All
                                                 Students</a></div>
                                         <!-- /.card-footer -->
                                     </div>
@@ -324,7 +324,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </div>
                                         <!-- /.card-body -->
                                         <div class="card-footer text-center">
-                                            <a href="javascript::">View All Tutors</a>
+                                            <a href="{{ route('admin.tutor.list') }}">View All Tutors</a>
                                         </div>
                                         <!-- /.card-footer -->
                                     </div>
@@ -333,7 +333,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <!-- /.col -->
                             </div>
                             <!-- /.row -->
-
 
                         </div>
                         <!-- /.col -->

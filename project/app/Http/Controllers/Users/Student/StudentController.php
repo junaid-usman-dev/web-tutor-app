@@ -34,7 +34,7 @@ class StudentController extends Controller
     {
         //
         // $user_id = $request->session()->get('session_student_id');
-        $user = User::where('id',Auth::user()->id)->first();
+        $user = User::where('id',Auth::guard('user')->user()->id)->first();
         return view ('theme.student.student_profile')->with(['user'=> $user ]);
     }
 
@@ -73,7 +73,14 @@ class StudentController extends Controller
     public function create()
     {
         //
-        return view ('student.student_create');
+        if ( !empty(Auth::guard('admin')->user()) )
+        {
+            return view ('theme.admin.student.student_create');
+        }
+        else
+        {
+            return redirect()->route('admin.signin');
+        }
     }
 
     /**
@@ -88,7 +95,7 @@ class StudentController extends Controller
         $request->validate([
             'fname' => 'required',
             'lname' => 'required',
-            'email_addr' => new EmailFormat,
+            'email' => new EmailFormat,
             'phone' => 'required',
             'birthday' => 'required|date',
             'country' => 'required',
@@ -96,12 +103,12 @@ class StudentController extends Controller
             'city' => 'required',
             'zipcode' => 'required',
             'password' => new Password,
-            'type' => 'nullable|max:255',
+            // 'type' => 'nullable|max:255',
         ],
         [   
             'fname.required'    => 'first name field is required.',
             'lname.required'    => 'last name field is required.',
-            'email_addr.required'    => 'The email must be a valid email address.',
+            'email.required'    => 'The email must be a valid email address.',
             'phone.required'    => 'phone field is required.',
             'birthday.required'    => 'birthday field is required.',
             'country.required'    => 'country field is required.',
@@ -118,7 +125,7 @@ class StudentController extends Controller
 
         $fname = $request->fname;
         $lname = $request->lname;
-        $email_addr = $request->email_addr;
+        $email = $request->email;
         $password = $request->password;
 
         $phone = $request->phone;
@@ -130,11 +137,13 @@ class StudentController extends Controller
         $type = $request->type;
 
         $veri_key = md5(time().$password); // email key 
-        $encrypt_pass = base64_encode($password); # encrypting password
+        // $encrypt_pass = base64_encode($password); # encrypting password
+        $encrypt_pass = Hash::make($password); # encrypting password
+
         
         //--------   Student Panel   -----------
         $user_phone = User::where('phone',$phone)->get();
-        $user_mail = User::where('email_address',$email_addr)->get();
+        $user_mail = User::where('email_address',$email)->get();
         if ( count($user_phone) > 0 )
         {
             dd("Phone number already exist.");
@@ -150,7 +159,7 @@ class StudentController extends Controller
 
             $user->first_name = $fname;
             $user->last_name = $lname;
-            $user->email_address = $email_addr;
+            $user->email_address = $email;
             $user->password = $encrypt_pass;
             $user->verification_key = $veri_key;
 
@@ -160,15 +169,21 @@ class StudentController extends Controller
             $user->state = $state;
             $user->city = $city;
             $user->zipcode = $zipcode;
-            $user->type = $type;
+            $user->type = "student";
 
             $user->save();
+
+            $image = new Image();
+            $image->user_id = $user->id;
+            $image->name = "default-profile-image.jpg";
+            $image->path = "images";
+            $image->save();
             
             // Send Email 
-            Mail::to('thebooster786@gmail.com')->send(new SendMailable($user));
+            // Mail::to('thebooster786@gmail.com')->send(new SendMailable($user));
             // User Profile 
 
-            return view ('student.student_upload_image',['id' => $user->id]);
+            return redirect()->route('admin.student.list');
             
         }
     }
@@ -195,7 +210,7 @@ class StudentController extends Controller
     public function edit()
     {
         //
-        $id = Auth::user()->id;
+        $id = Auth::guard('user')->user()->id;
         $user = User::where('id',$id)->where('type', 'student')->first();
 
         if ( empty($user) )
@@ -205,7 +220,27 @@ class StudentController extends Controller
         else
         {
             return view('theme.student.student_profile_edit')->with(['user'=>$user]);
-            // return view('student.edit_profile')->with(['student'=>$student]);
+        }
+        
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function AdminEdit(Request $request)
+    {
+        //
+        if ( !empty(Auth::guard('admin')->user()) )
+        {
+            $has_student = User::findOrFail($request->id);
+            return view('theme.admin.student.student_edit')->with(['student'=>$has_student]);
+        }
+        else
+        {
+            dd ("Error! Some thing bad happend.");
         }
         
     }
@@ -363,6 +398,46 @@ class StudentController extends Controller
             // Redirect to dashboard without updating profile image 
             return redirect()->route('student.dashboard');
         }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function AdminUpdateImage(Request $request)
+    {
+        //
+        if ( !empty(Auth::guard('admin')->user()) )
+        {
+            $user = User::findOrFail($request->id);
+
+            if ($request->hasFile('upload_image'))
+            {
+                // Upload Custom Profile Image
+                $file = $request->file('upload_image');
+                $new_name = rand() . '.' . $file->getClientOriginalExtension();
+                // $file->move(public_path("images"), $new_name ); working
+                $file->move("images", $new_name );
+            
+                $user->images->name = $new_name;
+                
+                $user->images->save();
+
+                return redirect()->route('admin.student.list');
+            }
+            else
+            {
+                // Redirect to dashboard without updating profile image 
+                return redirect()->route('admin.student.list');
+            }
+        }
+        else
+        {
+            dd ("Error! Some thing bad happend.");
+        }
+        
     }
 
     /**

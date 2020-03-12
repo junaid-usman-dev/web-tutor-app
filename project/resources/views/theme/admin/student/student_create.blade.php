@@ -61,6 +61,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     @include('theme.admin.inc.sidebar');
     <!-- End Main Sidebar Container -->
 
+
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -68,12 +69,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Tutor Profile Edit</h1>
+                        <h1 class="m-0 text-dark">Create Student Pofile</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Tutor Profile Edit</li>
+                            <li class="breadcrumb-item active">Create Student Profile</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -87,26 +88,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="row">
                     <div class="col-md-3">
 
-                        <form role="form" method="POST" action="{{ route('admin.tutor.update.image') }}" accept-charset="UTF-8" enctype="multipart/form-data" >
+                        <form role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data" >
                             @csrf
                     
                             <!-- Profile Image -->
-                            <div class="card card-primary card-outline">
-                                <div class="card-body box-profile">
-                                    <div class="text-center">
-                                        <input type="hidden" name="id" value="{{ $tutor->id }}" />
+                            {{-- <div class="card card-primary card-outline">
+                                <div class="card-body box-profile"> --}}
+                                    {{-- <div class="text-center">
                                         <input type="file" id="upload_image" name="upload_image" value=""  class="d-none">
                                             <img name="image" id="image" style="cursor:pointer;" class="profile-user-img img-fluid img-circle"
-                                                src="{{ url('/') }}/{{ $tutor->images->path }}/{{ $tutor->images->name }}" alt="User profile picture">
-                                    </div>
-                                    <h3 class="profile-username text-center">{{ $tutor->first_name }} {{ $tutor->last_name }}</h3>
-                                    <input type="submit" class="btn btn-primary btn-block" value="Update Profile Pic">
+                                                src="#" alt="User profile picture">
+                                    </div> --}}
+                                    {{-- <br> --}}
+                                    {{-- <h3 class="profile-username text-center">FirstName LastName</h3> --}}
+                                    {{-- <input type="submit" class="btn btn-primary btn-block" value="Update Profile Pic"> --}}
                                     {{-- <button class="btn btn-primary btn-block">
                                         <strong>Update Profile Pic</strong>
                                     </button> --}}
-                                </div>
+                                {{-- </div> --}}
                                     <!-- /.card-body -->
-                            </div>
+                            {{-- </div> --}}
                               <!-- /.card -->
                         </form>
 
@@ -120,13 +121,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <!-- Tutors LIST -->
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title">Edit Your Profile</h3>
+                                        <h3 class="card-title">Create Student Profile</h3>
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
-                                        <form role="form" accept-charset="UTF-8" enctype="multipart/form-data" >
+                                        <form role="form" method="POST" action="{{ route('admin.student.store') }}" accept-charset="UTF-8" enctype="multipart/form-data" >
                                             @csrf
 
+                                            {{-- Frontend Error --}}
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                       {{-- Error --}}
@@ -145,19 +147,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                           <strong>Success!</strong> Your profile information has been updated.
                                                       </div>
                                                       {{-- End Success --}}
-                                                    <!-- text input -->
-                                                    <div class="form-group">
-                                                        <div class="input-group mb-2">
-                                                            <input type="hidden" class="form-control @error('id') is-invalid @enderror" name="id"
-                                                                value="{{ $tutor->id }}" >
-                                                        </div>
-                                                    </div>
-                                                    @error('id')
-                                                        <div class="alert alert-danger">{{ $message }}</div>
-                                                    @enderror
-                                                    <div class="error-message alert alert-danger error-id" role="alert">
-                                                        Error Message Goes Here
-                                                    </div>
                                                 </div>
                                             </div>
 
@@ -168,7 +157,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         <label>First Name</label>
                                                         <div class="input-group mb-2">
                                                             <input type="text" class="form-control @error('fname') is-invalid @enderror" name="fname"
-                                                                placeholder="First name" value="{{ $tutor->first_name }}">
+                                                                placeholder="First name" value="{{ old('fname') }}">
                                                             <div class="input-group-append">
                                                                 <div class="input-group-text">
                                                                     <span class="fas fa-user"></span>
@@ -188,7 +177,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         <label>Last Name</label>
                                                         <div class="input-group mb-2">
                                                             <input type="text" class="form-control @error('lname') is-invalid @enderror" name="lname"
-                                                                placeholder="Last name" value="{{ $tutor->last_name }}" >
+                                                                placeholder="Last name" value="{{ old('lname') }}">
                                                             <div class="input-group-append">
                                                                 <div class="input-group-text">
                                                                     <span class="fas fa-user"></span>
@@ -212,7 +201,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         <label>Email</label>
                                                         <div class="input-group mb-2">
                                                             <input id="email" name="email" type="text" class="form-control @error('email') is-invalid @enderror"
-                                                                placeholder="Enter Email" value="{{ $tutor->email_address }}" >
+                                                                placeholder="Enter Email" value="{{ old('email') }}" >
                                                             <div class="input-group-append">
                                                                 <div class="input-group-text">
                                                                     <span class="fas fa-envelope"></span>
@@ -236,7 +225,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         <label>Phone Number</label>
                                                         <div class="input-group mb-2">
                                                             <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone"
-                                                                placeholder="Enter Phone Number" value="{{ $tutor->phone }}" >
+                                                                placeholder="Enter Phone Number" value="{{ old('phone') }}" >
                                                             <div class="input-group-append">
                                                                 <div class="input-group-text">
                                                                     <span class="fas fa-mobile-alt"></span>
@@ -256,10 +245,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         <label>Birthday</label>
                                                         <div class="input-group mb-2">
                                                             <input type="text" class="form-control @error('birthday') is-invalid @enderror" name="birthday"
-                                                                placeholder="Enter Birthday"
+                                                                placeholder="Enter Birthday" value="{{ old('birthday') }}"
                                                                 data-inputmask-alias="datetime"
                                                                 data-inputmask-inputformat="mm/dd/yyyy" data-mask
-                                                                value="{{ $tutor->birthday }}" >
+                                                                >
                                                             <div class="input-group-append">
                                                                 <div class="input-group-text">
                                                                     <span class="fas fa-calendar"></span>
@@ -279,10 +268,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <div class="col-sm-12">
                                                     <!-- text input -->
                                                     <div class="form-group">
-                                                        <label>Old Password</label>
+                                                        <label>Password</label>
                                                         <div class="input-group mb-2">
-                                                            <input type="password" class="form-control @error('old_password') is-invalid @enderror" name="old_password"
-                                                                placeholder="Enter Old Password">
+                                                            <input type="password" class="form-control password-popover @error('password') is-invalid @enderror"
+                                                                id="password" name="password" placeholder="Enter Password"
+                                                                title='<strong>Password must contain the following:</strong>' data-html="true" 
+                                                                data-toggle="popover" data-trigger="focus" 
+                                                                data-content='
+                                                                    <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                                                                    <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                                                                    <p id="number" class="invalid">A <b>number</b></p>
+                                                                    <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+                                                                '>
                                                             <div class="input-group-append">
                                                                 <div class="input-group-text">
                                                                     <span class="fas fa-lock"></span>
@@ -290,16 +287,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    @error('old_password')
+                                                    @error('password')
                                                         <div class="alert alert-danger">{{ $message }}</div>
                                                     @enderror
                                                     <div class="error-message alert alert-danger error-op" role="alert">
                                                         Error Message Goes Here
                                                     </div>
                                                 </div>
-
                                             </div>
-                                            <div class="row">
+
+                                            {{-- <div class="row">
                                                 <div class="col-sm-6">
                                                     <!-- text input -->
                                                     <div class="form-group">
@@ -349,14 +346,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         Error Message Goes Here
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> --}}
+
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <!-- text input -->
                                                     <div class="form-group">
                                                         <label>Country</label>
                                                         <select class="form-control @error('country') is-invalid @enderror" name="country"
-                                                            data-placeholder="Select Country" style="width: 100%;" value="{{ $tutor->country }}">
+                                                            data-placeholder="Select Country" style="width: 100%;" value="{{ old('country') }}" >
 
                                                             <option>Alaska</option>
                                                             <option>California</option>
@@ -376,8 +374,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label>State</label>
-                                                        <select class="form-control @error('state') is-invalid @enderror" name="state" data-placeholder="Select State"
-                                                            style="width: 100%;" value="{{ $tutor->state }}" >
+                                                        <select class="form-control @error('state') is-invalid @enderror"
+                                                                name="state" data-placeholder="Select State" value="{{ old('state') }}"
+                                                                style="width: 100%;" >
+
                                                             <option>Alaska</option>
                                                             <option>California</option>
                                                             <option>Delaware</option>
@@ -396,34 +396,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             </div>
                                             
                                             <div class="row">
-                                                {{-- <div class="col-sm-6">
-                                                    <!-- text input -->
-                                                    <div class="form-group">
-                                                        <label>City</label>
-                                                        <select class="form-control @error('city') is-invalid @enderror" name="city" data-placeholder="Select City"
-                                                            style="width: 100%;" value="{{ $tutor->city }}" >
-                                                            <option>Alaska</option>
-                                                            <option>California</option>
-                                                            <option>Delaware</option>
-                                                            <option>Tennessee</option>
-                                                            <option>Texas</option>
-                                                            <option>Washington</option>
-                                                        </select>
-                                                    </div>
-                                                    @error('city')
-                                                        <div class="alert alert-danger">{{ $message }}</div>
-                                                    @enderror
-                                                    <div class="error-message alert alert-danger error-cty" role="alert">
-                                                        Error Message Goes Here
-                                                    </div>
-                                                </div> --}}
                                                 <div class="col-sm-6">
                                                     <!-- text input -->
                                                     <div class="form-group">
                                                         <label>City</label>
                                                         <div class="input-group mb-2">
                                                             <input type="text" class="form-control @error('city') is-invalid @enderror" name="city"
-                                                                placeholder="City" value="{{ $tutor->city }}" >
+                                                                placeholder="City" value="{{ old('city') }}" >
                                                             <div class="input-group-append">
                                                                 <div class="input-group-text">
                                                                     <span class="fas fa-city"></span>
@@ -444,7 +423,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         <label>Zipcode</label>
                                                         <div class="input-group mb-2">
                                                             <input type="text" class="form-control @error('zipcode') is-invalid @enderror" name="zipcode"
-                                                                placeholder="Enter Zipcode" value="{{ $tutor->zipcode }}" >
+                                                                placeholder="Enter Zipcode" value="{{ old('zipcode') }}" >
                                                             <div class="input-group-append">
                                                                 <div class="input-group-text">
                                                                     <span class="fas fa-map-marker-alt"></span>
@@ -461,32 +440,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 </div>
                                             </div>
 
-                                            <div class="row">
+                                            {{-- <div class="row">
                                                 <div class="col-sm-12">
                                                     <!-- textarea -->
                                                     <div class="form-group">
                                                         <label>Choose Subjects</label>
                                                         <div class="form-group">
                                                             <select class="select2 @error('subject') is-invalid @enderror" name="subject" multiple="multiple"
-                                                                data-placeholder="Select a State"
+                                                                data-placeholder="Select a Subject"
                                                                 style="width: 100%;">
-                                                                @foreach ($subjects as $subject)
-                                                                    <option value="{{ $subject->id }}"
-                                                                        @foreach ($tutor->subjects as $user_sub)
-                                                                            @if ($user_sub->id == $subject->id)
-                                                                                selected
-                                                                            @endif
-                                                                        @endforeach
-                                                                        >{{ $subject->name }}</option>
-                                                                @endforeach
-
-                                                                {{-- <option>English</option>
+                                                                <option>English</option>
                                                                 <option>Science</option>
                                                                 <option>History</option>
                                                                 <option>Mathematics</option>
                                                                 <option>Geography</option>
                                                                 <option>Economics</option>
-                                                                <option>Computer Science</option> --}}
+                                                                <option>Computer Science</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -497,15 +466,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         Error Message Goes Here
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             
-                                            <div class="row">
+                                            {{-- <div class="row">
                                                 <div class="col-sm-12">
                                                     <!-- textarea -->
                                                     <div class="form-group">
                                                         <label>Summary</label>
                                                         <textarea class="form-control @error('summary') is-invalid @enderror" rows="3"
-                                                            placeholder="Enter ..." name="summary" >{{ $tutor->summary }}</textarea>
+                                                            placeholder="Enter ..." name="summary" ></textarea>
                                                     </div>
                                                     @error('summary')
                                                         <div class="alert alert-danger">{{ $message }}</div>
@@ -514,43 +483,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         Error Message Goes Here
                                                     </div>
                                                 </div>
+                                            </div> --}}
 
-                                            </div>
-
-                                            <div class="row">
+                                            {{-- <div class="row">
                                                 <div class="col-sm-6">
                                                     <!-- textarea -->
                                                     <div class="form-group">
                                                         <label>How would you like to teach?</label>
                                                         <div class="form-group">
                                                             <div class="form-check">
-                                                                @if ($tutor->teaching_method == "online")
-                                                                    <input class="form-check-input" type="radio"
-                                                                        name="teaching_method" value="online" checked>
-                                                                @else
-                                                                    <input class="form-check-input" type="radio"
-                                                                        name="teaching_method" value="online">
-                                                                @endif
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="teaching_method" value="online">
                                                                 <label class="form-check-label">Online</label>
                                                             </div>
                                                             <div class="form-check">
-                                                                @if ($tutor->teaching_method == "in-person")
-                                                                    <input class="form-check-input" type="radio"
-                                                                        name="teaching_method" value="in-person" checked>
-                                                                @else
-                                                                    <input class="form-check-input" type="radio"
+                                                                <input class="form-check-input" type="radio"
                                                                     name="teaching_method" value="in-person" >
-                                                                @endif
                                                                 <label class="form-check-label">In-Person</label>
                                                             </div>
                                                             <div class="form-check">
-                                                                @if ($tutor->teaching_method == "both")
-                                                                    <input class="form-check-input" type="radio"
-                                                                        name="teaching_method" value="both" checked>
-                                                                @else
-                                                                    <input class="form-check-input" type="radio"
-                                                                        name="teaching_method" value="both">
-                                                                @endif
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="teaching_method" value="both" checked>
                                                                 <label class="form-check-label ">Both</label>
                                                             </div>
                                                         </div>
@@ -563,7 +516,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                             paid</label>
                                                         <div class="input-group mb-2">
                                                             <input type="text" class="form-control @error('price_per_hour') is-invalid @enderror" name="price_per_hour"
-                                                                placeholder="Enter Price Per Hour" value="{{ $tutor->price_per_hour }}">
+                                                                placeholder="Enter Price Per Hour" >
                                                             <div class="input-group-append">
                                                                 <div class="input-group-text">
                                                                     <span class="fas fa-dollar-sign"></span>
@@ -578,19 +531,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         Error Message Goes Here
                                                     </div>
                                                 </div>
+                                            </div> --}}
 
-                                            </div>
+
+                                            <div class="card-footer text-left">
+                                                <button id="create" class="btn btn-primary">
+                                                    <i class="fas fa-check"></i>
+                                                    Create
+                                                </button>
+                                          </div>
                                             <!-- input states -->
                                         </form>
                                         <!-- /.users-list -->
                                     </div>
                                     <!-- /.card-body -->
-                                    <div class="card-footer text-left">
-                                          <button id="update" class="btn btn-primary">
+                                    {{-- <div class="card-footer text-left">
+                                          <button id="create" class="btn btn-primary">
                                               <i class="fas fa-check"></i>
-                                              Update
+                                              Create
                                           </button>
-                                    </div>
+                                    </div> --}}
                                     <!-- /.card-footer -->
                                 </div>
                                 <!--/.card -->
@@ -742,11 +702,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
         jQuery('.password-popover').popover({
             trigger: 'focus'
         });
-        jQuery('.new-password-popover').popover({
-            trigger: 'focus'
-        }); 
+        // jQuery('.new-password-popover').popover({
+        //     trigger: 'focus'
+        // }); 
         //-----------------------------------------------------------------------
-        //        Preview Image
+        //        End password popover
         //-----------------------------------------------------------------------
         //
         //-----    Preview Image
@@ -776,7 +736,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         //----------------------------------------------------------
         var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-        var myInput = document.getElementById("new_password")
+        var myInput = document.getElementById("password")
 
         // Password Bool
         var uper = false;
@@ -864,7 +824,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         // jQuery(document).ready(function(){
 
             // $.ajaxSetup({ headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} });
-        jQuery(document).on('click', "#update", function(event){
+        jQuery(document).on('click', "#update434", function(event){
             event.preventDefault();
 
             console.log("Button Pressed.");

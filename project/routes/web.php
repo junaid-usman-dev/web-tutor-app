@@ -186,7 +186,6 @@ Route::prefix('tutor')->group(function () {
     Route::get('/payment', 'Users\Tutor\TutorController@Payment')->name('tutor.payment'); // Payment Form
     Route::get('/submit-payment', 'Users\Tutor\TutorController@SubmitPayment')->name('tutor.submit.payment'); // Payment Form
 
-
     Route::get('/edit', 'Users\Tutor\TutorController@edit')->name('tutor.edit.profile'); // Edit tutor profile
     Route::post('/update', 'Users\Tutor\TutorController@update')->name('tutor.update.profile'); // Update tutor profile
     
@@ -260,7 +259,7 @@ Route::prefix('admin')->group(function () {
     */
     Route::prefix('subject')->group(function () {
 
-        Route::get('/list', 'Subject\SubjectController@index')->name('subject.list'); // display all subjects
+        Route::get('/list', 'Subject\SubjectController@index')->name('admin.subject.list'); // display all subjects
 
         Route::get('/create', 'Subject\SubjectController@create')->name('admin.subject.create'); // create a new subject
         Route::post('/store', 'Subject\SubjectController@store')->name('admin.subject.store'); // store a new created subject to db
@@ -279,16 +278,15 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/list', 'Users\Student\StudentController@index')->name('admin.student.list'); // display all student
 
-        Route::get('/profile/{id}', 'Users\Admin\AdminController@show')->name('admin.student.profile'); // display all student
-
         Route::get('/create', 'Users\Student\StudentController@create')->name('admin.student.create'); // create a new student
-        Route::post('/store', 'Users\Student\StudentController@store'); // store a new created student to db
-        Route::post('/upload-image', 'Users\Student\StudentController@UploadPicture')->name('student.upload.profile'); // Upload profile picture
-
+        Route::post('/store', 'Users\Student\StudentController@store')->name('admin.student.store'); // store a new created student to db
         Route::get('/delete/{id}', 'Users\Student\StudentController@destroy'); // delete specific resource from db
 
-        Route::get('/edit/{id}', 'Users\Student\StudentController@edit'); // edit a specific student
-        Route::post('/update', 'Users\Student\StudentController@update'); // update a specific student
+        Route::get('/edit/{id}', 'Users\Student\StudentController@AdminEdit')->name('admin.student.edit'); // edit a specific student
+        Route::post('/update', 'Users\Student\StudentController@update')->name('admin.student.update'); // update a specific student
+        Route::post('/update-image', 'Users\Student\StudentController@AdminUpdateImage')->name('admin.student.update.image'); // Upload profile picture
+
+        Route::get('/profile/{id}', 'Users\Admin\AdminController@show')->name('admin.student.profile'); // display all student
 
     });
 
@@ -298,18 +296,18 @@ Route::prefix('admin')->group(function () {
     Route::prefix('tutor')->group(function () {
 
         Route::get('/list', 'Users\Tutor\TutorController@AdminIndex')->name('admin.tutor.list'); // display all tutor
+        
+        Route::get('/create', 'Users\Tutor\TutorController@create')->name('admin.tutor.create'); // create a new tutor
+        Route::post('/store', 'Users\Tutor\TutorController@store')->name('admin.tutor.store'); // store a new created tutor to db
+
+        Route::get('/edit/{id}', 'Users\Tutor\TutorController@AdminEdit')->name('admin.tutor.edit'); // edit a specific tutor
+        Route::post('/update', 'Users\Tutor\TutorController@update')->name('admin.tutor.update'); // update a specific tutor
+        Route::get('/delete/{id}', 'Users\Tutor\TutorController@destroy')->name('admin.tutor.delete'); // delete specific resource from db
 
         Route::get('/profile/{id}', 'Users\Admin\AdminController@show')->name('admin.tutor.profile'); //View Specific Tutor Profile
         Route::get('/all-review/{id}', 'Users\Admin\AdminController@AllReview')->name('admin.tutor.all.review'); // all reviews
 
-        Route::get('/create', 'Users\Tutor\TutorController@create')->name('admin.tutor.create'); // create a new tutor
-        Route::post('/store', 'Users\Tutor\TutorController@store')->name('admin.tutor.store'); // store a new created tutor to db
-        Route::post('/upload-image', 'Users\Tutor\TutorController@UploadPicture')->name('admin.tutor.upload.profile'); // Upload profile picture
-
-        Route::get('/delete/{id}', 'Users\Tutor\TutorController@destroy')->name('admin.tutor.delete'); // delete specific resource from db
-
-        Route::get('/edit/{id}', 'Users\Tutor\TutorController@edit'); // edit a specific tutor
-        Route::post('/update', 'Users\Tutor\TutorController@update'); // update a specific tutor
+        Route::post('/update-image', 'Users\Tutor\TutorController@AdminUpdateImage')->name('admin.tutor.update.image'); // Upload profile picture
 
     });
 
@@ -320,7 +318,7 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/list', 'Test\TestController@index')->name('admin.test.list'); // display all test
 
-        Route::get('/create', 'Test\TestController@create'); // create a new test
+        Route::get('/create', 'Test\TestController@create')->name('admin.test.create'); // create a new test
         Route::post('/store', 'Test\TestController@store')->name('admin.test.store'); // store a new created test to db
         
         Route::get('/delete/{id}', 'Test\TestController@destroy'); // delete specific resource from db
@@ -345,8 +343,6 @@ Route::prefix('admin')->group(function () {
         });
 
     });
-
-
 
 });
 

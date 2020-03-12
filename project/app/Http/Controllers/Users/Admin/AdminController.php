@@ -91,17 +91,39 @@ class AdminController extends Controller
         
         $email = $request->input('email');
         $password = $request->input('password');
+        // $encrypt_pass =  base64_encode($password);
 
-        $encrypt_pass =  base64_encode($password);
         // Hash::check('secret', $hashedPassword)
         // $encrypt_pass =  Hash::make($password);
 
         // dd ($encrypt_pass); 
+        Auth::guard('admin')->attempt(['email_address' => $email, 'password' => $password]);
+        
+        if (Auth::guard('admin')->check())
+        {
+            // Authentication Passed.
+            // $details = Auth::guard('admin')->user();
+            // dd ($details);
+            // $user = $details['original'];
+            // $admin_id = $user[0]->id;
+            // $admin_email = $user[0]->email;
+            $this->StoreSession($request, Auth::guard('admin')->user()->id, Auth::guard('admin')->user()->email_address );
+            return response()->json([
+                'success' => 'Go to home page.'
+            ]); 
+            // dd("Authentication Passed.");
+        }
+        else {
+            // dd('Authentication faild.');
+            return response()->json([
+                'error' => 'Unknown Email or Password.'
+            ]);
+        }
 
-        $user = Admin::where('email_address',$email)->where('password',$encrypt_pass)->get();
-        // $admin = Admin::attempt(['email_address' => $email, 'password' => $password ]);
-        // dd ($admin);
-        // if ( Admin::check() )
+        // $user = Admin::where('email_address',$email)->where('password',$encrypt_pass)->get();
+        // $admin = Auth::guard('admin')->attempt(['email_address' => $email, 'password' => $password ]);
+        // // dd ($admin);
+        // if ( Auth::check() )
         // {
         //     dd ("Found");
         // }
@@ -109,26 +131,27 @@ class AdminController extends Controller
         // {
         //     dd ("Invalid User -----------");
         // }
-        if (count($user) > 0)
-        {
-            // Login
-            // put data into session
-            $admin_id = $user[0]->id;
-            $admin_email = $user[0]->email;
-            $this->StoreSession($request, $admin_id, $admin_email);
 
-            return response()->json([
-                'success' => 'Go to home page.'
-            ]); 
-        }
-        else
-        {
-            // Error
-            // dd ("Unknown Email or Password.");
-            return response()->json([
-                'error' => 'Unknown Email or Password.'
-            ]); 
-        }
+        // if (count($user) > 0)
+        // {
+        //     // Login
+        //     // put data into session
+        //     $admin_id = $user[0]->id;
+        //     $admin_email = $user[0]->email;
+        //     $this->StoreSession($request, $admin_id, $admin_email);
+
+        //     return response()->json([
+        //         'success' => 'Go to home page.'
+        //     ]); 
+        // }
+        // else
+        // {
+        //     // Error
+        //     // dd ("Unknown Email or Password.");
+        //     return response()->json([
+        //         'error' => 'Unknown Email or Password.'
+        //     ]); 
+        // }
     }
 
 
@@ -160,8 +183,8 @@ class AdminController extends Controller
         $email = $request->input('email');
         $password = $request->input('password');
         
-        $encrypt_pass = base64_encode($password); # encrypting password
-        // $encrypt_pass = Hash::make($password);
+        // $encrypt_pass = base64_encode($password); # encrypting password
+        $encrypt_pass = Hash::make($password);
 
         // dd ($encrypt_pass, $encrypt_pass2 );
 
@@ -255,7 +278,6 @@ class AdminController extends Controller
         return redirect()->route("admin.list");
     }
 
-
     /**
      * Logout the specified resource from storage.
      *
@@ -266,6 +288,7 @@ class AdminController extends Controller
     {
         //
         $request->session()->flush();
+        Auth::guard('admin')->logout();
         return redirect()->route('admin.signin');
         // return ("Session has been deleted.");
     }

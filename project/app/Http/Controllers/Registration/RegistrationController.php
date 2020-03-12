@@ -97,9 +97,9 @@ class RegistrationController extends Controller
             if(!preg_match("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^",$name))
             {
                 // Auth::attempt(['phone' => $name, 'password' => $pass, $remember_me ]);
-                Auth::attempt(['phone' => $name, 'password' => $pass]);
+                Auth::guard('user')->attempt(['phone' => $name, 'password' => $pass]);
             }else{
-                Auth::attempt(['email_address' => $name, 'password' => $pass ]);
+                Auth::guard('user')->attempt(['email_address' => $name, 'password' => $pass ]);
             }
 
             if (Auth::check())
@@ -714,7 +714,7 @@ class RegistrationController extends Controller
     public function Logout(Request $request)
     {
         $request->session()->flush();
-        Auth::logout();
+        Auth::guard('user')->logout();
         return redirect ('/signin');
     }
 

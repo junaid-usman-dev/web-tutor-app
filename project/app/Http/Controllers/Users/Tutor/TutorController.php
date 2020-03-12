@@ -238,24 +238,43 @@ class TutorController extends Controller
      */
     public function edit(Request $request)
     {
-        // if (Auth::user()->type == "tutor")
-        // {
-            $user = User::findOrFail( Auth::user()->id );
+        
+        if ( Auth::guard('user')->user()->type == "tutor" )
+        {
+            // Tutor
+            // print_r ("Tutor");
+            $user = User::findOrFail( Auth::guard('user')->user()->id );
             $subjects = Subject::all();
             return view('theme.tutor.tutor_profile_edit')->with(['user'=>$user, 'subjects'=>$subjects]);
-        // }
-        // else if (Auth::user()->type == "admin")
-        // {
-            
-        //     $tutor = User::findOrFail( $request->id );
-        //     $subjects = Subject::all();
-        //     return view('theme.admin.tutor.tutor_edit')->with(['tutor'=>$tutor, 'subjects'=>$subjects]);
-        // }
-        // else
-        // {
-        //     dd("Error! Some thing bad happend.");
-        // }
+        }
+        else
+        {
+            dd("Error! Some thing bad happend.");
+        }
     }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function AdminEdit(Request $request)
+    {
+        if ( !empty(Auth::guard('admin')->user()) )
+        {
+            // Admin
+            // print_r ("Admin");
+            $tutor = User::findOrFail( $request->id );
+            $subjects = Subject::all();
+            return view('theme.admin.tutor.tutor_edit')->with(['tutor'=>$tutor, 'subjects'=>$subjects]);
+        }
+        else
+        {
+            dd("Error! Some thing bad happend.");
+        }
+    }
+
 
     /**
      * Update the specified resource in storage.
@@ -453,6 +472,35 @@ class TutorController extends Controller
         {
             // Redirect to dashboard without updating profile image 
             return redirect()->route('tutor.dashboard');
+        }
+    }
+
+    /**
+     * Update Image for specified resource from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function AdminUpdateImage(Request $request)
+    {
+        //
+        $user = User::findOrFail($request->id);
+        if ($request->hasFile('upload_image'))
+        {
+            // Upload Custom Profile Image
+            $file = $request->file('upload_image');
+            $new_name = rand() . '.' . $file->getClientOriginalExtension();
+            // $file->move(public_path("images"), $new_name ); working
+            $file->move("images", $new_name );
+         
+            $user->images->name = $new_name;
+            $user->images->save();
+
+            return redirect()->route('admin.tutor.list');
+        }
+        else
+        {
+            // Redirect to dashboard without updating profile image 
+            return redirect()->route('admin.tutor.list');
         }
     }
 

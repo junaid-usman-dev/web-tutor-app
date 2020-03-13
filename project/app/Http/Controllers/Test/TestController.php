@@ -8,6 +8,7 @@ use Auth;
 
 use App\Model\Test;
 use App\Model\TestUser;
+use App\Model\Question;
 use App\User;
 
 class TestController extends Controller
@@ -20,15 +21,15 @@ class TestController extends Controller
     public function index()
     {
         //
-        if ( !empty(Auth::guard('admin')->user()) )
-        {   
+        // if ( !empty(Auth::guard('admin')->user()) )
+        // {   
             $tests  = Test::orderBy('id', 'DESC')->get();
             return view ('theme.admin.test.test_manager')->with(['tests'=>$tests]);
-        }
-        else
-        {
-            dd ("Error 400! Some bad happend.");
-        }
+        // }
+        // else
+        // {
+        //     dd ("Error 400! Some bad happend.");
+        // }
 
     }
 
@@ -76,8 +77,10 @@ class TestController extends Controller
         $test->description = $description;
 
         $test->save();
+        
+        return redirect()->route('admin.test.question.create', ['test_id' => $test->id]);
 
-        return view ('theme.admin.test.question.question_create')->with([ 'test_id'=>$test->id ]);
+        // return view ('theme.admin.test.question.question_create')->with([ 'test_id'=>$test->id ]);
 
     }
 
@@ -87,9 +90,11 @@ class TestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         //
+        $test = Test::findOrFail($id);
+        return view('theme.admin.test.test_preview')->with(['test'=>$test]);
     }
 
     /**
@@ -102,7 +107,7 @@ class TestController extends Controller
     {
         //
         $test = Test::findOrFail($id);
-        return view ('test.test_edit')->with(['test'=>$test]);
+        return view ('theme.admin.test.test_edit')->with(['test'=>$test]);
     }
 
     /**
@@ -116,18 +121,19 @@ class TestController extends Controller
     {
         //
         $request->validate([
-            'name'=> 'required',
+            'id'=> 'required',
+            'title'=> 'required',
             'description'=> 'required',
         ]);
 
         $id = $request->input('id');
-        $name = $request->input('name');
+        $name = $request->input('title');
         $description = $request->input('description');
 
         $test = Test::findOrFail($id);
         if ( empty($test) )
         {
-            dd ("Something went wrong.");
+            dd ("Error 400: Something went wrong.");
         }
         else
         {
@@ -136,7 +142,7 @@ class TestController extends Controller
 
             $test->save();
 
-            return redirect('admin/test/list');
+            return redirect()->route('admin.test.list');
         }
     }
 
@@ -149,8 +155,10 @@ class TestController extends Controller
     public function destroy($id)
     {
         //
-        $test = Test::findOrFail($id)->delete();
-        return redirect('admin/test/list');
+        $del_test = Test::findOrFail($id)->delete();
+        $del_question = Question::where('test_id',$id)->delete();
+
+        return redirect()->route('admin.test.list');
     }
 
     /**

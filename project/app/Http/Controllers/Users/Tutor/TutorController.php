@@ -742,8 +742,9 @@ class TutorController extends Controller
     public function TestList()
     {
         //
-        $test = Test::all();
-        return view('tutor.test.test_list')->with(['tests'=>$test]);
+        $user = Auth::guard('user')->user();
+        $tests = Test::orderBy('id', 'DESC')->get();
+        return view('theme.tutor.test.test_list')->with(['tests'=>$tests, 'user'=>$user]);
     }
 
     /**
@@ -755,6 +756,7 @@ class TutorController extends Controller
     public function AttemptTest(Request $request ,$id)
     {
         //
+        // check auth user
         $test = Test::findOrFail($id);
         if ( !empty($test) )
         {
@@ -778,7 +780,7 @@ class TutorController extends Controller
         else
         {
             // Show Error That Invalid test id
-            dd ("Something went wronge.");
+            dd ("Error 400: Something went wronge.");
         }
     }
     

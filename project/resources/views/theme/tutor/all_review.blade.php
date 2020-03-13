@@ -85,7 +85,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <!-- text input -->
                                                 <div class="form-group">
 
-
                                                     @if ( count($user->reviews) > 0 )
                                                         @foreach ($user->reviews as $review)
                                                             <p>
@@ -102,50 +101,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     @else
                                                         The tutor has no review.
                                                     @endif
-
-                                                    {{-- <p>
-                                                        <b>Solid tutoring</b></br>
-
-                                                        Nicole is very thorough on reinforcing materials,
-                                                        studying and helping organize to get work done. Very
-                                                        effective use of time and super helpful. Very pleased
-                                                        with progress.</br>
-                                                        <span class="text-muted text-sm"><em>Allison, 13 lessons
-                                                                with Nicole </em></span>
-                                                    </p>
-
-                                                    <p>
-                                                        <b>Solid tutoring</b></br>
-
-                                                        Nicole is very thorough on reinforcing materials,
-                                                        studying and helping organize to get work done. Very
-                                                        effective use of time and super helpful. Very pleased
-                                                        with progress.</br>
-                                                        <span class="text-muted text-sm"><em>Allison, 13 lessons
-                                                                with Nicole </em></span>
-                                                    </p>
-
-                                                    <p>
-                                                        <b>Solid tutoring</b></br>
-
-                                                        Nicole is very thorough on reinforcing materials,
-                                                        studying and helping organize to get work done. Very
-                                                        effective use of time and super helpful. Very pleased
-                                                        with progress.</br>
-                                                        <span class="text-muted text-sm"><em>Allison, 13 lessons
-                                                                with Nicole </em></span>
-                                                    </p>
-                                                    
-                                                    <p>
-                                                        <b>Solid tutoring</b></br>
-
-                                                        Nicole is very thorough on reinforcing materials,
-                                                        studying and helping organize to get work done. Very
-                                                        effective use of time and super helpful. Very pleased
-                                                        with progress.</br>
-                                                        <span class="text-muted text-sm"><em>Allison, 13 lessons
-                                                                with Nicole </em></span>
-                                                    </p> --}}
 
                                             </div>
                                         </div>

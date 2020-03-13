@@ -14,38 +14,39 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <html lang="en">
 
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-<title>TutorLynx</title>
-<meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>TutorLynx</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<!-- Font Awesome Icons -->
-<link rel="stylesheet" href="{{ asset('theme_asset/plugins/fontawesome-free/css/all.min.css') }}">
-<!-- Theme style -->
-<link rel="stylesheet" href="{{ asset('theme_asset/dist/css/adminlte.css') }}">
-<!-- Google Font: Source Sans Pro -->
-<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-<!-- Select2 -->
-{{-- <link rel="stylesheet" href="{{ asset('theme_asset/plugins/select2/css/select2.css') }}"> --}}
-{{-- <link rel="stylesheet" href="{{ asset('theme_asset/plugins/select2-bootstrap4-theme/select2-bootstrap4.css') }}"> --}}
-<!-- Bootstrap4 Duallistbox -->
-<link rel="stylesheet" href="{{ asset('theme_asset/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.css') }}">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="{{ asset('theme_asset/plugins/fontawesome-free/css/all.min.css') }}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset('theme_asset/dist/css/adminlte.css') }}">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- Select2 -->
+    {{-- <link rel="stylesheet" href="{{ asset('theme_asset/plugins/select2/css/select2.css') }}"> --}}
+    {{-- <link rel="stylesheet" href="{{ asset('theme_asset/plugins/select2-bootstrap4-theme/select2-bootstrap4.css') }}"> --}}
+    <!-- Bootstrap4 Duallistbox -->
+    <link rel="stylesheet" href="{{ asset('theme_asset/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.css') }}">
+
 </head>
 
 
 <style>
 
-.valid {
-    color: green;
-}
-.invalid {
-    color: red;
-}
-.error-message{
-    display: none;
-}
+    .valid {
+        color: green;
+    }
+    .invalid {
+        color: red;
+    }
+    .error-message{
+        display: none;
+    }
 
 </style>
 
@@ -89,10 +90,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                     {{-- Left Small Card --}}
                     <div class="col-md-3">
-                        <form role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data" >
+                        {{-- <form role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data" >
                             @csrf
                            
-                        </form>
+                        </form> --}}
                     </div>
                     {{-- End Left Small Card --}}
 
@@ -109,7 +110,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
-                                        <form role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data" >
+
+                                        <form role="form" method="POST" action="{{ action('Test\QuestionController@store') }}" accept-charset="UTF-8" enctype="multipart/form-data" >
                                             @csrf
 
                                             {{-- Frontend Error --}}
@@ -139,7 +141,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <!-- text input -->
                                                     <div class="form-group">
                                                         <div class="input-group mb-2">
-                                                            <input name="id" type="hidden" class="form-control" value={{ $test_id }} >
+                                                            <input name="test_id" type="hidden" class="form-control" value="{{ $test_id }}" >
                                                         </div>
                                                     </div>
                                                 </div>
@@ -257,23 +259,53 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 </div>
                                             </div>
 
-                                            
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <!-- text input -->
+                                                    <div class="form-group">
+                                                        <label>Answer</label>
+                                                        <select class="form-control @error('answer') is-invalid @enderror" name="answer"
+                                                            data-placeholder="Select Answer" style="width: 100%;" >
+
+                                                            <option value="1">Option 1</option>
+                                                            <option value="2">Option 2</option>
+                                                            <option value="3">Option 3</option>
+                                                            <option value="4">Option 4</option>
+
+                                                        </select>
+                                                    </div>
+                                                    @error('answer')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                    @enderror
+                                                    <div class="error-message alert alert-danger error-c" role="alert">
+                                                        Error Message Goes Here
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                             <div class="card-footer text-left">
-                                                <button id="create" class="btn btn-primary">
+                                                <button type="submit" name="action" value="finish" class="btn btn-primary">
                                                     <i class="fas fa-check"></i>
-                                                    Create
+                                                    Finish
                                                 </button>
-                                            </div>
-                                            <div class="card-footer text-left">
-                                                <button id="next" class="btn btn-primary">
+                                                <button type="submit" name="action" value="next" class="btn btn-success float-right">
                                                     <i class="fas fa-check"></i>
                                                     Next
                                                 </button>
-                                            </div>
-                                            
+                                            </div> 
+                                        
                                             <!-- input states -->
                                         </form>
+                                        {{-- <div class="card-footer text-left">
+                                            <a href="{{ route('admin.test.question.finish') }}" id="create" class="btn btn-primary">
+                                                <i class="fas fa-check"></i>
+                                                Finish
+                                            </a>
+                                            <a href="{{ url('admin/test/question/store') }}" id="next" class="btn btn-success float-right">
+                                                <i class="fas fa-check"></i>
+                                                Next
+                                            </a>
+                                        </div> --}}
                                         <!-- /.users-list -->
                                     </div>
                                     <!-- /.card-footer -->
@@ -326,12 +358,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- Select2 -->
 {{-- <script src="{{ asset('theme_asset/plugins/select2/js/select2.full.min.js') }}"></script> --}}
 <!-- Bootstrap4 Duallistbox -->
-<script src="{{ asset('theme_asset/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js') }}"></script>
+{{-- <script src="{{ asset('theme_asset/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js') }}"></script> --}}
 <!-- InputMask -->
-<script src="{{ asset('theme_asset/plugins/moment/moment.min.js') }}"></script>
-<script src="{{ asset('theme_asset/plugins/inputmask/min/jquery.inputmask.bundle.min.js') }}"></script>
+{{-- <script src="{{ asset('theme_asset/plugins/moment/moment.min.js') }}"></script> --}}
+{{-- <script src="{{ asset('theme_asset/plugins/inputmask/min/jquery.inputmask.bundle.min.js') }}"></script> --}}
 <!-- date-range-picker -->
-<script src="{{ asset('theme_asset/plugins/daterangepicker/daterangepicker.js') }}"></script>
+{{-- <script src="{{ asset('theme_asset/plugins/daterangepicker/daterangepicker.js') }}"></script> --}}
 
 <script>
     

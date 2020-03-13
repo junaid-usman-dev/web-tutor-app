@@ -100,8 +100,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                @if ($user->paid_fee == "0")
-                    Please pay 20 dollar fee, if you want to resgister as a tutor.
+                @if ($user->paid_fee != "1")
+                Please submit one time 20 dollar fee to register as a tutor. This is only one time fee and no further commission will be deducted on any future transaction as a tutor.
                 @else
                     To change your mode, The system will logout your student account and login again as a tutor.
                 @endif

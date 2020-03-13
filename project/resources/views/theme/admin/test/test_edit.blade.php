@@ -65,12 +65,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Create Test</h1>
+                        <h1 class="m-0 text-dark">Edit Test</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Create Test</li>
+                            <li class="breadcrumb-item active">Edit Test</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -101,11 +101,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <!-- Tutors LIST -->
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title">Create Test</h3>
+                                        <h3 class="card-title">Edit Test</h3>
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
-                                        <form role="form" method="POST" action="{{ route('admin.test.store') }}" accept-charset="UTF-8" enctype="multipart/form-data" >
+                                        <form role="form" method="POST" action="{{ route('admin.test.update') }}" accept-charset="UTF-8" enctype="multipart/form-data" >
                                             @csrf
 
                                             {{-- Frontend Error --}}
@@ -134,10 +134,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <div class="col-sm-12">
                                                     <!-- text input -->
                                                     <div class="form-group">
+                                                        <div class="input-group mb-2">
+                                                            <input name="id" type="hidden" class="form-control @error('id') is-invalid @enderror"
+                                                                value="{{ $test->id }}" >
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <!-- text input -->
+                                                    <div class="form-group">
                                                         <label>Test Title</label>
                                                         <div class="input-group mb-2">
-                                                            <input name="test" type="text" class="form-control @error('test') is-invalid @enderror"
-                                                                placeholder="Enter Test Title" value={{ old('test') }} >
+                                                            <input name="title" type="text" class="form-control @error('title') is-invalid @enderror"
+                                                                placeholder="Enter Test Title" value="{{ $test->name }}" >
                                                             <div class="input-group-append">
                                                                 <div class="input-group-text">
                                                                     <span class="fas fa-envelope"></span>
@@ -145,7 +157,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    @error('test')
+                                                    @error('title')
                                                         <div class="alert alert-danger">{{ $message }}</div>
                                                     @enderror
                                                     <div class="error-message alert alert-danger error-em" role="alert">
@@ -161,7 +173,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         <label>Short Description</label>
                                                         <div class="input-group mb-2">
                                                             <input name="description" type="text" class="form-control @error('description') is-invalid @enderror"
-                                                                placeholder="Enter Description"  value={{ old('description') }} >
+                                                                placeholder="Enter Description"  value="{{ $test->description }}" >
                                                             <div class="input-group-append">
                                                                 <div class="input-group-text">
                                                                     <span class="fas fa-envelope"></span>
@@ -181,7 +193,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <div class="card-footer text-left">
                                                 <button id="create" class="btn btn-primary">
                                                     <i class="fas fa-check"></i>
-                                                    Create
+                                                    Update
                                                 </button>
                                           </div>
                                             <!-- input states -->

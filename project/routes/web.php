@@ -1,10 +1,10 @@
 <?php
 
 
-// Route::get('/test', function () {
-//     return view('theme.student.tutor_review');
-// });
-Route::get('/test', 'Registration\RegistrationController@test')->name('test');
+Route::get('/test', function () {
+    return view('theme.tutor.test.test_attempt');
+});
+// Route::get('/test', 'Registration\RegistrationController@test')->name('test');
 
 
 /*
@@ -202,7 +202,7 @@ Route::prefix('tutor')->group(function () {
     Route::get('/sort-by-rating', 'Users\Tutor\TutorController@SortByRating')->name('sort.tutor.by.rating'); // Sort Tutor By Rating
 
     Route::get('/test-list', 'Users\Tutor\TutorController@TestList')->name('tutor.test.list'); // Test List
-    Route::get('/test-attempt/{id}', 'Users\Tutor\TutorController@AttemptTest'); // Attempt Test
+    Route::get('/attempt-test/{id}', 'Users\Tutor\TutorController@AttemptTest')->name('tutor.test.attempt'); // Attempt Test
     Route::post('/next-question/{test_id}/{total_questions}/{question_id}', 'Users\Tutor\TutorController@NextQuestion'); // Next Question
     Route::get('/test-submit', 'Users\Tutor\TutorController@SubmitTest'); // Submit Test
     Route::get('/test-results', 'Test\TestController@TutorResult'); // Test Result
@@ -317,14 +317,15 @@ Route::prefix('admin')->group(function () {
     Route::prefix('test')->group(function () {
 
         Route::get('/list', 'Test\TestController@index')->name('admin.test.list'); // display all test
+        Route::get('/preview/{id}', 'Test\TestController@show')->name('admin.test.preview'); // display all test
 
         Route::get('/create', 'Test\TestController@create')->name('admin.test.create'); // create a new test
         Route::post('/store', 'Test\TestController@store')->name('admin.test.store'); // store a new created test to db
         
-        Route::get('/delete/{id}', 'Test\TestController@destroy'); // delete specific resource from db
+        Route::get('/delete/{id}', 'Test\TestController@destroy')->name('admin.test.delete'); // delete specific resource from db
 
-        Route::get('/edit/{id}', 'Test\TestController@edit'); // edit a specific test
-        Route::post('/update', 'Test\TestController@update'); // update a specific test
+        Route::get('/edit/{id}', 'Test\TestController@edit')->name('admin.test.edit'); // edit a specific test
+        Route::post('/update', 'Test\TestController@update')->name('admin.test.update'); // update a specific test
 
         /*
         * Question: Ony Admin can create, delete and edit the Question
@@ -332,8 +333,9 @@ Route::prefix('admin')->group(function () {
         Route::prefix('question')->group(function () {
 
             // Route::get('/list', 'Test\TestController@index')->name('admin.test.list'); // display all question
-            Route::get('/create', 'Test\QuestionController@create')->name('admin.test.question.create'); // create a new question for specific test
+            Route::get('/create/{test_id}', 'Test\QuestionController@create')->name('admin.test.question.create'); // create a new question for specific test
             Route::post('/store', 'Test\QuestionController@store')->name('admin.test.question.store'); // store a new created question to db
+            // Route::post('/finish', 'Test\QuestionController@finish')->name('admin.test.question.finish'); // store a new created question to db
             
             // Route::get('/delete/{id}', 'Test\QuestionController@destroy'); // delete specific resource from db
 

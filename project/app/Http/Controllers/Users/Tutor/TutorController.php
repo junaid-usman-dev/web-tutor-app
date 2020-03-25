@@ -1061,11 +1061,14 @@ class TutorController extends Controller
                 //----  End Contact List 
 
                 // --------  Conversation -----------
+                $users_conversation = [];
                 $sender_id = Auth::guard('user')->user()->id;
-                $receiver_id = $contact_list[0]->id; // Getting conversation of first user by default
-
-                $users_conversation = Message::where('sender_id',$sender_id)->where('receiver_id',$receiver_id)
+                if ( count($contact_list) > 0)
+                {
+                    $receiver_id = $contact_list[0]->id; // Getting conversation of first user by default
+                    $users_conversation = Message::where('sender_id',$sender_id)->where('receiver_id',$receiver_id)
                             ->orWhere('sender_id',$receiver_id)->where('receiver_id',$sender_id)->get();
+                }
                 // -------  End Conversation  ----------
 
                 return view ('theme.tutor.tutor_dashboard')->with([

@@ -260,7 +260,8 @@
         <form id="send_message_form" accept-charset="UTF-8">
             {{-- @csrf --}}
             <div class="input-group">
-                <input type="hidden" name="sender_id" id="sender_id" value="{{ $user->id }}"
+                @if (!empty($users_conversation[0]) )
+                    <input type="hidden" name="sender_id" id="sender_id" value="{{ $user->id }}"
                     class="form-control" >
                     @php
                         if ($users_conversation[0]->receiver_id != $user->id)
@@ -268,8 +269,10 @@
                             $receiver_id = $users_conversation[0]->receiver_id;
                         }
                     @endphp
-                <input type="hidden" name="receiver_id" id="receiver_id" value="{{ $receiver_id }}"
-                    class="form-control" >
+                    <input type="hidden" name="receiver_id" id="receiver_id" value="{{ $receiver_id }}"
+                        class="form-control" >
+                @endif
+                
                 <input type="text" name="message" id="message" placeholder="Type Message ..."
                     class="form-control" >
                 <span class="input-group-append">

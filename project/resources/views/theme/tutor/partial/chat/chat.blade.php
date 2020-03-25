@@ -79,16 +79,18 @@
         <form id="send_message_form" accept-charset="UTF-8">
             <div class="input-group">
 
-                <input type="hidden" name="sender_id" id="sender_id" value="{{ $user->id }}"
-                    class="form-control" >
-                    @php
-                        if ($users_conversation[0]->sender_id != $user->id)
-                        {
-                            $receiver_id = $users_conversation[0]->sender_id;
-                        }
-                    @endphp
-                <input type="hidden" name="receiver_id" id="receiver_id" value="{{ $receiver_id }}"
-                    class="form-control" >
+                @if (!empty($users_conversation[0]) )
+                    <input type="hidden" name="sender_id" id="sender_id" value="{{ $user->id }}"
+                        class="form-control" >
+                        @php
+                            if ($users_conversation[0]->sender_id != $user->id)
+                            {
+                                $receiver_id = $users_conversation[0]->sender_id;
+                            }
+                        @endphp
+                    <input type="hidden" name="receiver_id" id="receiver_id" value="{{ $receiver_id }}"
+                        class="form-control" >
+                @endif
 
                 <input type="text" name="message" placeholder="Type Message ..."
                     class="form-control">

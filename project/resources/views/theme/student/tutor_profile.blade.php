@@ -171,6 +171,102 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </aside>
     <!-- /.control-sidebar -->
 
+
+    {{-- Book Tutor Bootstrap Modal --}}
+    {{-- Modal for Availability  --}}
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Booking Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="availability_form" >
+                        @csrf
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" name="student_id" value="{{ $user->id }}" >
+                            <input type="hidden" class="form-control" name="tutor_id" value="{{ $tutor->id }}" >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Subject</label>
+                            <select class="form-control @error('subject') is-invalid @enderror" name="subject" data-placeholder="Select Subject" style="width: 100%;">
+                                @foreach ($tutor->subjects as $subject)
+                                    <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                @endforeach
+                            </select>
+                            {{-- <input type="text" class="form-control" name="subject"> --}}
+                            <div class="error-message alert alert-danger error-t ju-ta" role="alert">
+                                Error Message Goes Here
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="day" class="col-form-label">Day</label>
+                            <select class="form-control @error('day') is-invalid @enderror" name="day" data-placeholder="Select Day" style="width: 100%;">
+                                <option value="monday">Monday</option>
+                                <option value="tuesday">Tuesday</option>
+                                <option value="wednesday">Wednesday</option>
+                                <option value="thrusday">Thrusday</option>
+                                <option value="friday">Friday</option>
+                                <option value="saturday">Saturday</option>
+                                <option value="sunday">Sunday</option>
+                            </select>
+                            <div class="error-message alert alert-danger error-sd ju-ta" role="alert">
+                                Error Message Goes Here
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Start Date</label>
+                            <input type="date" class="form-control" name="start_date" placeholder="mm/dd/yyyy" >
+                            <div class="error-message alert alert-danger error-sd ju-ta" role="alert">
+                                Error Message Goes Here
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">End Date</label>
+                            <input type="date" class="form-control" name="end_date" placeholder="mm/dd/yyyy" >
+                            <div class="error-message alert alert-danger error-ed ju-ta" role="alert">
+                                Error Message Goes Here
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Start Time</label>
+                            <input type="time" class="form-control" name="start_time" placeholder="hh:mm ss" >
+                            <div class="error-message alert alert-danger error-st ju-ta" role="alert">
+                                Error Message Goes Here
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">End Time</label>
+                            <input type="time" class="form-control" name="end_time" placeholder="hh:mm ss" >
+                            <div class="error-message alert alert-danger error-et ju-ta" role="alert">
+                                Error Message Goes Here
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button"id="book_schedule" class="btn btn-primary">Book Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- End Book Tutor Bootstrap Modal --}}
+
+
+
+
     <!-- Main Footer -->
     @include('theme.student.inc.footer');
 
@@ -236,6 +332,145 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 event.preventDefault();
 
                 SubmittingReview();
+            });
+
+            jQuery(document).on('click', '#book_schedule', function (event) {
+                event.preventDefault();
+
+                console.log("Button Pressed.");
+
+                let student_id = jQuery('input[name="student_id"]').val();
+                let tutor_id = jQuery('input[name="tutor_id"]').val();
+                let subject = jQuery('select[name="subject"] option:selected').text();
+                let day = jQuery('select[name="day"] option:selected').text();
+                let start_date = jQuery('input[name="start_date"]').val();
+                let end_date = jQuery('input[name="end_date"]').val();
+                let start_time = jQuery('input[name="start_time"]').val();
+                let end_time = jQuery('input[name="end_time"]').val();
+
+                console.log("Student ID : "+ student_id);
+                console.log("Tutor ID : "+ tutor_id);
+                console.log("Subject : "+ subject);
+                console.log("Day"+ day);
+                console.log("Start Date : "+ start_date);
+                console.log("End Date : "+ end_date);
+                console.log("Start Time : "+ start_time);
+                console.log("End Time : "+ end_time);
+
+                // console.log("Student ID"+ student_id);
+
+                // Bool Variables
+                var is_student_id = false;
+                var is_tutor_id = false;
+                var is_subject = false; 
+                var is_day = false; 
+                var is_start_date = false; 
+                var is_end_date = false; 
+                var is_start_time = false; 
+                var is_end_time = false; 
+
+                // if (!user_id )
+                // {
+                //     // Error
+                //     is_user_id = false;
+                //     // jQuery('.error-fn').css("display","block");
+                //     // jQuery('.error-fn').html("First name field is required.");
+                // }
+                // else
+                // {
+                //     // Success
+                //     is_user_id = true;
+                //     // jQuery('.error-fn').css("display","none");
+                // }
+                if (!subject )
+                {
+                    // Error
+                    is_subject = false;
+                    jQuery('.error-t').css("display","block");
+                    jQuery('.error-t').html("Subject field is required.");
+                }
+                else
+                {
+                    // Success
+                    is_subject = true;
+                    jQuery('.error-t').css("display","none");
+                }
+                if (!day )
+                {
+                    // Error
+                    is_day = false;
+                    jQuery('.error-t').css("display","block");
+                    jQuery('.error-t').html("Day field is required.");
+                }
+                else
+                {
+                    // Success
+                    is_day = true;
+                    jQuery('.error-t').css("display","none");
+                }
+                if (!start_date )
+                {
+                    // Error
+                    is_start_date = false;
+                    jQuery('.error-sd').css("display","block");
+                    jQuery('.error-sd').html("Start date field is required.");
+                }
+                else
+                {
+                    // Success
+                    is_start_date = true;
+                    jQuery('.error-sd').css("display","none");
+                }
+                if (!end_date )
+                {
+                    // Error
+                    is_end_date = false;
+                    jQuery('.error-ed').css("display","block");
+                    jQuery('.error-ed').html("End date field is required.");
+                }
+                else
+                {
+                    // Success
+                    is_end_date = true;
+                    jQuery('.error-ed').css("display","none");
+                }
+                // if (!start_time )
+                // {
+                //     // Error
+                //     is_start_time = false;
+                //     jQuery('.error-st').css("display","block");
+                //     jQuery('.error-st').html("Start time field is required.");
+                // }
+                // else
+                // {
+                //     // Success
+                //     is_start_time = true;
+                //     jQuery('.error-st').css("display","none");
+                // }
+                // if (!end_time )
+                // {
+                //     // Error
+                //     is_end_time = false;
+                //     jQuery('.error-et').css("display","block");
+                //     jQuery('.error-et').html("End time field is required.");
+                // }
+                // else
+                // {
+                //     // Success
+                //     is_end_time = true;
+                //     jQuery('.error-et').css("display","none");
+                // }
+
+                // && (is_start_time == true) && (is_end_time == true)
+                if ( (is_subject == true) && (is_day == true) && (is_start_date == true) && (is_end_date == true)
+                    )
+                {
+                    SetSchedule(student_id, tutor_id, subject, day, start_date, end_date, start_time, end_time);
+                }
+                else
+                {
+                    // Error 400: Something bad happend
+                }
             });
         });
 
@@ -346,6 +581,47 @@ scratch. This page gets rid of all links and provides the needed markup only.
             console.log("<<<<<< Render Toggle >>>>>");
             jQuery('.review_form_toggle').toggleClass('d-none')
         }
+
+
+        function SetSchedule(student_id, tutor_id, subject, day, start_date, end_date, start_time, end_time)
+        {
+            console.log("Ajax Calling !!! Add Class Schedule !!!");
+            jQuery.ajax({
+                url: "{{ url('/student/class-schedule') }}",
+                type: "POST",
+                data: { 
+                    "_token": "{{ csrf_token() }}",
+                    'student_id':student_id,
+                    'tutor_id':tutor_id,
+                    'subject':subject,
+                    'day':day,
+                    'start_date':start_date,
+                    'end_date':end_date,
+                    'start_time':start_time,
+                    'end_time':end_time
+                },
+                success: function(data)
+                {
+                    if ( (data.success == null || data.success == undefined) )
+                    {
+                        console.log("Error Message");
+                        // jQuery(".alert-danger").css("display", "block");
+                        // jQuery("#login_success").empty();
+                        // jQuery('.alert-danger').html(response.error);
+                    }
+                    else  
+                    {
+                        console.log("Success Message");
+                        // jQuery(".alert-danger").css("display", "none");
+                        // jQuery("#error_creditional").empty();
+                        // jQuery('#tutor_list').html(data.tutor_list);
+                        
+                        location.href = "{{ url('/student') }}"						
+                    }
+                }
+            });
+        }
+
     </script>
     
 </body>

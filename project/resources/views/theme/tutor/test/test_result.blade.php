@@ -50,12 +50,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Tutor Profile</h1>
+                        <h1 class="m-0 text-dark">Test Result</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Tutor Feedback</li>
+                            <li class="breadcrumb-item active">Test Result</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -69,11 +69,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-
                         <!-- Default box -->
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">All Review</h3>
+                                <h3 class="card-title">Test Result</h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -83,23 +82,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <!-- text input -->
                                             <div class="form-group">
 
-                                                @if ( count($user->reviews) > 0 )
-                                                    @foreach ($user->reviews as $review)
-                                                        <p>
-                                                            <div class="my-rating-7 d-inline" data-rating="{{ $review->star_rating }}"></div>
-                                                            </br>
-                                                            <b>{{ $review->title }}</b></br>
-                                                            {{ $review->description }} 
-                                                            </br>
-                                                            <span class="text-muted text-sm">
-                                                                <em>Allison, 13 lessons with Nicole </em>
-                                                            </span>
-                                                        </p>
-                                                    @endforeach
-                                                @else
-                                                    The tutor has no review.
-                                                @endif
+                                               <h1 class="text-center">Congratulation! You have successfully submitted the test.</h1>
+                                               <p class="text-center">You scored {{ $percentag }}%!</p>
+                                               <p class="text-center">Correct Questions: {{ $correct }}</p>
+                                               <p class="text-center">Wrong Questions: {{ $wrong }}</p>
+                                               <p class="text-center">Not Attempted Questions: {{ $not_attempted }}</p>
 
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- input states -->

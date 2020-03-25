@@ -15,8 +15,17 @@
 
                             @foreach ($tutors as $tutor)
                                 <div class="post">
-                                    <div class="user-block"><span
-                                            class="badge text-md badge-primary float-right">${{ $tutor->price_per_hour }}/hr</span>
+                                    <div class="user-block">
+                                        <span class="badge text-md badge-primary float-right">${{ $tutor->price_per_hour }}/hr</span>
+                                        
+                                        {{-- Check: Student on favorite tutor list page --}}
+                                        @if(Route::current()->getName() == 'student.favorite.tutors.list')
+                                            <a href="{{ url('/student/remove-to-favorit-list') }}/{{ $tutor->id }}" class="badge text-md badge-primary float-right" style="margin-right: 5px;">Remove</a>
+                                        @else
+                                            {{-- Do Nothing --}}
+                                            {{-- Probalily he is on other page --}}
+                                        @endif
+                                        
                                         <img class="img-circle img-bordered-sm"
                                             src="{{ url('/') }}/{{ $tutor->images->path }}/{{ $tutor->images->name }}"
                                             alt="user image">

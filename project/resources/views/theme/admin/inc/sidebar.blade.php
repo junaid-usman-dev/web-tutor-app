@@ -17,7 +17,7 @@
                     alt="User Image">
             </div>
             <div class="info">
-                <a href="{{ url('/admin') }}" class="d-block">Alexander Pierce</a>
+                <a href="{{ url('/admin') }}" class="d-block">{{ Auth::guard('admin')->user()->first_name }} {{ Auth::guard('admin')->user()->last_name }}</a>
             </div>
         </div>
 
@@ -79,7 +79,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('admin.subject.list') }}" class="nav-link">
                         <i class="nav-icon fas fa-book"></i>
                         <p>
                             Subject Manager
@@ -88,7 +88,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('admin.test.list') }}" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
                             Test Manager
@@ -105,7 +105,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link ">
+                            <a href="{{ url('/admin/edit') }}/{{ Auth::guard('admin')->user()->id }}" class="nav-link ">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Edit Profile</p>
                             </a>

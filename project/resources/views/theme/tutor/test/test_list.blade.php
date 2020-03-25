@@ -17,6 +17,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>TutorLynx</title>
 
@@ -31,6 +32,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
 </head>
+
+<style>
+
+    .error-message
+    {
+        display: none;
+        margin-top: 5px;
+    }
+</style>
+
 
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -63,13 +74,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
         <!-- /.content-header -->
 
-        <!-- Main content -->
+
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
 
+                <div class="row">
+
+                    {{-- Certification --}}
+                    <div class="col-md-12 ju-result-m-bottom" >
+                        <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal" >Add Certification</button>
+                    </div>
+
+                    <div class="col-md-12">
                         <!-- Default box -->
                         <div class="card">
                             <div class="card-header">
@@ -102,7 +119,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 @else
                                                     The tutor has no test.
                                                 @endif
-
                                         </div>
                                     </div>
                                     <!-- input states -->
@@ -110,7 +126,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </div>
                             <!-- /.card-body -->
                             {{-- <hr> --}}
-                            <div class="card-tools">
+                            {{-- <div class="card-tools">
                                 <ul class="pagination pagination-sm float-right">
                                     <li class="page-item"><a class="page-link" href="#">«</a></li>
                                     <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -118,7 +134,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <li class="page-item"><a class="page-link" href="#">3</a></li>
                                     <li class="page-item"><a class="page-link" href="#">»</a></li>
                                 </ul>
-                            </div>
+                            </div> --}}
                             {{-- <div class="card-footer">
                                 <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>
                                     Submit</button>
@@ -126,10 +142,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div>
                         <!-- /.card -->
                     </div>
-
                 </div>
                 <!-- /.row -->
-                
             </div><!-- /.container-fluid -->
         </section>
         <!-- /.content -->
@@ -137,6 +151,73 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </div>
         <!-- Main Footer -->
         @include('theme.tutor.inc.footer');
+
+
+
+        <!-- Modal -->
+        {{-- Upload File Document or Certification --}}
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Certification</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        @csrf
+
+                        <div clas="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="control-label col-sm-12" for="institute">Institute Name</label>
+                                    <input type="text" class="form-control" name="institute" placeholder="Institute Name" >
+                                    <div class="col-sm-12 error-message alert alert-danger error-ins" role="alert">
+                                        Error Message Goes Here
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div clas="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="control-label col-sm-12" for="certification">Certification Title</label>
+                                    <input type="text" class="form-control" name="certification" placeholder="Certification Title" >
+                                    <div class="col-sm-12 error-message alert alert-danger error-crt" role="alert">
+                                        Error Message Goes Here
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <label class="control-label col-sm-12" for="start_date">Start Date</label>
+                                <input type="date" class="form-control" name="start_date" placeholder="mm/dd/yyyy" >
+                                <div class="col-sm-12 error-message alert alert-danger error-st" role="alert">
+                                    Error Message Goes Here
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="control-label col-sm-12" for="end_date">End Date</label>
+                                <input type="date" class="form-control" name="end_date" placeholder="mm/dd/yyyy" >
+                                <div class="col-sm-12 error-message alert alert-danger error-end" role="alert">
+                                    Error Message Goes Here
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" name="save" >Save</button>
+                </div>
+            </div>
+            </div>
+        </div>
 
 </div>
     <!-- ./wrapper -->
@@ -151,14 +232,115 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ asset('theme_asset/profile/dist/js/adminlte.min.js') }}"></script>
     
 <script>
-    jQuery(".my-rating-7").starRating({
-            totalStars: 5,
-            starShape: 'rounded',
-            activeColor: '#FFC108',
-            starSize: 20,
-            useGradient: false,
-            readOnly: true
+
+    jQuery(document).ready(function(){
+        $.ajaxSetup({ headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} });
+        
+        jQuery(document).on('click','button[name="save"]',function(event){
+            event.preventDefault();
+
+            console.log("Button Pressed.");
+
+            let institute = jQuery('input[name="institute"]').val();
+            let certification = jQuery('input[name="certification"]').val();
+            let start_date = jQuery('input[name="start_date"]').val();
+            let end_date = jQuery('input[name="end_date"]').val();
+
+            // Defining Bool Variable
+            let is_institute = false;
+            let is_certification = false;
+            let is_start_date = false;
+            let is_end_date = false;
+
+            if (!institute)
+            {
+                // Error
+                is_institute = false;
+                jQuery('.error-ins').css("display","block");
+                jQuery('.error-ins').html("Institute field is required.");
+            }
+            else
+            {
+                // Success
+                is_institute = true;
+                jQuery('.error-ins').css("display","none");
+            }
+
+            if (!certification)
+            {
+                // Error
+                is_certification = false;
+                jQuery('.error-crt').css("display","block");
+                jQuery('.error-crt').html("Certification field is required.");
+            }
+            else
+            {
+                // Success
+                is_certification = true;
+                jQuery('.error-crt').css("display","none");
+            }
+
+            if (!start_date)
+            {
+                // Error
+                is_start_date = false;
+                jQuery('.error-st').css("display","block");
+                jQuery('.error-st').html("Start date field is required.");
+            }
+            else
+            {
+                // Success
+                is_start_date = true;
+                jQuery('.error-st').css("display","none");
+            }
+            if (!end_date)
+            {
+                // Error
+                is_end_date = false;
+                jQuery('.error-end').css("display","block");
+                jQuery('.error-end').html("End date field is required.");
+            }
+            else
+            {
+                // Success
+                is_end_date = true;
+                jQuery('.error-end').css("display","none");
+            }
+            if( (is_institute==true ) && (is_certification==true ) && (is_start_date==true ) && (is_end_date==true ) )
+            {
+                EducationData(institute, certification, start_date, end_date)
+            }
+            else
+            {
+                //Error: Some field are missing data.
+            }
+
         });
+    });
+
+    // Store Education data into table
+    function EducationData(institute, certification, start_date, end_date)
+    {
+        console.log("Calling AJAX !!! Add Certification !!!");
+        jQuery.ajax({
+            url: "{{ url('tutor/add-education') }}",
+            type: "POST",
+            data: {'institute':institute, 'certification':certification, 'start_date':start_date, 'end_date':end_date},
+            success: function(data)
+            {
+                if ( (data.success == null || data.success == undefined) )
+                {
+                    console.log("Error Message");
+                }
+                else
+                {
+                    console.log("Success Message");
+                    window.location = "{{ route('tutor.profile') }}"
+                }
+            }
+        });
+    }
+
 </script>
 
 </body>

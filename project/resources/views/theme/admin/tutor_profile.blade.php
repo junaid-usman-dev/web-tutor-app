@@ -206,29 +206,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                                                             </div>
 
-
-                                                            <span class="b_username">
-                                                                Education
-                                                            </span>
-
-
-                                                            <!-- /.user-block -->
-                                                            <p>
-
-                                                                Princeton Univeristy
-                                                                Chemical Engineering</p>
-                                                            <p>
-                                                                University of Wisconsin - Madison
-                                                                PhD </p>
-                                                            <p>Electrical Engineering / Physics / Nuclear Engineering
-                                                                Masters
-
-                                                            </p>
-
-
-
-
-                                                            <hr>
+                                                            @if ( count($user->education) > 0)
+                                                                <span class="b_username">
+                                                                    Education
+                                                                </span>
+                                                                @foreach ($user->education as $education)
+                                                                    <!-- /.user-block -->
+                                                                    <p>{{ $education->institute }}</p>
+                                                                    <p>{{ $education->certification }} | {{ $education->start_date }} - {{ $education->end_date }}</p>
+                                                                @endforeach
+                                                                <hr>
+                                                            @else
+                                                                {{-- There is no Education/Certificate --}}
+                                                            @endif
+                                                            
                                                             <span class="b_username">
                                                                 Policies
                                                             </span> <!-- /.user-block -->
@@ -513,7 +504,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 
-                                                            <hr>
+                                                            {{-- <hr>
                                                             <div style="margin-top: 20px; ">
                                                                 <h3><b>Other Fort Collins, CO Tutors</b></h3>
                                                                 <p> <a href="#">Fort Collins</a>, <a href="#">CO Math
@@ -525,7 +516,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                         Collins</a>, <a href="#">CO English Tutors -
                                                                         Fort Collins</a>, <a href="#">CO Art Lessons</a>
                                                                 </p>
-                                                            </div>
+                                                            </div> --}}
 
                                                         </div>
                                                     </div>

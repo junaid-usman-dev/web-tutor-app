@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Message;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Auth;
 
 use Illuminate\Support\Facades\DB; // Library for query builder
 
@@ -34,24 +35,25 @@ class MessageController extends Controller
         //
 
     }
-
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $sender_id, $receiver_id, $message )
     {
         //
         // $sender_id = "2";
         // $receiver_id = "8";
         // $message = "some text some text";
+        // $user = Auth::guard('user')->user();
 
-        $sender_id = $request->input('sender_id');
-        $receiver_id = $request->input('receiver_id');
-        $message = $request->input('message');
+        // $sender_id = $request->input('sender_id');
+        // $receiver_id = $request->input('receiver_id');
+        // $message = $request->input('message');
 
+        // dd ($sender_id, $receiver_id, $message);
 
         $msg = new Message();
 
@@ -61,7 +63,59 @@ class MessageController extends Controller
 
         $msg->save();
 
-        return ("Message Sended.");
+        return redirect()->route('student.dashboard');
+        
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function Conversation(Request $request)
+    {
+        //
+        // $sender_id = "2";
+        // $receiver_id = "8";
+        // $message = "some text some text";
+        $user = Auth::guard('user')->user();
+
+        $sender_id = $request->input('sender_id');
+        $receiver_id = $request->input('receiver_id');
+        $message = $request->input('message');
+
+        // dd ($sender_id, $receiver_id, $message);
+
+        $msg = new Message();
+
+        $msg->sender_id = $sender_id;
+        $msg->receiver_id = $receiver_id;
+        $msg->text = $message;
+
+        $msg->save();
+
+        $users_conversation = Message::where('sender_id',$sender_id)->where('receiver_id',$receiver_id)
+                        ->orWhere('sender_id',$receiver_id)->where('receiver_id',$sender_id)->get();
+
+        if(Auth::guard('user')->user()->type == "student")
+        {
+            // Student Panel
+            $conversation = view ('theme.student.partial.chat.conversation')->with([ 'users_conversation'=>$users_conversation, 'user'=>$user])->render();
+            return response()->json([
+                'success' => true,
+                'conversation' => $conversation,
+            ]);
+        }
+        else 
+        {
+            // Tutor Panel
+            $conversation = view ('theme.tutor.partial.chat.conversation')->with([ 'users_conversation'=>$users_conversation, 'user'=>$user])->render();
+            return response()->json([
+                'success' => true,
+                'conversation' => $conversation,
+            ]);
+        }
 
     }
 
@@ -116,17 +170,38 @@ class MessageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function Conversation(Request $request, $sender_id, $receiver_id )
+    public function ViewConversation(Request $request, $sender_id, $contact_id )
     {
         //
-        // $sender_id = "2";
-        // $receiver_id = "8";
+        // $sender_id = "1";
+        $receiver_id = $contact_id;
+        // $contact_list = [];
 
-        $users_converstion = Message::where('sender_id',$sender_id)->where('receiver_id',$receiver_id)
+        $user = Auth::guard('user')->user();
+        $users_conversation = Message::where('sender_id',$sender_id)->where('receiver_id',$receiver_id)
                         ->orWhere('sender_id',$receiver_id)->where('receiver_id',$sender_id)->get();
 
-        // dd($user);
-        return view ('message.message_display')->with([ 'users_converstion'=>$users_converstion, 'sender_id'=>$sender_id, 'receiver_id'=>$receiver_id ]);
+        // dd($users_converstion);
+        if(Auth::guard('user')->user()->type == "student")
+        {
+            // Student Panel
+            $conversation = view ('theme.student.partial.chat.conversation')->with([ 'users_conversation'=>$users_conversation, 'user'=>$user ])->render();
+            return response()->json([
+                'success' => true,
+                'conversation' => $conversation,
+            ]);
+        }
+        else 
+        {
+            // Tutor Panel
+            $conversation = view ('theme.tutor.partial.chat.conversation')->with([ 'users_conversation'=>$users_conversation, 'user'=>$user ])->render();
+            return response()->json([
+                'success' => true,
+                'conversation' => $conversation,
+            ]);
+        }
+        
+       
     }
 
     /**
@@ -135,9 +210,10 @@ class MessageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function Contacts(Request $request, $id )
+    public function Contacts(Request $request )
     {
         //
+        $id = Auth::guard('user')->user()->id; // Sender Id
         $contacts = array();
         $sender_contacts = array();
         $receiver_contacts = array();
@@ -191,9 +267,10 @@ class MessageController extends Controller
                 $item = new \stdClass();
                 $item = User::where('id',$contacts[$i])->first();
                     
-                $items[] = clone $item;
+                $contacts[] = clone $item;
             }
-            return view ('student.contact_list')->with(['users'=>$items,'user_id'=>$id]);
+            // dd($items);
+            return view ('student.contact_list')->with(['contacts'=>$contacts,'user_id'=>$id]);
         }
         else
         {
@@ -201,13 +278,6 @@ class MessageController extends Controller
             return ("Your Contact List is Empty.");
         }
  
-
-
-
-
-
-
-
         // $contacts = array();
         // $contacts = Message::where('sender_id',$id)->distinct()
         //                 // ->orWhere('receiver_id',$current_user_id)

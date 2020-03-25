@@ -14,8 +14,13 @@ use App\Payment;
 use App\Model\Subject;
 use App\Model\Review;
 use App\Model\Test;
+use App\Model\Question;
 use App\Model\TestUser;
 use App\Model\SubjectUser;
+use App\Model\Message;
+use App\Model\Education;
+
+
 
 // use App\Model\Result;
 
@@ -39,8 +44,15 @@ class TutorController extends Controller
         // $users = DB::table('categories')
         //              ->groupBy('subject_id')
         //              ->get();
-
-        // dd ($users);
+        // $user = Auth::guard('user')->user();
+        // if( !empty($user->availabilities[5] ) )
+        // {
+        //     dd ($user->availabilities[0]->title);
+        // }
+        // else
+        // {
+        //     dd ("dfsdfd");
+        // }
 
         $user = Auth::user();
         if (Auth::user()->type == "tutor")
@@ -552,46 +564,64 @@ class TutorController extends Controller
     // }
 
 
-    // /**
-    //  * Upload tutor qualification
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function UploadQualification(Request $request )
-    // {  
-    //     $request->validate([
-    //         'id' => 'nullable',
-    //         // 'subject' => 'nullable',
-    //         'summary' => 'nullable',
-    //         'method' => 'nullable',
-    //         'price_per_hour' => 'nullable',
-    //     ],
-    //     [   
-    //         // 'price_pr_hour.number'    => 'only number (0-9)',
-    //     ]);
+    /**
+     * Upload tutor qualification
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function AddEducatioin(Request $request )
+    {  
+        // $request->validate([
+        //     'institute' => 'required',
+        //     'certification' => 'required',
+        //     'start_date' => 'required',
+        //     'end_date' => 'required',
+        // ],
+        // [   
+        //     'institute.required' => 'Institute field is required.',
+        //     'certification.required' => 'certification field is required.',
+        //     'start_date.required' => 'Start date field is required.',
+        //     'end_date.required' => 'End date field is required.',
 
-    //     $id = $request->input('id');
-    //     // $subject = $request->input('subject');
-    //     $summary = $request->input('summary');
-    //     $method = $request->input('method');
-    //     $price_per_hour = $request->input('price_per_hour');
-        
-    //     // $tutor->tutor_id = $id;
+        //     // 'start_date.required' => 'Start date field is required.',
+        //     // 'end_date.required' => 'End date field is required.',
+        // ]);
 
-    //     $tutor = User::findOrFail($id);
-    //     if ($tutor->type == 'tutor')
-    //     {
-    //         // Tutor Panel
-    //         $tutor = User::findOrFail($id)->update(['summary' => $summary, 'teaching_method' => $method, 'price_per_hour' => $price_per_hour ]);
-    //     }
-    //     else
-    //     {
-    //         dd ("Some thing went wrong.");
-    //     }
+        $id = Auth::guard('user')->user()->id;
+        $institute = $request->input('institute');
+        $certificate = $request->input('certification');
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
         
-    //     return view ('theme.register.upload_image')->with(['id' => $id ]);
-    //     // return view ('tutor.profile_picture',['id' => $id ]);
-    // }
+        // dd ($id, $institute, $certificate, $start_date, $end_date );
+        
+        $tutor = User::findOrFail($id);
+        if ($tutor->type == 'tutor')
+        {
+            // Tutor Panel
+            $add_education = new Education();
+
+            $add_education->user_id = $id;
+            $add_education->institute = $institute;
+            $add_education->certification = $certificate;
+            $add_education->start_date = $start_date;
+            $add_education->end_date = $end_date;
+
+            $add_education->save();
+
+            // return redirect()->route('tutor.test.list');
+            return response()->json([
+                'success'=> true,
+                ]);
+        }
+        else
+        {
+            dd ("Error 400! Some thing went wrong.");
+            return response()->json([
+                'error'=> true,
+                ]);
+        }
+    }
 
 
     // /**
@@ -653,6 +683,20 @@ class TutorController extends Controller
         //
         $tutor = User::where('id',$id)->where('type','tutor')->first();
         return view ('tutor.general_availability')->with(['tutor'=>$tutor]);
+        // return view ('tutor.profile')->with('tutor',$tutor);
+    }
+
+    /**
+     * Set time availability to specified tutor 
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function ViewAvailability(Request $request)
+    {
+        //
+        $user = Auth::guard('user')->user();
+        // $tutor = User::where('id',$id)->where('type','tutor')->first();
+        return view ('theme.tutor.avail_calendar')->with(['user'=>$user]);
         // return view ('tutor.profile')->with('tutor',$tutor);
     }
 
@@ -748,6 +792,22 @@ class TutorController extends Controller
     }
 
     /**
+     * Display all test result
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function TutorResult()
+    {
+        //
+        $user = Auth::guard('user')->user();
+        // $tests = Test::orderBy('id', 'DESC')->get();
+        return view('theme.tutor.test.result_list')->with(['user'=>$user]);
+        // return ("Result");
+        
+    }
+
+    /**
      * attempt a test 
      *
      * @param  int  $id
@@ -756,25 +816,31 @@ class TutorController extends Controller
     public function AttemptTest(Request $request ,$id)
     {
         //
+        // print_r("Next ------");
         // check auth user
+        $user = Auth::guard('user')->user();
         $test = Test::findOrFail($id);
         if ( !empty($test) )
         {
-            $question_number = 0;
+            // $question_number = 0;
             
-            $test_id = $id;
-            $total_questions = count( $test->questions );
+            // $test_id = $id;
+            // $total_questions = count( $test->questions );
 
-            $request->session()->put('total_marks', $total_questions );
+            // $request->session()->put('total_marks', $total_questions );
             // $request->session()->put('correct_answers',  $correct_answers);
             // $request->session()->put('wrong_answers', $wrong_answers);
 
-            // dd ( $total_question );
-            return view('tutor.test.attempt_question')->with([
+            // $questions = Question::where('test_id',$id)->paginate(1);
+            // dd ($test);
+            return view('theme.tutor.test.test_attempt')->with([
+                'user' => $user,
+                // 'questions'=>$questions,
                 'test'=>$test,
-                'test_id'=>$test_id,
-                'total_questions'=>$total_questions,
-                'question_number'=>$question_number
+
+                // 'test_id'=>$test_id,
+                // 'total_questions'=>$total_questions,
+                // 'question_number'=>$question_number
             ]);
         }
         else
@@ -790,46 +856,45 @@ class TutorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function NextQuestion(Request $request, $test_id, $total_questions, $question_number)
-    {
-        //
-        $test = Test::findOrFail($test_id);
-        $option = $request->input('option');
+    // public function NextQuestion(Request $request, $test_id, $total_questions, $question_number)
+    // {
+    //     //
+    //     $test = Test::findOrFail($test_id);
+    //     $option = $request->input('option');
 
-        // Condition: Check Answer
-        if ($option == $test->questions[$question_number]->answer )
-        {
+    //     // Condition: Check Answer
+    //     if ($option == $test->questions[$question_number]->answer )
+    //     {
 
-            $request->session()->put('correct_answers', $request->session()->get('correct_answers')+1 );
+    //         $request->session()->put('correct_answers', $request->session()->get('correct_answers')+1 );
             
-            // self::$correct_answer += 1; 
-            // dd ("Correct Answer: ".$this->correct_answer);
-        }
-        else
-        {
-            $request->session()->put('wrong_answers', $request->session()->get('wrong_answers')+1 );
+    //         // self::$correct_answer += 1; 
+    //         // dd ("Correct Answer: ".$this->correct_answer);
+    //     }
+    //     else
+    //     {
+    //         $request->session()->put('wrong_answers', $request->session()->get('wrong_answers')+1 );
 
-            // self::$wrong_answers += 1; 
-            // dd ("Wrong Answer.");
-        }
-        $question_number += 1; // Next Question
-        if ($question_number < $total_questions)
-        {
-            return view('tutor.test.attempt_question')->with([
-                'test'=>$test,
-                'test_id'=>$test_id,
-                'total_questions'=>$total_questions,
-                'question_number'=>$question_number
-            ]);
-        }
-        else
-        {
-            // Submit Test
-            return redirect ('tutor/test-submit');
-            // dd ("Submit Test.");
-        }
-    }
-
+    //         // self::$wrong_answers += 1; 
+    //         // dd ("Wrong Answer.");
+    //     }
+    //     $question_number += 1; // Next Question
+    //     if ($question_number < $total_questions)
+    //     {
+    //         return view('tutor.test.attempt_question')->with([
+    //             'test'=>$test,
+    //             'test_id'=>$test_id,
+    //             'total_questions'=>$total_questions,
+    //             'question_number'=>$question_number
+    //         ]);
+    //     }
+    //     else
+    //     {
+    //         // Submit Test
+    //         return redirect ('tutor/test-submit');
+    //         // dd ("Submit Test.");
+    //     }
+    // }
 
     /**
      * submit test for result
@@ -839,41 +904,73 @@ class TutorController extends Controller
      */
     public function SubmitTest(Request $request)
     {
-        //
-        $total_marks = $request->session()->get('total_marks');
-        $correct_answers = $request->session()->get('correct_answers');
-        $wrong_answers = $request->session()->get('wrong_answers');
-
-        // $total_marks = floatval($total_marks);
-        // $correct_answers = floatval($correct_answers);
-        // $wrong_answers = floatval($wrong_answers);
-
-        echo "Total Markes:" .$total_marks;
-        echo "Correct Answers:" .$correct_answers;
-        echo "Wrong Answers:" .$wrong_answers;
-
-        if ( !empty($total_marks) && !empty($correct_answers) && !empty($wrong_answers) )
+        $question_number = [];
+        $question_number = array_keys($request->choice);
+        $test_id = $request->test_id;
+        $total_question = $request->total_questions;
+        
+        $correct_answers = 0;
+        $wrong_answers = 0;
+        $not_attempted = 0;
+        
+        for ( $i=0; $i < count($question_number); $i++ )
         {
-            $percentag = ($correct_answers/$total_marks)*100;
-            
-            $percentag = round($percentag,2);
-            echo "Percentag: " .$percentag;
+            $question = $question_number[$i];
+            $user_ans = $request->choice[$question];
+            $has_answer = Question::where('id',$question)->where('answer',$user_ans)->get();
+            if (count($has_answer) > 0)
+            {
+                //Count Correct Answer
+                $correct_answers += 1;
+            }
+            else
+            {
+                //Count Wrong Answer
+                $wrong_answers += 1;
+            }
+        }
+        $not_attempted = (count($question_number)) - ($wrong_answers + $correct_answers);
 
-            $test_user = new TestUser(); // Pivot Table
+        $percentag = number_format( (($correct_answers/$total_question)*100), 2);
 
-            $test_user->test_id = '2';
-            $test_user->user_id = '7';
-            $test_user->score = $percentag;
-            $test_user->save();
-
-            $request->session()->flash('total_marks', 'Task was successful!');
-            $request->session()->flash('correct_answers', 'Task was successful!');
-            $request->session()->flash('wrong_answers', 'Task was successful!');
+        // Make sure user already attempted this test or not
+        $user = Auth::guard('user')->user();
+        $has_user_attempted_test = TestUser::where('user_id',Auth::guard('user')->user()->id)->where('test_id',$test_id)->first();
+        if ( !empty($has_user_attempted_test) )
+        {
+            // User has already been attempted this test
+            // Check if user got any improvement 
+            // dd($has_user_attempted_test->score);
+            if ($has_user_attempted_test->score < $percentag )
+            {
+                // Replace with new score
+                // $has_user_attempted_test->test_id = $test_id;
+                // $has_user_attempted_test->user_id = Auth::guard('user')->user()->id;
+                $has_user_attempted_test->score = $percentag;
+                $has_user_attempted_test->save();
+            } 
+            else
+            {
+                // do not replace
+                
+            }
         }
         else
         {
-            dd ("Empty...");
+            // User has not attempted this test before
+            $test_user = new TestUser(); // Pivot Table
+            $test_user->test_id = $test_id;
+            $test_user->user_id = Auth::guard('user')->user()->id;
+            $test_user->score = $percentag;
+            $test_user->save();
         }
+        return view('theme.tutor.test.test_result')->with([
+            'percentag' => $percentag,
+            'correct' => $correct_answers,
+            'wrong' => $wrong_answers,
+            'not_attempted' => $not_attempted,
+            'user' => $user,
+        ]);
     }
 
      /**
@@ -892,23 +989,105 @@ class TutorController extends Controller
         $user = User::where('id',$user_id)->first();
         if ( !empty($user) )
         {
+            // Check User has paid fees or not
             if (Auth::user()->paid_fee == "1")
             {
-                // $this->StoreTutorSession($request, Auth::user()->id, Auth::user()->email_address, Auth::user()->phone, Auth::user()->type);
-                return view ('theme.tutor.tutor_dashboard')->with(['user' => $user]);
+                // ------  Getting contact list of a specific student  --------
+                $id = $user_id; // Sender Id
+                $contacts = array();
+                $sender_contacts = array();
+                $receiver_contacts = array();
+                $raw_contacts = array();
+
+                $raw_contacts = Message::orderBy('id', 'DESC')->where('sender_id',$id)->orWhere('receiver_id',$id)->distinct()->get();
+                $j=0;
+                $contact_list = [];
+
+                if (count($raw_contacts) > 0)
+                {
+                    for ($i=0; $i < count($raw_contacts); $i++ )
+                    {
+                        $receiver_contacts[$i] = $raw_contacts[$i]->receiver_id;
+                        $sender_contacts[$j] = $raw_contacts[$j]->sender_id;
+                        $j += 1;
+                    }
+                }
+                else
+                {
+                    // Empty Contact is List
+                    // return ("Your Contact List is Empty....");
+                }
+                // Marge two arrays into one
+                $length = count($receiver_contacts)+count($sender_contacts);
+                $j = 0;
+                for ($i=0; $i < $length; $i++)
+                {
+                    if ($i<count($receiver_contacts))
+                    {
+                        $contacts[$i] = $receiver_contacts[$i];
+                    }
+                    else
+                    {
+                        $contacts[$i] = $sender_contacts[$j];
+                        $j +=1 ;
+                    }
+                }
+                // Reindexing the array
+                $contacts = array_values( array_flip( array_flip( $contacts ) ) );
+                // Removing specifc entity
+                $key = $id;
+                if (($key = array_search($key, $contacts)) !== false) {
+                    unset($contacts[$key]);
+                }
+                // Reindexing the array
+                $contacts = array_values( array_flip( array_flip( $contacts ) ) );
+                if (count($contacts) > 0)
+                {
+                    for ($i=0; $i < count($contacts); $i++ )
+                    {
+                        $item = new \stdClass();
+                        $item = User::where('id',$contacts[$i])->first();
+                            
+                        $contact_list[] = clone $item;
+                    }
+                    // dd($items);
+                    // return view ('student.contact_list')->with(['items'=>$items,'user_id'=>$id]);
+                }
+                else
+                {
+                    // Empty Contact is List
+                    // return ("Your Contact List is Empty.");
+                }
+                //----  End Contact List 
+
+                // --------  Conversation -----------
+                $sender_id = Auth::guard('user')->user()->id;
+                $receiver_id = $contact_list[0]->id; // Getting conversation of first user by default
+
+                $users_conversation = Message::where('sender_id',$sender_id)->where('receiver_id',$receiver_id)
+                            ->orWhere('sender_id',$receiver_id)->where('receiver_id',$sender_id)->get();
+                // -------  End Conversation  ----------
+
+                return view ('theme.tutor.tutor_dashboard')->with([
+                    'user' => $user,
+                    'contact_list'=>$contact_list,
+                    'users_conversation' => $users_conversation,
+                    ]);
+
+                // return view ('theme.tutor.tutor_dashboard')->with(['user' => $user]);
             }
             else
             {
                 // Payment form
                 return view ('theme.register.tutor.payment')->with(['id' => Auth::user()->id]);
             }
-            
         }
         else
         {
             return redirect()->to('signin');
         }
     }
+
     /**
      * Store Tutor Session
      *

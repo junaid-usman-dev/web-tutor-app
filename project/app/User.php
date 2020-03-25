@@ -93,6 +93,23 @@ class User extends Authenticatable
         return $this->hasMany("App\Model\Message","sender_id");
     }
 
+    // One to Many Relationship
+    public function education()
+    {
+        return $this->hasMany("App\Model\Education");
+    }
+
+    // One to Many Relationship
+    public function availabilities()
+    {
+        return $this->hasMany("App\Model\Availability");
+    }
+
+    // One to Many Relationship
+    public function schedules()
+    {
+        return $this->hasMany("App\Model\Schedule");
+    }
     
 
 }

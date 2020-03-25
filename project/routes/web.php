@@ -2,7 +2,7 @@
 
 
 Route::get('/test', function () {
-    return view('theme.tutor.test.test_attempt');
+    return view('theme.tutor.avail_calendar');
 });
 // Route::get('/test', 'Registration\RegistrationController@test')->name('test');
 
@@ -138,20 +138,27 @@ Route::prefix('student')->group(function () {
 
     Route::get('/add-to-favorit-list/{favorite_user_id}', 'Users\Student\StudentController@AddFavorite')->name('student.favorite.tutors'); // Add tutor to Favorite category
     Route::get('/favorite-tutors', 'Users\Student\StudentController@ListFavorite')->name('student.favorite.tutors.list'); // List of all Favorite Tutors
+    Route::get('/remove-to-favorit-list/{favorite_user_id}', 'Users\Student\StudentController@RemoveFavorite')->name('student.favorite.tutors.remove'); // Add tutor to Favorite category
 
+    // Class Schedule
+    Route::post('/class-schedule', 'Users\Student\StudentController@AddSchedule')->name('student.class.schedule'); // Add tutor to Favorite category
+
+    
     /**
      * Message
      */
     Route::prefix('message')->group(function () {
-        Route::get('/view-all/{sender_id}/{receiver_id}', 'Message\MessageController@Conversation')->name('message.conversation'); // Display conversion between two person
+        Route::get('/conversation', 'Message\MessageController@Conversation')->name('message.conversation'); // Display conversion between two person
         Route::get('/contact-list/{id}', 'Message\MessageController@Contacts')->name('message.contact.list'); // Contact list for specfic person
         
-        Route::get('/send', 'Message\MessageController@store')->name('message.send'); // Chat Send Message
+        Route::get('/send/{sender_id}/{receiver_id}/{message}', 'Message\MessageController@store')->name('student.message.send'); //Start Chat/ Send Message
+
+        Route::get('/view-conversation/{sender_id}/{contact_id}', 'Message\MessageController@ViewConversation')->name('sdsd.message.conversation.test'); // Display conversion between two person
 
     });
 
 
-    Route::get('/pagination', 'Users\Student\StudentController@Pagination'); // all reviews
+    // Route::get('/pagination', 'Users\Student\StudentController@Pagination'); // all reviews
 
 
 });
@@ -194,7 +201,16 @@ Route::prefix('tutor')->group(function () {
     // Route::get('/profile/{id}', 'Users\Tutor\TutorController@TutorProfile')->name('tutor.profile'); // View specific tutor profile as a student
     Route::get('/all-review', 'Users\Tutor\TutorController@AllReview')->name('tutor.all.review'); // all reviews
 
-    Route::get('/general-availability/{id}', 'Users\Tutor\TutorController@GeneralAvailability')->name('tutor.general.availability'); // Tutor General Availability
+    // Route::get('/general-availability', 'Users\Tutor\TutorController@ViewAvailability')->name('tutor.general.availability'); // Tutor General Availability
+    // Route::get('/general-availability/{id}', 'Users\Tutor\TutorController@GeneralAvailability')->name('tutor.general.availability.tess'); // Tutor General Availability
+    // Route::get('/create-event', 'Users\Tutor\EventController@store')->name('tutor.event.add'); // Tutor General Availability
+    
+    Route::get('/general-availability','Users\Tutor\EventController@index')->name('tutor.view.availability'); // Tutor General Availability;
+    Route::post('/add-availability','Users\Tutor\EventController@store')->name('tutor.add.availability'); // Tutor Add Availability;
+    
+    // Route::post('store','Users\Tutor\EventController@store');
+    // Route::get('index','Users\Tutor\EventController@index');
+    // Route::resource('events', 'Users\Tutor\EventController');
 
     Route::get('/submit-review', 'Users\Tutor\TutorController@AddReview')->name('tutor.review'); // Tutor General Availability
 
@@ -203,10 +219,26 @@ Route::prefix('tutor')->group(function () {
 
     Route::get('/test-list', 'Users\Tutor\TutorController@TestList')->name('tutor.test.list'); // Test List
     Route::get('/attempt-test/{id}', 'Users\Tutor\TutorController@AttemptTest')->name('tutor.test.attempt'); // Attempt Test
-    Route::post('/next-question/{test_id}/{total_questions}/{question_id}', 'Users\Tutor\TutorController@NextQuestion'); // Next Question
-    Route::get('/test-submit', 'Users\Tutor\TutorController@SubmitTest'); // Submit Test
-    Route::get('/test-results', 'Test\TestController@TutorResult'); // Test Result
+    //Route::post('/next-question/{test_id}/{total_questions}/{question_id}', 'Users\Tutor\TutorController@NextQuestion'); // Next Question
+    Route::post('/submit-test', 'Users\Tutor\TutorController@SubmitTest')->name('tutor.test.submit'); // Submit Test
+    Route::get('/test-results-list', 'Users\Tutor\TutorController@TutorResult')->name('tutor.test.result.list'); // Test Result
     
+    Route::post('/add-education', 'Users\Tutor\TutorController@AddEducatioin')->name('tutor.add.education.'); // Test Result
+
+    /**
+     * Message
+     */
+    Route::prefix('message')->group(function () {
+        Route::get('/conversation', 'Message\MessageController@Conversation')->name('message.conversation'); // Display conversion between two person
+        Route::get('/contact-list/{id}', 'Message\MessageController@Contacts')->name('message.contact.list'); // Contact list for specfic person
+        
+        Route::get('/send/{sender_id}/{receiver_id}/{message}', 'Message\MessageController@store')->name('tutor.message.send'); //Start Chat/ Send Message
+
+        Route::get('/view-conversation/{sender_id}/{contact_id}', 'Message\MessageController@ViewConversation')->name('sdsd.message.conversation.test'); // Display conversion between two person
+
+    });
+
+
 });
 
 
@@ -244,6 +276,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/home-page', function () {
         return view('admin.home.home');
     });
+
 
     Route::get('/create', 'Users\Admin\AdminController@create')->name('create.admin'); // Create specific admin
     Route::post('/store', 'Users\Admin\AdminController@store'); 

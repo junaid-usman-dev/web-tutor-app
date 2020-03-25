@@ -16,7 +16,7 @@ class TestUser extends Model
      * @var array
      */
     protected $fillable = [
-        'test_id', 'user_id'
+        'test_id', 'user_id', 'score'
     ];
 
 }

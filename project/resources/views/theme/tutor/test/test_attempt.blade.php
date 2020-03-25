@@ -36,11 +36,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <div class="wrapper">
 
     <!-- Navbar -->
-    {{-- @include('theme.tutor.inc.header'); --}}
+    @include('theme.tutor.inc.header');
     <!-- End navbar -->
 
     <!-- Main Sidebar Container -->
-    {{-- @include('theme.tutor.inc.sidebar'); --}}
+    @include('theme.tutor.inc.sidebar');
     <!-- End Main Sidebar Container -->
 
     <!-- Content Wrapper. Contains page content -->
@@ -87,75 +87,106 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <form role="form">
+                                <form role="form" method="POST" action="{{ action('Users\Tutor\TutorController@SubmitTest') }}" accept-charset="UTF-8" >
+                                    @csrf
+
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <!-- text input -->
                                             <div class="form-group">
+                                                                                                
+                                                {{-- <div class="row">
+                                                    <div class="col-sm-6">
+                                                        total Question
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        Current Question
+                                                    </div>
+                                                </div> --}}
+
+                                                @php
+                                                //    echo "Total:" $questions->total();
+                                                //    echo "Current Question" $questions->currentPage()
+                                                @endphp
+                                                @if ( count($test->questions) > 0)
+                                                    @php
+                                                        $count = 0; 
+                                                        // $emptyArray = []; 
+                                                    @endphp
+                                                    @foreach ($test->questions as $question)
+                                                        @php
+                                                            // $emptyArray[$count] = $question->id; 
+                                                            $count += 1;
+                                                        @endphp    
+                                                        <div class="form-group">
+                                                            <label>
+                                                                <small>Question {{ $count }}:</small>
+                                                                <br>
+                                                                 {{ $question->question }}
+                                                            </label>
+                                                            <div class="form-group">
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="choice[{{ $question->id }}]" value="1">
+                                                                    <label class="form-check-label"> {{ $question->option_1 }} </label>
+                                                                </div>
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="choice[{{ $question->id }}]" value="2">
+                                                                    <label class="form-check-label">{{ $question->option_2 }}</label>
+                                                                </div>
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="choice[{{ $question->id }}]" value="3">
+                                                                    <label class="form-check-label">{{ $question->option_3 }}</label>
+                                                                </div>
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="choice[{{ $question->id }}]" value="4">
+                                                                    <label class="form-check-label">{{ $question->option_4 }}</label>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    @endforeach
+                                                @else
+                                                    <p>There is no Question.</p>
+                                                @endif
                                                 
                                                 <div class="row">
-                                                    <div class="col-sm-6">
-                                                        <!-- text input -->
-                                                        <div class="form-group">
-                                                            <div class="input-group mb-2">
-                                                                <input type="text" class="form-control" name="test_id" value="test id">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <!-- text input -->
-                                                        <div class="form-group">
-                                                            <div class="input-group mb-2">
-                                                                <input type="text" class="form-control" name="question_id" value="question id">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-m-12">
-                                                        <p>
-                                                            <b>Question #:</b>
-                                                            Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit amet
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-m-12">
-                                                        <div clas="row">
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <!-- text input -->
                                                             <div class="form-group">
-                                                                <input type="radio" name="option" id="1"> Odsfsfafdsadfsf
+                                                                <div class="input-group mb-2">
+                                                                    <input type="hidden" class="form-control" name="test_id" value="{{ $test->id }}">
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-m-12">
-                                                        <div clas="row">
+                                                        <div class="col-sm-6">
+                                                            <!-- text input -->
                                                             <div class="form-group">
-                                                                <input type="radio" name="option" id="1"> Odsfsfafdsadfsf
+                                                                <div class="input-group mb-2">
+                                                                    <input type="hidden" class="form-control" name="total_questions" value="{{ $count }}">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-m-12">
-                                                        <div class="row">
-                                                            <div class="form-group">
-                                                                <input type="radio" name="option" id="1"> Odsfsfafdsadfsf
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <div class="col-m-12">
-                                                        <div class="row">
-                                                            <div class="form-group">
-                                                                <input type="radio" name="option" id="1"> Odsfsfafdsadfsf
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
                                                 </div>
 
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div class="card-footer text-left">
+                                        <button type="submit" id="submit" class="btn btn-primary">
+                                            <i class="fas fa-check"></i>
+                                            Submit
+                                        </button>
+                                        {{-- <button id="update" class="btn btn-success float-right">
+                                            <i class="fas fa-check"></i>
+                                            Next
+                                        </button> --}}
                                     </div>
                                     <!-- input states -->
                                 </form>
@@ -188,7 +219,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- End Main Content -->
     </div>
         <!-- Main Footer -->
-        {{-- @include('theme.tutor.inc.footer'); --}}
+        @include('theme.tutor.inc.footer');
+        {{-- End Main Footer --}}
 
 </div>
     <!-- ./wrapper -->

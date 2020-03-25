@@ -31,7 +31,7 @@ class AdminController extends Controller
         $students = User::orderBy('created_at','desc')->where('type','student')->get();
         $tutors = User::orderBy('created_at','desc')->where('type','tutor')->get();
         $subjects = Subject::all();
-        $tests = Test::orderBy('created_at','desc')->get();
+        $tests = Test::orderBy('id','DESC')->get();
 
         return view ('theme.admin.admin_dashboard')->with([
             'students'=>$students,

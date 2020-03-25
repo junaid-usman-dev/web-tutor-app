@@ -134,6 +134,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <div class="col-sm-12">
                                                     <!-- text input -->
                                                     <div class="form-group">
+                                                        <label>Choose Subject</label>
+                                                        <div class="input-group mb-2">
+                                                            <select class="form-control bdr-right" name="subject" data-placeholder="Select Subject" style="width: 100%;" value={{ old('subject') }} >
+                                                                @foreach ($subjects as $subject)
+                                                                    <option value="{{ $subject->id }}" >{{ $subject->name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    @error('subject')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                    @enderror
+                                                    <div class="error-message alert alert-danger error-em" role="alert">
+                                                        Error Message Goes Here
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <!-- text input -->
+                                                    <div class="form-group">
                                                         <label>Test Title</label>
                                                         <div class="input-group mb-2">
                                                             <input name="test" type="text" class="form-control @error('test') is-invalid @enderror"

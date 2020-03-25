@@ -14,6 +14,8 @@ use App\Model\Favorite;
 use App\Model\Review;
 use App\Model\Category;
 use App\Model\Subject;
+use App\Model\Message;
+use App\Model\Schedule;
 use App\Payment;
 
 use App\Rules\EmailFormat;
@@ -475,6 +477,24 @@ class StudentController extends Controller
     
 
     /**
+     * Remove Favorite tutor to favorite category
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function RemoveFavorite(Request $request, $favorite_user_id )
+    {  
+        $found = Favorite::where('favorite_user_id',$favorite_user_id)->delete();
+        // if ( count($found) > 0 )
+        // {
+        //     $favorite = new Favorite();
+        //     $favorite->user_id = Auth::user()->id;
+        //     $favorite->favorite_user_id = $favorite_user_id;
+        //     $favorite->save();
+        // }
+        return redirect()->route('student.favorite.tutors.list');
+    }
+
+    /**
      * List of all Favorite tutors
      *
      * @return \Illuminate\Http\Response
@@ -570,6 +590,7 @@ class StudentController extends Controller
         $user = User::where('id',$user_id)->first();
         if ( !empty($user) )
         {
+            // -----  Getting Favorite Tutors List of a specific student  ------
             $user = User::findOrFail($user_id);
             $favorites =  Favorite::where('user_id',$user_id)->get();
         
@@ -580,9 +601,97 @@ class StudentController extends Controller
                 $tutor = User::where('id',$favorite->favorite_user_id)->first();
                 $tutors[] = clone $tutor;
             }
+            // end favorite tutor list
+
+            // ------  Getting contact list of a specific student  --------
+            $id = $user_id; // Sender Id
+            $contacts = array();
+            $sender_contacts = array();
+            $receiver_contacts = array();
+            $raw_contacts = array();
+
+            $raw_contacts = Message::orderBy('id', 'DESC')->where('sender_id',$id)->orWhere('receiver_id',$id)->distinct()->get();
+            $j=0;
+            $contact_list = [];
+
+            if (count($raw_contacts) > 0)
+            {
+                for ($i=0; $i < count($raw_contacts); $i++ )
+                {
+                    $receiver_contacts[$i] = $raw_contacts[$i]->receiver_id;
+                    $sender_contacts[$j] = $raw_contacts[$j]->sender_id;
+                    $j += 1;
+                }
+            }
+            else
+            {
+                // Empty Contact is List
+                // return ("Your Contact List is Empty....");
+            }
+            // Marge two arrays into one
+            $length = count($receiver_contacts)+count($sender_contacts);
+            $j = 0;
+            for ($i=0; $i < $length; $i++)
+            {
+                if ($i<count($receiver_contacts))
+                {
+                    $contacts[$i] = $receiver_contacts[$i];
+                }
+                else
+                {
+                    $contacts[$i] = $sender_contacts[$j];
+                    $j +=1 ;
+                }
+            }
+            // Reindexing the array
+            $contacts = array_values( array_flip( array_flip( $contacts ) ) );
+            // Removing specifc entity
+            $key = $id;
+            if (($key = array_search($key, $contacts)) !== false) {
+                unset($contacts[$key]);
+            }
+            // Reindexing the array
+            $contacts = array_values( array_flip( array_flip( $contacts ) ) );
+            if (count($contacts) > 0)
+            {
+                for ($i=0; $i < count($contacts); $i++ )
+                {
+                    $item = new \stdClass();
+                    $item = User::where('id',$contacts[$i])->first();
+                        
+                    $contact_list[] = clone $item;
+                }
+                // dd($items);
+                // return view ('student.contact_list')->with(['items'=>$items,'user_id'=>$id]);
+            }
+            else
+            {
+                // Empty Contact is List
+                // return ("Your Contact List is Empty.");
+            }
+            //----  End Contact List 
+
+            // --------  Conversation -----------
+            $users_conversation = [];
+            $sender_id = Auth::guard('user')->user()->id;
+            if ( count($contact_list) > 0)
+            {
+                $receiver_id = $contact_list[0]->id; // Getting conversation of first user by default
+                $users_conversation = Message::where('sender_id',$sender_id)->where('receiver_id',$receiver_id)
+                        ->orWhere('sender_id',$receiver_id)->where('receiver_id',$sender_id)->get();
+            }
+
+            
+            // -------  End Conversation  ----------
+
+
             // dd($tutors[0]->first_name); working
-            // $this->StoreStudentSession($request, Auth::user()->id, Auth::user()->email_address, Auth::user()->phone, Auth::user()->type);
-            return view ('theme.student.student_dashboard')->with(['user' => $user, 'tutors'=>$tutors]);
+            return view ('theme.student.student_dashboard')->with([
+                'user' => $user,
+                'tutors'=>$tutors,
+                'contact_list'=>$contact_list,
+                'users_conversation' => $users_conversation,
+                ]);
         }
         else
         {
@@ -941,5 +1050,62 @@ class StudentController extends Controller
             'tutor' => $tutor,
         ]);
     }
+
+    /*
+    * Caless Schedules 
+    *
+    *@return \Illuminate\Http\Response
+    */
+    public function AddSchedule(Request $request)
+    {
+        // $request->validate([
+        //     // 'student_id' => 'required',
+        //     // 'tutor_id' => 'required',
+        //     'subject' => 'required',
+        //     'day' => 'required',
+        //     'start_date' => 'required',
+        //     'end_date' => 'required',
+        //     'start_time' => 'required',
+        //     'end_time' => 'required',
+        // ],
+        // [
+        //     // 'student_id.required' => 'Student field is required.',
+        //     // 'tutor_id.required' => 'Tutor field is required.',
+        //     'subject.required' => 'Subject field is required.',
+        //     'day.required' => 'Day field is required.',
+        //     'start_date.required' => 'Start date field is required.',
+        //     'end_date.required' => 'End date field is required.',
+        //     'start_time.required' => 'Start time field is required.',
+        //     'end_time.required' => 'End time field is required.',
+        // ]);
+
+        // $student_id = $request->input('student_id');
+        // $tutor_id = $request->input('tutor_id');
+        // $subject = $request->input('subject');
+        // $day = $request->input('day');
+        // $start_time = $request->input('start_time');
+        // $end_time = $request->input('end_time');
+
+        // // dd ($student_id, $tutor_id, $subject, $email, $review, $star);
+
+        // $add_schedule = new Schedule();
+
+        // $add_schedule->student_id = $student_id;
+        // $add_schedule->tutor_id = $tutor_id;
+        // $add_schedule->subject = $subject;
+        // $add_schedule->day = $day;
+        // $add_schedule->start_time = $start_time;
+        // $add_schedule->end_time = $end_time;
+
+        // $add_schedule->save();
+        
+        // dd ($request->all());
+
+        Schedule::create($request->all());
+        return response()->json([
+            'success' => true
+        ]);
+    }
+
 
 }

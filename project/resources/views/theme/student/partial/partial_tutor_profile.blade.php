@@ -155,29 +155,29 @@
 
                                     </div>
 
-
-                                    <span class="b_username">
+                                    @if ( count($tutor->education) > 0 )
+                                        <span class="b_username">
+                                            Education
+                                        </span>
+                                        @foreach ($tutor->education as $education)
+                                            <!-- /.user-block -->
+                                            <p>{{ $education->institute }}</p>
+                                            <p>{{ $education->certification }} | {{ $education->start_date }} - {{ $education->end_date }}</p>
+                                        @endforeach
+                                        <hr>
+                                    @else
+                                        {{-- There is no education --}}
+                                    @endif
+                                    {{-- <span class="b_username">
                                         Education
                                     </span>
-
-
                                     <!-- /.user-block -->
-                                    <p>
-
-                                        Princeton Univeristy
-                                        Chemical Engineering</p>
-                                    <p>
-                                        University of Wisconsin - Madison
-                                        PhD </p>
+                                    <p>Princeton Univeristy Chemical Engineering</p>
+                                    <p>University of Wisconsin - Madison PhD </p>
                                     <p>Electrical Engineering / Physics / Nuclear Engineering
-                                        Masters
+                                        Masters </p> --}}
 
-                                    </p>
-
-
-
-
-                                    <hr>
+                                    
                                     <span class="b_username">
                                         Policies
                                     </span> <!-- /.user-block -->
@@ -209,43 +209,67 @@
                                             <div class="col-md-6">
                                                 <p>
                                                     <b>Sunday:</b></br>
-                                                    10: PM - Midnight
+                                                    {{-- 10: PM - Midnight --}}
+                                                    @if ( !empty($tutor->availabilities[0]) )
+                                                        {{ $tutor->availabilities[0]->start_time }} - {{ $tutor->availabilities[0]->end_time }}
+                                                    @endif
                                                 </p>
 
                                                 <p>
                                                     <b>Monday:</b></br>
-                                                    Midnight - 3:00 AM, 10:00 PM - Midnight
+                                                    {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                                    @if ( !empty($tutor->availabilities[1]) )
+                                                        {{ $tutor->availabilities[1]->start_time }} - {{ $tutor->availabilities[1]->end_time }}
+                                                    @endif
                                                 </p>
 
                                                 <p>
                                                     <b>Tuesday:</b></br>
-                                                    Midnight - 3:00 AM, 10:00 PM - Midnight
+                                                    {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                                    @if ( !empty($tutor->availabilities[2]) )
+                                                        {{ $tutor->availabilities[2]->start_time }} - {{ $tutor->availabilities[2]->end_time }}
+                                                    @endif
                                                 </p>
 
                                                 <p>
                                                     <b>Wednesday:</b></br>
-                                                    Midnight - 3:00 AM, 10:00 PM - Midnight
+                                                    {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                                    @if ( !empty($tutor->availabilities[3]) )
+                                                        {{ $tutor->availabilities[3]->start_time }} - {{ $tutor->availabilities[3]->end_time }}
+                                                    @endif
                                                 </p>
                                             </div>
                                             <div class="col-md-6">
                                                 <p>
                                                     <b>Thursday:</b></br>
-                                                    Midnight - 3:00 AM, 10:00 PM - Midnight
+                                                    {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                                    @if ( !empty($tutor->availabilities[4]) )
+                                                        {{ $tutor->availabilities[4]->start_time }} - {{ $tutor->availabilities[4]->end_time }}
+                                                    @endif
                                                 </p>
 
                                                 <p>
                                                     <b>Friday:</b></br>
-                                                    Midnight - 3:00 AM, 10:00 PM - Midnight
+                                                    {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                                    @if ( !empty($tutor->availabilities[5]) )
+                                                        {{ $tutor->availabilities[5]->start_time }} - {{ $tutor->availabilities[5]->end_time }}
+                                                    @endif
                                                 </p>
                                                 <p>
                                                     <b>Saturday:</b></br>
-                                                    Midnight - 3:00 AM
+                                                    {{-- Midnight - 3:00 AM --}}
+                                                    @if ( !empty($tutor->availabilities[6]) )
+                                                        {{ $tutor->availabilities[6]->start_time }} - {{ $tutor->availabilities[6]->end_time }}
+                                                    @endif
                                                 </p>
                                             </div>
 
                                         </p>
 
                                     </div>
+
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#exampleModal" data-whatever="@mdo">Book Me</button>
 
                                     <hr>
 
@@ -588,7 +612,8 @@
                     Find the right fit, or your first hour is free
                 </li>
             </ul>
-            <a href="#" class="btn btn-primary btn-block"><strong>Contact {{ $tutor->first_name }}</strong></a>
+            {{-- <input type="text" name="message" id="message" value="Hi" /> --}}
+            <a href="{{ url('student/message/send') }}/{{ $user->id }}/{{ $tutor->id }}/Hi" class="btn btn-primary btn-block"><strong>Contact {{ $tutor->first_name }}</strong></a>
             <p class="text-center"> Response time: <b>7 hours</b> </p>
         </div>
         <!-- /.card-body -->

@@ -598,15 +598,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     </thead>
                                                     <tbody>
 
-                                                        {{-- @foreach ($tests as $test)
-                                                        <tr>
-                                                            <td>01</td>
-                                                            <td><a href="#">{{ $test->name }}</a></td>
-                                                            <td>{{ $test->description }}</td>
-                                                        </tr>
-                                                        @endforeach --}}
-
-                                                        <tr>
+                                                        @if( count($tests) > 0 )
+                                                            @php
+                                                                $count = 0;
+                                                            @endphp
+                                                            @foreach ($tests as $test)
+                                                                @php
+                                                                    $count += 1;
+                                                                    if($count > 3)
+                                                                    {
+                                                                        break;
+                                                                    }
+                                                                @endphp
+                                                                <tr>
+                                                                    <td>{{ $count }}</td>
+                                                                    <td><a href="{{ url('admin/test/preview') }}/{{ $test->id }}">{{ $test->name }}</a></td>
+                                                                    <td>{{ $test->description }}</td>
+                                                                </tr>
+                                                                
+                                                            @endforeach
+                                                        @else
+                                                            {{-- There is no Test  --}}
+                                                        @endif
+                                                        {{-- <tr>
                                                             <td>01</td>
                                                             <td><a href="#">English Test</a></td>
                                                             <td>description text description text </td>
@@ -630,7 +644,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                             <td>05</td>
                                                             <td><a href="#">Computer Test</a></td>
                                                             <td>description text description text </td>
-                                                        </tr>
+                                                        </tr> --}}
 
                                                     </tbody>
                                                 </table>
@@ -639,9 +653,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </div>
                                         <!-- /.card-body -->
                                         <div class="card-footer clearfix">
-                                            <a href="javascript:void(0)" class="btn btn-sm btn-primary float-left">Book
+                                            <a href="{{ route('admin.test.create') }}" class="btn btn-sm btn-primary float-left">Book
                                                 New Test</a>
-                                            <a href="javascript:void(0)"
+                                            <a href="{{ route('admin.test.list') }}"
                                                 class="btn btn-sm btn-secondary float-right">View All Tests</a>
                                         </div>
                                         <!-- /.card-footer -->

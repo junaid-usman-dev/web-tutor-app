@@ -60,13 +60,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link active">
+                            <a href="{{ route('tutor.test.list') }}" class="nav-link active">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Take a Test</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('tutor.test.result.list') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Result</p>
                             </a>
@@ -77,7 +77,7 @@
 
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link"><em class="nav-icon fas fa-calendar-check"></em>
+                    <a href="{{ route('tutor.view.availability') }}" class="nav-link"><em class="nav-icon fas fa-calendar-check"></em>
                         <p>
                             Availability Calendar
                             <!--  <span class="right badge badge-danger">New</span> -->

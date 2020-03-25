@@ -9,6 +9,7 @@ use Auth;
 use App\Model\Test;
 use App\Model\TestUser;
 use App\Model\Question;
+use App\Model\Subject;
 use App\User;
 
 class TestController extends Controller
@@ -43,7 +44,8 @@ class TestController extends Controller
         //
         if ( !empty(Auth::guard('admin')->user()) )
         {
-            return view ("theme.admin.test.test_create");
+            $subjects = Subject::all();
+            return view ("theme.admin.test.test_create")->with(['subjects'=>$subjects]);
         }
         else
         {
@@ -62,17 +64,20 @@ class TestController extends Controller
     {
         //
         $request->validate([
+            'subject' => 'required',
             'test' => 'required',
             'description' => 'required',
         ]);
 
+        $subject = $request->input('subject');
         $name = ucwords($request->input('test'));
         $description = $request->input('description');
 
-        // dd ($name, $description);
+        // dd ($subject, $name, $description);
 
         $test = new Test();
 
+        $test->subject_id = $subject;
         $test->name = $name;
         $test->description = $description;
 
@@ -167,14 +172,14 @@ class TestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function TutorResult(Request $request)
-    {
-        //
-        $user_id = '7';
-        $test_id = '3';
+    // public function TutorResult(Request $request)
+    // {
+    //     //
+    //     $user_id = '3';
+    //     $test_id = '51';
 
-        $results = User::findOrFail($user_id);
-        dd ($results);
-        return view ('tutor.test.test_result')->with([ 'results'=>$results ]);
-    }
+    //     $results = User::findOrFail($user_id);
+    //     dd ($results->tests[0]->pivot->score);
+    //     return view ('tutor.test.test_result')->with([ 'results'=>$results ]);
+    // }
 }

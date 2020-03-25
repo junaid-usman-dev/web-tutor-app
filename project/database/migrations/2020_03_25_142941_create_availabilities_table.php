@@ -17,21 +17,11 @@ class CreateAvailabilitiesTable extends Migration
             $table->bigIncrements('id');
 
             $table->bigInteger('user_id')->nullable();
-            // $table->dateTime('start_time')->nullable();
-            // $table->dateTime('end_time')->nullable();
-
-            $table->string('pre_1200am')->nullable();
-            $table->dateTime('1200pm_to_500pm')->nullable();
-            $table->dateTime('after_500pm')->nullable();
-
-
-            $table->dateTime('monday')->nullable();
-            $table->dateTime('tuesday')->nullable();
-            $table->dateTime('wednesday')->nullable();
-            $table->dateTime('thursday')->nullable();
-            $table->dateTime('friday')->nullable();
-            $table->dateTime('saturday')->nullable();
-            $table->dateTime('sunday')->nullable();
+            $table->string('title')->nullable();
+            $table->string('start_date')->nullable();
+            $table->string('end_date')->nullable();
+            $table->string('start_time')->nullable();
+            $table->string('end_time')->nullable();
 
             $table->timestamps();
         });

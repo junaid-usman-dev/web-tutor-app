@@ -24,7 +24,7 @@
 </head>
 
 <body>
-    <div class="container-fluid">
+    {{-- <div class="container-fluid">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <a class="navbar-brand" href="#"><img src="{{ asset('theme_asset/home/images/tl_logo.png') }}"></a>
@@ -45,7 +45,9 @@
                 </div>
             </nav>
         </div>
-    </div>
+    </div> --}}
+
+    @include('inc.header')
 
 
     <header>
@@ -203,7 +205,7 @@
 
     </section>
 
-    <footer class="text-left footer_bg">
+    {{-- <footer class="text-left footer_bg">
         <div class="container">
             <div class="row">
 
@@ -229,13 +231,15 @@
 
                 </div>
 
-
                 <div class="col-md-2 text-center"><img src="{{ asset('theme_asset/home/images/footer_logo.png') }}">
                 </div>
 
             </div>
         </div>
-    </footer>
+    </footer> --}}
+
+    @include('inc.footer')
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="{{ asset('theme_asset/home/js/jquery-3.3.1.min.js') }}"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->

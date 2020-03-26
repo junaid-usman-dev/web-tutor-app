@@ -17,8 +17,17 @@
     <link rel="stylesheet" href="{{ asset('theme_asset/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('theme_asset/dist/css/adminlte.css') }}">
+    <!-- Custom style -->
+    <link rel="stylesheet" href="{{ asset('theme_asset/custom/css/custom.css') }}">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link href="{{ asset('theme_asset/custom/css/header.css') }}" rel="stylesheet">
+    {{-- <script src="https://kit.fontawesome.com/ac9913b312.js" crossorigin="anonymous"></script> --}}
+    <link href="{{ asset('theme_asset/custom/css/footer.css') }}" rel="stylesheet">
+
+
 </head>
 
 <style>
@@ -42,96 +51,109 @@
 </style>
 
 
+{{-- class="hold-transition register-page" --}}
+<body >
 
-<body class="hold-transition register-page">
-    <div class="register-box">
-        <div class="register-logo">
-            <a href="{{ url('/') }}"><img src="{{ asset('theme_asset/dist/img/TLLogo.png') }}" style="width: 60px">
-                <img src="{{ asset('theme_asset/dist/img/TL_txt_img.png') }}"></a>
-        </div>
+    {{-- including header --}}
+    @include('inc.header')
 
-        <div class="card card-primary card-outline">
-            <div class="card-body register-card-body">
-                <p class="login-box-msg"><b>Payment for TutorLynx</b></p>
-                <p>Please submit one time 20 dollar fee to register as a tutor. This is only one time fee and no further commission will be deducted on any future transaction as a tutor.</p>
-                <form action="{{ Route('tutor.fee.submission') }}" method="POST" accept-charset="UTF-8" >
-                    @csrf
+    <div class="ju-header register-page" > 
 
-                    <div class="input-group mb-2">
-                        <input type="hidden" name="id" class="form-control" autocomplete="disabled" value="{{ $id }}" >
-                        {{-- <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
-                            </div>
-                        </div> --}}
-                    </div>
-
-                    <div class="input-group mb-2">
-                        <input type="text" name="card_number" class="form-control only-numeric" autocomplete="disabled" placeholder="Card Number" value={{ old('email') }} >
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
-                            </div>
-                        </div>
-                    </div>
-                    @error('card_number')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-
-                    <div class="row">
-                        <div class="col-6 mb-0 ml-0">
-                            <div class="input-group mb-2">
-                                <input type="text" name="month" class="form-control only-numeric" autocomplete="disabled" placeholder="Month" value={{ old('month') }} >
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-user"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6 mb-0 ml-0">
-                            <div class="input-group mb-2">
-                                <input type="text" name="year" class="form-control only-numeric" autocomplete="disabled" placeholder="Year" value={{ old('year') }} >
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-user"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @error('month')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-
-                    <div class="input-group mb-2">
-                        <input type="text" name="cvv_number" class="form-control only-numeric" autocomplete="disabled" placeholder="CVV Number" value={{ old('cvv') }} >
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
-                            </div>
-                        </div>
-                    </div>
-                    @error('cvv')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-
-                    <div class="social-auth-links text-center">
-                        <button class="btn btn-block btn-primary" name="signup" id="signup" >
-                            <em class="fas fa-check-circle mr-2"></em>
-                            Sign up
-                        </button>
-                    </div>
-
-                </form>
-
-                <a href="{{ route('signin') }}" class="text-center">I already have an account. Sign In</a>
-
+        <div class="register-box m-auto">
+            <div class="register-logo">
+                {{-- <a href="{{ url('/') }}"><img src="{{ asset('theme_asset/dist/img/TLLogo.png') }}" style="width: 60px">
+                    <img src="{{ asset('theme_asset/dist/img/TL_txt_img.png') }}"></a> --}}
             </div>
-            <!-- /.form-box -->
-        </div><!-- /.card -->
+
+            <div class="card card-primary card-outline">
+                <div class="card-body register-card-body">
+                    <p class="login-box-msg"><b>Payment for TutorLynx</b></p>
+                    <p>Please submit one time 20 dollar fee to register as a tutor. This is only one time fee and no further commission will be deducted on any future transaction as a tutor.</p>
+                    <form action="{{ Route('tutor.fee.submission') }}" method="POST" accept-charset="UTF-8" >
+                        @csrf
+
+                        <div class="input-group mb-2">
+                            <input type="hidden" name="id" class="form-control" autocomplete="disabled" value="{{ $id }}" >
+                            {{-- <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-envelope"></span>
+                                </div>
+                            </div> --}}
+                        </div>
+
+                        <div class="input-group mb-2">
+                            <input type="text" name="card_number" class="form-control only-numeric" autocomplete="disabled" placeholder="Card Number" value={{ old('email') }} >
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-envelope"></span>
+                                </div>
+                            </div>
+                        </div>
+                        @error('card_number')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+
+                        <div class="row">
+                            <div class="col-6 mb-0 ml-0">
+                                <div class="input-group mb-2">
+                                    <input type="text" name="month" class="form-control only-numeric" autocomplete="disabled" placeholder="Month" value={{ old('month') }} >
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-user"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 mb-0 ml-0">
+                                <div class="input-group mb-2">
+                                    <input type="text" name="year" class="form-control only-numeric" autocomplete="disabled" placeholder="Year" value={{ old('year') }} >
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-user"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @error('month')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+
+                        <div class="input-group mb-2">
+                            <input type="text" name="cvv_number" class="form-control only-numeric" autocomplete="disabled" placeholder="CVV Number" value={{ old('cvv') }} >
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-envelope"></span>
+                                </div>
+                            </div>
+                        </div>
+                        @error('cvv')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+
+                        <div class="social-auth-links text-center">
+                            <button class="btn btn-block btn-primary" name="signup" id="signup" >
+                                <em class="fas fa-check-circle mr-2"></em>
+                                Sign up
+                            </button>
+                        </div>
+
+                    </form>
+
+                    <a href="{{ route('signin') }}" class="text-center">I already have an account. Sign In</a>
+
+                </div>
+                <!-- /.form-box -->
+            </div><!-- /.card -->
+        </div>
+        <!-- /.register-box -->
+
     </div>
-    <!-- /.register-box -->
+
+
+    {{-- including footer --}}
+    @include('inc.footer')
+
 
     <!-- jQuery -->
     <script src="{{ asset('theme_asset/plugins/jquery/jquery.min.js') }}"></script>

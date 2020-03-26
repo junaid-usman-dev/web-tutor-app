@@ -17,8 +17,17 @@
     <link rel="stylesheet" href="{{ asset('theme_asset/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('theme_asset/dist/css/adminlte.css') }}">
+    <!-- Custom style -->
+    <link rel="stylesheet" href="{{ asset('theme_asset/custom/css/custom.css') }}">
+
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link href="{{ asset('theme_asset/custom/css/header.css') }}" rel="stylesheet">
+    {{-- <script src="https://kit.fontawesome.com/ac9913b312.js" crossorigin="anonymous"></script> --}}
+    <link href="{{ asset('theme_asset/custom/css/footer.css') }}" rel="stylesheet">
+
 </head>
 
 <style>
@@ -26,51 +35,65 @@
 
 </style>
 
+{{-- class="hold-transition register-page" --}}
+<body >
 
-<body class="hold-transition register-page">
-    <div class="register-box">
-        <div class="register-logo">
-            <a href="{{ url('/') }}"><img src="{{ asset('theme_asset/dist/img/TLLogo.png') }}" style="width: 60px">
-                <img src="{{ asset('theme_asset/dist/img/TL_txt_img.png') }}"></a>
-        </div>
+    {{-- including header --}}
+    @include('inc.header')
 
-        <div class="card card-primary card-outline" >
-            <div class="card-body register-card-body">
-                <p class="login-box-msg">Sign up for TutorLynx</p>
-                <form action="{{ Route('upload.profile.image') }}" method="POST" accept-charset="UTF-8" autocomplete="off" enctype="multipart/form-data" >
-                    @csrf
-                    
-                    <div class="input-group mb-2" >
-                        <input type="hidden" name="id" class="form-control" value="{{ $id }}" >
-                    </div>
 
-                    <div class="input-group mb-2" >
-                        <input type="file" name="image" id="image" onchange="PreviewImage();" class="form-control" value={{ old('email') }} >
-                    </div>
 
-                    <div class="input-group mb-2" >
-                        <div class="profile_image" style="width:100%; height:100%; margin: auto;">
-                            {{-- https://www.w3schools.com/w3css/img_lights.jpg --}}
-                            <img src="{{ asset('images/default-profile-image.jpg') }}" id="uploadPreview" height="100%" width="100%"  alt="image" />
-                        </div>
-                    </div>
-                    
-                    <div class="social-auth-links text-center">
-                        <button class="btn btn-block btn-primary" name="signup" id="signup" >
-                            <em class="fas fa-check-circle mr-2"></em>
-                            Sign up
-                        </button>
-                    </div>
+    <div class="ju-header register-page" >
 
-                </form>
-
-                <a href="{{ route('skip.upload.profile.image') }}" class="text-center">SKIP</a>
-
+        <div class="register-box m-auto" >
+            <div class="register-logo">
+                {{-- <a href="{{ url('/') }}"><img src="{{ asset('theme_asset/dist/img/TLLogo.png') }}" style="width: 60px">
+                    <img src="{{ asset('theme_asset/dist/img/TL_txt_img.png') }}"></a> --}}
             </div>
-            <!-- /.form-box -->
-        </div><!-- /.card -->
+
+            <div class="card card-primary card-outline" >
+                <div class="card-body register-card-body">
+                    <p class="login-box-msg">Sign up for TutorLynx</p>
+                    <form action="{{ Route('upload.profile.image') }}" method="POST" accept-charset="UTF-8" autocomplete="off" enctype="multipart/form-data" >
+                        @csrf
+                        
+                        <div class="input-group mb-2" >
+                            <input type="hidden" name="id" class="form-control" value="{{ $id }}" >
+                        </div>
+
+                        <div class="input-group mb-2" >
+                            <input type="file" name="image" id="image" onchange="PreviewImage();" class="form-control" value={{ old('email') }} >
+                        </div>
+
+                        <div class="input-group mb-2" >
+                            <div class="profile_image" style="width:100%; height:100%; margin: auto;">
+                                {{-- https://www.w3schools.com/w3css/img_lights.jpg --}}
+                                <img src="{{ asset('images/default-profile-image.jpg') }}" id="uploadPreview" height="100%" width="100%"  alt="image" />
+                            </div>
+                        </div>
+                        
+                        <div class="social-auth-links text-center">
+                            <button class="btn btn-block btn-primary" name="signup" id="signup" >
+                                <em class="fas fa-check-circle mr-2"></em>
+                                Sign up
+                            </button>
+                        </div>
+
+                    </form>
+
+                    <a href="{{ route('skip.upload.profile.image') }}" class="text-center">SKIP</a>
+
+                </div>
+                <!-- /.form-box -->
+            </div><!-- /.card -->
+        </div>
+        <!-- /.register-box -->
+
     </div>
-    <!-- /.register-box -->
+
+
+    {{-- including footer --}}
+    @include('inc.footer')
 
     <!-- jQuery -->
     <script src="{{ asset('theme_asset/plugins/jquery/jquery.min.js') }}"></script>

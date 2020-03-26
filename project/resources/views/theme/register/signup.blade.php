@@ -27,6 +27,15 @@ if ( empty(session()->get('session_tutor_id')) && empty(session()->get('session_
     <link rel="stylesheet" href="{{ asset('theme_asset/dist/css/adminlte.css') }}">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link href="{{ asset('theme_asset/custom/css/header.css') }}" rel="stylesheet">
+    {{-- <script src="https://kit.fontawesome.com/ac9913b312.js" crossorigin="anonymous"></script> --}}
+    <link href="{{ asset('theme_asset/custom/css/footer.css') }}" rel="stylesheet">
+
+    <!-- Custom style -->
+    <link rel="stylesheet" href="{{ asset('theme_asset/custom/css/custom.css') }}">
+
 </head>
 
 <style>
@@ -54,266 +63,281 @@ if ( empty(session()->get('session_tutor_id')) && empty(session()->get('session_
 </style>
 
 
+{{-- class="hold-transition register-page" --}}
+<body >
 
-<body class="hold-transition register-page">
-    <div class="register-box">
-        <div class="register-logo">
-            <a href="{{ url('/') }}"><img src="{{ asset('theme_asset/dist/img/TLLogo.png') }}" style="width: 60px">
-                <img src="{{ asset('theme_asset/dist/img/TL_txt_img.png') }}"></a>
-        </div>
 
-        <div class="card card-primary card-outline">
-            <div class="card-body register-card-body">
-                <p class="login-box-msg">Sign up for TutorLynx</p>
-                <form action="{{ route('submit.user.info') }}" method="POST" accept-charset="UTF-8" >
-                      @csrf
+    {{-- including header --}}
+    @include('inc.header')
 
-                    <div class="row">
-                        <div class="col-6 mb-0 ml-0">
-                            <div class="input-group mb-2">
-                                <input type="text" name="fname" class="form-control" autocomplete="disabled" placeholder="First name" value={{ old('fname') }} >
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-user"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6 mb-0 ml-0">
-                            <div class="input-group mb-2">
-                                <input type="text" name="lname" class="form-control" autocomplete="disabled" placeholder="Last name" value={{ old('lname') }} >
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-user"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @error('fname')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
 
-                    <div class="input-group mb-2">
-                        <input type="email" name="email" class="form-control" autocomplete="disabled" placeholder="Email" value={{ old('email') }} >
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
-                            </div>
-                        </div>
-                    </div>
-                    @error('email')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
+    {{-- <div style="width:100%; height:100%; background-color: #e5e5e5; padding-top:5%; padding-bottom:8%;" class="register-page"> --}}
+    <div class="ju-header register-page" > 
 
-                    <div class="input-group mb-2">
-                        <input type="password" name="password" id="password" class="form-control password-popover" placeholder="Password"
-                            title='<strong>Password must contain the following:</strong>' data-html="true" 
-                            data-toggle="popover" data-trigger="focus" 
-                            data-content='
-                                <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
-                                <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
-                                <p id="number" class="invalid">A <b>number</b></p>
-                                <p id="length" class="invalid">Minimum <b>8 characters</b></p>
-                            '>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
-                    </div>
-                    @error('password')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                    {{-- <div>
-                        <p id="error_password" class="text-danger"></p>
-                        <p id="error_letter" class="text-danger"></p>
-                        <p id="error_capital" class="text-danger"></p>
-                        <p id="error_number" class="text-danger"></p>
-                        <p id="error_length" class="text-danger"></p>
-                    </div>
-        
-                    <div id="message" class="" style="display:none;">
-                        <strong>Password must contain the following:</strong>
-                        <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
-                        <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
-                        <p id="number" class="invalid">A <b>number</b></p>
-                        <p id="length" class="invalid">Minimum <b>8 characters</b></p>
-                    </div> --}}
+        <div class="register-box" style="margin: 0px auto;">
+            <div class="register-logo">
+                {{-- <a href="{{ url('/') }}"><img src="{{ asset('theme_asset/dist/img/TLLogo.png') }}" style="width: 60px">
+                    <img src="{{ asset('theme_asset/dist/img/TL_txt_img.png') }}"></a> --}}
+            </div>
 
-                    <div class="input-group mb-2">
-                        <input type="text" name="phone" id="phone" onkonchangeeypress="phonenumber(this)" class="form-control only-numeric" autocomplete="disabled" placeholder="Phone Number" value={{ old('phone') }} >
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-mobile-alt"></span>
-                            </div>
-                        </div>
-                    </div>
-                    @error('phone')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
+            <div class="card card-primary card-outline">
+                <div class="card-body register-card-body">
+                    <p class="login-box-msg">Sign up for TutorLynx</p>
+                    <form action="{{ route('submit.user.info') }}" method="POST" accept-charset="UTF-8" >
+                        @csrf
 
-                    <div class="input-group mb-2">
-                        <input type="type" name="birthday" class="form-control only-numeric" onfocus="(this.type='date')" autocomplete="disabled" placeholder="Birthday (mm/dd/yyyy)" value={{ old('birthday') }} >
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-birthday-cake"></span>
-                            </div>
-                        </div>
-                    </div>
-                    @error('birthday')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-
-                    <div class="row">
-                        <div class="input-group mb-2">
-                            <div class="form-group col-12 mb-0 ml-0">
-                                <select class="form-control" name="country" data-placeholder="Select Country" style="width: 100%;" value={{ old('country') }} >
-                                    <option>USA</option>
-                                    {{-- <option>California</option>
-                                    <option>Delaware</option>
-                                    <option>Tennessee</option>
-                                    <option>Texas</option>
-                                    <option>Washington</option> --}}
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    @error('country')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-
-                    <div class="row">
-                        <div class="input-group mb-2">
-                            <div class="form-group col-6 mb-0 ml-0">
-                                <select class="form-control bdr-right" name="state" data-placeholder="Select State" style="width: 100%;" value={{ old('state') }} >
-                                    <option>Alabama</option>
-                                    <option>Alaska</option>
-                                    <option>Arizona</option>
-                                    <option>Arkansas</option>
-                                    <option>California</option>
-                                    <option>Colorado</option>
-                                    <option>Connecticut</option>
-                                    <option>Delaware</option>
-                                    <option>Florida</option>
-                                    <option>Georgia</option>
-                                    <option>Hawaii</option>
-                                    <option>Idaho</option>
-                                    <option>Illinois</option>
-                                    <option>Indiana</option>
-                                    <option>Iowa</option>
-                                    <option>Kansas</option>
-                                    <option>Kentucky</option>
-                                    <option>Louisiana</option>
-                                    <option>Maine</option>
-                                    <option>Massachusetts</option>
-                                    <option>Michigan</option>
-                                    <option>Minnesota</option>
-                                    <option>Mississippi</option>
-                                    <option>Missouri</option>
-                                    <option>Montana</option>
-                                    <option>Nebraska</option>
-                                    <option>Nevada</option>
-                                    <option>New Hampshire</option>
-                                    <option>New Jersey</option>
-                                    <option>New Mexico</option>
-                                    <option>New York</option>
-                                    <option>North Carolina</option>
-                                    <option>North Dakota</option>
-                                    <option>Ohio</option>
-                                    <option>Oklahoma</option>
-                                    <option>Oregon</option>
-                                    <option>Pennsylvania</option>
-                                    <option>Rhode Island</option>
-                                    <option>South Carolina</option>
-                                    <option>South Dakota</option>
-                                    <option>Tennessee</option>
-                                    <option>Texas</option>
-                                    <option>Utah</option>
-                                    <option>Vermont</option>
-                                    <option>Virginia</option>
-                                    <option>Washington</option>
-                                    <option>West Virginia</option>
-                                </select>
-                            </div>
-                            @error('state')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                            <div class="form-group col-6 mb-0 ml-0">
+                        <div class="row">
+                            <div class="col-6 mb-0 ml-0">
                                 <div class="input-group mb-2">
-                                    <input type="text" name="city" class="form-control bdr-right" autocomplete="disabled" placeholder="City" value={{ old('city') }} >
-                                    {{-- <div class="input-group-append">
+                                    <input type="text" name="fname" class="form-control" autocomplete="disabled" placeholder="First name" value={{ old('fname') }} >
+                                    <div class="input-group-append">
                                         <div class="input-group-text">
                                             <span class="fas fa-user"></span>
                                         </div>
-                                    </div> --}}
+                                    </div>
                                 </div>
-                                {{-- <select class="form-control" name="city" data-placeholder="Select City" style="width: 100%;" value={{ old('city') }} >
-                                    <option>Alaska</option>
-                                    <option>California</option>
-                                    <option>Delaware</option>
-                                    <option>Tennessee</option>
-                                    <option>Texas</option>
-                                    <option>Washington</option>
-                                </select> --}}
                             </div>
-                            @error('city')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-                    
-                    <div class="input-group mb-2">
-                        <input type="text" name="zipcode" class="form-control" placeholder="Zipcode" value={{ old('zipcode') }} >
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-map-marker-alt"></span>
+                            <div class="col-6 mb-0 ml-0">
+                                <div class="input-group mb-2">
+                                    <input type="text" name="lname" class="form-control" autocomplete="disabled" placeholder="Last name" value={{ old('lname') }} >
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-user"></span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    @error('zipcode')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
+                        @error('fname')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
 
-                    <div class="row">
-                        <div class="col-5">
-                            <div class="icheck-primary">
-                                <input type="radio" name="type" id="studentlabel" value="student" checked="" >
-                                <label for="studentlabel">
-                                    I'm a student
-                                </label>
+                        <div class="input-group mb-2">
+                            <input type="email" name="email" class="form-control" autocomplete="disabled" placeholder="Email" value={{ old('email') }} >
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-envelope"></span>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-5">
-                            <div class="icheck-primary">
-                                <input type="radio" name="type" id="tutorlabel" value="tutor" value={{ old('type') }} >
-                                <label for="tutorlabel">
-                                    I'm a tutor
-                                </label>
+                        @error('email')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+
+                        <div class="input-group mb-2">
+                            <input type="password" name="password" id="password" class="form-control password-popover" placeholder="Password"
+                                title='<strong>Password must contain the following:</strong>' data-html="true" 
+                                data-toggle="popover" data-trigger="focus" 
+                                data-content='
+                                    <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                                    <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                                    <p id="number" class="invalid">A <b>number</b></p>
+                                    <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+                                '>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock"></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    @error('type')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
+                        @error('password')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                        {{-- <div>
+                            <p id="error_password" class="text-danger"></p>
+                            <p id="error_letter" class="text-danger"></p>
+                            <p id="error_capital" class="text-danger"></p>
+                            <p id="error_number" class="text-danger"></p>
+                            <p id="error_length" class="text-danger"></p>
+                        </div>
+            
+                        <div id="message" class="" style="display:none;">
+                            <strong>Password must contain the following:</strong>
+                            <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                            <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                            <p id="number" class="invalid">A <b>number</b></p>
+                            <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+                        </div> --}}
+
+                        <div class="input-group mb-2">
+                            <input type="text" name="phone" id="phone" onkonchangeeypress="phonenumber(this)" class="form-control only-numeric" autocomplete="disabled" placeholder="Phone Number" value={{ old('phone') }} >
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-mobile-alt"></span>
+                                </div>
+                            </div>
+                        </div>
+                        @error('phone')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+
+                        <div class="input-group mb-2">
+                            <input type="type" name="birthday" class="form-control only-numeric" onfocus="(this.type='date')" autocomplete="disabled" placeholder="Birthday (mm/dd/yyyy)" value={{ old('birthday') }} >
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-birthday-cake"></span>
+                                </div>
+                            </div>
+                        </div>
+                        @error('birthday')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+
+                        <div class="row">
+                            <div class="input-group mb-2">
+                                <div class="form-group col-12 mb-0 ml-0">
+                                    <select class="form-control" name="country" data-placeholder="Select Country" style="width: 100%;" value={{ old('country') }} >
+                                        <option>USA</option>
+                                        {{-- <option>California</option>
+                                        <option>Delaware</option>
+                                        <option>Tennessee</option>
+                                        <option>Texas</option>
+                                        <option>Washington</option> --}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        @error('country')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+
+                        <div class="row">
+                            <div class="input-group mb-2">
+                                <div class="form-group col-6 mb-0 ml-0">
+                                    <select class="form-control bdr-right" name="state" data-placeholder="Select State" style="width: 100%;" value={{ old('state') }} >
+                                        <option>Alabama</option>
+                                        <option>Alaska</option>
+                                        <option>Arizona</option>
+                                        <option>Arkansas</option>
+                                        <option>California</option>
+                                        <option>Colorado</option>
+                                        <option>Connecticut</option>
+                                        <option>Delaware</option>
+                                        <option>Florida</option>
+                                        <option>Georgia</option>
+                                        <option>Hawaii</option>
+                                        <option>Idaho</option>
+                                        <option>Illinois</option>
+                                        <option>Indiana</option>
+                                        <option>Iowa</option>
+                                        <option>Kansas</option>
+                                        <option>Kentucky</option>
+                                        <option>Louisiana</option>
+                                        <option>Maine</option>
+                                        <option>Massachusetts</option>
+                                        <option>Michigan</option>
+                                        <option>Minnesota</option>
+                                        <option>Mississippi</option>
+                                        <option>Missouri</option>
+                                        <option>Montana</option>
+                                        <option>Nebraska</option>
+                                        <option>Nevada</option>
+                                        <option>New Hampshire</option>
+                                        <option>New Jersey</option>
+                                        <option>New Mexico</option>
+                                        <option>New York</option>
+                                        <option>North Carolina</option>
+                                        <option>North Dakota</option>
+                                        <option>Ohio</option>
+                                        <option>Oklahoma</option>
+                                        <option>Oregon</option>
+                                        <option>Pennsylvania</option>
+                                        <option>Rhode Island</option>
+                                        <option>South Carolina</option>
+                                        <option>South Dakota</option>
+                                        <option>Tennessee</option>
+                                        <option>Texas</option>
+                                        <option>Utah</option>
+                                        <option>Vermont</option>
+                                        <option>Virginia</option>
+                                        <option>Washington</option>
+                                        <option>West Virginia</option>
+                                    </select>
+                                </div>
+                                @error('state')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                                <div class="form-group col-6 mb-0 ml-0">
+                                    <div class="input-group mb-2">
+                                        <input type="text" name="city" class="form-control bdr-right" autocomplete="disabled" placeholder="City" value={{ old('city') }} >
+                                        {{-- <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-user"></span>
+                                            </div>
+                                        </div> --}}
+                                    </div>
+                                    {{-- <select class="form-control" name="city" data-placeholder="Select City" style="width: 100%;" value={{ old('city') }} >
+                                        <option>Alaska</option>
+                                        <option>California</option>
+                                        <option>Delaware</option>
+                                        <option>Tennessee</option>
+                                        <option>Texas</option>
+                                        <option>Washington</option>
+                                    </select> --}}
+                                </div>
+                                @error('city')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        
+                        <div class="input-group mb-2">
+                            <input type="text" name="zipcode" class="form-control" placeholder="Zipcode" value={{ old('zipcode') }} >
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-map-marker-alt"></span>
+                                </div>
+                            </div>
+                        </div>
+                        @error('zipcode')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+
+                        <div class="row">
+                            <div class="col-5">
+                                <div class="icheck-primary">
+                                    <input type="radio" name="type" id="studentlabel" value="student" checked="" >
+                                    <label for="studentlabel">
+                                        I'm a student
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <div class="icheck-primary">
+                                    <input type="radio" name="type" id="tutorlabel" value="tutor" value={{ old('type') }} >
+                                    <label for="tutorlabel">
+                                        I'm a tutor
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        @error('type')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
 
 
-                    <div class="social-auth-links text-center">
-                        <button class="btn btn-block btn-primary" name="signup" id="signup" >
-                            <em class="fas fa-check-circle mr-2"></em>
-                                Sign up
-                        </button>
-                    </div>
+                        <div class="social-auth-links text-center">
+                            <button class="btn btn-block btn-primary" name="signup" id="signup" >
+                                <em class="fas fa-check-circle mr-2"></em>
+                                    Sign up
+                            </button>
+                        </div>
 
-                </form>
+                    </form>
 
-                <a href="{{ url('signin') }}" class="text-center">I already have an account. Signin</a>
+                    <a href="{{ url('signin') }}" class="text-center">I already have an account. Signin</a>
 
-            </div>
-            <!-- /.form-box -->
-        </div><!-- /.card -->
+                </div>
+                <!-- /.form-box -->
+            </div><!-- /.card -->
+        </div>
+        <!-- /.register-box -->
+
     </div>
-    <!-- /.register-box -->
+
+    
+    @include('inc.footer')
+
 
     <!-- jQuery -->
     <script src="{{ asset('theme_asset/plugins/jquery/jquery.min.js') }}"></script>

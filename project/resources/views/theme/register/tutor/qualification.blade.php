@@ -26,6 +26,12 @@
     {{-- Multi Select Dropdown --}}
     {{-- <link href="{{ asset('theme_asset/multi/jquery.multiselect.css') }}" rel="stylesheet" type="text/css"> --}}
       
+    <!-- Bootstrap -->
+    <link href="{{ asset('theme_asset/custom/css/header.css') }}" rel="stylesheet">
+    {{-- <script src="https://kit.fontawesome.com/ac9913b312.js" crossorigin="anonymous"></script> --}}
+    <link href="{{ asset('theme_asset/custom/css/footer.css') }}" rel="stylesheet">
+
+
 </head>
 
 <style>
@@ -40,106 +46,119 @@ document.getElementById('output').innerHTML = location.search;
 $(".chosen-select").chosen();
 </script>
 
+{{-- class="hold-transition register-page" --}}
+<body >
 
-<body class="hold-transition register-page">
-    <div class="register-box">
-        <div class="register-logo">
-            <a href="../../index2.html"><img src="{{ asset('theme_asset/dist/img/TLLogo.png') }}" style="width: 60px">
-                <img src="{{ asset('theme_asset/dist/img/TL_txt_img.png') }}"></a>
-        </div>
 
-        <div class="card card-primary card-outline">
-            <div class="card-body register-card-body">
-                <p class="login-box-msg">Profile for TutorLynx</p>
-                <form action="{{ Route('tutor.profile.setup') }}" method="POST" accept-charset="UTF-8" >
-                    @csrf
+    {{-- including header --}}
+    @include('inc.header')
 
-                    <div class="input-group mb-2">
-                        <input type="hidden" name="id" class="form-control" autocomplete="disabled" value="{{ $id }}" >
-                    </div>
+    <div class="ju-header register-page" > 
+        
+        <div class="register-box m-auto">
+            <div class="register-logo">
+                {{-- <a href="../../index2.html"><img src="{{ asset('theme_asset/dist/img/TLLogo.png') }}" style="width: 60px">
+                    <img src="{{ asset('theme_asset/dist/img/TL_txt_img.png') }}"></a> --}}
+            </div>
 
-                    <div class="row">
-                        <div class="col-sm-12">
-                          <!-- textarea -->
-                            <div class="form-group">
-                                <label>Choose Subjects</label>
+            <div class="card card-primary card-outline">
+                <div class="card-body register-card-body">
+                    <p class="login-box-msg">Profile for TutorLynx</p>
+                    <form action="{{ Route('tutor.profile.setup') }}" method="POST" accept-charset="UTF-8" >
+                        @csrf
+
+                        <div class="input-group mb-2">
+                            <input type="hidden" name="id" class="form-control" autocomplete="disabled" value="{{ $id }}" >
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                            <!-- textarea -->
                                 <div class="form-group">
-                                    <select class="select2" name="subject[]" multiple="multiple" data-placeholder="Select a Subject"
-                                        style="width: 100%;" >
-                                        @foreach ($subjects as $subject)
-                                            <option value="{{ $subject->id }}">{{ $subject->name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <label>Choose Subjects</label>
+                                    <div class="form-group">
+                                        <select class="select2" name="subject[]" multiple="multiple" data-placeholder="Select a Subject"
+                                            style="width: 100%;" >
+                                            @foreach ($subjects as $subject)
+                                                <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="input-group mb-2">
-                        <input type="text" name="price_per_hour" class="form-control" autocomplete="disabled" placeholder="Price Per Hour" >
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
+                        <div class="input-group mb-2">
+                            <input type="text" name="price_per_hour" class="form-control" autocomplete="disabled" placeholder="Price Per Hour" >
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-envelope"></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    @error('price')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
+                        @error('price')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
 
-                    <div class="input-group mb-2" >
-                        <textarea placeholder="Profile Summary" name="summary" id="summary" cols="40" rows="10"></textarea>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12">
-                            <label>Select your teaching method.</label>
+                        <div class="input-group mb-2" >
+                            <textarea placeholder="Profile Summary" name="summary" id="summary" cols="40" rows="10"></textarea>
                         </div>
-                        <div class="col-4">
-                            <div class="icheck-primary">
-                                <input type="radio" name="method" id="onlinelabel" value="online" >
-                                <label for="onlinelabel">
-                                    Online
-                                </label>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <label>Select your teaching method.</label>
+                            </div>
+                            <div class="col-4">
+                                <div class="icheck-primary">
+                                    <input type="radio" name="method" id="onlinelabel" value="online" >
+                                    <label for="onlinelabel">
+                                        Online
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="icheck-primary">
+                                    <input type="radio" name="method" id="inpersonlabel" value="in-person" >
+                                    <label for="inpersonlabel">
+                                        In Person
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="icheck-primary">
+                                    <input type="radio" name="method" id="bothlable"  value="both" checked>
+                                    <label for="bothlable">
+                                        Both
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-4">
-                            <div class="icheck-primary">
-                                <input type="radio" name="method" id="inpersonlabel" value="in-person" >
-                                <label for="inpersonlabel">
-                                    In Person
-                                </label>
-                            </div>
+                        @error('type')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                
+                        <div class="social-auth-links text-center">
+                            <button class="btn btn-block btn-primary" name="signup" id="signup" >
+                                <em class="fas fa-check-circle mr-2"></em>
+                                Sign up
+                            </button>
                         </div>
-                        <div class="col-4">
-                            <div class="icheck-primary">
-                                <input type="radio" name="method" id="bothlable"  value="both" checked>
-                                <label for="bothlable">
-                                    Both
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    @error('type')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-               
-                    <div class="social-auth-links text-center">
-                        <button class="btn btn-block btn-primary" name="signup" id="signup" >
-                            <em class="fas fa-check-circle mr-2"></em>
-                            Sign up
-                        </button>
-                    </div>
 
-                </form>
+                    </form>
 
-                {{-- <a href="login.html" class="text-center">I already have an account. Sign In</a> --}}
+                    {{-- <a href="login.html" class="text-center">I already have an account. Sign In</a> --}}
 
-            </div>
-            <!-- /.form-box -->
-        </div><!-- /.card -->
+                </div>
+                <!-- /.form-box -->
+            </div><!-- /.card -->
+        </div>
+        <!-- /.register-box -->
+    
     </div>
-    <!-- /.register-box -->
+
+    {{-- including footer --}}
+    @include('inc.footer')
+
 
     <!-- jQuery -->
     <script src="{{ asset('theme_asset/plugins/jquery/jquery.min.js') }}"></script>

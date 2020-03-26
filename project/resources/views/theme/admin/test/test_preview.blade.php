@@ -83,11 +83,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                             $count += 1;
                                                         @endphp
                                                         <div class="form-group">
+                                                            <a href="{{ url('/admin/test/question/edit') }}/{{ $question->id }}" class="btn btn-primary float-right" >Edit</a>
+                                                            <a href="{{ url('/admin/test/question/delete') }}/{{ $question->id }}" class="btn btn-primary float-right" style="margin-right: 5px;" >Delete</a>
                                                             <label>
                                                                 <small>Question {{ $count }}:</small>
-                                                                <a href="{{ url('/admin/test/question/edit') }}/{{ $question->id }}" class="btn btn-primary" >Edit</a>
-                                                                <a href="{{ url('/admin/test/question/delete') }}/{{ $question->id }}" class="btn btn-primary" >Delete</a>
-
                                                                 <br>
                                                                 {{ $question->question }}
                                                             </label>

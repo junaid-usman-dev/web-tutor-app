@@ -286,7 +286,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <div class="card-footer text-left">
                                                 <button type="submit" name="action" value="finish" class="btn btn-primary">
                                                     <i class="fas fa-check"></i>
-                                                    Finish
+                                                   Add & Finish
                                                 </button>
                                                 <button type="submit" name="action" value="next" class="btn btn-success float-right">
                                                     <i class="fas fa-check"></i>

@@ -66,7 +66,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Home</a></li>
                                 <li class="breadcrumb-item active">Manage Tutors</li>
                                 <li class="breadcrumb-item active">Edit Admin</li>
                             </ol>
@@ -77,7 +77,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             <div class="card card-primary card-outline" style="width: 60%; margin: 0px auto; margin-top: 10%;">
                 <div class="card-body register-card-body">
-                    <p class="login-box-msg">Create New Admin</p>
+                    <p class="login-box-msg">Edit Admin</p>
                     <form action="{{ action('Users\Admin\AdminController@update') }}" method="POST" accept-charset="UTF-8" >
                           @csrf
                         
@@ -123,7 +123,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
     
-                        <div class="input-group mb-2">
+                        {{-- <div class="input-group mb-2">
                             <input type="password" name="password" id="password" class="form-control" value="{{ $admin->password }}" >
                             <div class="input-group-append">
                                 <div class="input-group-text">
@@ -147,7 +147,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
                             <p id="number" class="invalid">A <b>number</b></p>
                             <p id="length" class="invalid">Minimum <b>8 characters</b></p>
-                        </div>
+                        </div> --}}
     
                         <div class="social-auth-links text-center">
                             <button class="btn btn-block btn-primary" name="signup" id="signup" >

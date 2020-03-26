@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Model\Question;
+use App\Model\Test;
+
 
 class QuestionController extends Controller
 {
@@ -119,9 +121,12 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         //
+        $question = Question::findOrFail($id);
+        // dd ($question);
+        return view ('theme.admin.test.question.question_edit')->with([ 'question'=>$question ]);
     }
 
     /**
@@ -131,9 +136,33 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+       $test_id = $request->test_id;
+       $question_id = $request->question_id;
+       $title = $request->title;
+       $option_1 = $request->option_1;
+       $option_2 = $request->option_2;
+       $option_3 = $request->option_3;
+       $option_4 = $request->option_4;
+       $answer = $request->answer;
+
+       $update_question = Question::findOrFail($question_id);
+
+       if (!empty( $update_question) )
+       {
+            $update_question->question = $title;
+            $update_question->option_1 = $option_1;
+            $update_question->option_2 = $option_2;
+            $update_question->option_3 = $option_3;
+            $update_question->option_4 = $option_4;
+            $update_question->answer = $answer;
+
+            $update_question->save();
+       }
+       return redirect()->route("admin.test.list");
+
     }
 
     /**
@@ -145,5 +174,7 @@ class QuestionController extends Controller
     public function destroy($id)
     {
         //
+        $del_question = Question::findOrFail($id)->delete();
+        return redirect()->route('admin.test.list');
     }
 }

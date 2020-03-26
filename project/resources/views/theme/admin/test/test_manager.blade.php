@@ -110,13 +110,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                     </button>
                                                                     <ul class="dropdown-menu" x-placement="bottom-start"
                                                                         style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 48px, 0px);">
-                                                                        <li class="dropdown-item"><a href="{{ url('admin/test/edit') }}/{{ $test->id }}">Edit</a></li>
-                                                                        <li class="dropdown-item"><a href="{{ url('admin/test/delete') }}/{{ $test->id }}">Delete</a>
+                                                                        <li class="dropdown-item"><a href="{{ url('/admin/test/edit') }}/{{ $test->id }}">Edit</a></li>
+                                                                        {{-- <li class="dropdown-item"><a href="{{ url('/admin/test/question/edit') }}/{{ $test->id }}">Edit Questions</a></li> --}}
+
+                                                                        <li class="dropdown-item"><a href="{{ url('/admin/test/delete') }}/{{ $test->id }}">Delete</a>
                                                                         </li>
                                                                         
                                                                         <li class="dropdown-divider"></li>
                                                                         <li class="dropdown-item"><a href="{{ url('admin/test/preview') }}/{{ $test->id }}">Preview</a>
-                                                                        <li class="dropdown-item"><a href="#">Separated link</a>
+                                                                        {{-- <li class="dropdown-item"><a href="#">Separated link</a> --}}
                                                                         </li>
                                                                     </ul>
                                                                 </td>

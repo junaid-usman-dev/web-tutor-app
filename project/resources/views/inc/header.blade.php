@@ -2,7 +2,7 @@
 <div class="container-fluid">
     <div class="container">
         <nav class="reg reg-expand-lg reg-light ju-header-background">
-            <a class="reg-brand" href="#"><img src="{{ asset('theme_asset/home/images/tl_logo.png') }}"></a>
+        <a class="reg-brand" href="{{ url('/') }}"><img src="{{ asset('theme_asset/home/images/tl_logo.png') }}"></a>
             <button class="reg-toggler" type="button" data-toggle="collapse"
                 data-target="#regSupportedContent" aria-controls="regSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation"> <span class="reg-toggler-icon"></span> </button>

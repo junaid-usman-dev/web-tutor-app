@@ -84,7 +84,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <tr>
                                                         <th>#</th>
                                                         <th>Subject Name</th>
-                                                        <th>Category</th>
+                                                        {{-- <th>Category</th> --}}
                                                         <th>Description</th>
                                                         <th>Actions</th>
                                                     </tr>
@@ -102,7 +102,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                             <tr>
                                                                 <td>{{ $i }}</td>
                                                                 <td>{{ $subject->name }} </td>
-                                                                <td>{{ $subject->category->name }}</td>
+                                                                {{-- <td>{{ $subject->category->name }}</td> --}}
                                                                 <td>{{ $subject->description }} </td>
                                                                 <td><button type="button"
                                                                         class="btn btn-primary dropdown-toggle"
@@ -115,9 +115,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                         <li class="dropdown-item"><a href="{{ url('admin/subject/delete') }}/{{ $subject->id }}">Delete</a>
                                                                         </li>
                                                                         
-                                                                        <li class="dropdown-divider"></li>
+                                                                        {{-- <li class="dropdown-divider"></li>
                                                                         <li class="dropdown-item"><a href="#">Separated link</a>
-                                                                        </li>
+                                                                        </li> --}}
                                                                     </ul>
                                                                 </td>
                                                             </tr>

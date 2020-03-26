@@ -7,31 +7,31 @@
 
 
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
+    <!--
+    This is a starter template page. Use this page to start your new project from
+    scratch. This page gets rid of all links and provides the needed markup only.
+    -->
 <html lang="en">
 
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-<title>TutorLynx</title>
-<meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>TutorLynx</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<!-- Font Awesome Icons -->
-<link rel="stylesheet" href="{{ asset('theme_asset/plugins/fontawesome-free/css/all.min.css') }}">
-<!-- Theme style -->
-<link rel="stylesheet" href="{{ asset('theme_asset/dist/css/adminlte.css') }}">
-<!-- Google Font: Source Sans Pro -->
-<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-<!-- Select2 -->
-{{-- <link rel="stylesheet" href="{{ asset('theme_asset/plugins/select2/css/select2.css') }}"> --}}
-{{-- <link rel="stylesheet" href="{{ asset('theme_asset/plugins/select2-bootstrap4-theme/select2-bootstrap4.css') }}"> --}}
-<!-- Bootstrap4 Duallistbox -->
-<link rel="stylesheet" href="{{ asset('theme_asset/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.css') }}">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="{{ asset('theme_asset/plugins/fontawesome-free/css/all.min.css') }}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset('theme_asset/dist/css/adminlte.css') }}">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- Select2 -->
+    {{-- <link rel="stylesheet" href="{{ asset('theme_asset/plugins/select2/css/select2.css') }}"> --}}
+    {{-- <link rel="stylesheet" href="{{ asset('theme_asset/plugins/select2-bootstrap4-theme/select2-bootstrap4.css') }}"> --}}
+    <!-- Bootstrap4 Duallistbox -->
+    <link rel="stylesheet" href="{{ asset('theme_asset/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.css') }}">
 </head>
 
 
@@ -194,7 +194,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 </div>
                                             </div>
 
-                                            <div class="row">
+                                            <div class="row d-none ">
                                                 <div class="col-sm-12">
                                                     <!-- text input -->
                                                     <div class="form-group">
@@ -203,19 +203,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 data-placeholder="Select Category" style="width: 100%;" >
                                                             @foreach ($categories as $category)
                                                                 <option value="{{ $category->id }}"
-                                                                    {{-- @foreach ($subject as $subejct) --}}
                                                                         @if ($subject->category_id == $category->id )
                                                                             selected
                                                                         @endif
-                                                                    {{-- @endforeach --}}
                                                                     >{{ $category->name }}</option>
                                                             @endforeach
-                                                            {{-- <option>Alaska</option>
-                                                            <option>California</option>
-                                                            <option>Delaware</option>
-                                                            <option>Tennessee</option>
-                                                            <option>Texas</option>
-                                                            <option>Washington</option> --}}
                                                         </select>
                                                     </div>
                                                     @error('category')

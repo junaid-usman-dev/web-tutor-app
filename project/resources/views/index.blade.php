@@ -24,10 +24,11 @@
 </head>
 
 <body>
-    {{-- <div class="container-fluid">
+
+    <div class="container-fluid">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light">
-                <a class="navbar-brand" href="#"><img src="{{ asset('theme_asset/home/images/tl_logo.png') }}"></a>
+                <a class="navbar-brand" href="{{ url('/') }}"><img src="{{ asset('theme_asset/home/images/tl_logo.png') }}"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
@@ -45,9 +46,9 @@
                 </div>
             </nav>
         </div>
-    </div> --}}
+    </div>
 
-    @include('inc.header')
+    {{-- @include('inc.header') --}}
 
 
     <header>
@@ -205,7 +206,7 @@
 
     </section>
 
-    {{-- <footer class="text-left footer_bg">
+    <footer class="text-left footer_bg">
         <div class="container">
             <div class="row">
 
@@ -236,9 +237,9 @@
 
             </div>
         </div>
-    </footer> --}}
+    </footer>
 
-    @include('inc.footer')
+    {{-- @include('inc.footer') --}}
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="{{ asset('theme_asset/home/js/jquery-3.3.1.min.js') }}"></script>

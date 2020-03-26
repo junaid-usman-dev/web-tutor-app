@@ -57,13 +57,14 @@ class SubjectController extends Controller
         $request->validate([
             'subject' => 'required',
             'description' => 'required',
-            'category' => 'required',
+            // 'category' => 'required',
         ]);
 
         $name = ucwords($request->input("subject"));
         $description = $request->input("description");
-        $category = $request->input("category");
-
+        // $category = $request->input("category");
+        $category = "1";
+        
         // dd ($subject, $description, $category);
 
         $already_exist = Subject::where('name',$name)->get();

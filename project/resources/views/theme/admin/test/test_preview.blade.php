@@ -60,6 +60,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="row">
                         <div class="col-md-12">
 
+                            <a href="{{ url('/admin/test/question/create') }}/{{ $test->id }}" class="btn btn-primary" >Add</a>
+
+
                             <!-- Default box -->
                             <div class="card">
                                 <div class="card-header">
@@ -82,6 +85,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         <div class="form-group">
                                                             <label>
                                                                 <small>Question {{ $count }}:</small>
+                                                                <a href="{{ url('/admin/test/question/edit') }}/{{ $question->id }}" class="btn btn-primary" >Edit</a>
+                                                                <a href="{{ url('/admin/test/question/delete') }}/{{ $question->id }}" class="btn btn-primary" >Delete</a>
+
                                                                 <br>
                                                                 {{ $question->question }}
                                                             </label>

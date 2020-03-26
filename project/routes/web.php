@@ -370,10 +370,10 @@ Route::prefix('admin')->group(function () {
             Route::post('/store', 'Test\QuestionController@store')->name('admin.test.question.store'); // store a new created question to db
             // Route::post('/finish', 'Test\QuestionController@finish')->name('admin.test.question.finish'); // store a new created question to db
             
-            // Route::get('/delete/{id}', 'Test\QuestionController@destroy'); // delete specific resource from db
+            Route::get('/delete/{id}', 'Test\QuestionController@destroy')->name('admin.test.question.delete'); // delete specific resource from db
 
-            // Route::get('/edit/{id}', 'Test\QuestionController@edit'); // edit a specific test
-            // Route::post('/update', 'Test\QuestionController@update'); // update a specific test
+            Route::get('/edit/{id}', 'Test\QuestionController@edit')->name('admin.test.question.edit'); // edit a specific test
+            Route::post('/update', 'Test\QuestionController@update')->name('admin.test.question.update'); // update a specific test
 
         });
 

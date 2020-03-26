@@ -174,7 +174,7 @@ class AdminController extends Controller
             'fname.required' => 'first name field is required.',
             'lname.required' => 'last name field is required.',
             'email.required' => 'email field is required.',
-            'password.required' => 'password field is required.',
+            // 'password.required' => 'password field is required.',
         ]);
         // dd ("store");
 
@@ -257,7 +257,7 @@ class AdminController extends Controller
         $admin->first_name = $request->input('fname');
         $admin->last_name = $request->input('lname');
         $admin->email_address = $request->input('email');
-        $admin->password = $request->input('password');
+        // $admin->password = $request->input('password');
         
         $admin->save();
 

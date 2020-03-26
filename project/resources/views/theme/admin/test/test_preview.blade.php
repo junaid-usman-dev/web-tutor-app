@@ -132,7 +132,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         </div>
                                                     @endforeach
                                                 @else   
-                                                    <p>These is no question for this test.</p>
+                                                    <p>There are no questions for this test.</p>
                                                 @endif
                                                 
 

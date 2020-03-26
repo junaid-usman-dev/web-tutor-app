@@ -100,21 +100,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <!-- text input -->
                                             <div class="form-group">
 
-                                                @if ( count($tests) > 0 )
+                                                @if ( (count($tests) > 0) )
                                                     @foreach ($tests as $test)
-                                                        <p>
-                                                            {{-- <div class="my-rating-7 d-inline" data-rating="{{ $test->star_rating }}"></div> --}}
-                                                            {{-- </br> --}}
-                                                            <b>{{ $test->name }}</b>
-                                                            <a href="{{ url('tutor/attempt-test') }}/{{ $test->id }}" class="btn btn-primary float-right" >Attempt</a>
-                                                            </br>
-                                                            {{ $test->description }} 
-                                                            </br>
-                                                            <hr>
-                                                            {{-- <span class="text-muted text-sm">
-                                                                <em>Allison, 13 lessons with Nicole </em>
-                                                            </span> --}}
-                                                        </p>
+                                                        @if ( (count($test->questions) > 0) )
+                                                            <p>
+                                                                {{-- <div class="my-rating-7 d-inline" data-rating="{{ $test->star_rating }}"></div> --}}
+                                                                {{-- </br> --}}
+                                                                <b>{{ $test->name }}</b>
+                                                                <a href="{{ url('tutor/attempt-test') }}/{{ $test->id }}" class="btn btn-primary float-right" >Attempt</a>
+                                                                </br>
+                                                                {{ $test->description }} 
+                                                                </br>
+                                                                <hr>
+                                                                {{-- <span class="text-muted text-sm">
+                                                                    <em>Allison, 13 lessons with Nicole </em>
+                                                                </span> --}}
+                                                            </p>
+                                                        @endif
                                                     @endforeach
                                                 @else
                                                     The tutor has no test.

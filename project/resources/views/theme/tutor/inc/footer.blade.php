@@ -5,5 +5,5 @@
             style="width: 30px; height: 30px; margin-top: -3px;">
     </div>
     <!-- Default to the left -->
-    Copyright &copy; 2020 <a href="#">TutorLynx</a>. All rights reserved.
+    Copyright &copy; 2020 TutorLynx. All rights reserved.
 </footer>

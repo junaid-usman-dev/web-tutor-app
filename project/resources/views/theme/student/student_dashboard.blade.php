@@ -54,7 +54,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item"><a href="{{ url('/student') }}">Home</a></li>
                                 <li class="breadcrumb-item active">Student Dashboard</li>
                             </ol>
                         </div><!-- /.col -->
@@ -239,7 +239,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <!-- /.users-list -->
                                         </div>
                                         <!-- /.card-body -->
-                                        <div class="card-footer text-center"><a href="javascript::">View All Tutors</a>
+                                        <div class="card-footer text-center"><a href="{{ route('student.favorite.tutors.list') }}">View All Tutors</a>
                                         </div>
                                         <!-- /.card-footer -->
                                     </div>

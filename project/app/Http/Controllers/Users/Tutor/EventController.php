@@ -62,25 +62,44 @@ class EventController extends Controller
         //     'end_time.required' => 'End time is required.',        
         // ]);
         
-        // $user_id = $request->input('user_id');
-        // $title = $request->input('title');
-        // $start_date = $request->input('start_date');
-        // $end_date = $request->input('end_date');
+        $user_id = $request->input('user_id');
+        $title = $request->input('title');
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+        $start_time = $request->input('start_time');
+        $end_time = $request->input('end_time');
+
         
         // dd ($request->all());
 
-        // $new_event = new Event();
+        // $new_availability = new Availability();
         
-        // $new_event->user_id = $user_id;
-        // $new_event->title = $title;
-        // $new_event->start_date = $start_date;
-        // $new_event->end_date = $end_date;
+        // $new_availability->user_id = $user_id;
+        // $new_availability->title = $title;
+        // $new_availability->start_date = $start_date;
+        // $new_availability->end_date = $end_date;
 
-        // $new_event->save();
+        // $new_availability->save();
 
         // return ("Event has been added.");
+        $user_has_day = Availability::where('user_id', $user_id)->where('title', $title)->first();
+        // dd ($user_has_day );
+        
+        if ( !empty($user_has_day))
+        {
+            // update schedule
+            $user_has_day->start_date = $start_date;
+            $user_has_day->end_date = $end_date;
+            $user_has_day->start_time = $start_time;
+            $user_has_day->end_time = $end_time;
 
-        Availability::create($request->all());
+            $user_has_day->save();
+        }
+        else 
+        {
+            Availability::create($request->all());
+        }
+    
         return response()->json([
             'success' => true
         ]);

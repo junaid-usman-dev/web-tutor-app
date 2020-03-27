@@ -2,7 +2,7 @@
 
 
 Route::get('/test', function () {
-    return view('theme.tutor.avail_calendar');
+    return view('theme.events.event');
 });
 // Route::get('/test', 'Registration\RegistrationController@test')->name('test');
 

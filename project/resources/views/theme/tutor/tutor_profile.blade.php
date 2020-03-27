@@ -232,10 +232,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 {{-- There no Education/Certificate --}}
                                                             @endif
                                                             
-
-
-
-
                                                             <hr>
                                                             <span class="b_username">
                                                                 Policies
@@ -261,39 +257,56 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 Schedule
                                                             </span>
 
-
                                                             <!-- /.user-block -->
                                                             <div class="row">
                                                                 <p>
                                                                     <div class="col-md-6">
                                                                         <p>
                                                                             <b>Sunday:</b></br>
-                                                                            @if ( !empty($user->availabilities[0]) )
-                                                                                {{ $user->availabilities[0]->start_time }} - {{ $user->availabilities[0]->end_time }}
+                                                                            @if ( count($user->availabilities) > 0 )
+                                                                                @foreach ($user->availabilities as $availability )
+                                                                                    @if ($availability->title == "Sunday")
+                                                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
+                                                                                    @endif
+                                                                                @endforeach
                                                                             @endif
-            
                                                                         </p>
 
                                                                         <p>
                                                                             <b>Monday:</b></br>
-                                                                            @if ( !empty($user->availabilities[1]) )
-                                                                                {{ $user->availabilities[1]->start_time }} - {{ $user->availabilities[1]->end_time }}
+                                                                            @if ( count($user->availabilities) > 0 )
+                                                                                @foreach ($user->availabilities as $availability )
+                                                                                    @if ($availability->title == "Monday")
+                                                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
+                                                                                    @endif
+                                                                                @endforeach
                                                                             @endif
+                                                                            {{-- @if ( (!empty($user->availabilities[1])) && ($user->availabilities[1]->title == "Sunday") )
+                                                                                {{ $user->availabilities[1]->start_time }} - {{ $user->availabilities[1]->end_time }}
+                                                                            @endif --}}
                                                                         </p>
 
                                                                         <p>
                                                                             <b>Tuesday:</b></br>
                                                                             {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
-                                                                            @if ( !empty($user->availabilities[2]) )
-                                                                                {{ $user->availabilities[2]->start_time }} - {{ $user->availabilities[2]->end_time }}
+                                                                            @if ( count($user->availabilities) > 0 )
+                                                                                @foreach ($user->availabilities as $availability )
+                                                                                    @if ($availability->title == "Tuesday")
+                                                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
+                                                                                    @endif
+                                                                                @endforeach
                                                                             @endif
                                                                         </p>
 
                                                                         <p>
                                                                             <b>Wednesday:</b></br>
                                                                             {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
-                                                                            @if ( !empty($user->availabilities[3]) )
-                                                                                {{ $user->availabilities[3]->start_time }} - {{ $user->availabilities[3]->end_time }}
+                                                                            @if ( count($user->availabilities) > 0 )
+                                                                                @foreach ($user->availabilities as $availability )
+                                                                                    @if ($availability->title == "Wednesday")
+                                                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
+                                                                                    @endif
+                                                                                @endforeach
                                                                             @endif
                                                                         </p>
                                                                     </div>
@@ -301,23 +314,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                         <p>
                                                                             <b>Thursday:</b></br>
                                                                             {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
-                                                                            @if ( !empty($user->availabilities[4]) )
-                                                                                {{ $user->availabilities[4]->start_time }} - {{ $user->availabilities[4]->end_time }}
+                                                                            @if ( count($user->availabilities) > 0 )
+                                                                                @foreach ($user->availabilities as $availability )
+                                                                                    @if ($availability->title == "Thursday")
+                                                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
+                                                                                    @endif
+                                                                                @endforeach
                                                                             @endif
                                                                         </p>
 
                                                                         <p>
                                                                             <b>Friday:</b></br>
                                                                             {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
-                                                                            @if ( !empty($user->availabilities[5]) )
-                                                                                {{ $user->availabilities[5]->start_time }} - {{ $user->availabilities[5]->end_time }}
+                                                                            @if ( count($user->availabilities) > 0 )
+                                                                                @foreach ($user->availabilities as $availability )
+                                                                                    @if ($availability->title == "Friday" )
+                                                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
+                                                                                    @endif
+                                                                                @endforeach
                                                                             @endif
                                                                         </p>
                                                                         <p>
                                                                             <b>Saturday:</b></br>
                                                                             {{-- Midnight - 3:00 AM --}}
-                                                                            @if ( !empty($user->availabilities[6]) )
-                                                                                {{ $user->availabilities[6]->start_time }} - {{ $user->availabilities[6]->end_time }}
+                                                                            @if ( count($user->availabilities) > 0 )
+                                                                                @foreach ($user->availabilities as $availability )
+                                                                                    @if ($availability->title == "Saturday")
+                                                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
+                                                                                    @endif
+                                                                                @endforeach
                                                                             @endif
                                                                         </p>
                                                                     </div>

@@ -135,7 +135,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <p>There are no questions for this test.</p>
                                                 @endif
                                                 
-
                                             </div>
                                         </div>
                                         <!-- input states -->

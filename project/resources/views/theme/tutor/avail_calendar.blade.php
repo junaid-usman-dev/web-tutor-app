@@ -154,9 +154,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="form-group">
                             <input type="hidden" class="form-control" name="user_id" value="{{ $user->id }}" >
                         </div>
+                        
                         <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Title</label>
-                            <input type="text" class="form-control" name="title">
+                            <label for="recipient-name" class="col-form-label">Day</label>
+                            <input type="text" class="form-control" name="title" placeholder="Day">
                             <div class="error-message alert alert-danger error-t ju-ta" role="alert">
                                 Error Message Goes Here
                             </div>
@@ -202,6 +203,39 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
     </div>
 
+    
+
+    <!-- Modal -->
+<div class="modal fade" id="availabilityCalender" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Availability Detail</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          
+            <h3 id="title"> </h3>
+            <p><strong>Start Time: </strong><span id="start_date"> </span></p>
+            <p><strong>End Time: </strong><span id="end_date"> </span></p>
+
+            {{-- <p id="end_date"> </p>
+            <p id="start_time"> </p>
+            <p id="end_time"> </p> --}}
+
+
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+        </div>
+      </div>
+    </div>
+  </div>
 
     <!-- REQUIRED SCRIPTS -->
 
@@ -286,6 +320,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 }
             });
 
+            // var calendar = new Calendar(calendarEl, {
+
+            // eventClick: function(info) {
+            //     alert('Event: ' + info.event.title);
+            //     alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+            //     alert('View: ' + info.view.type);
+
+            //     // change the border color just for fun
+            //     info.el.style.borderColor = 'red';
+            //     }
+
+            // });
+
+
             var calendar = new Calendar(calendarEl, {
                 plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid'],
                 header: {
@@ -358,7 +406,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         // if so, remove the element from the "Draggable Events" list
                         info.draggedEl.parentNode.removeChild(info.draggedEl);
                     }
+                },
+
+                eventClick: function(info) {
+                    // alert('Event: ' + info.event.title);
+                    // alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+                    // alert('View: ' + info.view.type);
+
+                    // // change the border color just for fun
+                    // info.el.style.borderColor = 'red';
+                    jQuery('#title').text(info.event.title);
+                    jQuery('#start_date').text(info.event.start);
+                    jQuery('#end_date').text(info.event.end);
+                    // jQuery('#start_time').text(info.event.);
+                    // jQuery('#end_time').text(info.event.title);
+
+                    $('#availabilityCalender').modal('show')
+                    // $('#popup').html('<iframe src="'+event.url+'" width="700" height="600"></iframe>');
+                    // $('#popup').dialog({autoOpen: false, modal: true, width: 750, height: 675});
+                    return false;
                 }
+
             });
             
 
@@ -405,6 +473,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             })
         })
         // jQuery(document).ready(function(){
+
+
 
         // });
         jQuery(document).on('click', '#add_event', function (event) {

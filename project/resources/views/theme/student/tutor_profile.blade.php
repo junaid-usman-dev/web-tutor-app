@@ -90,7 +90,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    
+
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ asset('theme_asset/plugins/select2/css/select2.css') }}">
+
+    {{-- Full Calender --}}
+    <link rel="stylesheet" href="{{ asset('theme_asset/plugins/fullcalendar/main.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('theme_asset/plugins/fullcalendar-daygrid/main.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('theme_asset/plugins/fullcalendar-timegrid/main.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('theme_asset/plugins/fullcalendar-bootstrap/main.min.css') }}">
+
+
 </head>
 
 <style>
@@ -141,7 +151,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                         {{-- Left large card --}}
                             @include('theme.student.partial.partial_tutor_profile',[
-                            'tutor'=>$tutor
+                                'tutor'=>$tutor
                             ])
                         {{-- End Left Large Card --}}
                         
@@ -171,8 +181,34 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </aside>
     <!-- /.control-sidebar -->
 
+   
 
-    {{-- Book Tutor Bootstrap Modal --}}
+    {{-- Calender Modal --}}
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                
+                <center>Availabilities</center>
+                <div class="col-md-12" id="external-events">
+                    {{-- <div class="card card-primary"> --}}
+                        {{-- <div class="card-body p-0"> --}}
+                            <!-- THE CALENDAR -->
+                            <div id="calendar"></div>
+                        {{-- </div> --}}
+                        <!-- /.card-body -->
+                    {{-- </div> --}}
+                    <!-- /.card -->
+                </div>
+                
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+     {{-- Book Tutor Bootstrap Modal --}}
     {{-- Modal for Availability  --}}
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -207,7 +243,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div>
 
                         <div class="form-group">
-                            <label for="day" class="col-form-label">Day</label>
+                            <label for="day" class="col-form-label">Days of Week</label>
+                            {{-- <select class="select2 @error('day') is-invalid @enderror"
+                                name="day" multiple="multiple" data-placeholder="Select a Days of Week"
+                                style="width: 100%;"> --}}
+
                             <select class="form-control @error('day') is-invalid @enderror" name="day" data-placeholder="Select Day" style="width: 100%;">
                                 <option value="monday">Monday</option>
                                 <option value="tuesday">Tuesday</option>
@@ -222,17 +262,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Start Date</label>
-                            <input type="date" class="form-control" name="start_date" placeholder="mm/dd/yyyy" >
+                            <input type="text" class="form-control" name="start_date" placeholder="mm/dd/yyyy" >
                             <div class="error-message alert alert-danger error-sd ju-ta" role="alert">
                                 Error Message Goes Here
                             </div>
-                        </div>
+                        </div> --}}
                         
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">End Date</label>
-                            <input type="date" class="form-control" name="end_date" placeholder="mm/dd/yyyy" >
+                            <input type="text" class="form-control" name="end_date" placeholder="mm/dd/yyyy" >
                             <div class="error-message alert alert-danger error-ed ju-ta" role="alert">
                                 Error Message Goes Here
                             </div>
@@ -266,6 +306,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 
+    
+    
+
+
 
     <!-- Main Footer -->
     @include('theme.student.inc.footer');
@@ -283,8 +327,235 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ asset('theme_asset/profile/dist/js/adminlte.min.js') }}"></script>
     {{-- Start Rating SVG Master --}}
     <script src="{{ asset('theme_asset/star-rating-svg-master/src/jquery.star-rating-svg.js') }}"></script>
+    <!-- Select2 -->
+    {{-- <script src="{{ asset('theme_asset/plugins/select2/js/select2.full.min.js') }}"></script> --}}
+
+    {{-- Full Calender --}}
+    {{-- <script src="{{ asset('theme_asset/plugins/jquery/jquery.min.js') }}"></script> --}}
+
+    <script src="{{ asset('theme_asset/plugins/moment/moment.min.js') }}"></script>
+    <script src="{{ asset('theme_asset/plugins/fullcalendar/main.min.js') }}"></script>
+    <script src="{{ asset('theme_asset/plugins/fullcalendar-daygrid/main.min.js') }}"></script>
+    <script src="{{ asset('theme_asset/plugins/fullcalendar-timegrid/main.min.js') }}"></script>
+    <script src="{{ asset('theme_asset/plugins/fullcalendar-interaction/main.min.js') }}"></script>
+    <script src="{{ asset('theme_asset/plugins/fullcalendar-bootstrap/main.min.js') }}"></script>
+
+    <script>            
+
+    $(function () {
+
+    /* initialize the external events
+    -----------------------------------------------------------------*/
+    function ini_events(ele) {
+        ele.each(function () {
+
+            // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+            // it doesn't need to have a start or end
+            var eventObject = {
+                title: $.trim($(this).text()) // use the element's text as the event title
+            }
+
+            // store the Event Object in the DOM element so we can get to it later
+            $(this).data('eventObject', eventObject)
+
+            // make the event draggable using jQuery UI
+            $(this).draggable({
+                zIndex: 1070,
+                revert: true, // will cause the event to go back to its
+                revertDuration: 0 //  original position after the drag
+            })
+
+        })
+    }
+
+    ini_events($('#external-events div.external-event'))
+
+    /* initialize the calendar
+    -----------------------------------------------------------------*/
+    //Date for the calendar events (dummy data)
+    var date = new Date()
+    var d = date.getDate(),
+        m = date.getMonth(),
+        y = date.getFullYear()
+
+    var Calendar = FullCalendar.Calendar;
+    var Draggable = FullCalendarInteraction.Draggable;
+
+    var containerEl = document.getElementById('external-events');
+    var checkbox = document.getElementById('drop-remove');
+    var calendarEl = document.getElementById('calendar');
+
+    // initialize the external events
+    // -----------------------------------------------------------------
+
+    new Draggable(containerEl, {
+        itemSelector: '.external-event',
+        eventData: function (eventEl) {
+            console.log(eventEl);
+            return {
+                title: eventEl.innerText,
+                backgroundColor: window.getComputedStyle(eventEl, null).getPropertyValue(
+                    'background-color'),
+                borderColor: window.getComputedStyle(eventEl, null).getPropertyValue(
+                    'background-color'),
+                textColor: window.getComputedStyle(eventEl, null).getPropertyValue('color'),
+            };
+        }
+    });
+
+    var calendar = new Calendar(calendarEl, {
+        plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid'],
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        
+        //Random default events
+        events: [
+
+            @foreach ($tutor->availabilities as $availability)
+            {
+                title : '{{ $availability->title }}',
+                start : '{{ $availability->start_date }}',
+                end : '{{ $availability->end_date }}',
+            },
+            @endforeach
+
+
+            // {
+            //     title: 'All Day Event',
+            //     start: new Date(y, m, 1),
+            //     backgroundColor: '#f56954', //red
+            //     borderColor: '#f56954', //red
+            //     allDay: true
+            // },
+            // {
+            //     title: 'Long Event',
+            //     start: new Date(y, m, d - 5),
+            //     end: new Date(y, m, d - 2),
+            //     backgroundColor: '#f39c12', //yellow
+            //     borderColor: '#f39c12' //yellow
+            // },
+            // {
+            //     title: 'Meeting',
+            //     start: new Date(y, m, d, 10, 30),
+            //     allDay: false,
+            //     backgroundColor: '#0073b7', //Blue
+            //     borderColor: '#0073b7' //Blue
+            // },
+            // {
+            //     title: 'Lunch',
+            //     start: new Date(y, m, d, 12, 0),
+            //     end: new Date(y, m, d, 14, 0),
+            //     allDay: false,
+            //     backgroundColor: '#00c0ef', //Info (aqua)
+            //     borderColor: '#00c0ef' //Info (aqua)
+            // },
+            // {
+            //     title: 'Birthday Party',
+            //     start: new Date(y, m, d + 1, 19, 0),
+            //     end: new Date(y, m, d + 1, 22, 30),
+            //     allDay: false,
+            //     backgroundColor: '#00a65a', //Success (green)
+            //     borderColor: '#00a65a' //Success (green)
+            // },
+            // {
+            //     title: 'Click for Google',
+            //     start: new Date(y, m, 28),
+            //     end: new Date(y, m, 29),
+            //     url: 'http://google.com/',
+            //     backgroundColor: '#3c8dbc', //Primary (light-blue)
+            //     borderColor: '#3c8dbc' //Primary (light-blue)
+            // }
+        ],
+        editable: true,
+        droppable: true, // this allows things to be dropped onto the calendar !!!
+        drop: function (info) {
+            // is the "remove after drop" checkbox checked?
+            if (checkbox.checked) {
+                // if so, remove the element from the "Draggable Events" list
+                info.draggedEl.parentNode.removeChild(info.draggedEl);
+            }
+        },
+
+        // Click on event action
+        eventClick: function(info) {
+            alert('Event: ' + info.event.end);
+            // var formDate = $.fullCalendar.formatDate(info.event.start, 'MM-dd-yyyy');
+            // alert(" Start Date: " + formDate);
+
+            // alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+            // alert('View: ' + info.view.type);
+
+            // // change the border color just for fun
+            // info.el.style.borderColor = 'red';
+            // jQuery('input[name="start_date"]').val($.fullCalendar.formatDate(info.event.start, 'MM-dd-yyyy'));
+            // jQuery('#start_date').text(info.event.start);
+            // jQuery('#end_date').text(info.event.end);
+            // jQuery('#start_time').text(info.event.);
+            // jQuery('#end_time').text(info.event.title);
+
+            $('#exampleModal').modal('show')
+            // $('#popup').html('<iframe src="'+event.url+'" width="700" height="600"></iframe>');
+            // $('#popup').dialog({autoOpen: false, modal: true, width: 750, height: 675});
+            return false;
+        }
+
+    });
+
+    calendar.render();
+    $('#calendar').fullCalendar()
+
+    /* ADDING EVENTS */
+    var currColor = '#3c8dbc' //Red by default
+    //Color chooser button
+    var colorChooser = $('#color-chooser-btn')
+    $('#color-chooser > li > a').click(function (e) {
+        e.preventDefault()
+        //Save color
+        currColor = $(this).css('color')
+        //Add color effect to button
+        $('#add-new-event').css({
+            'background-color': currColor,
+            'border-color': currColor
+        })
+    })
+    $('#add-new-event').click(function (e) {
+        e.preventDefault()
+        //Get value and make sure it is not null
+        var val = $('#new-event').val()
+        if (val.length == 0) {
+            return
+        }
+
+        //Create events
+        var event = $('<div />')
+        event.css({
+            'background-color': currColor,
+            'border-color': currColor,
+            'color': '#fff'
+        }).addClass('external-event')
+        event.html(val)
+        $('#external-events').prepend(event)
+
+        //Add draggable funtionality
+        ini_events(event)
+
+        //Remove event from text input
+        $('#new-event').val('')
+    })
+
+})
+
     
-    <script>
+
+
+
+
+
+
+
         function init_ratings() {
             jQuery(".my-rating-8").starRating({
                 totalStars: 5,

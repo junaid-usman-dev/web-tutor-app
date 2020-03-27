@@ -55,6 +55,17 @@ class TutorController extends Controller
         // }
 
         $user = Auth::user();
+
+        if ( count($user->availabilities) > 0 )
+        {
+            foreach ($user->availabilities as $availability )
+            {
+                print_r ($availability->title);
+            }
+        }
+            
+      
+
         if (Auth::user()->type == "tutor")
         {
             // $subjects = Subject::all()->distinct('category')->get();

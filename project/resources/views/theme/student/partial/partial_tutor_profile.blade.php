@@ -208,7 +208,7 @@
                                         <p>
                                             <div class="col-md-6">
                                                 <p>
-                                                    <b>Sunday:</b></br>
+                                                    <a href="javascript::" id="calender" data-toggle="modal" data-target=".bd-example-modal-lg"><b>Sunday:</b></a></br>
                                                     {{-- 10: PM - Midnight --}}
                                                     @if ( !empty($tutor->availabilities[0]) )
                                                         {{ $tutor->availabilities[0]->start_time }} - {{ $tutor->availabilities[0]->end_time }}
@@ -269,7 +269,7 @@
                                     </div>
 
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        data-target="#exampleModal" data-whatever="@mdo">Book Me</button>
+                                        data-target=".bd-example-modal-lg" data-whatever="@mdo">Book Me</button>
 
                                     <hr>
 

@@ -262,13 +262,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Start Date</label>
                             <input type="text" class="form-control" name="start_date" placeholder="mm/dd/yyyy" >
                             <div class="error-message alert alert-danger error-sd ju-ta" role="alert">
                                 Error Message Goes Here
                             </div>
-                        </div>
+                        </div> --}}
                         
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">End Date</label>

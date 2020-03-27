@@ -262,17 +262,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </div>
                         </div>
 
-                        {{-- <div class="form-group">
+                        <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Start Date</label>
                             <input type="text" class="form-control" name="start_date" placeholder="mm/dd/yyyy" >
                             <div class="error-message alert alert-danger error-sd ju-ta" role="alert">
                                 Error Message Goes Here
                             </div>
-                        </div> --}}
+                        </div>
                         
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">End Date</label>
-                            <input type="text" class="form-control" name="end_date" placeholder="mm/dd/yyyy" >
+                            <input type="date" class="form-control" name="end_date" placeholder="mm/dd/yyyy" >
                             <div class="error-message alert alert-danger error-ed ju-ta" role="alert">
                                 Error Message Goes Here
                             </div>
@@ -481,7 +481,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         // Click on event action
         eventClick: function(info) {
-            alert('Event: ' + info.event.end);
+            alert('Event: ' + info.event.start);
             // var formDate = $.fullCalendar.formatDate(info.event.start, 'MM-dd-yyyy');
             // alert(" Start Date: " + formDate);
 
@@ -496,11 +496,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
             // jQuery('#start_time').text(info.event.);
             // jQuery('#end_time').text(info.event.title);
 
-            $('#exampleModal').modal('show')
+            $('#exampleModal').modal('show');
             // $('#popup').html('<iframe src="'+event.url+'" width="700" height="600"></iframe>');
             // $('#popup').dialog({autoOpen: false, modal: true, width: 750, height: 675});
             return false;
         }
+
+
+
 
     });
 

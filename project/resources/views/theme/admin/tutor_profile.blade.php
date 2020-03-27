@@ -168,10 +168,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                                 <a href="#">( {{ $total_review }} Ratings)</a>
                                                                             </div>
                                                                         </span>
-                                                                        <p class="text-sm"> <em
+                                                                        {{-- <p class="text-sm"> <em
                                                                                 class="fas fa-clock  mr-1"></em>
                                                                             <strong>15 hours tutoring english</strong>
-                                                                            out of 563 hours. </p>
+                                                                            out of 563 hours. </p> --}}
                                                                     </div>
 
                                                                 </div>

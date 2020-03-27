@@ -63,43 +63,44 @@ class EventController extends Controller
         // ]);
         
         $user_id = $request->input('user_id');
-        $title = $request->input('title');
-        $start_date = $request->input('start_date');
-        $end_date = $request->input('end_date');
+        $day = $request->input('day');
+        // $start_date = $request->input('start_date');
+        // $end_date = $request->input('end_date');
         $start_time = $request->input('start_time');
         $end_time = $request->input('end_time');
 
         
         // dd ($request->all());
 
-        // $new_availability = new Availability();
+        $new_availability = new Availability();
         
-        // $new_availability->user_id = $user_id;
-        // $new_availability->title = $title;
-        // $new_availability->start_date = $start_date;
-        // $new_availability->end_date = $end_date;
+        $new_availability->user_id = $user_id;
+        $new_availability->title = $day;
+        $new_availability->start_time = $start_time;
+        $new_availability->end_time = $end_time;
 
-        // $new_availability->save();
+        $new_availability->save();
 
         // return ("Event has been added.");
-        $user_has_day = Availability::where('user_id', $user_id)->where('title', $title)->first();
+        // $user_has_day = Availability::where('user_id', $user_id)->where('title', $title)->first();
         // dd ($user_has_day );
         
-        if ( !empty($user_has_day))
-        {
-            // update schedule
-            $user_has_day->start_date = $start_date;
-            $user_has_day->end_date = $end_date;
-            $user_has_day->start_time = $start_time;
-            $user_has_day->end_time = $end_time;
+        // if ( !empty($user_has_day))
+        // {
+        //     // update schedule
+            // $user_has_day->start_date = $start_date;
+            // $user_has_day->end_date = $end_date;
+            // $user_has_day->start_time = $start_time;
+            // $user_has_day->end_time = $end_time;
 
-            $user_has_day->save();
-        }
-        else 
-        {
-            Availability::create($request->all());
-        }
-    
+            // $user_has_day->save();
+        // }
+        // else 
+        // {
+        //     Availability::create($request->all());
+        // }
+        
+        // Availability::create($request->all());
         return response()->json([
             'success' => true
         ]);
@@ -149,5 +150,7 @@ class EventController extends Controller
     public function destroy($id)
     {
         //
+        $del_availability = Availability::findOrFail($id)->delete();
+        return redirect ()->route("tutor.view.availability");
     }
 }

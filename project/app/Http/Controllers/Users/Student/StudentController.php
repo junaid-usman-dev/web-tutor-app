@@ -592,6 +592,7 @@ class StudentController extends Controller
         {
             // -----  Getting Favorite Tutors List of a specific student  ------
             $user = User::findOrFail($user_id);
+            
             $favorites =  Favorite::where('user_id',$user_id)->get();
         
             $tutors = array();
@@ -680,10 +681,21 @@ class StudentController extends Controller
                 $users_conversation = Message::where('sender_id',$sender_id)->where('receiver_id',$receiver_id)
                         ->orWhere('sender_id',$receiver_id)->where('receiver_id',$sender_id)->get();
             }
-
-            
+ 
             // -------  End Conversation  ----------
 
+            
+            //....  Lastest Classes  ...............
+            // $tutors_id = Schedule::where('student_id', $user_id)->pluck('tutor_id');
+            // dd ($tutors_id);
+            // $classes_tutors = array();
+            // foreach ($tutors_id as $tutor)
+            // {
+            //     $tutor = new \stdClass();
+            //     $tutor = User::where('id',$tutor)->get();
+            //     $tutor_classes = clone $tutor;
+            // }
+            // dd ($classes_tutors);
 
             // dd($tutors[0]->first_name); working
             return view ('theme.student.student_dashboard')->with([
@@ -1106,6 +1118,20 @@ class StudentController extends Controller
             'success' => true
         ]);
     }
+
+
+    /*
+    * Classes Schedules 
+    *
+    *@return \Illuminate\Http\Response
+    */
+    public function AllClasses(Request $request)
+    {   
+        $user = Auth::guard('user')->user();
+        return view ('theme.student.manage_class')->with(['user'=> $user]);
+    }
+
+
 
 
 }

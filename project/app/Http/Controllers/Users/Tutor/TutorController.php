@@ -56,13 +56,13 @@ class TutorController extends Controller
 
         $user = Auth::user();
 
-        if ( count($user->availabilities) > 0 )
-        {
-            foreach ($user->availabilities as $availability )
-            {
-                print_r ($availability->title);
-            }
-        }
+        // if ( count($user->availabilities) > 0 )
+        // {
+        //     foreach ($user->availabilities as $availability )
+        //     {
+        //         print_r ($availability->title);
+        //     }
+        // }
             
       
 
@@ -1170,4 +1170,17 @@ class TutorController extends Controller
         // dd ($user);
         return view('theme.tutor.all_review')->with(['user'=>$user ]);
     }
+
+    /*
+    * All Classes
+    *
+    *@return \Illuminate\Http\Response
+    */
+    public function AllClasses(Request $request)
+    {
+       
+        $user = Auth::guard('user')->user();
+        return view('theme.tutor.manage_class')->with(['user'=>$user ]);
+    }
+    
 }

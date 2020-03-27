@@ -79,7 +79,7 @@
                 <li class="nav-item">
                     <a href="{{ route('tutor.view.availability') }}" class="nav-link"><em class="nav-icon fas fa-calendar-check"></em>
                         <p>
-                            Availability Calendar
+                            Availability
                             <!--  <span class="right badge badge-danger">New</span> -->
                         </p>
                     </a>

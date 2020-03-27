@@ -178,10 +178,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                                 <a href="#">( {{ $total_review }} Ratings)</a>
                                                                             </div>
                                                                         </span>
-                                                                        <p class="text-sm"> <em
+                                                                        {{-- <p class="text-sm"> <em
                                                                                 class="fas fa-clock  mr-1"></em>
                                                                             <strong>15 hours tutoring english</strong>
-                                                                            out of 563 hours. </p>
+                                                                            out of 563 hours. </p> --}}
                                                                     </div>
 
                                                                 </div>
@@ -266,7 +266,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                             @if ( count($user->availabilities) > 0 )
                                                                                 @foreach ($user->availabilities as $availability )
                                                                                     @if ($availability->title == "Sunday")
-                                                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
+                                                                                        <p>{{ $availability->start_time }} - {{ $availability->end_time }}</p>
                                                                                     @endif
                                                                                 @endforeach
                                                                             @endif
@@ -277,13 +277,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                             @if ( count($user->availabilities) > 0 )
                                                                                 @foreach ($user->availabilities as $availability )
                                                                                     @if ($availability->title == "Monday")
-                                                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
+                                                                                        <p>{{ $availability->start_time }} - {{ $availability->end_time }}</p>
                                                                                     @endif
                                                                                 @endforeach
                                                                             @endif
-                                                                            {{-- @if ( (!empty($user->availabilities[1])) && ($user->availabilities[1]->title == "Sunday") )
-                                                                                {{ $user->availabilities[1]->start_time }} - {{ $user->availabilities[1]->end_time }}
-                                                                            @endif --}}
+                                                                            
                                                                         </p>
 
                                                                         <p>
@@ -292,7 +290,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                             @if ( count($user->availabilities) > 0 )
                                                                                 @foreach ($user->availabilities as $availability )
                                                                                     @if ($availability->title == "Tuesday")
-                                                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
+                                                                                        <p>{{ $availability->start_time }} - {{ $availability->end_time }}</p>
                                                                                     @endif
                                                                                 @endforeach
                                                                             @endif
@@ -304,7 +302,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                             @if ( count($user->availabilities) > 0 )
                                                                                 @foreach ($user->availabilities as $availability )
                                                                                     @if ($availability->title == "Wednesday")
-                                                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
+                                                                                       <p> {{ $availability->start_time }} - {{ $availability->end_time }}</p>
                                                                                     @endif
                                                                                 @endforeach
                                                                             @endif
@@ -317,7 +315,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                             @if ( count($user->availabilities) > 0 )
                                                                                 @foreach ($user->availabilities as $availability )
                                                                                     @if ($availability->title == "Thursday")
-                                                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
+                                                                                       <p> {{ $availability->start_time }} - {{ $availability->end_time }}</p>
                                                                                     @endif
                                                                                 @endforeach
                                                                             @endif
@@ -329,7 +327,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                             @if ( count($user->availabilities) > 0 )
                                                                                 @foreach ($user->availabilities as $availability )
                                                                                     @if ($availability->title == "Friday" )
-                                                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
+                                                                                       <p> {{ $availability->start_time }} - {{ $availability->end_time }} </p>
                                                                                     @endif
                                                                                 @endforeach
                                                                             @endif
@@ -340,7 +338,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                             @if ( count($user->availabilities) > 0 )
                                                                                 @foreach ($user->availabilities as $availability )
                                                                                     @if ($availability->title == "Saturday")
-                                                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
+                                                                                      <p>  {{ $availability->start_time }} - {{ $availability->end_time }} </p>
                                                                                     @endif
                                                                                 @endforeach
                                                                             @endif

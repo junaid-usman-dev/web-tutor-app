@@ -119,10 +119,10 @@
                                                             <a href="#">( {{ $total_review }} Ratings)</a>
                                                         </div>
                                                     </span>
-                                                <p class="text-sm"> <em
+                                                {{-- <p class="text-sm"> <em
                                                         class="fas fa-clock  mr-1"></em>
                                                     <strong>15 hours tutoring english</strong>
-                                                    out of 563 hours. </p>
+                                                    out of 563 hours. </p> --}}
                                             </div>
 
                                         </div>
@@ -208,34 +208,50 @@
                                         <p>
                                             <div class="col-md-6">
                                                 <p>
-                                                    <a href="javascript::" id="calender" ><b>Sunday:</b></a></br>
+                                                    <b>Sunday:</b></br>
                                                     {{-- 10: PM - Midnight --}}
-                                                    @if ( !empty($tutor->availabilities[0]) )
-                                                        {{ $tutor->availabilities[0]->start_time }} - {{ $tutor->availabilities[0]->end_time }}
+                                                    @if ( count($tutor->availabilities) > 0 )
+                                                        @foreach ($tutor->availabilities as $availability )
+                                                            @if ($availability->title == "Sunday")
+                                                                <p>{{ $availability->start_time }} - {{ $availability->end_time }}</p>
+                                                            @endif
+                                                        @endforeach
                                                     @endif
                                                 </p>
 
                                                 <p>
                                                     <b>Monday:</b></br>
                                                     {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
-                                                    @if ( !empty($tutor->availabilities[1]) )
-                                                        {{ $tutor->availabilities[1]->start_time }} - {{ $tutor->availabilities[1]->end_time }}
+                                                    @if ( count($tutor->availabilities) > 0 )
+                                                        @foreach ($tutor->availabilities as $availability )
+                                                            @if ($availability->title == "Monday")
+                                                                <p>{{ $availability->start_time }} - {{ $availability->end_time }}</p>
+                                                            @endif
+                                                        @endforeach
                                                     @endif
                                                 </p>
 
                                                 <p>
                                                     <b>Tuesday:</b></br>
                                                     {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
-                                                    @if ( !empty($tutor->availabilities[2]) )
-                                                        {{ $tutor->availabilities[2]->start_time }} - {{ $tutor->availabilities[2]->end_time }}
+                                                    @if ( count($tutor->availabilities) > 0 )
+                                                        @foreach ($tutor->availabilities as $availability )
+                                                            @if ($availability->title == "Tuesday")
+                                                                <p>{{ $availability->start_time }} - {{ $availability->end_time }}</p>
+                                                            @endif
+                                                        @endforeach
                                                     @endif
                                                 </p>
 
                                                 <p>
                                                     <b>Wednesday:</b></br>
                                                     {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
-                                                    @if ( !empty($tutor->availabilities[3]) )
-                                                        {{ $tutor->availabilities[3]->start_time }} - {{ $tutor->availabilities[3]->end_time }}
+                                                    @if ( count($tutor->availabilities) > 0 )
+                                                        @foreach ($tutor->availabilities as $availability )
+                                                            @if ($availability->title == "Wednesday")
+                                                                <p>{{ $availability->start_time }} - {{ $availability->end_time }}</p>
+                                                            @endif
+                                                        @endforeach
                                                     @endif
                                                 </p>
                                             </div>
@@ -243,23 +259,35 @@
                                                 <p>
                                                     <b>Thursday:</b></br>
                                                     {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
-                                                    @if ( !empty($tutor->availabilities[4]) )
-                                                        {{ $tutor->availabilities[4]->start_time }} - {{ $tutor->availabilities[4]->end_time }}
+                                                    @if ( count($tutor->availabilities) > 0 )
+                                                        @foreach ($tutor->availabilities as $availability )
+                                                            @if ($availability->title == "Thursday")
+                                                                <p>{{ $availability->start_time }} - {{ $availability->end_time }}</p>
+                                                            @endif
+                                                        @endforeach
                                                     @endif
                                                 </p>
 
                                                 <p>
                                                     <b>Friday:</b></br>
                                                     {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
-                                                    @if ( !empty($tutor->availabilities[5]) )
-                                                        {{ $tutor->availabilities[5]->start_time }} - {{ $tutor->availabilities[5]->end_time }}
+                                                    @if ( count($tutor->availabilities) > 0 )
+                                                        @foreach ($tutor->availabilities as $availability )
+                                                            @if ($availability->title == "Friday")
+                                                                <p>{{ $availability->start_time }} - {{ $availability->end_time }}</p>
+                                                            @endif
+                                                        @endforeach
                                                     @endif
                                                 </p>
                                                 <p>
                                                     <b>Saturday:</b></br>
                                                     {{-- Midnight - 3:00 AM --}}
-                                                    @if ( !empty($tutor->availabilities[6]) )
-                                                        {{ $tutor->availabilities[6]->start_time }} - {{ $tutor->availabilities[6]->end_time }}
+                                                    @if ( count($tutor->availabilities) > 0 )
+                                                        @foreach ($tutor->availabilities as $availability )
+                                                            @if ($availability->title == "Saturday")
+                                                                <p>{{ $availability->start_time }} - {{ $availability->end_time }}</p>
+                                                            @endif
+                                                        @endforeach
                                                     @endif
                                                 </p>
                                             </div>

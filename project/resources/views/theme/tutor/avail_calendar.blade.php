@@ -70,14 +70,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div><!-- /.col -->
                     </div><!-- /.row -->
                 </div>
+
+
+                <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#exampleModal" data-whatever="@mdo">Add Availability</button>
+
+
                 <div class="container-fluid">
                     <div class="row">
                        
-                        <button type="button" style="float: right;" class="btn btn-primary" data-toggle="modal"
-                            data-target="#exampleModal" data-whatever="@mdo">Add Availability</button>
+                        {{-- <button type="button" style="float: right;" class="btn btn-primary" data-toggle="modal"
+                            data-target="#exampleModal" data-whatever="@mdo">Add Availability</button> --}}
                         {{-- <button type="button" class="btn btn-primary" id="add-new-event" >Add Event</button> --}}
                         <!-- /.col -->
-                        <div class="col-md-12" id="external-events">
+                        {{-- <div class="col-md-12" id="external-events">
                             <div class="card card-primary">
                                 <div class="card-body p-0">
                                     <!-- THE CALENDAR -->
@@ -86,8 +92,211 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <!-- /.card-body -->
                             </div>
                             <!-- /.card -->
-                        </div>
+                        </div> --}}
                         <!-- /.col -->
+
+
+
+
+                    </br>
+                    <div clas="row">
+                           
+
+                        <span class="b_username">
+                            Schedule
+                        </span>
+
+                        <!-- /.user-block -->
+                        <div class="row">
+                            <p>
+                                <div class="col-md-6">
+                                    <p>
+                                        <b>Sunday:</b></br>
+                                        {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                        @if ( count($user->availabilities) > 0 )
+                                            @php
+                                                $is_sunday = '0';
+                                            @endphp
+                                            @foreach ($user->availabilities as $availability )
+                                                @if ($availability->title == "Sunday")
+                                                    <p> 
+                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
+                                                        <a href="{{ url('/tutor/delete-availability') }}/{{ $availability->id }}">delete</a>
+                                                    </p>
+                                                    @php
+                                                        $is_sunday = '1';
+                                                    @endphp
+                                                @endif
+                                            @endforeach
+                                            @if ($is_sunday == '0')
+                                                <p>Unavailable</p>
+                                            @endif
+                                        @endif
+                                    </p>
+
+                                    <p>
+                                        <b>Monday:</b></br>
+                                        {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                        @if ( count($user->availabilities) > 0 )
+                                            @php
+                                                $is_monday = '0';
+                                            @endphp
+                                            @foreach ($user->availabilities as $availability )
+                                                @if ($availability->title == "Monday")
+                                                    <p>
+                                                        {{ $availability->start_time }} - {{ $availability->end_time }} 
+                                                        <a href="{{ url('/tutor/delete-availability') }}/{{ $availability->id }}">delete</a>
+                                                    </p>
+                                                    @php
+                                                        $is_monday = '1';
+                                                    @endphp
+                                                @endif
+                                            @endforeach
+                                            @if ($is_monday == '0')
+                                                <p>Unavailable</p>
+                                            {{-- @else
+                                                <button type="button" >Delete</button> --}}
+                                            @endif
+                                        @endif
+                                        {{-- @if ( (!empty($user->availabilities[1])) && ($user->availabilities[1]->title == "Sunday") )
+                                            {{ $user->availabilities[1]->start_time }} - {{ $user->availabilities[1]->end_time }}
+                                        @endif --}}
+                                    </p>
+
+                                    <p>
+                                        <b>Tuesday:</b></br>
+                                        {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                        @if ( count($user->availabilities) > 0 )
+                                            @php
+                                                $is_tuesday = '0';
+                                            @endphp
+                                            @foreach ($user->availabilities as $availability )
+                                                @if ($availability->title == "Tuesday")
+                                                    <p>
+                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
+                                                        <a href="{{ url('/tutor/delete-availability') }}/{{ $availability->id }}">delete</a>
+                                                    </p>
+                                                    @php
+                                                        $is_tuesday = '1';
+                                                    @endphp
+                                                @endif
+                                            @endforeach
+                                            @if ($is_tuesday == '0')
+                                                <p>Unavailable</p>
+                                            @endif
+                                        @endif
+                                    </p>
+
+                                    <p>
+                                        <b>Wednesday:</b></br>
+                                        {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                        @if ( count($user->availabilities) > 0 )
+                                            @php
+                                                $is_wednesday = '0';
+                                            @endphp
+                                            @foreach ($user->availabilities as $availability )
+                                                @if ($availability->title == "Wednesday")
+                                                    <p>
+                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
+                                                        <a href="{{ url('/tutor/delete-availability') }}/{{ $availability->id }}">delete</a>
+                                                    </p>
+                                                    @php
+                                                        $is_wednesday = '1';
+                                                    @endphp
+                                                @endif
+                                            @endforeach
+                                            @if ($is_wednesday == '0')
+                                                <p>Unavailable</p>
+                                            @endif
+                                        @endif
+                                    </p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>
+                                        <b>Thursday:</b></br>
+                                        {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                        @if ( count($user->availabilities) > 0 )
+                                            @php
+                                                $is_thursday = '0';
+                                            @endphp
+                                            @foreach ($user->availabilities as $availability )
+                                                @if ($availability->title == "Thrusday")
+                                                    <p>
+                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
+                                                        <a href="{{ url('/tutor/delete-availability') }}/{{ $availability->id }}">delete</a>
+                                                    </p>
+                                                    @php
+                                                        $is_thursday = '1';
+                                                    @endphp                                               
+                                                @endif
+                                            @endforeach
+                                            @if ($is_thursday == '0')
+                                                <p>Unavailable</p>
+                                            @endif
+                                        @endif
+                                    </p>
+
+                                    <p>
+                                        <b>Friday:</b></br>
+                                        {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                        @if ( count($user->availabilities) > 0 )
+                                             @php
+                                                $is_friday = '0';
+                                            @endphp
+                                            @foreach ($user->availabilities as $availability )
+                                                @if ($availability->title == "Friday" )
+                                                    <p>
+                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
+                                                        <a href="{{ url('/tutor/delete-availability') }}/{{ $availability->id }}">delete</a>
+                                                    </p>
+                                                    @php
+                                                        $is_friday = '1';
+                                                    @endphp 
+                                                @endif
+                                            @endforeach
+                                            @if ($is_friday == '0')
+                                                <p>Unavailable</p>
+                                            @endif
+                                        @endif
+                                    </p>
+                                    <p>
+                                        <b>Saturday:</b></br>
+                                        {{-- Midnight - 3:00 AM --}}
+                                        @if ( count($user->availabilities) > 0 )
+                                            @php
+                                                $is_saturday = '0';
+                                            @endphp
+                                            @foreach ($user->availabilities as $availability )
+                                                @if ($availability->title == "Saturday")
+                                                    <p>
+                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
+                                                        <a href="{{ url('/tutor/delete-availability') }}/{{ $availability->id }}">delete</a>
+                                                    </p>
+                                                    @php
+                                                        $is_saturday = '1';
+                                                    @endphp
+                                                @endif
+                                            @endforeach
+                                            @if ($is_saturday == '0')
+                                                <p>Unavailable</p>
+                                            @endif
+                                        @endif
+                                    </p>
+                                </div>
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+
+
+
 
                     </div>
                     <!-- /.row -->
@@ -156,27 +365,36 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div>
                         
                         <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Day</label>
-                            <input type="text" class="form-control" name="title" placeholder="Day">
+                            <label for="day" class="col-form-label">Day</label>
+                            <select class="form-control @error('day') is-invalid @enderror" name="day" data-placeholder="Days of Week">
+                                <option value="Sunday">Sunday</option>
+                                <option value="Monday">Monday</option>
+                                <option value="Tuesday">Tuesday</option>
+                                <option value="Wednesday">Wednesday</option>
+                                <option value="Thrusday">Thrusday</option>
+                                <option value="Friday">Friday</option>
+                                <option value="Saturday">Saturday</option>
+                            </select>
+                            {{-- <input type="text" class="form-control" name="title" placeholder="Day"> --}}
                             <div class="error-message alert alert-danger error-t ju-ta" role="alert">
                                 Error Message Goes Here
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Start Date</label>
                             <input type="date" class="form-control" name="start_date" placeholder="mm/dd/yyyy" >
                             <div class="error-message alert alert-danger error-sd ju-ta" role="alert">
                                 Error Message Goes Here
                             </div>
-                        </div>
-                        <div class="form-group">
+                        </div> --}}
+                        {{-- <div class="form-group">
                             <label for="recipient-name" class="col-form-label">End Date</label>
                             <input type="date" class="form-control" name="end_date" placeholder="mm/dd/yyyy" >
                             <div class="error-message alert alert-danger error-ed ju-ta" role="alert">
                                 Error Message Goes Here
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Start Time</label>
@@ -205,37 +423,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     
 
-    <!-- Modal -->
-<div class="modal fade" id="availabilityCalender" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Availability Detail</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          
-            <h3 id="title"> </h3>
-            <p><strong>Start Time: </strong><span id="start_date"> </span></p>
-            <p><strong>End Time: </strong><span id="end_date"> </span></p>
-
-            {{-- <p id="end_date"> </p>
-            <p id="start_time"> </p>
-            <p id="end_time"> </p> --}}
-
-
-
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
-        </div>
-      </div>
-    </div>
-  </div>
+  
+  </div> 
 
     <!-- REQUIRED SCRIPTS -->
 
@@ -260,240 +449,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Page specific script -->
     <script>
        
-        $(function () {
-
-            /* initialize the external events
-             -----------------------------------------------------------------*/
-            function ini_events(ele) {
-                ele.each(function () {
-
-                    // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-                    // it doesn't need to have a start or end
-                    var eventObject = {
-                        title: $.trim($(this).text()) // use the element's text as the event title
-                    }
-
-                    // store the Event Object in the DOM element so we can get to it later
-                    $(this).data('eventObject', eventObject)
-
-                    // make the event draggable using jQuery UI
-                    $(this).draggable({
-                        zIndex: 1070,
-                        revert: true, // will cause the event to go back to its
-                        revertDuration: 0 //  original position after the drag
-                    })
-                })
-            }
-
-            ini_events($('#external-events div.external-event'))
-
-            /* initialize the calendar
-             -----------------------------------------------------------------*/
-            //Date for the calendar events (dummy data)
-            var date = new Date()
-            var d = date.getDate(),
-                m = date.getMonth(),
-                y = date.getFullYear()
-
-            var Calendar = FullCalendar.Calendar;
-            var Draggable = FullCalendarInteraction.Draggable;
-
-            var containerEl = document.getElementById('external-events');
-            var checkbox = document.getElementById('drop-remove');
-            var calendarEl = document.getElementById('calendar');
-
-            // initialize the external events
-            // -----------------------------------------------------------------
-
-            new Draggable(containerEl, {
-                itemSelector: '.external-event',
-                eventData: function (eventEl) {
-                    console.log(eventEl);
-                    return {
-                        title: eventEl.innerText,
-                        backgroundColor: window.getComputedStyle(eventEl, null).getPropertyValue(
-                            'background-color'),
-                        borderColor: window.getComputedStyle(eventEl, null).getPropertyValue(
-                            'background-color'),
-                        textColor: window.getComputedStyle(eventEl, null).getPropertyValue('color'),
-                    };
-                }
-            });
-
-            // var calendar = new Calendar(calendarEl, {
-
-            // eventClick: function(info) {
-            //     alert('Event: ' + info.event.title);
-            //     alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-            //     alert('View: ' + info.view.type);
-
-            //     // change the border color just for fun
-            //     info.el.style.borderColor = 'red';
-            //     }
-
-            // });
+        
 
 
-            var calendar = new Calendar(calendarEl, {
-                plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid'],
-                header: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                },
-                //Random default events
-                events:
-                [
-                    @foreach($availabilities as $availability)
-                    {
-                        title : '{{ $availability->title }}',
-                        start : '{{ $availability->start_date }}',
-                        end : '{{ $availability->end_date }}',
-                    },
-                    @endforeach
-
-                    // {
-                    //     title: 'All Day Event',
-                    //     start: new Date(y, m, 1),
-                    //     backgroundColor: '#f56954', //red
-                    //     borderColor: '#f56954', //red
-                    //     allDay: true
-                    // },
-                    // {
-                    //     title: 'Long Event',
-                    //     start: new Date(y, m, d - 5),
-                    //     end: new Date(y, m, d - 2),
-                    //     backgroundColor: '#f39c12', //yellow
-                    //     borderColor: '#f39c12' //yellow
-                    // },
-                    // {
-                    //     title: 'Meeting',
-                    //     start: new Date(y, m, d, 10, 30),
-                    //     allDay: false,
-                    //     backgroundColor: '#0073b7', //Blue
-                    //     borderColor: '#0073b7' //Blue
-                    // },
-                    // {
-                    //     title: 'Lunch',
-                    //     start: new Date(y, m, d, 12, 0),
-                    //     end: new Date(y, m, d, 14, 0),
-                    //     allDay: false,
-                    //     backgroundColor: '#00c0ef', //Info (aqua)
-                    //     borderColor: '#00c0ef' //Info (aqua)
-                    // },
-                    // {
-                    //     title: 'Birthday Party',
-                    //     start: new Date(y, m, d + 1, 19, 0),
-                    //     end: new Date(y, m, d + 1, 22, 30),
-                    //     allDay: false,
-                    //     backgroundColor: '#00a65a', //Success (green)
-                    //     borderColor: '#00a65a' //Success (green)
-                    // },
-                    // {
-                    //     title: 'Click for Google',
-                    //     start: new Date(y, m, 28),
-                    //     end: new Date(y, m, 29),
-                    //     url: 'http://google.com/',
-                    //     backgroundColor: '#3c8dbc', //Primary (light-blue)
-                    //     borderColor: '#3c8dbc' //Primary (light-blue)
-                    // }
-                ],
-                editable: true,
-                droppable: true, // this allows things to be dropped onto the calendar !!!
-                drop: function (info) {
-                    // is the "remove after drop" checkbox checked?
-                    if (checkbox.checked) {
-                        // if so, remove the element from the "Draggable Events" list
-                        info.draggedEl.parentNode.removeChild(info.draggedEl);
-                    }
-                },
-
-                eventClick: function(info) {
-                    // alert('Event: ' + info.event.title);
-                    // alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-                    // alert('View: ' + info.view.type);
-
-                    // // change the border color just for fun
-                    // info.el.style.borderColor = 'red';
-                    jQuery('#title').text(info.event.title);
-                    jQuery('#start_date').text(info.event.start);
-                    jQuery('#end_date').text(info.event.end);
-                    // jQuery('#start_time').text(info.event.);
-                    // jQuery('#end_time').text(info.event.title);
-
-                    $('#availabilityCalender').modal('show')
-                    // $('#popup').html('<iframe src="'+event.url+'" width="700" height="600"></iframe>');
-                    // $('#popup').dialog({autoOpen: false, modal: true, width: 750, height: 675});
-                    return false;
-                }
-
-            });
-            
-
-            calendar.render();
-            // $('#calendar').fullCalendar()
-
-            /* ADDING EVENTS */
-            var currColor = '#3c8dbc' //Red by default
-            //Color chooser button
-            var colorChooser = $('#color-chooser-btn')
-            $('#color-chooser > li > a').click(function (e) {
-                e.preventDefault()
-                //Save color
-                currColor = $(this).css('color')
-                //Add color effect to button
-                $('#add-new-event').css({
-                    'background-color': currColor,
-                    'border-color': currColor
-                })
-            })
-            $('#add-new-event').click(function (e) {
-                e.preventDefault()
-                //Get value and make sure it is not null
-                var val = $('#new-event').val()
-                if (val.length == 0) {
-                    return
-                }
-
-                //Create events
-                var event = $('<div />')
-                event.css({
-                    'background-color': currColor,
-                    'border-color': currColor,
-                    'color': '#fff'
-                }).addClass('external-event')
-                event.html(val)
-                $('#external-events').prepend(event)
-
-                //Add draggable funtionality
-                ini_events(event)
-
-                //Remove event from text input
-                $('#new-event').val('')
-            })
-        })
-        // jQuery(document).ready(function(){
-
-
-
-        // });
         jQuery(document).on('click', '#add_event', function (event) {
             event.preventDefault();
 
             console.log("Button Pressed.");
 
             let user_id = jQuery('input[name="user_id"]').val();
-            let title = jQuery('input[name="title"]').val();
-            let start_date = jQuery('input[name="start_date"]').val();
-            let end_date = jQuery('input[name="end_date"]').val();
+            let day = jQuery("select[name=day] option:selected").val();
+            // let start_date = jQuery('input[name="start_date"]').val();
+            // let end_date = jQuery('input[name="end_date"]').val();
             let start_time = jQuery('input[name="start_time"]').val();
             let end_time = jQuery('input[name="end_time"]').val();
 
+            console.log("Day: "+ day);
+            console.log("End Time: "+ start_time);
+            console.log("Start Time: "+ end_time);
+
+
+
+
             // Bool Variables
             var is_user_id = false;
-            var is_title = false; 
-            var is_start_date = false; 
-            var is_end_date = false; 
+            var is_day = false; 
+            // var is_start_date = false; 
+            // var is_end_date = false; 
             var is_start_time = false; 
             var is_end_time = false; 
 
@@ -510,77 +492,77 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 is_user_id = true;
                 // jQuery('.error-fn').css("display","none");
             }
-            if (!title )
+            if (!day )
             {
                 // Error
-                is_title = false;
+                is_day = false;
                 jQuery('.error-t').css("display","block");
                 jQuery('.error-t').html("Title field is required.");
             }
             else
             {
                 // Success
-                is_title = true;
+                is_day = true;
                 jQuery('.error-t').css("display","none");
             }
-            if (!start_date )
-            {
-                // Error
-                is_start_date = false;
-                jQuery('.error-sd').css("display","block");
-                jQuery('.error-sd').html("Start date field is required.");
-            }
-            else
-            {
-                // Success
-                is_start_date = true;
-                jQuery('.error-sd').css("display","none");
-            }
-            if (!end_date )
-            {
-                // Error
-                is_end_date = false;
-                jQuery('.error-ed').css("display","block");
-                jQuery('.error-ed').html("End date field is required.");
-            }
-            else
-            {
-                // Success
-                is_end_date = true;
-                jQuery('.error-ed').css("display","none");
-            }
-            // if (!start_time )
+            // if (!start_date )
             // {
             //     // Error
-            //     is_start_time = false;
-            //     jQuery('.error-st').css("display","block");
-            //     jQuery('.error-st').html("Start time field is required.");
+            //     is_start_date = false;
+            //     jQuery('.error-sd').css("display","block");
+            //     jQuery('.error-sd').html("Start date field is required.");
             // }
             // else
             // {
             //     // Success
-            //     is_start_time = true;
-            //     jQuery('.error-st').css("display","none");
+            //     is_start_date = true;
+            //     jQuery('.error-sd').css("display","none");
             // }
-            // if (!end_time )
+            // if (!end_date )
             // {
             //     // Error
-            //     is_end_time = false;
-            //     jQuery('.error-et').css("display","block");
-            //     jQuery('.error-et').html("End time field is required.");
+            //     is_end_date = false;
+            //     jQuery('.error-ed').css("display","block");
+            //     jQuery('.error-ed').html("End date field is required.");
             // }
             // else
             // {
             //     // Success
-            //     is_end_time = true;
-            //     jQuery('.error-et').css("display","none");
+            //     is_end_date = true;
+            //     jQuery('.error-ed').css("display","none");
             // }
+            if (!start_time )
+            {
+                // Error
+                is_start_time = false;
+                jQuery('.error-st').css("display","block");
+                jQuery('.error-st').html("Start time field is required.");
+            }
+            else
+            {
+                // Success
+                is_start_time = true;
+                jQuery('.error-st').css("display","none");
+            }
+            if (!end_time )
+            {
+                // Error
+                is_end_time = false;
+                jQuery('.error-et').css("display","block");
+                jQuery('.error-et').html("End time field is required.");
+            }
+            else
+            {
+                // Success
+                is_end_time = true;
+                jQuery('.error-et').css("display","none");
+            }
 
             // && (is_start_time == true) && (is_end_time == true)
-            if ( (is_user_id == true) && (is_title == true) && (is_start_date == true) && (is_end_date == true)
+            if ( (is_user_id == true) && (is_day == true) && (is_start_time == true) && (is_end_time == true)
                    )
             {
-                AddAvailability(user_id, title, start_date, end_date, start_time, end_time);
+                AddAvailability(user_id, day, start_time, end_time);
             }
             else
             {
@@ -590,9 +572,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         });
 
 
-
-
-        function AddAvailability(user_id, title, start_date, end_date, start_time, end_time)
+        function AddAvailability(user_id, day, start_time, end_time)
         {
             console.log("Ajax Calling !!! Add Availability !!!");
             jQuery.ajax({
@@ -600,9 +580,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 type: "POST",
                 data: { 
                     "_token": "{{ csrf_token() }}",
-                    'user_id':user_id, 'title':title,
-                    'start_date':start_date,
-                    'end_date':end_date,
+                    'user_id':user_id, 
+                    'day':day,
+                    // 'start_date':start_date,
+                    // 'end_date':end_date,
                     'start_time':start_time,
                     'end_time':end_time
                 },

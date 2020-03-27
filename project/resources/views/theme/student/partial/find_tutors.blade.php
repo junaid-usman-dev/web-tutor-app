@@ -16,7 +16,7 @@
                             @foreach ($tutors as $tutor)
                                 <div class="post">
                                     <div class="user-block">
-                                        <span class="badge text-md badge-primary float-right">${{ $tutor->price_per_hour }}/hr</span>
+                                        <span class="badge text-md  float-right">${{ $tutor->price_per_hour }}/hr</span>
                                         
                                         {{-- Check: Student on favorite tutor list page --}}
                                         @if(Route::current()->getName() == 'student.favorite.tutors.list')
@@ -82,8 +82,8 @@
                                         <div class="my-rating-7 d-inline" data-rating="{{ $obtain_rating }}"></div>
                                         {{ number_format($obtain_rating,1) }} ({{ $total_review }})
                                     </span>
-                                    <p class="text-sm"> <em class="fas fa-clock  mr-1"></em>
-                                        <strong>15 hours tutoring english</strong> out of 563 hours. </p>
+                                    {{-- <p class="text-sm"> <em class="fas fa-clock  mr-1"></em>
+                                        <strong>15 hours tutoring english</strong> out of 563 hours. </p> --}}
                                 </div>
                             @endforeach
                             <div class="card-tools">

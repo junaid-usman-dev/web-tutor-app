@@ -108,7 +108,7 @@ class User extends Authenticatable
     // One to Many Relationship
     public function schedules()
     {
-        return $this->hasMany("App\Model\Schedule");
+        return $this->hasMany("App\Model\Schedule", "student_id");
     }
     
 

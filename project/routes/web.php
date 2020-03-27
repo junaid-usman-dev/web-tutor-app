@@ -157,6 +157,11 @@ Route::prefix('student')->group(function () {
 
     });
 
+    Route::prefix('class')->group(function () {
+
+        Route::get('/all', 'Users\Student\StudentController@AllClasses')->name('student.class.all'); // Display conversion between two person
+     
+    });
 
     // Route::get('/pagination', 'Users\Student\StudentController@Pagination'); // all reviews
 
@@ -207,6 +212,7 @@ Route::prefix('tutor')->group(function () {
     
     Route::get('/general-availability','Users\Tutor\EventController@index')->name('tutor.view.availability'); // Tutor General Availability;
     Route::post('/add-availability','Users\Tutor\EventController@store')->name('tutor.add.availability'); // Tutor Add Availability;
+    Route::get('/delete-availability/{id}','Users\Tutor\EventController@destroy')->name('tutor.delete.availability'); // Tutor Add Availability;
     
     // Route::post('store','Users\Tutor\EventController@store');
     // Route::get('index','Users\Tutor\EventController@index');
@@ -236,6 +242,12 @@ Route::prefix('tutor')->group(function () {
 
         Route::get('/view-conversation/{sender_id}/{contact_id}', 'Message\MessageController@ViewConversation')->name('sdsd.message.conversation.test'); // Display conversion between two person
 
+    });
+
+    Route::prefix('class')->group(function () {
+
+        Route::get('/all', 'Users\Tutor\TutorController@AllClasses')->name('tutor.class.all'); // Display conversion between two person
+     
     });
 
 
@@ -377,6 +389,14 @@ Route::prefix('admin')->group(function () {
 
         });
 
+    });
+
+    Route::prefix('class')->group(function () {
+
+        Route::get('/all', function () {
+            return view('theme.admin.classes_manager');
+        })->name('admin.class.all');
+     
     });
 
 });

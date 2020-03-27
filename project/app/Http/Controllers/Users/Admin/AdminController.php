@@ -252,16 +252,80 @@ class AdminController extends Controller
     public function update(Request $request)
     {
         //
-        $admin = Admin::findOrFail($request->input('id'));
-      
-        $admin->first_name = $request->input('fname');
-        $admin->last_name = $request->input('lname');
-        $admin->email_address = $request->input('email');
-        // $admin->password = $request->input('password');
+        $request->validate([
+            'fname' => 'required',
+            'lname' => 'required',
+            'email' => new EmailFormat,
+        ],
+        [
+            'fname.required' => 'first name field is required.',
+            'lname.required' => 'last name field is required.',
+            'email.required' => 'email field is required.',
+        ]);
         
-        $admin->save();
+        // dd ("Updated");
 
-        return redirect()->to("/admin/list");
+        $fname = $request->fname;
+        $lname = $request->lname;
+        $email = $request->email;
+        $old_password = $request->old_password;
+        $new_password = $request->new_password;
+        $confirm_password = $request->confirm_password;
+       
+        if ( (!empty($old_password)) && (!empty($new_password)) && (!empty($confirm_password)) )
+        {
+            $admin = Admin::findOrFail($request->input('id'));
+            // IF user want to update his password
+            if (Hash::check($old_password, $admin->password)) {
+                if ( $new_password == $confirm_password )
+                {
+                    // update user with password
+                    $admin = Admin::findOrFail($request->input('id'));
+      
+                    $admin->first_name = $request->input('fname');
+                    $admin->last_name = $request->input('lname');
+                    $admin->email_address = $request->input('email');
+                    $admin->password = Hash::make($request->input('new_password'));
+                
+                    $admin->save();
+                    return response()->json([
+                        'success'=> 'Success! Your profile information has been updated. Password Server'
+                    ]);
+                }
+                else
+                {
+                    return response()->json([
+                        'error'=> 'Password does not match. Server'
+                    ]);
+                }
+            }
+            else
+            {
+                return response()->json([
+                    'error'=> 'Unknown Old Password.'
+                ]);
+            }
+        }
+        else
+        {
+            // Update user
+            $admin = Admin::findOrFail($request->input('id'));
+      
+            $admin->first_name = $request->input('fname');
+            $admin->last_name = $request->input('lname');
+            $admin->email_address = $request->input('email');
+            
+            $admin->save();
+
+            return response()->json([
+                'success'=> "Success! Your profile information has been updated. Server Response"
+            ]);
+        }
+      
+        
+        
+
+        // return redirect()->to("/admin/list");
     }
 
     /**

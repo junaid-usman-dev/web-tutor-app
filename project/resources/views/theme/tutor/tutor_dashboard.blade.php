@@ -274,7 +274,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 <tr>
                                                                     <td>01</td>
                                                                     <td><a href="#">Jackson</a></td>
-                                                                    <td><a href="#">John Smith</a></td>
+                                                                    <td><a href="{{ route('tutor.profile') }}">{{ $user->first_name }} {{ $user->last_name }}</a></td>
                                                                     <td>
                                                                         <div class="sparkbar" data-color="#00a65a"
                                                                             data-height="20">English</div>
@@ -286,7 +286,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 <tr>
                                                                     <td>02</td>
                                                                     <td><a href="#">Jackson</a></td>
-                                                                    <td><a href="#">John Smith</a></td>
+                                                                    <td><a href="{{ route('tutor.profile') }}">{{ $user->first_name }} {{ $user->last_name }}</a></td>
                                                                     <td>
                                                                         <div class="sparkbar" data-color="#00a65a"
                                                                             data-height="20">English</div>
@@ -298,7 +298,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 <tr>
                                                                     <td>03</td>
                                                                     <td><a href="#">Jackson</a></td>
-                                                                    <td><a href="#">John Smith</a></td>
+                                                                    <td><a href="{{ route('tutor.profile') }}">{{ $user->first_name }} {{ $user->last_name }}</a></td>
                                                                     <td>
                                                                         <div class="sparkbar" data-color="#00a65a"
                                                                             data-height="20">English</div>
@@ -310,7 +310,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 <tr>
                                                                     <td>04</td>
                                                                     <td><a href="#">Jackson</a></td>
-                                                                    <td><a href="#">John Smith</a></td>
+                                                                    <td><a href="{{ route('tutor.profile') }}">{{ $user->first_name }} {{ $user->last_name }}</a></td>
                                                                     <td>
                                                                         <div class="sparkbar" data-color="#00a65a"
                                                                             data-height="20">English</div>
@@ -322,7 +322,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 <tr>
                                                                     <td>05</td>
                                                                     <td><a href="#">Jackson</a></td>
-                                                                    <td><a href="#">John Smith</a></td>
+                                                                    <td><a href="{{ route('tutor.profile') }}">{{ $user->first_name }} {{ $user->last_name }}</a></td>
                                                                     <td>
                                                                         <div class="sparkbar" data-color="#00a65a"
                                                                             data-height="20">English</div>
@@ -339,9 +339,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 </div>
                                                 <!-- /.card-body -->
                                                 <div class="card-footer clearfix">
-                                                    <a href="javascript:void(0)"
-                                                        class="btn btn-sm btn-primary float-left">Book New Class</a>
-                                                    <a href="javascript:void(0)"
+                                                    {{-- <a href="javascript:void(0)"
+                                                        class="btn btn-sm btn-primary float-left">Book New Class</a> --}}
+                                                    <a href="{{ route('tutor.class.all') }}"
                                                         class="btn btn-sm btn-secondary float-right">View All
                                                         Classes</a>
                                                 </div>

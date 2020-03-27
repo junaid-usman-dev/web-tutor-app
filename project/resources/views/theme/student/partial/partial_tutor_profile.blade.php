@@ -269,7 +269,7 @@
                                     </div>
 
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        data-target=".bd-example-modal-lg" data-whatever="@mdo">Book Me</button>
+                                        data-target="bd-example-modal-lg" data-whatever="@mdo">Availabilities</button>
 
                                     <hr>
 

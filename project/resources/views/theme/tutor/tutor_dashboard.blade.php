@@ -271,19 +271,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr>
-                                                                    <td>01</td>
-                                                                    <td><a href="#">Jackson</a></td>
-                                                                    <td><a href="{{ route('tutor.profile') }}">{{ $user->first_name }} {{ $user->last_name }}</a></td>
-                                                                    <td>
-                                                                        <div class="sparkbar" data-color="#00a65a"
-                                                                            data-height="20">English</div>
-                                                                    </td>
-                                                                    <td>8:00 AM</td>
-                                                                    <td>10:00 AM</td>
 
-                                                                </tr>
-                                                                <tr>
+                                                                @if ( count($tutor_schedules) > 0 )
+                                                                    @php
+                                                                        $count = 0;
+                                                                    @endphp
+                                                                    @foreach ($tutor_schedules as $schedule)
+                                                                        @php
+                                                                            $count += 1;
+                                                                        @endphp
+                                                                        <tr>
+                                                                            <td>{{ $count }}</td>
+                                                                            <td><a href="{{ url('/tutor/student-profile') }}/{{ $schedule->users->id }}">{{ $schedule->users->first_name }} {{ $schedule->users->last_name }}</a></td>
+                                                                            <td><a href="{{ route('tutor.profile') }}">{{ $schedule->tutor->first_name }} {{ $schedule->tutor->last_name }}</a></td>
+                                                                            <td>
+                                                                                <div class="sparkbar" data-color="#00a65a"
+                                                                                    data-height="20">{{ $schedule->subject }}</div>
+                                                                            </td>
+                                                                            <td>{{ \Carbon\Carbon::parse($schedule->start_datetime)->format('g:i A') }}</td>
+                                                                            <td>{{ \Carbon\Carbon::parse($schedule->end_datetime)->format('g:i A') }}</td>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                @else
+                                                                    Empty Schedule
+                                                                @endif
+
+                                                                {{-- <tr>
                                                                     <td>02</td>
                                                                     <td><a href="#">Jackson</a></td>
                                                                     <td><a href="{{ route('tutor.profile') }}">{{ $user->first_name }} {{ $user->last_name }}</a></td>
@@ -330,7 +343,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                     <td>8:00 AM</td>
                                                                     <td>10:00 AM</td>
 
-                                                                </tr>
+                                                                </tr> --}}
 
                                                             </tbody>
                                                         </table>

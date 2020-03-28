@@ -113,10 +113,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <p>
                                         <b>Sunday:</b></br>
                                         {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                        @php
+                                            $is_sunday = '0';
+                                        @endphp
                                         @if ( count($user->availabilities) > 0 )
-                                            @php
-                                                $is_sunday = '0';
-                                            @endphp
                                             @foreach ($user->availabilities as $availability )
                                                 @if ($availability->title == "Sunday")
                                                     <p> 
@@ -128,19 +128,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     @endphp
                                                 @endif
                                             @endforeach
-                                            @if ($is_sunday == '0')
-                                                <p>Unavailable</p>
-                                            @endif
+                                        @endif
+                                        @if ($is_sunday == '0')
+                                            <p>Unavailable</p>
                                         @endif
                                     </p>
 
                                     <p>
                                         <b>Monday:</b></br>
                                         {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                        @php
+                                            $is_monday = '0';
+                                        @endphp
                                         @if ( count($user->availabilities) > 0 )
-                                            @php
-                                                $is_monday = '0';
-                                            @endphp
+                                            
                                             @foreach ($user->availabilities as $availability )
                                                 @if ($availability->title == "Monday")
                                                     <p>
@@ -152,24 +153,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     @endphp
                                                 @endif
                                             @endforeach
-                                            @if ($is_monday == '0')
-                                                <p>Unavailable</p>
-                                            {{-- @else
-                                                <button type="button" >Delete</button> --}}
-                                            @endif
+                                            
                                         @endif
-                                        {{-- @if ( (!empty($user->availabilities[1])) && ($user->availabilities[1]->title == "Sunday") )
-                                            {{ $user->availabilities[1]->start_time }} - {{ $user->availabilities[1]->end_time }}
-                                        @endif --}}
+                                        @if ($is_monday == '0')
+                                            <p>Unavailable</p>
+                                        @endif
                                     </p>
 
                                     <p>
                                         <b>Tuesday:</b></br>
                                         {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                        @php
+                                            $is_tuesday = '0';
+                                        @endphp
                                         @if ( count($user->availabilities) > 0 )
-                                            @php
-                                                $is_tuesday = '0';
-                                            @endphp
                                             @foreach ($user->availabilities as $availability )
                                                 @if ($availability->title == "Tuesday")
                                                     <p>
@@ -181,19 +178,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     @endphp
                                                 @endif
                                             @endforeach
-                                            @if ($is_tuesday == '0')
-                                                <p>Unavailable</p>
-                                            @endif
+                                        @endif
+                                        @if ($is_tuesday == '0')
+                                            <p>Unavailable</p>
                                         @endif
                                     </p>
 
                                     <p>
                                         <b>Wednesday:</b></br>
                                         {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                        @php
+                                            $is_wednesday = '0';
+                                        @endphp
                                         @if ( count($user->availabilities) > 0 )
-                                            @php
-                                                $is_wednesday = '0';
-                                            @endphp
                                             @foreach ($user->availabilities as $availability )
                                                 @if ($availability->title == "Wednesday")
                                                     <p>
@@ -205,9 +202,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     @endphp
                                                 @endif
                                             @endforeach
-                                            @if ($is_wednesday == '0')
-                                                <p>Unavailable</p>
-                                            @endif
+                                        @endif
+                                        @if ($is_wednesday == '0')
+                                            <p>Unavailable</p>
                                         @endif
                                     </p>
                                 </div>
@@ -215,10 +212,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <p>
                                         <b>Thursday:</b></br>
                                         {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                        @php
+                                            $is_thursday = '0';
+                                        @endphp
                                         @if ( count($user->availabilities) > 0 )
-                                            @php
-                                                $is_thursday = '0';
-                                            @endphp
                                             @foreach ($user->availabilities as $availability )
                                                 @if ($availability->title == "Thrusday")
                                                     <p>
@@ -230,19 +227,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     @endphp                                               
                                                 @endif
                                             @endforeach
-                                            @if ($is_thursday == '0')
-                                                <p>Unavailable</p>
-                                            @endif
+                                        @endif
+                                        @if ($is_thursday == '0')
+                                            <p>Unavailable</p>
                                         @endif
                                     </p>
 
                                     <p>
                                         <b>Friday:</b></br>
                                         {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                        @php
+                                            $is_friday = '0';
+                                        @endphp
                                         @if ( count($user->availabilities) > 0 )
-                                             @php
-                                                $is_friday = '0';
-                                            @endphp
                                             @foreach ($user->availabilities as $availability )
                                                 @if ($availability->title == "Friday" )
                                                     <p>
@@ -254,18 +251,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     @endphp 
                                                 @endif
                                             @endforeach
-                                            @if ($is_friday == '0')
-                                                <p>Unavailable</p>
-                                            @endif
+                                        @endif
+                                        @if ($is_friday == '0')
+                                            <p>Unavailable</p>
                                         @endif
                                     </p>
                                     <p>
                                         <b>Saturday:</b></br>
                                         {{-- Midnight - 3:00 AM --}}
+                                        @php
+                                            $is_saturday = '0';
+                                        @endphp
                                         @if ( count($user->availabilities) > 0 )
-                                            @php
-                                                $is_saturday = '0';
-                                            @endphp
                                             @foreach ($user->availabilities as $availability )
                                                 @if ($availability->title == "Saturday")
                                                     <p>
@@ -277,9 +274,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     @endphp
                                                 @endif
                                             @endforeach
-                                            @if ($is_saturday == '0')
-                                                <p>Unavailable</p>
-                                            @endif
+                                        @endif
+                                        @if ($is_saturday == '0')
+                                            <p>Unavailable</p>
                                         @endif
                                     </p>
                                 </div>

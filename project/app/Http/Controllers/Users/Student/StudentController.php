@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Auth;
 
+use Carbon\Carbon;
+
 use App\User;
 use App\Image;
 use App\Model\Favorite;
@@ -52,7 +54,54 @@ class StudentController extends Controller
         // dd ($user->subjects);
         $user = User::where('id',Auth::user()->id)->first();
         $tutor = User::findOrFail($id);
-        return view ('theme.student.tutor_profile')->with(['user'=> $user, 'tutor'=>$tutor ]);
+
+        // Getting all tutor availabities
+        // dd ($tutor->availabilities);
+
+            $array = collect();
+            foreach($tutor->availabilities as $availability)
+            {
+                // $number = the number based on day
+                if ($availability->title == "Sunday")
+                {
+                    $day = 0;
+                }
+                elseif ($availability->title == "Monday")
+                {
+                    $day = 1;
+                }
+                elseif ($availability->title == "Tuesday")
+                {
+                    $day = 2;
+                }
+                elseif ($availability->title == "Wednesday")
+                {
+                    $day = 3;
+                }
+                elseif ($availability->title == "Thursday")
+                {
+                    $day = 4;
+                }
+                elseif ($availability->title == "Friday")
+                {
+                    $day = 5;
+                }
+                elseif ($availability->title == "Saturday")
+                {
+                    $day = 6;
+                }
+                else
+                {
+                    // Some thing went wrong
+                }
+                $array->push($day);
+                // $available_day_number = $array->implode(',', $day);
+            }
+            // $available_day_number = [];
+            $available_day_number = $array->implode(',');
+            // $available_day_number = explode(",", $available_day_number);
+            // dd (  $day[0] );    
+        return view ('theme.student.tutor_profile')->with(['user'=> $user, 'tutor'=>$tutor, 'available_day_number'=>$available_day_number ]);
     }
 
     /**
@@ -686,7 +735,7 @@ class StudentController extends Controller
 
             
             //....  Lastest Classes  ...............
-            // $tutors_id = Schedule::where('student_id', $user_id)->pluck('tutor_id');
+            $student_classes = Schedule::where('student_id', $user_id)->get();
             // dd ($tutors_id);
             // $classes_tutors = array();
             // foreach ($tutors_id as $tutor)
@@ -695,7 +744,7 @@ class StudentController extends Controller
             //     $tutor = User::where('id',$tutor)->get();
             //     $tutor_classes = clone $tutor;
             // }
-            // dd ($classes_tutors);
+            // dd ($student_classes);
 
             // dd($tutors[0]->first_name); working
             return view ('theme.student.student_dashboard')->with([
@@ -703,6 +752,7 @@ class StudentController extends Controller
                 'tutors'=>$tutors,
                 'contact_list'=>$contact_list,
                 'users_conversation' => $users_conversation,
+                'student_classes' => $student_classes
                 ]);
         }
         else
@@ -1090,30 +1140,34 @@ class StudentController extends Controller
         //     'start_time.required' => 'Start time field is required.',
         //     'end_time.required' => 'End time field is required.',
         // ]);
-
-        // $student_id = $request->input('student_id');
-        // $tutor_id = $request->input('tutor_id');
-        // $subject = $request->input('subject');
+        
+        // dd ($request->all());
+        $student_id = $request->input('student_id');
+        $tutor_id = $request->input('tutor_id');
+        $subject = $request->input('subject');
         // $day = $request->input('day');
-        // $start_time = $request->input('start_time');
-        // $end_time = $request->input('end_time');
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+
+        $start_time = $request->input('start_time');
+        $end_time = $request->input('end_time');
 
         // // dd ($student_id, $tutor_id, $subject, $email, $review, $star);
 
-        // $add_schedule = new Schedule();
+        $add_schedule = new Schedule();
 
-        // $add_schedule->student_id = $student_id;
-        // $add_schedule->tutor_id = $tutor_id;
-        // $add_schedule->subject = $subject;
-        // $add_schedule->day = $day;
-        // $add_schedule->start_time = $start_time;
-        // $add_schedule->end_time = $end_time;
+        $add_schedule->student_id = $student_id;
+        $add_schedule->tutor_id = $tutor_id;
+        $add_schedule->subject = $subject;
+        // $add_schedule->day = $day; Carbon::parse($start_date.' '.$start_time)
+        $add_schedule->start_datetime = Carbon::parse($start_date.' '.$start_time);
+        $add_schedule->end_datetime = Carbon::parse($end_date.' '.$end_time);
 
-        // $add_schedule->save();
+        $add_schedule->save();
         
         // dd ($request->all());
 
-        Schedule::create($request->all());
+        // Schedule::create($request->all());
         return response()->json([
             'success' => true
         ]);
@@ -1128,9 +1182,22 @@ class StudentController extends Controller
     public function AllClasses(Request $request)
     {   
         $user = Auth::guard('user')->user();
-        return view ('theme.student.manage_class')->with(['user'=> $user]);
+        $student_schedules = Schedule::where('student_id',$user->id)->get();
+        return view ('theme.student.manage_class')->with(['user'=> $user, 'student_schedules'=>$student_schedules]);
     }
 
+    /*
+    * BOOking
+    *
+    *@return \Illuminate\Http\Response
+    */
+    // public function BookedSchedule(Request $request)
+    // {   
+    //     $user = Auth::guard('user')->user();
+    //     $student_schedules = Schedule::where('student_id',$user->id)->get();
+    //     return view ('theme.student.manage_class')->with(['user'=> $user, 'student_schedules'=> $student_schedules]);
+    // }
+    
 
 
 

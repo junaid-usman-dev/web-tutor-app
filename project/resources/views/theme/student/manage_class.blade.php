@@ -92,33 +92,45 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    
+                                                    @if ( count($student_schedules) > 0 )
+                                                        @php
+                                                            $count = 0;
+                                                        @endphp
+                                                        @foreach ($student_schedules as $schedule)
+                                                            @php
+                                                                $count += 1;
+                                                            @endphp
+                                                            <tr>
+                                                                <td>{{ $count }}</td>
+                                                                <td>{{ $schedule->users->first_name }} {{ $schedule->users->last_name }} </td>
+                                                                <td>{{ $schedule->tutor->first_name }} {{ $schedule->tutor->last_name }}</td>
+                                                                <td>{{ $schedule->subject }}</td>
+                                                                <td>{{ \Carbon\Carbon::parse($schedule->start_datetime)->format('g:i A') }}</td>
+                                                                <td>{{ \Carbon\Carbon::parse($schedule->end_datetime)->format('g:i A') }}</td>
 
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td>Jack Smith </td>
-                                                        <td>Tutor tutor</td>
-                                                        <td>English</td>
-                                                        <td>8:00</td>
-                                                        <td>14:00</td>
-
-                                                        <td>
-                                                            <button type="button"
-                                                                class="btn btn-primary dropdown-toggle"
-                                                                data-toggle="dropdown" aria-expanded="false">
-                                                                Action
-                                                            </button>
-                                                            <ul class="dropdown-menu" x-placement="bottom-start"
-                                                                style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 48px, 0px);">
-                                                                <li class="dropdown-item"><a href="javascript::">Edit</a></li>
-                                                                <li class="dropdown-item"><a href="javascript::">Delete</a>
-                                                                </li>
-                                                                
-                                                                
-                                                            </ul>
-                                                        </td>
-                                                    </tr>
+                                                                <td>
+                                                                    <button type="button"
+                                                                        class="btn btn-primary dropdown-toggle"
+                                                                        data-toggle="dropdown" aria-expanded="false">
+                                                                        Action
+                                                                    </button>
+                                                                    <ul class="dropdown-menu" x-placement="bottom-start"
+                                                                        style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 48px, 0px);">
+                                                                        <li class="dropdown-item"><a href="javascript::">Edit</a></li>
+                                                                        <li class="dropdown-item"><a href="javascript::">Delete</a>
+                                                                        </li>
+                                                                        
+                                                                        
+                                                                    </ul>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    @else
+                                                        Empty Class Schedule   
+                                                    @endif
                                                       
-                                                    <tr>
+                                                    {{-- <tr>
                                                         <td>2</td>
                                                         <td>Jack Smith </td>
                                                         <td>Tutor tutor</td>
@@ -216,7 +228,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 
                                                             </ul>
                                                         </td>
-                                                    </tr>
+                                                    </tr> --}}
 
 
 

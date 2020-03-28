@@ -206,16 +206,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </div>
 
 
-
+    
 
      {{-- Book Tutor Bootstrap Modal --}}
     {{-- Modal for Availability  --}}
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="BookingModal" tabindex="-1" role="dialog" aria-labelledby="BookingModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Booking Information</h5>
+                    <h5 class="modal-title" id="BookingModalLabel">Booking Information</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -248,7 +248,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 name="day" multiple="multiple" data-placeholder="Select a Days of Week"
                                 style="width: 100%;"> --}}
 
-                            <select class="form-control @error('day') is-invalid @enderror" name="day" data-placeholder="Select Day" style="width: 100%;">
+                            {{-- <select class="form-control @error('day') is-invalid @enderror" name="day" data-placeholder="Select Day" style="width: 100%;">
                                 <option value="monday">Monday</option>
                                 <option value="tuesday">Tuesday</option>
                                 <option value="wednesday">Wednesday</option>
@@ -259,35 +259,47 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </select>
                             <div class="error-message alert alert-danger error-sd ju-ta" role="alert">
                                 Error Message Goes Here
-                            </div>
+                            </div> --}}
+                            <p> 
+                                <span name="start_day"></span> - 
+                                <span name="end_day"></span>
+                            </p>
+                            {{-- <p>End Day <span name="end_day"></span></p> --}}
+
                         </div>
 
-                        {{-- <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Start Date</label>
-                            <input type="text" class="form-control" name="start_date" placeholder="mm/dd/yyyy" >
-                            <div class="error-message alert alert-danger error-sd ju-ta" role="alert">
-                                Error Message Goes Here
-                            </div>
-                        </div> --}}
-                        
                         <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Date Range</label>
+                            <p> 
+                                <span name="start_date"></span> - 
+                                <span name="end_date"></span>
+                            </p>
+                            <input type="hidden" class="form-control" name="start_date" value="" >
+                            <input type="hidden" class="form-control" name="end_date" value="" >
+                            
+                            {{-- <div class="error-message alert alert-danger error-sd ju-ta" role="alert"> --}}
+                                {{-- Error Message Goes Here --}}
+                            {{-- </div> --}}
+                        </div>
+                        
+                        {{-- <div class="form-group">
                             <label for="recipient-name" class="col-form-label">End Date</label>
                             <input type="date" class="form-control" name="end_date" placeholder="mm/dd/yyyy" >
                             <div class="error-message alert alert-danger error-ed ju-ta" role="alert">
                                 Error Message Goes Here
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Start Time</label>
-                            <input type="time" class="form-control" name="start_time" placeholder="hh:mm ss" >
+                            <input type="time" class="form-control" name="start_time" placeholder="hh:mm AM" >
                             <div class="error-message alert alert-danger error-st ju-ta" role="alert">
                                 Error Message Goes Here
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">End Time</label>
-                            <input type="time" class="form-control" name="end_time" placeholder="hh:mm ss" >
+                            <input type="time" class="form-control" name="end_time" placeholder="hh:mm PM" >
                             <div class="error-message alert alert-danger error-et ju-ta" role="alert">
                                 Error Message Goes Here
                             </div>
@@ -307,7 +319,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
     
-    
+    <input type="hidden" id="days" value="{{ $available_day_number }}" />
 
 
 
@@ -340,216 +352,405 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ asset('theme_asset/plugins/fullcalendar-interaction/main.min.js') }}"></script>
     <script src="{{ asset('theme_asset/plugins/fullcalendar-bootstrap/main.min.js') }}"></script>
 
-    <script>            
+    <script>
+    
+    Date.prototype.addDays = function(days) {
+        var date = new Date(this.valueOf());
+        date.setDate(date.getDate() + days);
+        return date;
+    }  
+    function getDates(start_date, end_date)
+    {
+        var dateArray = new Array();
+        var currentDate = start_date;
+        while (currentDate < end_date) {
+            dateArray.push(new Date (currentDate));
+            currentDate = currentDate.addDays(1);
+        }
+        return dateArray;
+    }
 
-    $(function () {
 
-    /* initialize the external events
-    -----------------------------------------------------------------*/
-    function ini_events(ele) {
-        ele.each(function () {
 
-            // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-            // it doesn't need to have a start or end
-            var eventObject = {
-                title: $.trim($(this).text()) // use the element's text as the event title
+    $(document).on('click', '.no-click', function(event) {
+        event.preventDefault();
+    })
+        // $('.no-click').click(function (event){
+        //     event.preventDefault()
+        // })
+
+
+        // function convert(str) {
+        //     var date = new Date(str),
+        //         mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+        //         day = ("0" + date.getDate()).slice(-2);
+        //     return [date.getFullYear(), mnth, day].join("-");
+        // }
+
+
+        $(function () {
+
+            /* initialize the external events
+            -----------------------------------------------------------------*/
+            function ini_events(ele) {
+                ele.each(function () {
+
+                    // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+                    // it doesn't need to have a start or end
+                    var eventObject = {
+                        title: $.trim($(this).text()) // use the element's text as the event title
+                    }
+
+                    // store the Event Object in the DOM element so we can get to it later
+                    $(this).data('eventObject', eventObject)
+
+                    // make the event draggable using jQuery UI
+                    $(this).draggable({
+                        zIndex: 1070,
+                        revert: true, // will cause the event to go back to its
+                        revertDuration: 0 //  original position after the drag
+                    })
+
+                })
             }
 
-            // store the Event Object in the DOM element so we can get to it later
-            $(this).data('eventObject', eventObject)
+            ini_events($('#external-events div.external-event'))
 
-            // make the event draggable using jQuery UI
-            $(this).draggable({
-                zIndex: 1070,
-                revert: true, // will cause the event to go back to its
-                revertDuration: 0 //  original position after the drag
+            /* initialize the calendar
+            -----------------------------------------------------------------*/
+            //Date for the calendar events (dummy data)
+            var date = new Date()
+            var d = date.getDate(),
+                m = date.getMonth(),
+                y = date.getFullYear()
+
+            var Calendar = FullCalendar.Calendar;
+            var Draggable = FullCalendarInteraction.Draggable;
+
+            var containerEl = document.getElementById('external-events');
+            var checkbox = document.getElementById('drop-remove');
+            var calendarEl = document.getElementById('calendar');
+
+            // initialize the external events
+            // -----------------------------------------------------------------
+
+            new Draggable(containerEl, {
+                itemSelector: '.external-event',
+                eventData: function (eventEl) {
+                    console.log(eventEl);
+                    return {
+                        title: eventEl.innerText,
+                        backgroundColor: window.getComputedStyle(eventEl, null).getPropertyValue(
+                            'background-color'),
+                        borderColor: window.getComputedStyle(eventEl, null).getPropertyValue(
+                            'background-color'),
+                        textColor: window.getComputedStyle(eventEl, null).getPropertyValue('color'),
+                    };
+                }
+            });
+
+            var calendar = new Calendar(calendarEl, {
+                height: 650,
+                plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid'],
+                selectable: true,
+                // selectHelper: true,
+                unselectAuto: false,
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+
+                // Unavailabale Days / Empty Slots
+                dayRender: function (dayRenderInfo) {
+                    // if (moment(dayRenderInfo.date).day() == 1) {
+                    //     calendar.addEvent({
+                    //         title: 'Available',
+                    //         start: dayRenderInfo.date,
+                    //         allDay: true
+                    //     })
+                    // }
+                    // else {
+                    //     dayRenderInfo.el.classList.add("disable")
+                    //     // dayRenderInfo.el.disable.add("no-click")
+                    // }
+                },
+
+                // selectAllow: function(selectInfo)
+                // {
+                //    console.log(selectInfo.start);
+                // },
+                
+                
+			
+
+
+
+                // // start, end, jsEvent, view
+                select: function( info ){
+
+                    console.log(info.jsEvent);
+
+                    // Write Code Here
+                    let day_number = $('#days').val();
+                    let day_number2 = day_number.split(",").map((n) => { return parseInt(n) });
+                    
+                    var start_date = new Date(info.start);
+                    var end_date = new Date(info.end);
+
+                    let dates_range = getDates(start_date, end_date);
+                    let count_days = 0;
+                    for (let i=0; i < dates_range.length; i++)
+                    {
+                        // check availbity or slot is not empty
+                        
+                        // console.log(moment(dates_range[i]).day());
+                        // console.log(day_number2)
+                        if ( day_number2.includes(moment(dates_range[i]).day()) ) {
+                            count_days += 1;
+                        }
+                    }
+                    // console.log( dates_range.length);
+                    // console.log("Days: "+ count_days);
+
+                    if (count_days != dates_range.length )
+                    {
+                        console.log("Count Days: "+ count_days);
+                        return
+                    }
+                   
+                    // "Thu Jun 09 2011 00:00:00 GMT+0530 (India Standard Time)"
+
+                    // var start_day = (moment.parseZone(start.start).format("dddd, MMMM Do YYYY, h:mm:ss a"));
+
+                    var start_day = (moment.parseZone(info.start).format("dddd"));
+                    var end_day = (moment.parseZone(info.end).subtract(1, 'days').format("dddd"));
+
+                    var start_d = (moment.parseZone(info.start).format("YYYY-MM-DD"));
+                    var end_d = (moment.parseZone(info.end).subtract(1, 'days').format("YYYY-MM-DD"));
+                    
+                    var start_time = (moment.parseZone(info.start).format("h:mm"));
+                    var end_time = (moment.parseZone(info.end).format("h:mm"));
+
+                    // console.log ("Start Day: "+ start_day);
+                    // console.log ("End Day: "+end_day);
+
+                    // console.log ("Start Date: "+ start_d);
+                    // console.log ("End Date: "+ end_d);
+
+                    // console.log ("Start Time: "+ start_time );
+                    // console.log ("End Time: "+ end_time);
+                    
+                    // var event = calendar.getEventById('12');
+                    // var start = event.title // a property (a Date object)
+                    // console.log(calendar.getEvents());
+                    
+                    // console.log(jsEvent);
+                    // range = moment().range(start_date, end_date);
+                    // console.log(range);
+
+                    // console.log(getDates(start_date, end_date));
+                    // var start_d3 = (moment.parseZone(info.start).format("YYYY-MM-DD"));
+                    // var end_d3 = (moment.parseZone(info.end).subtract(1, 'days').format("YYYY-MM-DD"));
+                    
+                    jQuery('span[name="start_date"]').text(start_d); // span
+                    jQuery('span[name="end_date"]').text(end_d); // span
+                    jQuery('input[name="start_date"]').val(start_d); 
+                    jQuery('input[name="end_date"]').val(end_d);
+
+                    jQuery('input[name="start_time"]').val(start_time);
+                    jQuery('input[name="end_time"]').val(end_time);
+                    jQuery('span[name="start_day"]').text(start_day);
+                    jQuery('span[name="end_day"]').text(end_day);
+
+                    $('#BookingModal').modal('show');
+                },
+                
+
+                //Random default events
+                events: [
+                    @foreach ($tutor->availabilities as $availability)
+                    {
+                        @if ($availability->title == "Sunday")
+
+                            title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
+                            start : '{{ $availability->start_date }}',
+                            end : '{{ $availability->end_date }}',
+                            // backgroundColor: '#228B22', //red
+                            daysOfWeek: [0]
+
+                        @elseif ($availability->title == "Monday")
+                            id: '12',
+                            title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
+                            start : '{{ $availability->start_date }}',
+                            end : '{{ $availability->end_date }}',
+                            // backgroundColor: '#228B22', //darkorange
+                            daysOfWeek: [1]
+
+                        @elseif ($availability->title == "Tuesday")
+                            title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
+                            start : '{{ $availability->start_date }}',
+                            end : '{{ $availability->end_date }}',
+                            // backgroundColor: '#228B22', //gold
+                            daysOfWeek: [2]
+
+                        @elseif ($availability->title == "Wednesday")
+                            title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
+                            start : '{{ $availability->start_date }}',
+                            end : '{{ $availability->end_date }}',
+                            // backgroundColor: '#228B22', //forestgreen
+                            daysOfWeek: [3]
+                        @elseif ($availability->title == "Thursday")
+                            title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
+                            start : '{{ $availability->start_date }}',
+                            end : '{{ $availability->end_date }}',
+                            daysOfWeek: [4]
+                        @elseif ($availability->title == "Friday")
+                            title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
+                            start : '{{ $availability->start_date }}',
+                            end : '{{ $availability->end_date }}',
+                            daysOfWeek: [5]
+                        @elseif ($availability->title == "Saturday")
+                            title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
+                            start : '{{ $availability->start_date }}',
+                            end : '{{ $availability->end_date }}',
+                            daysOfWeek: [6]
+
+                        @endif
+                       
+                        // title : '{{ $availability->title }}',
+                        // start : '{{ $availability->start_date }}',
+                        // end : '{{ $availability->end_date }}',
+                        // className: 'scheduler_basic_event'
+                        
+                    },
+                    @endforeach
+                    
+                    // {
+                    //     title: 'All Day Event',
+                    //     start: new Date(y, m, 1),
+                    //     backgroundColor: '#f56954', //red
+                    //     borderColor: '#f56954', //red
+                    //     // allDay: true
+                    //     daysOfWeek:[1]
+                      
+                    // },
+                    // {
+                    //     title: 'Long Event',
+                    //     start: new Date(y, m, d - 5),
+                    //     end: new Date(y, m, d - 2),
+                    //     backgroundColor: '#f39c12', //yellow
+                    //     borderColor: '#f39c12' //yellow
+                    // },
+                    // {
+                    //     title: 'Meeting',
+                    //     start: new Date(y, m, d, 10, 30),
+                    //     allDay: false,
+                    //     backgroundColor: '#0073b7', //Blue
+                    //     borderColor: '#0073b7' //Blue
+                    // },
+                    // {
+                    //     title: 'Lunch',
+                    //     start: new Date(y, m, d, 12, 0),
+                    //     end: new Date(y, m, d, 14, 0),
+                    //     allDay: false,
+                    //     backgroundColor: '#00c0ef', //Info (aqua)
+                    //     borderColor: '#00c0ef' //Info (aqua)
+                    // },
+                    // {
+                    //     title: 'Birthday Party',
+                    //     start: new Date(y, m, d + 1, 19, 0),
+                    //     end: new Date(y, m, d + 1, 22, 30),
+                    //     allDay: false,
+                    //     backgroundColor: '#00a65a', //Success (green)
+                    //     borderColor: '#00a65a' //Success (green)
+                    // },
+                    // {
+                    //     title: 'Click for Google',
+                    //     start: new Date(y, m, 28),
+                    //     end: new Date(y, m, 29),
+                    //     url: 'http://google.com/',
+                    //     backgroundColor: '#3c8dbc', //Primary (light-blue)
+                    //     borderColor: '#3c8dbc' //Primary (light-blue)
+                    // }
+                ],
+                editable: true,
+                droppable: true, // this allows things to be dropped onto the calendar !!!
+                drop: function (info) {
+                    // is the "remove after drop" checkbox checked?
+                    if (checkbox.checked) {
+                        // if so, remove the element from the "Draggable Events" list
+                        info.draggedEl.parentNode.removeChild(info.draggedEl);
+                    }
+                },
+
+                // Calling Modal on event click
+                eventClick: function(info) {
+                    // alert('Event: ' + info.event.start);
+                    // var formDate = $.fullCalendar.formatDate(info.event.start, 'MM-dd-yyyy');
+                    // alert(" Start Date: " + formDate);
+
+                    // alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+                    // alert('View: ' + info.view.type);
+
+                    // // change the border color just for fun
+                    // info.el.style.borderColor = 'red';
+                    // jQuery('input[name="start_date"]').val($.fullCalendar.formatDate(info.event.start, 'MM-dd-yyyy'));
+                    // jQuery('#start_date').text(info.event.start);
+                    // jQuery('#end_date').text(info.event.end);
+                    // jQuery('#start_time').text(info.event.);
+                    // jQuery('#end_time').text(info.event.title);
+
+                    // $('#BookingModal').modal('show');
+                    // $('#popup').html('<iframe src="'+event.url+'" width="700" height="600"></iframe>');
+                    // $('#popup').dialog({autoOpen: false, modal: true, width: 750, height: 675});
+                    return false;
+                }
+            });
+
+            calendar.render();
+            $('#calendar').fullCalendar()
+
+            /* ADDING EVENTS */
+            var currColor = '#3c8dbc' //Red by default
+            //Color chooser button
+            var colorChooser = $('#color-chooser-btn')
+            $('#color-chooser > li > a').click(function (e) {
+                e.preventDefault()
+                //Save color
+                currColor = $(this).css('color')
+                //Add color effect to button
+                $('#add-new-event').css({
+                    'background-color': currColor,
+                    'border-color': currColor
+                })
+            })
+            $('#add-new-event').click(function (e) {
+                e.preventDefault()
+                //Get value and make sure it is not null
+                var val = $('#new-event').val()
+                if (val.length == 0) {
+                    return
+                }
+
+                //Create events
+                var event = $('<div />')
+                event.css({
+                    'background-color': currColor,
+                    'border-color': currColor,
+                    'color': '#fff'
+                }).addClass('external-event')
+                event.html(val)
+                $('#external-events').prepend(event)
+
+                //Add draggable funtionality
+                ini_events(event)
+
+                //Remove event from text input
+                $('#new-event').val('')
             })
 
         })
-    }
-
-    ini_events($('#external-events div.external-event'))
-
-    /* initialize the calendar
-    -----------------------------------------------------------------*/
-    //Date for the calendar events (dummy data)
-    var date = new Date()
-    var d = date.getDate(),
-        m = date.getMonth(),
-        y = date.getFullYear()
-
-    var Calendar = FullCalendar.Calendar;
-    var Draggable = FullCalendarInteraction.Draggable;
-
-    var containerEl = document.getElementById('external-events');
-    var checkbox = document.getElementById('drop-remove');
-    var calendarEl = document.getElementById('calendar');
-
-    // initialize the external events
-    // -----------------------------------------------------------------
-
-    new Draggable(containerEl, {
-        itemSelector: '.external-event',
-        eventData: function (eventEl) {
-            console.log(eventEl);
-            return {
-                title: eventEl.innerText,
-                backgroundColor: window.getComputedStyle(eventEl, null).getPropertyValue(
-                    'background-color'),
-                borderColor: window.getComputedStyle(eventEl, null).getPropertyValue(
-                    'background-color'),
-                textColor: window.getComputedStyle(eventEl, null).getPropertyValue('color'),
-            };
-        }
-    });
-
-    var calendar = new Calendar(calendarEl, {
-        plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid'],
-        header: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        },
-        
-        //Random default events
-        events: [
-
-            @foreach ($tutor->availabilities as $availability)
-            {
-                title : '{{ $availability->title }}',
-                start : '{{ $availability->start_date }}',
-                end : '{{ $availability->end_date }}',
-            },
-            @endforeach
-
-
-            // {
-            //     title: 'All Day Event',
-            //     start: new Date(y, m, 1),
-            //     backgroundColor: '#f56954', //red
-            //     borderColor: '#f56954', //red
-            //     allDay: true
-            // },
-            // {
-            //     title: 'Long Event',
-            //     start: new Date(y, m, d - 5),
-            //     end: new Date(y, m, d - 2),
-            //     backgroundColor: '#f39c12', //yellow
-            //     borderColor: '#f39c12' //yellow
-            // },
-            // {
-            //     title: 'Meeting',
-            //     start: new Date(y, m, d, 10, 30),
-            //     allDay: false,
-            //     backgroundColor: '#0073b7', //Blue
-            //     borderColor: '#0073b7' //Blue
-            // },
-            // {
-            //     title: 'Lunch',
-            //     start: new Date(y, m, d, 12, 0),
-            //     end: new Date(y, m, d, 14, 0),
-            //     allDay: false,
-            //     backgroundColor: '#00c0ef', //Info (aqua)
-            //     borderColor: '#00c0ef' //Info (aqua)
-            // },
-            // {
-            //     title: 'Birthday Party',
-            //     start: new Date(y, m, d + 1, 19, 0),
-            //     end: new Date(y, m, d + 1, 22, 30),
-            //     allDay: false,
-            //     backgroundColor: '#00a65a', //Success (green)
-            //     borderColor: '#00a65a' //Success (green)
-            // },
-            // {
-            //     title: 'Click for Google',
-            //     start: new Date(y, m, 28),
-            //     end: new Date(y, m, 29),
-            //     url: 'http://google.com/',
-            //     backgroundColor: '#3c8dbc', //Primary (light-blue)
-            //     borderColor: '#3c8dbc' //Primary (light-blue)
-            // }
-        ],
-        editable: true,
-        droppable: true, // this allows things to be dropped onto the calendar !!!
-        drop: function (info) {
-            // is the "remove after drop" checkbox checked?
-            if (checkbox.checked) {
-                // if so, remove the element from the "Draggable Events" list
-                info.draggedEl.parentNode.removeChild(info.draggedEl);
-            }
-        },
-
-        // Click on event action
-        eventClick: function(info) {
-            alert('Event: ' + info.event.start);
-            // var formDate = $.fullCalendar.formatDate(info.event.start, 'MM-dd-yyyy');
-            // alert(" Start Date: " + formDate);
-
-            // alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-            // alert('View: ' + info.view.type);
-
-            // // change the border color just for fun
-            // info.el.style.borderColor = 'red';
-            // jQuery('input[name="start_date"]').val($.fullCalendar.formatDate(info.event.start, 'MM-dd-yyyy'));
-            // jQuery('#start_date').text(info.event.start);
-            // jQuery('#end_date').text(info.event.end);
-            // jQuery('#start_time').text(info.event.);
-            // jQuery('#end_time').text(info.event.title);
-
-            $('#exampleModal').modal('show');
-            // $('#popup').html('<iframe src="'+event.url+'" width="700" height="600"></iframe>');
-            // $('#popup').dialog({autoOpen: false, modal: true, width: 750, height: 675});
-            return false;
-        }
-
-
-
-
-    });
-
-    calendar.render();
-    $('#calendar').fullCalendar()
-
-    /* ADDING EVENTS */
-    var currColor = '#3c8dbc' //Red by default
-    //Color chooser button
-    var colorChooser = $('#color-chooser-btn')
-    $('#color-chooser > li > a').click(function (e) {
-        e.preventDefault()
-        //Save color
-        currColor = $(this).css('color')
-        //Add color effect to button
-        $('#add-new-event').css({
-            'background-color': currColor,
-            'border-color': currColor
-        })
-    })
-    $('#add-new-event').click(function (e) {
-        e.preventDefault()
-        //Get value and make sure it is not null
-        var val = $('#new-event').val()
-        if (val.length == 0) {
-            return
-        }
-
-        //Create events
-        var event = $('<div />')
-        event.css({
-            'background-color': currColor,
-            'border-color': currColor,
-            'color': '#fff'
-        }).addClass('external-event')
-        event.html(val)
-        $('#external-events').prepend(event)
-
-        //Add draggable funtionality
-        ini_events(event)
-
-        //Remove event from text input
-        $('#new-event').val('')
-    })
-
-})
 
     
 
@@ -616,7 +817,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 let student_id = jQuery('input[name="student_id"]').val();
                 let tutor_id = jQuery('input[name="tutor_id"]').val();
                 let subject = jQuery('select[name="subject"] option:selected').text();
-                let day = jQuery('select[name="day"] option:selected').text();
+                // let day = jQuery('select[name="day"] option:selected').text();
                 let start_date = jQuery('input[name="start_date"]').val();
                 let end_date = jQuery('input[name="end_date"]').val();
                 let start_time = jQuery('input[name="start_time"]').val();
@@ -625,7 +826,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 console.log("Student ID : "+ student_id);
                 console.log("Tutor ID : "+ tutor_id);
                 console.log("Subject : "+ subject);
-                console.log("Day"+ day);
+                // console.log("Day"+ day);
                 console.log("Start Date : "+ start_date);
                 console.log("End Date : "+ end_date);
                 console.log("Start Time : "+ start_time);
@@ -637,7 +838,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 var is_student_id = false;
                 var is_tutor_id = false;
                 var is_subject = false; 
-                var is_day = false; 
+                // var is_day = false; 
                 var is_start_date = false; 
                 var is_end_date = false; 
                 var is_start_time = false; 
@@ -669,19 +870,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     is_subject = true;
                     jQuery('.error-t').css("display","none");
                 }
-                if (!day )
-                {
-                    // Error
-                    is_day = false;
-                    jQuery('.error-t').css("display","block");
-                    jQuery('.error-t').html("Day field is required.");
-                }
-                else
-                {
-                    // Success
-                    is_day = true;
-                    jQuery('.error-t').css("display","none");
-                }
+                // if (!day )
+                // {
+                //     // Error
+                //     is_day = false;
+                //     jQuery('.error-t').css("display","block");
+                //     jQuery('.error-t').html("Day field is required.");
+                // }
+                // else
+                // {
+                //     // Success
+                //     is_day = true;
+                //     jQuery('.error-t').css("display","none");
+                // }
                 if (!start_date )
                 {
                     // Error
@@ -736,10 +937,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 // }
 
                 // && (is_start_time == true) && (is_end_time == true)
-                if ( (is_subject == true) && (is_day == true) && (is_start_date == true) && (is_end_date == true)
-                    )
+                if ( (is_subject == true) && (is_start_date == true) && (is_end_date == true)  )
                 {
-                    SetSchedule(student_id, tutor_id, subject, day, start_date, end_date, start_time, end_time);
+                    SetSchedule(student_id, tutor_id, subject, start_date, end_date, start_time, end_time);
                 }
                 else
                 {
@@ -857,7 +1057,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         }
 
 
-        function SetSchedule(student_id, tutor_id, subject, day, start_date, end_date, start_time, end_time)
+        function SetSchedule(student_id, tutor_id, subject, start_date, end_date, start_time, end_time)
         {
             console.log("Ajax Calling !!! Add Class Schedule !!!");
             jQuery.ajax({
@@ -868,7 +1068,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     'student_id':student_id,
                     'tutor_id':tutor_id,
                     'subject':subject,
-                    'day':day,
+                    // 'day':day,
                     'start_date':start_date,
                     'end_date':end_date,
                     'start_time':start_time,

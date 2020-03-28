@@ -140,10 +140,6 @@ Route::prefix('student')->group(function () {
     Route::get('/favorite-tutors', 'Users\Student\StudentController@ListFavorite')->name('student.favorite.tutors.list'); // List of all Favorite Tutors
     Route::get('/remove-to-favorit-list/{favorite_user_id}', 'Users\Student\StudentController@RemoveFavorite')->name('student.favorite.tutors.remove'); // Add tutor to Favorite category
 
-    // Class Schedule
-    Route::post('/class-schedule', 'Users\Student\StudentController@AddSchedule')->name('student.class.schedule'); // Add tutor to Favorite category
-
-    
     /**
      * Message
      */
@@ -157,6 +153,9 @@ Route::prefix('student')->group(function () {
 
     });
 
+    // Class Schedule
+    Route::post('/class-schedule', 'Users\Student\StudentController@AddSchedule')->name('student.class.schedule'); // Add tutor to Favorite category
+    // Route::get('/book-schedule', 'Users\Student\StudentController@BookedSchedule')->name('student..booked.class.schedule'); // Add tutor to Favorite category 
     Route::prefix('class')->group(function () {
 
         Route::get('/all', 'Users\Student\StudentController@AllClasses')->name('student.class.all'); // Display conversion between two person
@@ -190,6 +189,8 @@ Route::prefix('tutor')->group(function () {
     Route::get('/', 'Users\Tutor\TutorController@dashboard')->name('tutor.dashboard');
 
     Route::get('/profile', 'Users\Tutor\TutorController@Profile')->name('tutor.profile');
+    Route::get('/student-profile/{student_id}', 'Users\Tutor\TutorController@StudentProfile')->name('tutor.student.profile');
+
     Route::post('/update-image', 'Users\Tutor\TutorController@UpdateImage')->name('tutor.update.image'); // Update tutor profile
     
     // Route::post('/setup_profile', 'Users\Tutor\TutorController@UploadQualification')->name('tutor.profile.setup'); // Add Qualification

@@ -23,4 +23,11 @@ class Schedule extends Model
     {
         return $this->belongsTo('App\User', 'student_id');
     }
+    /**
+     * Get the user that owns the education.
+     */
+    public function tutor()
+    {
+        return $this->belongsTo('App\User', 'tutor_id');
+    }
 }

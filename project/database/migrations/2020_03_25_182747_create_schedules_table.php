@@ -19,11 +19,11 @@ class CreateSchedulesTable extends Migration
             $table->bigInteger('student_id')->nullable();
             $table->bigInteger('tutor_id')->nullable();
             $table->string('subject')->nullable();
-            $table->string('day')->nullable();
-            $table->string('start_date')->nullable();
-            $table->string('end_date')->nullable();
-            $table->string('start_time')->nullable();
-            $table->string('end_time')->nullable();
+            // $table->string('day')->nullable();
+            $table->dateTime('start_datetime')->nullable();
+            $table->dateTime('end_datetime')->nullable();
+            // $table->string('start_time')->nullable();
+            // $table->string('end_time')->nullable();
 
             $table->timestamps();
         });

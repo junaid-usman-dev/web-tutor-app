@@ -19,8 +19,7 @@ use App\Model\TestUser;
 use App\Model\SubjectUser;
 use App\Model\Message;
 use App\Model\Education;
-
-
+use App\Model\Schedule;
 
 // use App\Model\Result;
 
@@ -1082,10 +1081,19 @@ class TutorController extends Controller
                 }
                 // -------  End Conversation  ----------
 
+
+                //------------   Book Schedules  -------------
+
+                $tutor_schedules = Schedule::orderBy("id", "DESC")->where('tutor_id', $user->id)->get();
+
+                //------------   Book Schedules  -------------
+
+
                 return view ('theme.tutor.tutor_dashboard')->with([
                     'user' => $user,
                     'contact_list'=>$contact_list,
                     'users_conversation' => $users_conversation,
+                    'tutor_schedules' => $tutor_schedules
                     ]);
 
                 // return view ('theme.tutor.tutor_dashboard')->with(['user' => $user]);
@@ -1178,9 +1186,24 @@ class TutorController extends Controller
     */
     public function AllClasses(Request $request)
     {
-       
         $user = Auth::guard('user')->user();
-        return view('theme.tutor.manage_class')->with(['user'=>$user ]);
+        $tutor_schedules = Schedule::orderBy("id", "DESC")->where('tutor_id', $user->id)->get();
+        return view('theme.tutor.manage_class')->with(['user'=>$user, 'tutor_schedules'=>$tutor_schedules ]);
     }
+
+    /*
+    * Student Profile
+    *
+    *@return \Illuminate\Http\Response
+    */
+    public function StudentProfile(Request $request, $student_id)
+    {
+        $user = Auth::guard('user')->user();
+        $student = User::findOrFail($student_id);
+        // dd ($student->images->path);
+        return view('theme.tutor.student_profile')->with(['user'=>$user, 'student'=>$student ]);
+    }
+    
+
     
 }

@@ -288,10 +288,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                @foreach ($user->schedules as $schedule)
-                                                                    
-                                                                @endforeach
-                                                                <tr>
+                                                                
+                                                                @if ( count($student_classes) > 0 )
+                                                                    @php
+                                                                        $count = 0;
+                                                                    @endphp
+                                                                    @foreach ($student_classes as $schedule)
+                                                                        @php
+                                                                            $count += 1;
+                                                                        @endphp    
+                                                                        <tr>
+                                                                            <td>{{ $count }}</td>
+                                                                            <td><a href="{{ route('student.profile') }}">{{ $user->first_name }} {{ $user->last_name }}</a></td>
+                                                                            <td><a href="{{ url('student/tutor-profile') }}/{{ $schedule->tutor_id }}">{{ $schedule->tutor->first_name }} {{ $schedule->tutor->last_name }} </a></td>
+                                                                            <td>
+                                                                                <div class="sparkbar" data-color="#00a65a"
+                                                                                    data-height="20">{{ $schedule->subject }} </div>
+                                                                            </td>
+                                                                            <td>{{ \Carbon\Carbon::parse($schedule->start_datetime)->format('g:i A') }}</td>
+                                                                            <td>{{ \Carbon\Carbon::parse($schedule->end_datetime)->format('g:i A') }}</td>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                @else
+                                                                    Empty List
+                                                                @endif
+                                                                {{-- <tr>
                                                                     <td>01</td>
                                                                     <td><a href="{{ route('student.profile') }}">{{ $user->first_name }} {{ $user->last_name }}</a></td>
                                                                     <td><a href="#">Jack Smith</a></td>
@@ -355,7 +376,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                     <td>10:00 AM</td>
 
 
-                                                                </tr>
+                                                                </tr> --}}
 
 
 

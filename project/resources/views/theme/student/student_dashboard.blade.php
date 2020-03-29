@@ -305,7 +305,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                                 <div class="sparkbar" data-color="#00a65a"
                                                                                     data-height="20">{{ $schedule->subject }} </div>
                                                                             </td>
-                                                                            <td>{{ \Carbon\Carbon::parse($schedule->start_datetime)->format('g:i A') }}</td>
+                                                                            <td>
+                                                                            </td>
                                                                             <td>{{ \Carbon\Carbon::parse($schedule->end_datetime)->format('g:i A') }}</td>
                                                                         </tr>
                                                                     @endforeach

@@ -121,9 +121,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                         <li class="dropdown-item"><a href="javascript::">Delete</a>
                                                                         </li>
                                                                         
-                                                                        
                                                                     </ul>
                                                                 </td>
+                                                                
                                                             </tr>
                                                         @endforeach
                                                     @else

@@ -18,6 +18,7 @@ use App\Model\Category;
 use App\Model\Subject;
 use App\Model\Message;
 use App\Model\Schedule;
+use App\Model\Availability;
 use App\Payment;
 
 use App\Rules\EmailFormat;
@@ -56,51 +57,49 @@ class StudentController extends Controller
         $tutor = User::findOrFail($id);
 
         // Getting all tutor availabities
-        // dd ($tutor->availabilities);
-
-            $array = collect();
-            foreach($tutor->availabilities as $availability)
+        $array = collect();
+        foreach($tutor->availabilities as $availability)
+        {
+            // $number = the number based on day
+            if ($availability->title == "Sunday")
             {
-                // $number = the number based on day
-                if ($availability->title == "Sunday")
-                {
-                    $day = 0;
-                }
-                elseif ($availability->title == "Monday")
-                {
-                    $day = 1;
-                }
-                elseif ($availability->title == "Tuesday")
-                {
-                    $day = 2;
-                }
-                elseif ($availability->title == "Wednesday")
-                {
-                    $day = 3;
-                }
-                elseif ($availability->title == "Thursday")
-                {
-                    $day = 4;
-                }
-                elseif ($availability->title == "Friday")
-                {
-                    $day = 5;
-                }
-                elseif ($availability->title == "Saturday")
-                {
-                    $day = 6;
-                }
-                else
-                {
-                    // Some thing went wrong
-                }
-                $array->push($day);
-                // $available_day_number = $array->implode(',', $day);
+                $day = 0;
             }
-            // $available_day_number = [];
-            $available_day_number = $array->implode(',');
-            // $available_day_number = explode(",", $available_day_number);
-            // dd (  $day[0] );    
+            elseif ($availability->title == "Monday")
+            {
+                $day = 1;
+            }
+            elseif ($availability->title == "Tuesday")
+            {
+                $day = 2;
+            }
+            elseif ($availability->title == "Wednesday")
+            {
+                $day = 3;
+            }
+            elseif ($availability->title == "Thursday")
+            {
+                $day = 4;
+            }
+            elseif ($availability->title == "Friday")
+            {
+                $day = 5;
+            }
+            elseif ($availability->title == "Saturday")
+            {
+                $day = 6;
+            }
+            else
+            {
+                // Some thing went wrong
+            }
+            $array->push($day);
+            // $available_day_number = $array->implode(',', $day);
+        }
+        // $available_day_number = [];
+        $available_day_number = $array->implode(',');
+        // $available_day_number = explode(",", $available_day_number);
+        // dd (  $day[0] );    
         return view ('theme.student.tutor_profile')->with(['user'=> $user, 'tutor'=>$tutor, 'available_day_number'=>$available_day_number ]);
     }
 
@@ -1120,6 +1119,7 @@ class StudentController extends Controller
     */
     public function AddSchedule(Request $request)
     {
+        // dd ( Carbon::parse("2020-13-2 02:30")->format('dddd') );
         // $request->validate([
         //     // 'student_id' => 'required',
         //     // 'tutor_id' => 'required',
@@ -1140,7 +1140,7 @@ class StudentController extends Controller
         //     'start_time.required' => 'Start time field is required.',
         //     'end_time.required' => 'End time field is required.',
         // ]);
-        
+
         // dd ($request->all());
         $student_id = $request->input('student_id');
         $tutor_id = $request->input('tutor_id');
@@ -1153,21 +1153,128 @@ class StudentController extends Controller
         $end_time = $request->input('end_time');
 
         // // dd ($student_id, $tutor_id, $subject, $email, $review, $star);
+        // --------------------------------------------------------------------------------
+        $student_id = "1";
+        $tutor_id = "3";
+        $subject = "Chemistry";
+        $start_date = "2020-03-02 14:01:00";
+        $end_date = "2020-03-02 12:00:00";
 
-        $add_schedule = new Schedule();
+        $start_time = "09:01:00";
+        $end_time = "18:00:00";
 
-        $add_schedule->student_id = $student_id;
-        $add_schedule->tutor_id = $tutor_id;
-        $add_schedule->subject = $subject;
-        // $add_schedule->day = $day; Carbon::parse($start_date.' '.$start_time)
-        $add_schedule->start_datetime = Carbon::parse($start_date.' '.$start_time);
-        $add_schedule->end_datetime = Carbon::parse($end_date.' '.$end_time);
+        // Get all tutor availabilities
+        $tutor_availability = Availability::where('user_id',$tutor_id)->get();
+        // dd ($tutor_availability);
 
-        $add_schedule->save();
+        // Get all tutor booking
+        $tutor_booking = Schedule::where('tutor_id',$tutor_id)->where('subject',$subject)->get();
+        // dd ($tutor_booking[0]->start_datetime);
         
-        // dd ($request->all());
+        $booked_start_time = Carbon::parse($tutor_booking[0]->start_datetime)->format('H:i:s');
+        $booked_end_time = Carbon::parse($tutor_booking[0]->end_datetime)->format('H:i:s');
+        
 
-        // Schedule::create($request->all());
+        // dd ($booked_end_time);
+        // $booked_start_time = Carbon::parse($booked_day->start_datetime)->format('g:i A');
+        // dd ($booked_start_time);
+
+
+        $avail_start_time = "08:30:00";
+        $avail_end_time = "21:07:00";
+
+        // Getting day of current booking
+        $dt = Carbon::parse($start_date);
+        // dd ($dt->englishDayOfWeek );
+        // check availability day
+        if ( $dt->englishDayOfWeek == $tutor_availability[0]->title )
+        {
+            // dd ("Day Found");
+            // Day Found
+            // $eventsCount = Availability::where(function ($query) use ($start_time, $end_time) {
+            //     $query->where(function ($query) use ($start_time, $end_time) {
+            //        $query->where('start_time', '>=', $start_time)
+            //                ->where('end_time', '<', $end_time);
+            //        })
+            //        ->orWhere(function ($query) use ($start_time, $end_time) {
+            //            $query->where('start_time', '<', $start_time)
+            //                 ->where('end_time', '>=', $end_time);
+            //        });
+            //    })->count();
+            // check time 
+            // print_r ( $tutor_availability[0]->start_time ." - ". $tutor_availability[0]->end_time ." | " );
+            // print_r ($start_time ." - ". $end_time );
+            print_r ( $booked_start_time ." - ". $booked_end_time );
+
+            if ( ($tutor_availability[0]->start_time <  $start_time ) && ($tutor_availability[0]->end_time > $end_time ) )
+            {
+                // Time in Range
+                // dd ("Time In Range.");
+                // Check Time Booked Classess
+                // Getting booking start time and end time 
+                // {{ \Carbon\Carbon::parse($schedule->end_datetime)->format('g:i A') }}
+                $time = Carbon::now();
+                // $morning = Carbon::create($time->year, $time->month, $time->day, 8, 0, 0); //set time to 08:00
+                // $evening = Carbon::create($time->year, $time->month, $time->day, 18, 0, 0); //set time to 18:00
+                if($time->between(Carbon::parse($tutor_booking[0]->start_datetime)->format('H:i:s'), Carbon::parse($tutor_booking[0]->end_datetime)->format('H:i:s'), true)) 
+                {
+                  dd ("current time is between morning and evening");
+                } else 
+                {
+                  dd ("current time is earlier than morning or later than evening");
+                }
+
+
+                // $booked_start_time = Carbon::parse($tutor_booking[0]->start_datetime)->format('H:i:s');
+                // $booked_end_time = Carbon::parse($tutor_booking[0]->end_datetime)->format('H:i:s');
+                // if (($booked_start_time <  $start_time ) && ($booked_end_time > $end_time ))
+                // {
+
+                // }
+                // else
+                // {
+
+                // }
+
+            }
+            else
+            {
+                dd ("Out of Range.");
+            }
+            // dd ( $eventsCount );
+        }
+        else
+        {
+            dd ("Day Not Found");
+        }
+
+        // Getting all tutor booking
+        // $tutor_booking = Schedule::where('tutor_id',$tutor->id)->get();
+        // dd ($tutor_booking);
+      
+
+        // $dt = Carbon::parse('2012-10-5 23:26:11.123789');
+        // $dt = Carbon::parse($tutor_booking[0]->start_datetime);
+        // dd ($dt->englishDayOfWeek, $dt->month);
+        
+        
+        // --------------------------------------------------------------------------------
+
+
+        // $add_schedule = new Schedule();
+
+        // $add_schedule->student_id = $student_id;
+        // $add_schedule->tutor_id = $tutor_id;
+        // $add_schedule->subject = $subject;
+        // // $add_schedule->day = $day; Carbon::parse($start_date.' '.$start_time)
+        // $add_schedule->start_datetime = Carbon::parse($start_date.' '.$start_time);
+        // $add_schedule->end_datetime = Carbon::parse($end_date.' '.$end_time);
+
+        // $add_schedule->save();
+        
+        // // dd ($request->all());
+
+        // // Schedule::create($request->all());
         return response()->json([
             'success' => true
         ]);

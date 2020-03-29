@@ -69,15 +69,14 @@ class EventController extends Controller
         $start_time = $request->input('start_time');
         $end_time = $request->input('end_time');
 
-        
         // dd ($request->all());
 
         $new_availability = new Availability();
         
         $new_availability->user_id = $user_id;
         $new_availability->title = $day;
-        $new_availability->start_time = $start_time;
-        $new_availability->end_time = $end_time;
+        $new_availability->start_time = $start_time.":00";
+        $new_availability->end_time = $end_time.":00";
 
         $new_availability->save();
 

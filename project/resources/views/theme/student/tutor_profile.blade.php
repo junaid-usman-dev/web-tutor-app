@@ -292,7 +292,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Start Time</label>
-                            <input type="time" class="form-control" name="start_time" placeholder="hh:mm AM" >
+                            <input type="time" class="form-control" name="start_time" placeholder="hh:mm AM" min="08:00:00" max="20:00:00" >
                             <div class="error-message alert alert-danger error-st ju-ta" role="alert">
                                 Error Message Goes Here
                             </div>
@@ -354,32 +354,39 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <script>
     
-    Date.prototype.addDays = function(days) {
-        var date = new Date(this.valueOf());
-        date.setDate(date.getDate() + days);
-        return date;
-    }  
-    function getDates(start_date, end_date)
-    {
-        var dateArray = new Array();
-        var currentDate = start_date;
-        while (currentDate < end_date) {
-            dateArray.push(new Date (currentDate));
-            currentDate = currentDate.addDays(1);
+        Date.prototype.addDays = function(days) {
+            var date = new Date(this.valueOf());
+            date.setDate(date.getDate() + days);
+            return date;
+        }  
+        function getDates(start_date, end_date)
+        {
+            var dateArray = new Array();
+            var currentDate = start_date;
+            while (currentDate < end_date) {
+                dateArray.push(new Date (currentDate));
+                currentDate = currentDate.addDays(1);
+            }
+            return dateArray;
         }
-        return dateArray;
-    }
 
 
 
-    $(document).on('click', '.no-click', function(event) {
-        event.preventDefault();
-    })
+    // $(document).on('click', '.no-click', function(event) {
+    //     event.preventDefault();
+    // })
         // $('.no-click').click(function (event){
         //     event.preventDefault()
         // })
 
-
+        // $('#my-button').click(function() {
+        //     var moment = $('#calendar').fullCalendar('getDate');
+        //     alert("The current date of the calendar is " + moment.format());
+        // });
+        // document.getElementById('my-button').addEventListener('click', function() {
+        //     var date = calendar.getDate();
+        //     alert("The current date of the calendar is " + date.toISOString());
+        // });
         // function convert(str) {
         //     var date = new Date(str),
         //         mnth = ("0" + (date.getMonth() + 1)).slice(-2),
@@ -482,141 +489,237 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 // },
                 
                 
-			
-
-
-
                 // // start, end, jsEvent, view
-                select: function( info ){
+                // select: function( info ){
 
-                    console.log(info.jsEvent);
-
-                    // Write Code Here
-                    let day_number = $('#days').val();
-                    let day_number2 = day_number.split(",").map((n) => { return parseInt(n) });
+                //     // Write Code Here
+                //     let day_number = $('#days').val();
+                //     let day_number2 = day_number.split(",").map((n) => { return parseInt(n) });
                     
-                    var start_date = new Date(info.start);
-                    var end_date = new Date(info.end);
+                //     var start_date = new Date(info.start);
+                //     var end_date = new Date(info.end);
 
-                    let dates_range = getDates(start_date, end_date);
-                    let count_days = 0;
-                    for (let i=0; i < dates_range.length; i++)
-                    {
-                        // check availbity or slot is not empty
-                        
-                        // console.log(moment(dates_range[i]).day());
-                        // console.log(day_number2)
-                        if ( day_number2.includes(moment(dates_range[i]).day()) ) {
-                            count_days += 1;
-                        }
-                    }
-                    // console.log( dates_range.length);
-                    // console.log("Days: "+ count_days);
+                //     let dates_range = getDates(start_date, end_date);
+                //     let count_days = 0;
+                //     for (let i=0; i < dates_range.length; i++)
+                //     {
+                //         // check availbity or slot is not empty
+                //         if ( day_number2.includes(moment(dates_range[i]).day()) ) {
+                //             count_days += 1;
+                //         }
+                //     }
 
-                    if (count_days != dates_range.length )
-                    {
-                        console.log("Count Days: "+ count_days);
-                        return
-                    }
+                //     if (count_days != dates_range.length )
+                //     {
+                //         console.log("Count Days: "+ count_days);
+                //         return
+                //     }
                    
-                    // "Thu Jun 09 2011 00:00:00 GMT+0530 (India Standard Time)"
+                //     // "Thu Jun 09 2011 00:00:00 GMT+0530 (India Standard Time)"
+                //     // var start_day = (moment.parseZone(start.start).format("dddd, MMMM Do YYYY, h:mm:ss a"));
 
-                    // var start_day = (moment.parseZone(start.start).format("dddd, MMMM Do YYYY, h:mm:ss a"));
+                //     var start_day = (moment.parseZone(info.start).format("dddd"));
+                //     var end_day = (moment.parseZone(info.end).subtract(1, 'days').format("dddd"));
 
-                    var start_day = (moment.parseZone(info.start).format("dddd"));
-                    var end_day = (moment.parseZone(info.end).subtract(1, 'days').format("dddd"));
-
-                    var start_d = (moment.parseZone(info.start).format("YYYY-MM-DD"));
-                    var end_d = (moment.parseZone(info.end).subtract(1, 'days').format("YYYY-MM-DD"));
+                //     var start_d = (moment.parseZone(info.start).format("YYYY-MM-DD"));
+                //     var end_d = (moment.parseZone(info.end).subtract(1, 'days').format("YYYY-MM-DD"));
                     
-                    var start_time = (moment.parseZone(info.start).format("h:mm"));
-                    var end_time = (moment.parseZone(info.end).format("h:mm"));
+                //     var start_time = (moment.parseZone(info.start).format("h:mm"));
+                //     var end_time = (moment.parseZone(info.end).format("h:mm"));
 
-                    // console.log ("Start Day: "+ start_day);
-                    // console.log ("End Day: "+end_day);
+                //     // console.log ("Start Day: "+ start_day);
+                //     // console.log ("End Day: "+end_day);
 
-                    // console.log ("Start Date: "+ start_d);
-                    // console.log ("End Date: "+ end_d);
+                //     // console.log ("Start Date: "+ start_d);
+                //     // console.log ("End Date: "+ end_d);
 
-                    // console.log ("Start Time: "+ start_time );
-                    // console.log ("End Time: "+ end_time);
+                //     console.log ("Start Time: "+ start_time );
+                //     console.log ("End Time: "+ end_time);
                     
-                    // var event = calendar.getEventById('12');
-                    // var start = event.title // a property (a Date object)
-                    // console.log(calendar.getEvents());
+                //     // var event = calendar.getEventById('12');
+                //     // var start = event.title // a property (a Date object)
+                //     // console.log(calendar.getEvents());
                     
-                    // console.log(jsEvent);
-                    // range = moment().range(start_date, end_date);
-                    // console.log(range);
+                //     jQuery('span[name="start_date"]').text(start_d); // span
+                //     jQuery('span[name="end_date"]').text(end_d); // span
+                //     jQuery('input[name="start_date"]').val(start_d); 
+                //     jQuery('input[name="end_date"]').val(end_d);
 
-                    // console.log(getDates(start_date, end_date));
-                    // var start_d3 = (moment.parseZone(info.start).format("YYYY-MM-DD"));
-                    // var end_d3 = (moment.parseZone(info.end).subtract(1, 'days').format("YYYY-MM-DD"));
-                    
-                    jQuery('span[name="start_date"]').text(start_d); // span
-                    jQuery('span[name="end_date"]').text(end_d); // span
-                    jQuery('input[name="start_date"]').val(start_d); 
-                    jQuery('input[name="end_date"]').val(end_d);
+                //     jQuery('input[name="start_time"]').val(start_time);
+                //     jQuery('input[name="end_time"]').val(end_time);
+                //     jQuery('span[name="start_day"]').text(start_day);
+                //     jQuery('span[name="end_day"]').text(end_day);
 
-                    jQuery('input[name="start_time"]').val(start_time);
-                    jQuery('input[name="end_time"]').val(end_time);
-                    jQuery('span[name="start_day"]').text(start_day);
-                    jQuery('span[name="end_day"]').text(end_day);
-
-                    $('#BookingModal').modal('show');
-                },
+                //     $('#BookingModal').modal('show');
+                // },
                 
-
+                // eventOverlap: function(stillEvent, movingEvent) {
+                //     // conole.log("dfdsfdsf"); //stillEvent.allDay && movingEvent.allDay;
+                // },
                 //Random default events
                 events: [
+                    
+                    // calendar.getEvents()[0]._instance.range.start
+                    // calendar.getEvents().filter(function (event)
+                    // {
+                    //     console.log(event);
+                    // }
+                    // event._instance.range.start
+                    // event._instance.range.end
+                    
+                    // Tutor Availabities
                     @foreach ($tutor->availabilities as $availability)
                     {
                         @if ($availability->title == "Sunday")
 
                             title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
-                            start : '{{ $availability->start_date }}',
-                            end : '{{ $availability->end_date }}',
+                            startTime: '{{ $availability->start_time }}',
+                            endTime: '{{ $availability->end_time }}',
                             // backgroundColor: '#228B22', //red
-                            daysOfWeek: [0]
+                            daysOfWeek: [0],
+                            // allDay: false
+                            // editable: false,
 
                         @elseif ($availability->title == "Monday")
                             id: '12',
                             title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
-                            start : '{{ $availability->start_date }}',
-                            end : '{{ $availability->end_date }}',
+                            startTime: '{{ $availability->start_time }}',
+                            endTime: '{{ $availability->end_time }}',
                             // backgroundColor: '#228B22', //darkorange
-                            daysOfWeek: [1]
+                            daysOfWeek: [1],
+                            // allDay: false
+                            editable: true,
 
                         @elseif ($availability->title == "Tuesday")
                             title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
-                            start : '{{ $availability->start_date }}',
-                            end : '{{ $availability->end_date }}',
+                            startTime: '{{ $availability->start_time }}',
+                            endTime: '{{ $availability->end_time }}',
                             // backgroundColor: '#228B22', //gold
-                            daysOfWeek: [2]
+                            daysOfWeek: [2],
+                            // allDay: false
+                            // editable: true,
 
                         @elseif ($availability->title == "Wednesday")
                             title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
-                            start : '{{ $availability->start_date }}',
-                            end : '{{ $availability->end_date }}',
+                            startTime: '{{ $availability->start_time }}',
+                            endTime: '{{ $availability->end_time }}',
                             // backgroundColor: '#228B22', //forestgreen
-                            daysOfWeek: [3]
+                            daysOfWeek: [3],
+                            // allDay: false
+                            editable: true,
+
                         @elseif ($availability->title == "Thursday")
                             title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
-                            start : '{{ $availability->start_date }}',
-                            end : '{{ $availability->end_date }}',
-                            daysOfWeek: [4]
+                            startTime: '{{ $availability->start_time }}',
+                            endTime: '{{ $availability->end_time }}',
+                            daysOfWeek: [4],
+                            // allDay: false
+                            // editable: true,
+
                         @elseif ($availability->title == "Friday")
                             title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
-                            start : '{{ $availability->start_date }}',
-                            end : '{{ $availability->end_date }}',
-                            daysOfWeek: [5]
+                            startTime: '{{ $availability->start_time }}',
+                            endTime: '{{ $availability->end_time }}',
+                            daysOfWeek: [5],
+                            // allDay: false
+                            // editable: true,
+
                         @elseif ($availability->title == "Saturday")
                             title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
-                            start : '{{ $availability->start_date }}',
-                            end : '{{ $availability->end_date }}',
-                            daysOfWeek: [6]
+                            startTime: '{{ $availability->start_time }}',
+                            endTime: '{{ $availability->end_time }}',
+                            daysOfWeek: [6],
+                            // allDay: false
+                            // editable: true,
 
                         @endif
+                       
+                        // title : '{{ $availability->title }}',
+                        // start : '{{ $availability->start_date }}',
+                        // end : '{{ $availability->end_date }}',
+                        // className: 'scheduler_basic_event'
+                        
+                    },
+                    @endforeach
+
+
+                    
+                   
+
+                    // Student Booking
+                    @foreach ($user->schedules as $schedule)
+                    {
+                       
+                        // if (start_day == "Sunday")
+                        // {
+                        //     title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
+                        //     startTime: '{{ $availability->start_time }}',
+                        //     endTime: '{{ $availability->end_time }}',
+                        //     // backgroundColor: '#228B22', //red
+                        //     daysOfWeek: [0],
+                        //     // allDay: false
+                        // }
+                        // elseif (start_day == "Monday")
+                        // {
+                        //     id: '12',
+                        //     title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
+                        //     startTime: '{{ $availability->start_time }}',
+                        //     endTime: '{{ $availability->end_time }}',
+                        //     // backgroundColor: '#228B22', //darkorange
+                        //     daysOfWeek: [1],
+                        //     // allDay: false
+                        // }
+
+                        // if (start_day == "Tuesday")
+                        // {
+                            title : 'Booked',
+                            start: '{{ $schedule->start_datetime }}',
+                            end: '{{ $schedule->start_datetime }}',
+                            backgroundColor: '#228B22', //gold
+                            // daysOfWeek: [2],
+                            // allDay: false
+                        // }
+
+                        // elseif (start_day == "Wednesday")
+                        // {
+                        //     title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
+                        //     startTime: '{{ $availability->start_time }}',
+                        //     endTime: '{{ $availability->end_time }}',
+                        //     // backgroundColor: '#228B22', //forestgreen
+                        //     daysOfWeek: [3],
+                        //     // allDay: false
+                        // }
+
+                        // elseif (start_day == "Thursday")
+                        // {
+                        //     title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
+                        //     startTime: '{{ $availability->start_time }}',
+                        //     endTime: '{{ $availability->end_time }}',
+                        //     daysOfWeek: [4],
+                        //     // allDay: false
+                        // }
+
+                        // elseif (start_day == "Friday")
+                        // {
+                        //     title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
+                        //     startTime: '{{ $availability->start_time }}',
+                        //     endTime: '{{ $availability->end_time }}',
+                        //     daysOfWeek: [5],
+                        //     // allDay: false
+                        // }
+
+
+                        // elseif (start_day == "Saturday")
+                        // {
+                        //     title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
+                        //     startTime: '{{ $availability->start_time }}',
+                        //     endTime: '{{ $availability->end_time }}',
+                        //     daysOfWeek: [6],
+                        //     // allDay: false
+                        // }
+
+
+                       
                        
                         // title : '{{ $availability->title }}',
                         // start : '{{ $availability->start_date }}',
@@ -684,27 +787,56 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     }
                 },
 
+                dayClick: function(date, jsEvent, view) { 
+                    console.log('Clicked on: ' + date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear());  
+                },
+
                 // Calling Modal on event click
                 eventClick: function(info) {
-                    // alert('Event: ' + info.event.start);
-                    // var formDate = $.fullCalendar.formatDate(info.event.start, 'MM-dd-yyyy');
-                    // alert(" Start Date: " + formDate);
 
-                    // alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-                    // alert('View: ' + info.view.type);
+                    if (info.event.title == "Booked")
+                    {
+                        console.log("Already Booked");
+                    }
+                    else
+                    {
+                        var start_day = (moment.parseZone(info.event.start).format("dddd"));
+                        var end_day = (moment.parseZone(info.event.start).format("dddd"));
 
-                    // // change the border color just for fun
-                    // info.el.style.borderColor = 'red';
-                    // jQuery('input[name="start_date"]').val($.fullCalendar.formatDate(info.event.start, 'MM-dd-yyyy'));
-                    // jQuery('#start_date').text(info.event.start);
-                    // jQuery('#end_date').text(info.event.end);
-                    // jQuery('#start_time').text(info.event.);
-                    // jQuery('#end_time').text(info.event.title);
+                        var start_d = (moment.parseZone(info.event.start).format("YYYY-MM-DD"));
+                        var end_d = (moment.parseZone(info.event.start).format("YYYY-MM-DD"));
+                        
+                        var start_time = (moment.parseZone(info.event.start).format("HH:mm"));
+                        var end_time = (moment.parseZone(info.event.end).format("HH:mm"));
 
-                    // $('#BookingModal').modal('show');
-                    // $('#popup').html('<iframe src="'+event.url+'" width="700" height="600"></iframe>');
-                    // $('#popup').dialog({autoOpen: false, modal: true, width: 750, height: 675});
-                    return false;
+                        // var date = calendar.getDate();
+                        // console.log(date);
+                        // console.log ( info.event.title); // time
+
+                        // console.log ( info.event.start); // date
+                        // console.log ( info); 12:00
+
+                        // console.log ("Start Date: "+ start_d);
+                        // console.log ("End Date: "+ end_d);
+
+                        console.log ("Start Time: "+ start_time );
+                        console.log ("End Time: "+ end_time);
+
+
+                        jQuery('span[name="start_date"]').text(start_d); // span
+                        jQuery('span[name="end_date"]').text(end_d); // span
+                        jQuery('input[name="start_date"]').val(start_d); 
+                        jQuery('input[name="end_date"]').val(end_d);
+
+                        jQuery('input[name="start_time"]').val(start_time);
+                        jQuery('input[name="end_time"]').val(end_time);
+                        jQuery('span[name="start_day"]').text(start_day);
+                        jQuery('span[name="end_day"]').text(end_day);
+                        // Calling Popup
+                        $('#BookingModal').modal('show');
+
+                        return false;
+                    } 
                 }
             });
 

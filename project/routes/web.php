@@ -154,7 +154,7 @@ Route::prefix('student')->group(function () {
     });
 
     // Class Schedule
-    Route::post('/class-schedule', 'Users\Student\StudentController@AddSchedule')->name('student.class.schedule'); // Add tutor to Favorite category
+    Route::get('/class-schedule', 'Users\Student\StudentController@AddSchedule')->name('student.class.schedule'); // Add tutor to Favorite category
     // Route::get('/book-schedule', 'Users\Student\StudentController@BookedSchedule')->name('student..booked.class.schedule'); // Add tutor to Favorite category 
     Route::prefix('class')->group(function () {
 
@@ -162,7 +162,7 @@ Route::prefix('student')->group(function () {
      
     });
 
-    // Route::get('/pagination', 'Users\Student\StudentController@Pagination'); // all reviews
+    // Route::get('/classess', 'Users\Student\StudentController@Pagination'); // all reviews
 
 
 });

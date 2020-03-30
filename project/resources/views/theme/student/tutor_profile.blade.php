@@ -353,7 +353,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ asset('theme_asset/plugins/fullcalendar-bootstrap/main.min.js') }}"></script>
 
     <script>
-    
+        let tutor_booking = {!! $tutor_booking !!}
+        tutor_booking = JSON.parse(tutor_booking)
+        // console.log(tutor_booking);        
+
+
         Date.prototype.addDays = function(days) {
             var date = new Date(this.valueOf());
             date.setDate(date.getDate() + days);
@@ -553,9 +557,79 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 //     $('#BookingModal').modal('show');
                 // },
                 
-                // eventOverlap: function(stillEvent, movingEvent) {
-                //     // conole.log("dfdsfdsf"); //stillEvent.allDay && movingEvent.allDay;
-                // },
+                eventRender: function(info) {
+                    // console.log(info.event); //stillEvent.allDay && movingEvent.allDay;
+                    if (info.event.title != "Booked" && info.event.extendedProps.description == "0" )
+                    {
+                        // console.log(info.event.title);
+                        let available_slots = [
+                            [
+                               moment(info.event.start), 
+                               moment(info.event.end)  
+                            ]
+                        ]
+                        let count = 0;
+                        let current_date = moment.parseZone(info.event.start).format("YYYY-MM-DD");
+                        
+                        let current_date_bookings = tutor_booking[current_date]
+
+                        if (current_date_bookings )
+                        {
+
+                            current_date_bookings.forEach(( booking) => {
+                            
+                                let slot = available_slots.pop();
+                                
+                                if ( slot && moment(booking.start_datetime).isSameOrAfter(moment(slot[0]))
+                                    && moment(booking.end_datetime).isSameOrBefore(moment(slot[1])) 
+                                    )
+                                {
+                                    let start_1 = moment(slot[0])
+                                    let end_1 = moment(booking.start_datetime)   
+                                    if (!start_1.isSame(end_1))
+                                    {
+                                        let new_slot = [start_1, end_1]
+                                        available_slots.push(new_slot)
+                                        count += 1;
+                                    }
+                                    // Start 2
+                                    let start_2 = moment(booking.end_datetime)
+                                    let end_2 = moment(slot[1])   
+                                    if (!start_2.isSame(end_2))
+                                    {
+                                        let new_slot = [start_2, end_2]
+                                        available_slots.push(new_slot)
+                                        count += 1;
+
+                                    }                            
+                                }
+                            })
+                        }
+                        if (available_slots.length == 0)
+                        {
+                            return false;
+                        } 
+                        else if (available_slots.length == 1 && count > 0)
+                        {
+                            let slot = available_slots[0];
+                            info.event.setStart(slot[0]);
+                            info.event.setEnd(slot[1]);
+                            info.event.setExtendedProp("description", "1")
+                            info.event.setProp("title", "1")
+
+                            // info.event.backgroundColor = '#228B22' ;
+                            
+                            console.log(info.event)
+
+                        }
+                        // console.log(available_slots); 
+                    }
+                    else
+                    {
+                        return true
+                    }
+                    
+                },
                 //Random default events
                 events: [
                     
@@ -579,6 +653,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             daysOfWeek: [0],
                             // allDay: false
                             // editable: false,
+                            description: "0",
 
                         @elseif ($availability->title == "Monday")
                             id: '12',
@@ -588,7 +663,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             // backgroundColor: '#228B22', //darkorange
                             daysOfWeek: [1],
                             // allDay: false
-                            editable: true,
+                            // editable: true,
+                            description: "0",
 
                         @elseif ($availability->title == "Tuesday")
                             title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
@@ -598,6 +674,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             daysOfWeek: [2],
                             // allDay: false
                             // editable: true,
+                            description: "0",
 
                         @elseif ($availability->title == "Wednesday")
                             title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
@@ -606,7 +683,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             // backgroundColor: '#228B22', //forestgreen
                             daysOfWeek: [3],
                             // allDay: false
-                            editable: true,
+                            // editable: true,
+                            description: "0",
 
                         @elseif ($availability->title == "Thursday")
                             title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
@@ -615,6 +693,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             daysOfWeek: [4],
                             // allDay: false
                             // editable: true,
+                            description: "0",
 
                         @elseif ($availability->title == "Friday")
                             title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
@@ -623,6 +702,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             daysOfWeek: [5],
                             // allDay: false
                             // editable: true,
+                            description: "0",
 
                         @elseif ($availability->title == "Saturday")
                             title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
@@ -631,6 +711,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             daysOfWeek: [6],
                             // allDay: false
                             // editable: true,
+                            description: "0",
 
                         @endif
                        
@@ -638,94 +719,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         // start : '{{ $availability->start_date }}',
                         // end : '{{ $availability->end_date }}',
                         // className: 'scheduler_basic_event'
-                        
+
                     },
                     @endforeach
 
 
                     
-                   
-
                     // Student Booking
                     @foreach ($user->schedules as $schedule)
                     {
-                       
-                        // if (start_day == "Sunday")
-                        // {
-                        //     title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
-                        //     startTime: '{{ $availability->start_time }}',
-                        //     endTime: '{{ $availability->end_time }}',
-                        //     // backgroundColor: '#228B22', //red
-                        //     daysOfWeek: [0],
-                        //     // allDay: false
-                        // }
-                        // elseif (start_day == "Monday")
-                        // {
-                        //     id: '12',
-                        //     title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
-                        //     startTime: '{{ $availability->start_time }}',
-                        //     endTime: '{{ $availability->end_time }}',
-                        //     // backgroundColor: '#228B22', //darkorange
-                        //     daysOfWeek: [1],
-                        //     // allDay: false
-                        // }
-
+                
                         // if (start_day == "Tuesday")
                         // {
                             title : 'Booked',
                             start: '{{ $schedule->start_datetime }}',
-                            end: '{{ $schedule->start_datetime }}',
+                            end: '{{ $schedule->end_datetime }}',
                             backgroundColor: '#228B22', //gold
                             // daysOfWeek: [2],
                             // allDay: false
                         // }
-
-                        // elseif (start_day == "Wednesday")
-                        // {
-                        //     title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
-                        //     startTime: '{{ $availability->start_time }}',
-                        //     endTime: '{{ $availability->end_time }}',
-                        //     // backgroundColor: '#228B22', //forestgreen
-                        //     daysOfWeek: [3],
-                        //     // allDay: false
-                        // }
-
-                        // elseif (start_day == "Thursday")
-                        // {
-                        //     title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
-                        //     startTime: '{{ $availability->start_time }}',
-                        //     endTime: '{{ $availability->end_time }}',
-                        //     daysOfWeek: [4],
-                        //     // allDay: false
-                        // }
-
-                        // elseif (start_day == "Friday")
-                        // {
-                        //     title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
-                        //     startTime: '{{ $availability->start_time }}',
-                        //     endTime: '{{ $availability->end_time }}',
-                        //     daysOfWeek: [5],
-                        //     // allDay: false
-                        // }
-
-
-                        // elseif (start_day == "Saturday")
-                        // {
-                        //     title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
-                        //     startTime: '{{ $availability->start_time }}',
-                        //     endTime: '{{ $availability->end_time }}',
-                        //     daysOfWeek: [6],
-                        //     // allDay: false
-                        // }
-
-
-                       
-                       
-                        // title : '{{ $availability->title }}',
-                        // start : '{{ $availability->start_date }}',
-                        // end : '{{ $availability->end_date }}',
-                        // className: 'scheduler_basic_event'
-                        
                     },
                     @endforeach
                     

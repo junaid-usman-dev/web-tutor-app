@@ -86,140 +86,51 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         <th>Student</th>
                                                         <th>Tutor</th>
                                                         <th>Subject</th>
+                                                        <th>Start Date</th>
+                                                        <th>End Date</th>
                                                         <th>Start Time</th>
                                                         <th>End Time</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td>Jack Smith </td>
-                                                        <td>Tutor tutor</td>
-                                                        <td>English</td>
-                                                        <td>8:00</td>
-                                                        <td>14:00</td>
-
-                                                        <td>
-                                                            <button type="button"
-                                                                class="btn btn-primary dropdown-toggle"
-                                                                data-toggle="dropdown" aria-expanded="false">
-                                                                Action
-                                                            </button>
-                                                            <ul class="dropdown-menu" x-placement="bottom-start"
-                                                                style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 48px, 0px);">
-                                                                <li class="dropdown-item"><a href="javascript::">Edit</a></li>
-                                                                <li class="dropdown-item"><a href="javascript::">Delete</a>
-                                                                </li>
-                                                                
-                                                                
-                                                            </ul>
-                                                        </td>
-                                                    </tr>
-                                                      
-                                                    <tr>
-                                                        <td>2</td>
-                                                        <td>Jack Smith </td>
-                                                        <td>Tutor tutor</td>
-                                                        <td>English</td>
-                                                        <td>8:00</td>
-                                                        <td>14:00</td>
-
-                                                        <td>
-                                                            <button type="button"
-                                                                class="btn btn-primary dropdown-toggle"
-                                                                data-toggle="dropdown" aria-expanded="false">
-                                                                Action
-                                                            </button>
-                                                            <ul class="dropdown-menu" x-placement="bottom-start"
-                                                                style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 48px, 0px);">
-                                                                <li class="dropdown-item"><a href="javascript::">Edit</a></li>
-                                                                <li class="dropdown-item"><a href="javascript::">Delete</a>
-                                                                </li>
-                                                                
-                                                                
-                                                            </ul>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>3</td>
-                                                        <td>Jack Smith </td>
-                                                        <td>Tutor tutor</td>
-                                                        <td>English</td>
-                                                        <td>8:00</td>
-                                                        <td>14:00</td>
-
-                                                        <td>
-                                                            <button type="button"
-                                                                class="btn btn-primary dropdown-toggle"
-                                                                data-toggle="dropdown" aria-expanded="false">
-                                                                Action
-                                                            </button>
-                                                            <ul class="dropdown-menu" x-placement="bottom-start"
-                                                                style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 48px, 0px);">
-                                                                <li class="dropdown-item"><a href="javascript::">Edit</a></li>
-                                                                <li class="dropdown-item"><a href="javascript::">Delete</a>
-                                                                </li>
-                                                                
-                                                                
-                                                            </ul>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>4</td>
-                                                        <td>Jack Smith </td>
-                                                        <td>Tutor tutor</td>
-                                                        <td>English</td>
-                                                        <td>8:00</td>
-                                                        <td>14:00</td>
-
-                                                        <td>
-                                                            <button type="button"
-                                                                class="btn btn-primary dropdown-toggle"
-                                                                data-toggle="dropdown" aria-expanded="false">
-                                                                Action
-                                                            </button>
-                                                            <ul class="dropdown-menu" x-placement="bottom-start"
-                                                                style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 48px, 0px);">
-                                                                <li class="dropdown-item"><a href="javascript::">Edit</a></li>
-                                                                <li class="dropdown-item"><a href="javascript::">Delete</a>
-                                                                </li>
-                                                                
-                                                                
-                                                            </ul>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>5</td>
-                                                        <td>Jack Smith </td>
-                                                        <td>Tutor tutor</td>
-                                                        <td>English</td>
-                                                        <td>8:00</td>
-                                                        <td>14:00</td>
-
-                                                        <td>
-                                                            <button type="button"
-                                                                class="btn btn-primary dropdown-toggle"
-                                                                data-toggle="dropdown" aria-expanded="false">
-                                                                Action
-                                                            </button>
-                                                            <ul class="dropdown-menu" x-placement="bottom-start"
-                                                                style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 48px, 0px);">
-                                                                <li class="dropdown-item"><a href="javascript::">Edit</a></li>
-                                                                <li class="dropdown-item"><a href="javascript::">Delete</a>
-                                                                </li>
-                                                                
-                                                                
-                                                            </ul>
-                                                        </td>
-                                                    </tr>
-
-
-
+                                                    
+                                                    @if ( count($all_schedules) > 0 )
+                                                        @php
+                                                            $count = 0;
+                                                        @endphp
+                                                        @foreach ($all_schedules as $schedule)
+                                                            @php
+                                                                $count += 1;
+                                                            @endphp
+                                                            <tr>
+                                                                <td>{{ $count }}</td>
+                                                                <td>{{ $schedule->users->first_name }} {{ $schedule->users->last_name }}</td>
+                                                                <td>{{ $schedule->tutor->first_name }} {{ $schedule->tutor->last_name }}</td>
+                                                                <td>{{ $schedule->subject }}</td>
+                                                                <td>{{ \Carbon\Carbon::parse($schedule->start_datetime)->format('M d, Y') }}</td>
+                                                                <td>{{ \Carbon\Carbon::parse($schedule->end_datetime)->format('M d, Y') }}</td>
+                                                                <td>{{ \Carbon\Carbon::parse($schedule->start_datetime)->format('g:i A') }}</td>
+                                                                <td>{{ \Carbon\Carbon::parse($schedule->end_datetime)->format('g:i A') }}</td>
+        
+                                                                <td>
+                                                                    <button type="button"
+                                                                        class="btn btn-primary dropdown-toggle"
+                                                                        data-toggle="dropdown" aria-expanded="false">
+                                                                        Action
+                                                                    </button>
+                                                                    <ul class="dropdown-menu" x-placement="bottom-start"
+                                                                        style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 48px, 0px);">
+                                                                        <li class="dropdown-item"><a href="javascript::">Edit</a></li>
+                                                                        <li class="dropdown-item"><a href="javascript::">Delete</a>
+                                                                        </li>
+                                                                        
+                                                                        
+                                                                    </ul>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    @endif
 
 
                                                 </tbody>

@@ -266,6 +266,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                     <th>Student</th>
                                                                     <th>Tutor</th>
                                                                     <th>Subject</th>
+                                                                    <th>Start Date</th>
+                                                                    <th>End Date</th>
                                                                     <th>Start Time</th>
                                                                     <th>End Time</th>
                                                                 </tr>
@@ -288,6 +290,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                                 <div class="sparkbar" data-color="#00a65a"
                                                                                     data-height="20">{{ $schedule->subject }}</div>
                                                                             </td>
+                                                                            <td>{{ \Carbon\Carbon::parse($schedule->start_datetime)->format('M d, Y') }}</td>
+                                                                            <td>{{ \Carbon\Carbon::parse($schedule->end_datetime)->format('M d, Y') }}</td>
                                                                             <td>{{ \Carbon\Carbon::parse($schedule->start_datetime)->format('g:i A') }}</td>
                                                                             <td>{{ \Carbon\Carbon::parse($schedule->end_datetime)->format('g:i A') }}</td>
                                                                         </tr>

@@ -689,12 +689,40 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                             <th>Student</th>
                                                             <th>Tutor</th>
                                                             <th>Subject</th>
+                                                            <th>Start Date</th>
+                                                            <th>End Date</th>
                                                             <th>Start Time</th>
                                                             <th>End Time</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
+
+                                                        @if ( count ($list_of_bookings) > 0 )
+                                                            @php
+                                                                $count = 0;
+                                                            @endphp
+                                                            @foreach ($list_of_bookings as $booking)
+                                                                @php
+                                                                    $count += 1;
+                                                                @endphp
+                                                                <tr>
+                                                                    <td>{{ $count }}</td>
+                                                                    <td><a href="{{ url('admin/student/profile') }}/{{ $booking->users->id }}">{{ $booking->users->first_name }} {{ $booking->users->last_name }}</a></td>
+                                                                    <td><a href="{{ url('admin/tutor/profile') }}/{{ $booking->tutor->id }}">{{ $booking->tutor->first_name }} {{ $booking->tutor->last_name }}</a></td>
+                                                                    <td>
+                                                                        <div class="sparkbar" data-color="#00a65a"
+                                                                            data-height="20">{{ $booking->subject }}</div>
+                                                                    </td>                                                                       
+                                                                    <td>{{ \Carbon\Carbon::parse($booking->start_datetime)->format('M d, Y') }} </td>
+                                                                    <td>{{ \Carbon\Carbon::parse($booking->end_datetime)->format('M d, Y') }} </td>
+                                                                    <td>{{ \Carbon\Carbon::parse($booking->start_datetime)->format('g:i A') }} </td>
+                                                                    <td>{{ \Carbon\Carbon::parse($booking->end_datetime)->format('g:i A') }} </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        @else
+                                                            Empty list
+                                                        @endif
+                                                        {{-- <tr>
                                                             <td>01</td>
                                                             <td><a href="#">Jackson</a></td>
                                                             <td><a href="#">John Smith</a></td>
@@ -757,7 +785,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                             <td>8:00 AM</td>
                                                             <td>10:00 AM</td>
 
-                                                        </tr>
+                                                        </tr> --}}
 
                                                     </tbody>
                                                 </table>

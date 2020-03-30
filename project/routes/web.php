@@ -154,7 +154,7 @@ Route::prefix('student')->group(function () {
     });
 
     // Class Schedule
-    Route::get('/class-schedule', 'Users\Student\StudentController@AddSchedule')->name('student.class.schedule'); // Add tutor to Favorite category
+    Route::post('/class-schedule', 'Users\Student\StudentController@AddSchedule')->name('student.class.schedule'); // Add tutor to Favorite category
     // Route::get('/book-schedule', 'Users\Student\StudentController@BookedSchedule')->name('student..booked.class.schedule'); // Add tutor to Favorite category 
     Route::prefix('class')->group(function () {
 
@@ -298,6 +298,9 @@ Route::prefix('admin')->group(function () {
 
     Route::get('/list', 'Users\Admin\AdminController@index')->name('admin.list'); // Display Admin List
     Route::get('/destroy/{id}', 'Users\Admin\AdminController@destroy'); // destroy specific user
+
+    // Route::get('/list-of-classes-schedule', 'Users\Admin\AdminController@AllSchedule'); // destroy specific user
+
     
 
     /*
@@ -394,9 +397,8 @@ Route::prefix('admin')->group(function () {
 
     Route::prefix('class')->group(function () {
 
-        Route::get('/all', function () {
-            return view('theme.admin.classes_manager');
-        })->name('admin.class.all');
+        Route::get('/all', 'Users\Admin\AdminController@AllSchedule')->name('admin.class.all'); // destroy specific user
+
      
     });
 

@@ -251,37 +251,148 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                     <div class="col-md-6">
                                                                         <p>
                                                                             <b>Sunday:</b></br>
-                                                                            10: PM - Midnight
+                                                                            @php
+                                                                                $is_sunday = '0';
+                                                                            @endphp
+                                                                            @if ( count($user->availabilities) > 0 )
+                                                                                @foreach ($user->availabilities as $availability )
+                                                                                    @if ($availability->title == "Sunday")
+                                                                                        <p>  {{ $availability->start_time }} - {{ $availability->end_time }} </p>
+                                                                                        @php
+                                                                                            $is_sunday = '1';
+                                                                                        @endphp
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            @endif
+                                                                            @if ($is_sunday == '0')
+                                                                                <p>Unavailable</p>
+                                                                            @endif
                                                                         </p>
 
                                                                         <p>
                                                                             <b>Monday:</b></br>
-                                                                            Midnight - 3:00 AM, 10:00 PM - Midnight
+                                                                            {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                                                            @php
+                                                                                $is_monday = '0';
+                                                                            @endphp
+                                                                            @if ( count($user->availabilities) > 0 )
+                                                                                @foreach ($user->availabilities as $availability )
+                                                                                    @if ($availability->title == "Monday")
+                                                                                        <p>  {{ $availability->start_time }} - {{ $availability->end_time }} </p>
+                                                                                        @php
+                                                                                            $is_monday = '1';
+                                                                                        @endphp
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            @endif
+                                                                            @if ($is_monday == '0')
+                                                                                <p>Unavailable</p>
+                                                                            @endif
                                                                         </p>
 
                                                                         <p>
                                                                             <b>Tuesday:</b></br>
-                                                                            Midnight - 3:00 AM, 10:00 PM - Midnight
+                                                                            {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                                                            @php
+                                                                                $is_tuesday = '0';
+                                                                            @endphp
+                                                                            @if ( count($user->availabilities) > 0 )
+                                                                                @foreach ($user->availabilities as $availability )
+                                                                                    @if ($availability->title == "Tuesday")
+                                                                                        <p>  {{ $availability->start_time }} - {{ $availability->end_time }} </p>
+                                                                                        @php
+                                                                                            $is_tuesday = '1';
+                                                                                        @endphp
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            @endif
+                                                                            @if ($is_tuesday == '0')
+                                                                                <p>Unavailable</p>
+                                                                            @endif
                                                                         </p>
 
                                                                         <p>
                                                                             <b>Wednesday:</b></br>
-                                                                            Midnight - 3:00 AM, 10:00 PM - Midnight
+                                                                            {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                                                            @php
+                                                                                $is_wednesday = '0';
+                                                                            @endphp
+                                                                            @if ( count($user->availabilities) > 0 )
+                                                                                @foreach ($user->availabilities as $availability )
+                                                                                    @if ($availability->title == "Wednesday")
+                                                                                        <p>  {{ $availability->start_time }} - {{ $availability->end_time }} </p>
+                                                                                        @php
+                                                                                            $is_wednesday = '1';
+                                                                                        @endphp
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            @endif
+                                                                            @if ($is_wednesday == '0')
+                                                                                <p>Unavailable</p>
+                                                                            @endif
                                                                         </p>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <p>
                                                                             <b>Thursday:</b></br>
-                                                                            Midnight - 3:00 AM, 10:00 PM - Midnight
+                                                                            {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                                                            @php
+                                                                                $is_thursday = '0';
+                                                                            @endphp
+                                                                            @if ( count($user->availabilities) > 0 )
+                                                                                @foreach ($user->availabilities as $availability )
+                                                                                    @if ($availability->title == "Thursday")
+                                                                                        <p>  {{ $availability->start_time }} - {{ $availability->end_time }} </p>
+                                                                                        @php
+                                                                                            $is_thursday = '1';
+                                                                                        @endphp
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            @endif
+                                                                            @if ($is_thursday == '0')
+                                                                                <p>Unavailable</p>
+                                                                            @endif
                                                                         </p>
 
                                                                         <p>
                                                                             <b>Friday:</b></br>
-                                                                            Midnight - 3:00 AM, 10:00 PM - Midnight
+                                                                            {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                                                            @php
+                                                                            $is_friday= '0';
+                                                                            @endphp
+                                                                            @if ( count($user->availabilities) > 0 )
+                                                                                @foreach ($user->availabilities as $availability )
+                                                                                    @if ($availability->title == "Friday")
+                                                                                        <p>  {{ $availability->start_time }} - {{ $availability->end_time }} </p>
+                                                                                        @php
+                                                                                            $is_friday = '1';
+                                                                                        @endphp
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            @endif
+                                                                            @if ($is_friday == '0')
+                                                                                <p>Unavailable</p>
+                                                                            @endif
                                                                         </p>
                                                                         <p>
                                                                             <b>Saturday:</b></br>
-                                                                            Midnight - 3:00 AM
+                                                                            {{-- Midnight - 3:00 AM --}}
+                                                                            @php
+                                                                            $is_saturday= '0';
+                                                                            @endphp
+                                                                            @if ( count($user->availabilities) > 0 )
+                                                                                @foreach ($user->availabilities as $availability )
+                                                                                    @if ($availability->title == "Saturday")
+                                                                                        <p>  {{ $availability->start_time }} - {{ $availability->end_time }} </p>
+                                                                                        @php
+                                                                                            $is_saturday = '1';
+                                                                                        @endphp
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            @endif
+                                                                            @if ($is_saturday == '0')
+                                                                                <p>Unavailable</p>
+                                                                            @endif
                                                                         </p>
                                                                     </div>
                                                                 </p>

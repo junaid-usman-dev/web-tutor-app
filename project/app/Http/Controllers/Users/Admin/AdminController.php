@@ -11,6 +11,7 @@ use App\Admin;
 use App\User;
 // use App\Image;
 use App\Model\Subject;
+use App\Model\Schedule;
 use App\Model\Test;
 
 use App\Rules\EmailFormat; // Custom Rules for Email
@@ -30,6 +31,8 @@ class AdminController extends Controller
         // $students = array();
         $students = User::orderBy('created_at','desc')->where('type','student')->get();
         $tutors = User::orderBy('created_at','desc')->where('type','tutor')->get();
+        $list_of_bookings = Schedule::orderBy('id','DESC')->get();
+
         $subjects = Subject::all();
         $tests = Test::orderBy('id','DESC')->get();
 
@@ -38,6 +41,7 @@ class AdminController extends Controller
             'tutors'=>$tutors,
             'subjects'=>$subjects,
             'tests'=>$tests,
+            'list_of_bookings'=>$list_of_bookings,
         ]);
     }
     
@@ -386,5 +390,19 @@ class AdminController extends Controller
         return view('theme.admin.tutor_reviews')->with(['tutor'=> $tutor ]);
     }
     
+    /**
+     * List Schedule.
+     *
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function AllSchedule(Request $request)
+    {
+        //
+        // $user = Auth::user();
+        $all_schedules = Schedule::orderBy("id","DESC")->get();
+        // dd ($user);
+        return view('theme.admin.classes_manager')->with(['all_schedules'=> $all_schedules ]);
+    }
     
 }

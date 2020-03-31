@@ -79,16 +79,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <div class="card-body table-responsive">
                                             
                                             <table id="example2" class="table table-bordered">
-                                                    <a href="javascript::" class="btn col-2 btn-primary">Create</a>
+                                                    {{-- <a href="javascript::" class="btn col-2 btn-primary">Create</a> --}}
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>Student</th>
+                                                        {{-- <th>Student</th> --}}
                                                         <th>Tutor</th>
                                                         <th>Subject</th>
                                                         <th>Start Time</th>
                                                         <th>End Time</th>
-                                                        <th>Action</th>
+                                                        {{-- <th>Action</th> --}}
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -103,13 +103,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                             @endphp
                                                             <tr>
                                                                 <td>{{ $count }}</td>
-                                                                <td>{{ $schedule->users->first_name }} {{ $schedule->users->last_name }} </td>
+                                                                {{-- <td>{{ $schedule->users->first_name }} {{ $schedule->users->last_name }} </td> --}}
                                                                 <td>{{ $schedule->tutor->first_name }} {{ $schedule->tutor->last_name }}</td>
                                                                 <td>{{ $schedule->subject }}</td>
                                                                 <td>{{ \Carbon\Carbon::parse($schedule->start_datetime)->format('g:i A') }}</td>
                                                                 <td>{{ \Carbon\Carbon::parse($schedule->end_datetime)->format('g:i A') }}</td>
 
-                                                                <td>
+                                                                {{-- <td>
                                                                     <button type="button"
                                                                         class="btn btn-primary dropdown-toggle"
                                                                         data-toggle="dropdown" aria-expanded="false">
@@ -123,7 +123,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                         
                                                                         
                                                                     </ul>
-                                                                </td>
+                                                                </td> --}}
+
                                                             </tr>
                                                         @endforeach
                                                     @else

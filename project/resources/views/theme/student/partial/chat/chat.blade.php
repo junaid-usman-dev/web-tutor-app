@@ -3,7 +3,18 @@
 <!-- DIRECT CHAT -->
 <div class="card direct-chat direct-chat-warning">
     <div class="card-header">
-        <h3 class="card-title">Recent Chat</h3>
+        {{-- @if ( count($users_conversation) > 0) --}}
+        {{-- {{ $user->id }} --}}
+            {{-- @if ( $users_conversation[0]->sender_id == $user->id ) --}}
+
+                <h3 class="card-title">Recent Chat [  ]</h3>
+
+            {{-- @endif --}}
+            {{-- <h3 class="card-title">Recent Chat [ {{ $users_conversation[0]->users->first_name }} ]</h3> --}}
+        {{-- @else --}}
+            {{-- <h3 class="card-title">Recent Chat</h3> --}}
+        {{-- @endif --}}
+
         <div class="card-tools">
             <span data-toggle="tooltip" title="3 New Messages"
                 class="badge badge-primary">3</span>
@@ -267,6 +278,7 @@
                         if ($users_conversation[0]->receiver_id != $user->id)
                         {
                             $receiver_id = $users_conversation[0]->receiver_id;
+                            // $receiver_id = $users_conversation[0]->receiver_id;
                         }
                     @endphp
                     <input type="hidden" name="receiver_id" id="receiver_id" value="{{ $receiver_id }}"

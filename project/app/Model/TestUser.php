@@ -19,4 +19,15 @@ class TestUser extends Model
         'test_id', 'user_id', 'score'
     ];
 
+
+    /*
+    * Test results owns by single tutor
+    *
+    */
+    function tutor()
+    {
+        return $this->belongTo('App\User', 'user_id');
+    }
+
+
 }

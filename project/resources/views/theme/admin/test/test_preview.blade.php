@@ -109,24 +109,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                     >
                                                                     <label class="form-check-label">{{ $question->option_2 }}</label>
                                                                 </div>
-
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="radio1" value="3"
-                                                                    @if ( $question->answer == "3" )
-                                                                        checked
-                                                                    @endif
-                                                                    >
-                                                                    <label class="form-check-label">{{ $question->option_3 }}</label>
-                                                                </div>
-
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="radio1" value="4"
-                                                                    @if ( $question->answer == "4" )
-                                                                        checked
-                                                                    @endif
-                                                                    >
-                                                                    <label class="form-check-label">{{ $question->option_4 }}</label>
-                                                                </div>
+                                                                
+                                                                @if ( !empty($question->option_3) )
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" name="radio1" value="3"
+                                                                        @if ( $question->answer == "3" )
+                                                                            checked
+                                                                        @endif
+                                                                        >
+                                                                        <label class="form-check-label">{{ $question->option_3 }}</label>
+                                                                    </div>
+                                                                @endif
+                                                                
+                                                                @if ( !empty($question->option_4) )
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" name="radio1" value="4"
+                                                                        @if ( $question->answer == "4" )
+                                                                            checked
+                                                                        @endif
+                                                                        >
+                                                                        <label class="form-check-label">{{ $question->option_4 }}</label>
+                                                                    </div>
+                                                                @endif
 
                                                             </div>
                                                         </div>

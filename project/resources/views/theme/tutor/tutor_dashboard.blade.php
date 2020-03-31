@@ -51,7 +51,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="{{ url('/tutor') }}">Home</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('tutor.dashboard') }}">Home</a></li>
                                 <li class="breadcrumb-item active">Tutor Dashboard</li>
                             </ol>
                         </div><!-- /.col -->
@@ -75,19 +75,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             alt="User profile picture">
                                     </div>
 
-                                    <h3 class="profile-username text-center">{{ $user->first_name }}
-                                        {{ $user->last_name }}</h3>
+                                </br>
+                                    {{-- <h3 class="profile-username text-center">{{ $user->first_name }}
+                                        {{ $user->last_name }}</h3> --}}
 
                                     {{-- <p class="text-muted text-center">History Professor</p> --}}
 
                                     <ul class="list-group list-group-unbordered mb-3">
-                                        <li class="list-group-item"> <strong>My Students</strong> <a
-                                                class="float-right">20</a> </li>
                                         <li class="list-group-item">
-                                            <b>Total Earning</b> <a class="float-right">$ 45,00</a>
+                                            <strong>My Students</strong>
+                                            @if (count($tutor_schedules) > 0 )
+                                                <a class="float-right">{{ count($tutor_schedules->unique('student_id') ) }}</a>
+                                            @else
+                                            <a class="float-right">0</a>
+                                            @endif
                                         </li>
                                         <li class="list-group-item">
-                                            <b>Tests Taken</b> <a class="float-right">07</a>
+                                            <b>Total Earning</b> 
+                                            <a class="float-right">$ 45,00</a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>Tests Taken</b>
+                                            @if ( count( $user->tests) > 0)
+                                                <a class="float-right">{{ count( $user->tests) }}</a>
+                                            @else
+                                                <a class="float-right">0</a>
+                                            @endif 
                                         </li>
                                     </ul>
                                     <a href="{{ route('tutor.profile') }}" class="btn btn-primary btn-block"><strong>View Profile</strong></a>
@@ -156,8 +169,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <!-- Tutors LIST -->
                                     <div class="card">
                                         <div class="card-header">
-                                            <h3 class="card-title">Latest Students <span
-                                                    class="badge badge-info">8</span></h3>
+                                            <h3 class="card-title">Latest Students
+                                                @if ( count($tutor_schedules) > 0)
+                                                    <span class="badge badge-info">{{ count($tutor_schedules->unique('student_id') ) }}</span>
+                                                @else
+                                                    <span class="badge badge-info">0</span>
+                                                @endif
+                                            </h3>
 
                                             <div class="card-tools">
 
@@ -170,7 +188,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <!-- /.card-header -->
                                         <div class="card-body p-0">
                                             <ul class="users-list clearfix">
-                                                <li>
+                                                @if ( count($tutor_schedules) > 0 )
+                                                    @foreach ($tutor_schedules->unique('student_id') as $schedule)
+                                                        <li>
+                                                            <a class="users-list-name" href="{{ url('/tutor/student-profile') }}/{{ $schedule->users->id }}"> 
+                                                                <img src="{{ url('/') }}/{{ $schedule->users->images->path }}/{{ $schedule->users->images->name }}"
+                                                                    alt="User Image">
+                                                            </a>
+                                                            <a class="users-list-name" href="#">{{ $schedule->users->first_name}} {{ $schedule->users->last_name}} </a>
+                                                            {{-- <span class="users-list-date">Today</span> --}}
+                                                        </li>
+                                                    @endforeach
+
+                                                @else
+                                                        Empty List
+                                                @endif
+                                                {{-- <li>
                                                     <img src="{{ asset('theme_asset/dist/img/user1-128x128.jpg') }}"
                                                         alt="User Image">
                                                     <a class="users-list-name" href="#">Alexander Pierce</a>
@@ -217,7 +250,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                         alt="User Image">
                                                     <a class="users-list-name" href="#">Nadia</a>
                                                     <span class="users-list-date">15 Jan</span>
-                                                </li>
+                                                </li> --}}
 
 
 
@@ -225,7 +258,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <!-- /.users-list -->
                                         </div>
                                         <!-- /.card-body -->
-                                        <div class="card-footer text-center"><a href="javascript::">View All
+                                        <div class="card-footer text-center"><a href="{{ route('tutor.latest.student') }}">View All
                                                 Students</a></div>
                                         <!-- /.card-footer -->
                                     </div>
@@ -264,7 +297,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 <tr>
                                                                     <th>Sr. #</th>
                                                                     <th>Student</th>
-                                                                    <th>Tutor</th>
+                                                                    {{-- <th>Tutor</th> --}}
                                                                     <th>Subject</th>
                                                                     <th>Start Date</th>
                                                                     <th>End Date</th>
@@ -285,7 +318,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                         <tr>
                                                                             <td>{{ $count }}</td>
                                                                             <td><a href="{{ url('/tutor/student-profile') }}/{{ $schedule->users->id }}">{{ $schedule->users->first_name }} {{ $schedule->users->last_name }}</a></td>
-                                                                            <td><a href="{{ route('tutor.profile') }}">{{ $schedule->tutor->first_name }} {{ $schedule->tutor->last_name }}</a></td>
+                                                                            {{-- <td><a href="{{ route('tutor.profile') }}">{{ $schedule->tutor->first_name }} {{ $schedule->tutor->last_name }}</a></td> --}}
                                                                             <td>
                                                                                 <div class="sparkbar" data-color="#00a65a"
                                                                                     data-height="20">{{ $schedule->subject }}</div>

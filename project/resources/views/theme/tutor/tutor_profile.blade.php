@@ -157,7 +157,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                     </div>
                                                                     <div class="col-9 ">
                                                                         <h2 class="username"><strong>{{ $user->first_name }}
-                                                                            {{ $user->last_name }}</strong></h2>
+                                                                            {{ $user->last_name }}</strong>
+                                                                            @if ( $user->approve == "1" )
+                                                                                <i class="text-warning fas fa-certificate"></i>
+                                                                            @endif
+                                                                        </h2>
                                                                         <p class="text-lg">
                                                                             @if (count($user->subjects) > 0)
                                                                                 @foreach ($user->subjects as $subject)

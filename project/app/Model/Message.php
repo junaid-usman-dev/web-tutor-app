@@ -19,4 +19,12 @@ class Message extends Model
     {
         return $this->belongsTo('App\User', 'sender_id');
     }
+
+    /**
+     * Get the message that owns the receiver.
+     */
+    public function receiver()
+    {
+        return $this->belongsTo('App\User', 'receiver_id');
+    }
 }

@@ -47,16 +47,16 @@ class QuestionController extends Controller
             'title' => 'required',
             'option_1' => 'required',
             'option_2' => 'required',
-            'option_3' => 'required',
-            'option_4' => 'required',
+            'option_3' => 'nullable',
+            'option_4' => 'nullable',
             'answer' => 'required',
         ],
         [
             'title.required' => 'Title is required field.',
             'option_1.required' => 'Option 1 is required field.',
             'option_2.required' => 'Option 2 is required field.',
-            'option_3.required' => 'Option 3 is required field.',
-            'option_4.required' => 'Option 4 is required field.',
+            // 'option_3.required' => 'Option 3 is required field.',
+            // 'option_4.required' => 'Option 4 is required field.',
             'answer.required' => 'Answer is required field.',
         ]);
 
@@ -70,6 +70,12 @@ class QuestionController extends Controller
         $answer = $request->input('answer');
         
         // dd ( $test_id, $title, $option_1, $option_2, $option_3, $option_4, $answer );
+        // if ( !empty($option_3) && empty($option_4) )
+        // {
+
+        // }
+
+
 
         $question = new Question();
 

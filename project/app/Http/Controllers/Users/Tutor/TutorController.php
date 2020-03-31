@@ -1203,7 +1203,39 @@ class TutorController extends Controller
         // dd ($student->images->path);
         return view('theme.tutor.student_profile')->with(['user'=>$user, 'student'=>$student ]);
     }
-    
 
+    /*
+    * Latest Students
+    *
+    *@return \Illuminate\Http\Response
+    */
+    public function LatestStudent(Request $request )
+    {
+        $user = Auth::guard('user')->user();
+        $latest_students = Schedule::where('tutor_id',$user->id)->get();
+        // dd ($latest_students);
+        return view('theme.tutor.latest_student')->with(['user'=>$user, 'latest_students'=> $latest_students ]);
+    }
+
+    /*
+    * Admin: Approve specfic Tutor
+    *
+    *@return \Illuminate\Http\Response
+    */
+    public function Approve(Request $request, $id )
+    {
+        $has_user = User::findOrfail($id);
+        // dd ($has_user->id);
+        if ( !empty($has_user) )
+        {
+            $has_user->approve = "1";
+            $has_user->save();
+            // dd ("Approved");
+        } 
+        // dd ("Redirect");
+        return redirect()->route('admin.tutor.profile',['id'=>$has_user->id]);
+    }
+    
+    
     
 }

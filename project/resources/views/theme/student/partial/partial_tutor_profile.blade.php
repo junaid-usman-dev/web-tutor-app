@@ -97,7 +97,11 @@
                                             </div>
                                             <div class="col-9 ">
                                                 <h2 class="username ju-di"><strong>{{ $tutor->first_name }}
-                                                    {{ $tutor->last_name }}</strong></h2>
+                                                    {{ $tutor->last_name }}</strong>
+                                                    @if ( $user->approve == "1" )
+                                                        <i class="text-warning fas fa-certificate"></i>
+                                                    @endif
+                                                </h2>
                                                     <a href="{{ url('/student/add-to-favorit-list') }}/{{ $tutor->id }}" class="btn btn-info ju-fl" >Add To Favorite</a>
                                                 <p class="text-lg">
                                                     {{-- @foreach ($tutor->categories as $category) --}}

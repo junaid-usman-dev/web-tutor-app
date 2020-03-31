@@ -49,12 +49,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0 text-dark">Manage Classes</h1>
+                            <h1 class="m-0 text-dark">Test Result</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Manage Classes</li>
+                                <li class="breadcrumb-item active">Test Result</li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -79,60 +79,61 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <div class="card-body table-responsive">
                                             
                                             <table id="example2" class="table table-bordered">
-                                                    {{-- <a href="{{ route('create.admin') }}" class="btn col-2 btn-primary">Create</a> --}}
+                                                    {{-- <a href="#" class="btn col-2 btn-primary">Create</a> --}}
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>Student</th>
                                                         <th>Tutor</th>
-                                                        <th>Subject</th>
-                                                        <th>Start Date</th>
-                                                        <th>End Date</th>
-                                                        <th>Start Time</th>
-                                                        <th>End Time</th>
-                                                        {{-- <th>Action</th> --}}
+                                                        <th>Test Title</th>
+                                                        <th>Score</th>
+                                                        <th>Verified Status</th>
+                                                        <th>Action</th>
+
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    
-                                                    @if ( count($all_schedules) > 0 )
+
+                                                    @if ( count ($test_results) > 0 )
                                                         @php
                                                             $count = 0;
                                                         @endphp
-                                                        @foreach ($all_schedules as $schedule)
-                                                            @php
-                                                                $count += 1;
-                                                            @endphp
-                                                            <tr>
-                                                                <td>{{ $count }}</td>
-                                                                <td>{{ $schedule->users->first_name }} {{ $schedule->users->last_name }}</td>
-                                                                <td>{{ $schedule->tutor->first_name }} {{ $schedule->tutor->last_name }}</td>
-                                                                <td>{{ $schedule->subject }}</td>
-                                                                <td>{{ \Carbon\Carbon::parse($schedule->start_datetime)->format('M d, Y') }}</td>
-                                                                <td>{{ \Carbon\Carbon::parse($schedule->end_datetime)->format('M d, Y') }}</td>
-                                                                <td>{{ \Carbon\Carbon::parse($schedule->start_datetime)->format('g:i A') }}</td>
-                                                                <td>{{ \Carbon\Carbon::parse($schedule->end_datetime)->format('g:i A') }}</td>
-        
-                                                                {{-- <td>
-                                                                    <button type="button"
-                                                                        class="btn btn-primary dropdown-toggle"
-                                                                        data-toggle="dropdown" aria-expanded="false">
-                                                                        Action
-                                                                    </button>
-                                                                    <ul class="dropdown-menu" x-placement="bottom-start"
-                                                                        style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 48px, 0px);">
-                                                                        <li class="dropdown-item"><a href="javascript::">Edit</a></li>
-                                                                        <li class="dropdown-item"><a href="javascript::">Delete</a>
-                                                                        </li>
-                                                                        
-                                                                        
-                                                                    </ul>
-                                                                </td> --}}
+                                                        @foreach ($test_results as $result)
+                                                            @foreach ($result->users as $user)
+                                                                @php
+                                                                    $count += 1; 
+                                                                @endphp    
+                                                                <tr>
+                                                                    <td>{{ $count }}</td>
+                                                                    <td>{{ $user->first_name }} {{ $user->id }}</td>
+                                                                    <td>{{ $result->name }}</td>
+                                                                    <td>{{ $user->pivot->score }}%</td>
+                                                                    <td>{{ $user->approve }}</td>
 
-                                                            </tr>
+                                                                    <td><button type="button"
+                                                                            class="btn btn-primary dropdown-toggle"
+                                                                            data-toggle="dropdown" aria-expanded="false">
+                                                                            Action
+                                                                        </button>
+                                                                        <ul class="dropdown-menu" x-placement="bottom-start"
+                                                                            style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 48px, 0px);">
+                                                                            <li class="dropdown-item"><a href="{{ url('/admin/tutor/approve') }}/{{ $user->id }}">Approve</a></li>
+                                                                            {{-- <li class="dropdown-item"><a href="{{ url('/admin/test/question/edit') }}/{{ $test->id }}">Edit Questions</a></li> --}}
+                                                                            {{-- <li class="dropdown-item"><a href="#">Disapprove</a> --}}
+                                                                            </li>
+                                                                            
+                                                                            {{-- <li class="dropdown-divider"></li>
+                                                                                <li class="dropdown-item"><a href="#">Preview</a>
+                                                                                <li class="dropdown-item"><a href="#">Result</a>
+
+                                                                            </li> --}}
+                                                                        </ul>
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
                                                         @endforeach
+                                                    @else
+                                                            Empty Admin List.
                                                     @endif
-
 
                                                 </tbody>
 

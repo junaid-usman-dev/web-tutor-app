@@ -117,8 +117,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                         </li>
                                                                         
                                                                         <li class="dropdown-divider"></li>
-                                                                        <li class="dropdown-item"><a href="{{ url('admin/test/preview') }}/{{ $test->id }}">Preview</a>
-                                                                        {{-- <li class="dropdown-item"><a href="#">Separated link</a> --}}
+                                                                            <li class="dropdown-item"><a href="{{ url('admin/test/preview') }}/{{ $test->id }}">Preview</a>
+                                                                            <li class="dropdown-item"><a href="{{ url('admin/test/result') }}/{{ $test->id }}">Result</a>
+
                                                                         </li>
                                                                     </ul>
                                                                 </td>

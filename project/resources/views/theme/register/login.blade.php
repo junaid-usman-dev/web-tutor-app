@@ -144,7 +144,8 @@ jQuery(document).ready(function(){
         
     $.ajaxSetup({ headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} });
         
-    jQuery("#login").click(function(event){
+    // jQuery("#login").click(function(event){
+    jQuery(document).on('click','#login', function(event){
         event.preventDefault();
         
         console.log("Button Pressed.");
@@ -170,7 +171,7 @@ jQuery(document).ready(function(){
             jQuery.ajax({
                 url: "{{ url('home') }}",
                 type: "POST",
-                data: {'user':user, 'password':pass, 'remember':remember},
+                data: { "_token": "{{ csrf_token() }}", 'user':user, 'password':pass, 'remember':remember},
 
                 beforeSend: function(){
                     $('#login').attr("disabled", true);

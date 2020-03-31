@@ -524,14 +524,17 @@ class StudentController extends Controller
      */
     public function AddFavorite(Request $request, $favorite_user_id )
     {  
-        $found = Favorite::where('favorite_user_id',$favorite_user_id)->get();
+        $found = Favorite::where("user_id", Auth::guard('user')->user()->id)->where('favorite_user_id',$favorite_user_id)->get();
         if ( count($found) < 1 )
         {
             $favorite = new Favorite();
             $favorite->user_id = Auth::user()->id;
             $favorite->favorite_user_id = $favorite_user_id;
             $favorite->save();
+
+            // dd ("Added");
         }
+
         return redirect()->route('student.dashboard');
     }
     

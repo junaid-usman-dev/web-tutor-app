@@ -22,7 +22,7 @@ class Test extends Model
      // Many to Many Relationship
      public function users()
      {
-         return $this->belongsToMany("App\Model\User")->withPivot('score');
+         return $this->belongsToMany("App\User")->withPivot('score');
      }
     
 

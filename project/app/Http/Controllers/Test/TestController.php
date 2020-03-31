@@ -172,14 +172,31 @@ class TestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function TutorResult(Request $request)
-    // {
-    //     //
-    //     $user_id = '3';
-    //     $test_id = '51';
+    public function Result(Request $request, $id)
+    {
+        //
+        // $user_id = '3';
+        // $test_id = '51';
 
-    //     $results = User::findOrFail($user_id);
-    //     dd ($results->tests[0]->pivot->score);
-    //     return view ('tutor.test.test_result')->with([ 'results'=>$results ]);
-    // }
+        $test_results = Test::findOrFail($id)->get();
+        // $test_results = TestUser::where('test_id',$id)->get();
+        // dd ($test_results->name);
+        // foreach ($test_results as $result)
+        // {
+            // dd ( $result->name); // Getting the test name
+            // dd ( $result->users); // Getting the users collection
+            // dd ( $result->pivot->score); // Getting the name
+        //     foreach ($result->users as $user )
+        //     {
+        //         // dd ($user->first_name); // Getting uer name
+        //         dd ($user->pivot->score); // Getting uer name
+
+        //     }
+
+
+        // }
+        // dd ( $test_results->name);
+        // dd ($results->tests[0]->pivot->score);
+        return view ('theme.admin.test.test_result')->with(['test_results'=>$test_results ]);
+    }
 }

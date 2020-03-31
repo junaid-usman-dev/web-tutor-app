@@ -77,17 +77,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             src="{{ url('/') }}/{{ $user->images->path }}/{{ $user->images->name }}"
                                             alt="User profile picture">
                                     </div>
-
-                                    <h3 class="profile-username text-center">{{ $user->first_name }}
-                                        {{ $user->last_name }}</h3>
+                                </br>
+                                    {{-- <h3 class="profile-username text-center">{{ $user->first_name }}
+                                        {{ $user->last_name }}</h3> --}}
 
                                     {{-- <p class="text-muted text-center">Student</p> --}}
 
                                     <ul class="list-group list-group-unbordered mb-3">
-                                        <li class="list-group-item"> <strong>Booked Tutors</strong> <a
-                                                class="float-right">05</a> </li>
+                                        <li class="list-group-item"> 
+                                            <strong>Booked Tutors</strong>
+                                            @if ( count ($student_classes) > 0 )
+                                                <a class="float-right"> {{ count ($student_classes) }}</a>
+                                            @else
+                                                <a class="float-right">0</a>
+                                            @endif  
+                                            
+                                        </li>
                                         <li class="list-group-item">
-                                            <b>My Favourites</b> <a class="float-right">50</a>
+                                            <b>My Favourites</b>
+                                            @if ( count($tutors) > 0)
+                                                <a class="float-right">{{ count($tutors) }}</a>
+                                            @else
+                                                <a class="float-right">0</a>
+                                            @endif
                                         </li>
                                         <li class="list-group-item">
                                             <b>Total Subjects</b> <a class="float-right">07</a>
@@ -280,7 +292,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                             <thead>
                                                                 <tr>
                                                                     <th>Sr. #</th>
-                                                                    <th>Student</th>
+                                                                    {{-- <th>Student</th> --}}
                                                                     <th>Tutor</th>
                                                                     <th>Subject</th>
                                                                     <th>Start Date</th>
@@ -301,7 +313,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                         @endphp    
                                                                         <tr>
                                                                             <td>{{ $count }}</td>
-                                                                            <td><a href="{{ route('student.profile') }}">{{ $user->first_name }} {{ $user->last_name }}</a></td>
+                                                                            {{-- <td><a href="{{ route('student.profile') }}">{{ $user->first_name }} {{ $user->last_name }}</a></td> --}}
                                                                             <td><a href="{{ url('student/tutor-profile') }}/{{ $schedule->tutor_id }}">{{ $schedule->tutor->first_name }} {{ $schedule->tutor->last_name }} </a></td>
                                                                             <td>
                                                                                 <div class="sparkbar" data-color="#00a65a"

@@ -136,17 +136,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                     <label class="form-check-label">{{ $question->option_2 }}</label>
                                                                 </div>
 
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="choice[{{ $question->id }}]" value="3">
-                                                                    <label class="form-check-label">{{ $question->option_3 }}</label>
-                                                                </div>
+                                                                @if ( !empty($question->option_3)  )
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" name="choice[{{ $question->id }}]" value="3">
+                                                                        <label class="form-check-label">{{ $question->option_3 }}</label>
+                                                                    </div>
+                                                                @endif
 
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="choice[{{ $question->id }}]" value="4">
-                                                                    <label class="form-check-label">{{ $question->option_4 }}</label>
-                                                                </div>
+                                                                @if ( !empty($question->option_4)  )
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" name="choice[{{ $question->id }}]" value="4">
+                                                                        <label class="form-check-label">{{ $question->option_4 }}</label>
+                                                                    </div>
+                                                                @endif
+
                                                             </div>
-
                                                         </div>
                                                     @endforeach
                                                 @else

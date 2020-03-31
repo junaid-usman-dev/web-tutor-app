@@ -532,7 +532,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 //     var end_time = (moment.parseZone(info.end).format("h:mm"));
 
                 //     // console.log ("Start Day: "+ start_day);
-                //     // console.log ("End Day: "+end_day);
+                //     // console.log ("End Day: "+ end_day);
 
                 //     // console.log ("Start Date: "+ start_d);
                 //     // console.log ("End Date: "+ end_d);
@@ -600,7 +600,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         let new_slot = [start_2, end_2]
                                         available_slots.push(new_slot)
                                         count += 1;
-
                                     }                            
                                 }
                             })
@@ -609,18 +608,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         {
                             return false;
                         } 
-                        else if (available_slots.length == 1 && count > 0)
+                        else if ( available_slots.length == 1 && count > 0 )
                         {
                             let slot = available_slots[0];
                             info.event.setStart(slot[0]);
                             info.event.setEnd(slot[1]);
                             info.event.setExtendedProp("description", "1")
-                            info.event.setProp("title", "1")
-
-                            // info.event.backgroundColor = '#228B22' ;
+                            info.event.setProp("title", "Booked")
+                            info.event.setProp("backgroundColor", "#FF0000")
                             
-                            console.log(info.event)
-
+                            // console.log(info.event)
+                            console.log(current_date)
                         }
                         // console.log(available_slots); 
                     }

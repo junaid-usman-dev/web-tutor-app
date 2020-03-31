@@ -21,8 +21,8 @@ class CreateQuestionsTable extends Migration
             $table->text('question');
             $table->string('option_1');
             $table->string('option_2');
-            $table->string('option_3');
-            $table->string('option_4');
+            $table->string('option_3')->nullable();
+            $table->string('option_4')->nullable();
             $table->string('answer');
 
             $table->timestamps();

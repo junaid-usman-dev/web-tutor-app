@@ -98,7 +98,7 @@
                                             <div class="col-9 ">
                                                 <h2 class="username ju-di"><strong>{{ $tutor->first_name }}
                                                     {{ $tutor->last_name }}</strong>
-                                                    @if ( $user->approve == "1" )
+                                                    @if ( $tutor->approve == "1" )
                                                         <i class="text-warning fas fa-certificate"></i>
                                                     @endif
                                                 </h2>

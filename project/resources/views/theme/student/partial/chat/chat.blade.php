@@ -1,20 +1,19 @@
-@php
-    if ($users_conversation[0]->receiver_id != $user->id)
-    {
-        $name = $users_conversation[0]->receiver->first_name." ".$users_conversation[0]->receiver->last_name;
-        // $receiver_id = $users_conversation[0]->receiver_id;
-    }
-@endphp
+
+     
+    
 
 <!-- DIRECT CHAT -->
 <div class="card direct-chat direct-chat-warning">
     <div class="card-header">
-        {{-- @if ( count($users_conversation) > 0) --}}
-        {{-- {{ $user->id }} --}}
-            {{-- @if ( $users_conversation[0]->sender_id == $user->id ) --}}
-
-                <h3 class="card-title">Recent Chat <span name="active_receiver_name">{{ $name }}</span></h3>
-
+    
+        @if ( !empty($users_conversation[0]) && $users_conversation[0]->receiver_id != $user->id)
+            @php
+                $name = $users_conversation[0]->receiver->first_name." ".$users_conversation[0]->receiver->last_name;
+            @endphp
+            <h3 class="card-title">Recent Chat <span name="active_receiver_name">{{ $name }}</span></h3>
+        @else
+            <h3 class="card-title">Recent Chat <span name="active_receiver_name"></span></h3>
+        @endif
             {{-- @endif --}}
             {{-- <h3 class="card-title">Recent Chat [ {{ $users_conversation[0]->users->first_name }} ]</h3> --}}
         {{-- @else --}}

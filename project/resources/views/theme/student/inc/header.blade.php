@@ -25,8 +25,8 @@
         </div>
     </form> --}}
 
-    {{-- <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
+    <!-- Right navbar links -->
+    {{-- <ul class="navbar-nav ml-auto">
         <!-- Messages Dropdown Menu -->
         <li class="nav-item dropdown"><a class="nav-link" data-toggle="dropdown" href="#"> <em
                     class="far fa-comments"></em> <span class="badge badge-danger navbar-badge">3</span> </a>
@@ -73,8 +73,9 @@
                         <div class="media-body">
                             <h3 class="dropdown-item-title">
                                 Nora Silvester
-                                <span class="float-right text-sm text-warning"><i
-                                        class="fas fa-star"></i></span>
+                                <span class="float-right text-sm text-warning">
+                                    <i class="fas fa-star"></i>
+                                </span>
                             </h3>
                             <p class="text-sm">The subject goes here</p>
                             <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>

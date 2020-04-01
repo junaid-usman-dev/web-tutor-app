@@ -473,9 +473,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             console.log("Conversation Button Pressed.");
             var sender_id = jQuery("input[name=sender_id]").val();
             var contact_id = $(this).attr('data-contact_id');
+            var contact_name = $(this).attr('data-contact_name');
+            // console.log("Contact Name: "+ contact_name);
             
             // Storing data attribute value to the input field.
             jQuery("input[name=receiver_id]").val(contact_id);
+            jQuery("span[name=active_receiver_name]").text(contact_name);
+
           
             Conversation(sender_id, contact_id);
         });

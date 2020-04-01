@@ -1,4 +1,10 @@
-
+@php
+    if ($users_conversation[0]->receiver_id != $user->id)
+    {
+        $name = $users_conversation[0]->receiver->first_name." ".$users_conversation[0]->receiver->last_name;
+        // $receiver_id = $users_conversation[0]->receiver_id;
+    }
+@endphp
 
 <!-- DIRECT CHAT -->
 <div class="card direct-chat direct-chat-warning">
@@ -7,7 +13,7 @@
         {{-- {{ $user->id }} --}}
             {{-- @if ( $users_conversation[0]->sender_id == $user->id ) --}}
 
-                <h3 class="card-title">Recent Chat [  ]</h3>
+                <h3 class="card-title">Recent Chat <span name="active_receiver_name">{{ $name }}</span></h3>
 
             {{-- @endif --}}
             {{-- <h3 class="card-title">Recent Chat [ {{ $users_conversation[0]->users->first_name }} ]</h3> --}}
@@ -34,8 +40,6 @@
             {{-- Conversation Partial View --}}
             @include('theme.student.partial.chat.conversation')
             
-
-
 
             <!-- Message. Default to the left -->
             {{-- <div class="direct-chat-msg">
@@ -117,8 +121,6 @@
         </div>
         <!--/.direct-chat-messages-->
 
-
-
         <!-- Contacts are loaded here -->
         <div class="direct-chat-contacts" >
             <ul class="contacts-list">
@@ -129,18 +131,24 @@
 
                     @foreach ($contact_list as $contact)
                         <li>
-                            <a href="#" name="view_conversation" data-contact_id="{{ $contact->id }}" >
+                            <a href="#" name="view_conversation" data-contact_id="{{ $contact->id }}" data-contact_name="{{ $contact->first_name }} {{ $contact->first_name }}" >
                                 <img class="contacts-list-img" 
                                 src="{{ url('/') }}/{{ $contact->images->path }}/{{ $contact->images->name }}">
 
                                 <div class="contacts-list-info">
-                                    <span class="contacts-list-name">
+                                    <span class="contacts-list-name" >
                                         {{ $contact->first_name }} {{ $contact->last_name }}
-                                        <small
-                                            class="contacts-list-date float-right">2/28/2015</small>
+                                        @if ( !empty($contact->messages[0]->text) )
+                                            <small class="contacts-list-date float-right">{{ Carbon\Carbon::parse( $contact->messages[0]->created_at )->format('d M, Y') }}</small>
+                                        @else
+                                        @endif   
                                     </span>
-                                    <span class="contacts-list-msg">How have you been? I
-                                        was...</span>
+                                    @if ( !empty($contact->messages[0]->text) )
+                                        <span class="contacts-list-msg">{{ $contact->messages[0]->text }}</span>
+                                    @else
+                                        <span class="contacts-list-msg"></span>
+                                    @endif
+                                    {{-- <span class="contacts-list-msg">message message</span> --}}
                                     
                                     {{-- <input type="hidden" name="contact_id" value="{{ $contact->id }}" /> --}}
 

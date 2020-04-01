@@ -42,6 +42,7 @@ return array(
     'App\\Model\\Education' => $baseDir . '/app/Model/Education.php',
     'App\\Model\\Favorite' => $baseDir . '/app/Model/Favorite.php',
     'App\\Model\\Message' => $baseDir . '/app/Model/Message.php',
+    'App\\Model\\Notification' => $baseDir . '/app/Model/Notification.php',
     'App\\Model\\Question' => $baseDir . '/app/Model/Question.php',
     'App\\Model\\Review' => $baseDir . '/app/Model/Review.php',
     'App\\Model\\Schedule' => $baseDir . '/app/Model/Schedule.php',

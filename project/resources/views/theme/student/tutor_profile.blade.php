@@ -100,6 +100,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('theme_asset/plugins/fullcalendar-timegrid/main.min.css') }}">
     <link rel="stylesheet" href="{{ asset('theme_asset/plugins/fullcalendar-bootstrap/main.min.css') }}">
 
+    {{-- 24 hours time picker --}}
+    {{-- <link href="{{ asset('theme_asset/datetime/timepicker.min.css') }}" rel="stylesheet"/> --}}
+    {{-- <link href="//cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.css"  rel="stylesheet"> --}}
+
+
 
 </head>
 
@@ -185,7 +190,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     {{-- Calender Modal --}}
     <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-lg" style="min-width: 75vw;">
             <div class="modal-content">
                 
                 <center>Availabilities</center>
@@ -282,28 +287,47 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             {{-- </div> --}}
                         </div>
                         
-                        {{-- <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">End Date</label>
-                            <input type="date" class="form-control" name="end_date" placeholder="mm/dd/yyyy" >
-                            <div class="error-message alert alert-danger error-ed ju-ta" role="alert">
-                                Error Message Goes Here
-                            </div>
-                        </div> --}}
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Available Time Range</label>
+                            <p> 
+                                <span name="start_time"></span> - 
+                                <span name="end_time"></span>
+                            </p>
+                        </div>
 
                         <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Start Time</label>
-                            <input type="time" class="form-control" name="start_time" placeholder="hh:mm AM" min="08:00:00" max="20:00:00" >
+                            <label for="recipient-name" class="col-form-label">Start Time (00:00 - 24:00)</label>
+                            <input type="text" class="form-control" name="start_time" placeholder="24:00" >
                             <div class="error-message alert alert-danger error-st ju-ta" role="alert">
                                 Error Message Goes Here
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">End Time</label>
-                            <input type="time" class="form-control" name="end_time" placeholder="hh:mm PM" >
+                            <label for="recipient-name" class="col-form-label">End Time (00:00 - 24:00)</label>
+                            <input type="text" class="form-control" name="end_time" placeholder="24:00" >
                             <div class="error-message alert alert-danger error-et ju-ta" role="alert">
                                 Error Message Goes Here
                             </div>
+                            <div class="error-message alert alert-danger error-bt ju-ta" role="alert">
+                                Error Message Goes Here
+                            </div>
                         </div>
+                        
+                        {{-- <div>
+                            <h1>
+                                <a href="https://github.com/jonataswalker/timepicker.js" class="link">Timepicker.js</a> &mdash; Example
+                              </h1>
+                              <h3 style="margin-top: 20px">Focusing:</h3>
+                              <div class="table right">
+                                <span class="icon"><i class="icon"></i></span>
+                                <input type="text" id="time" placeholder="Time">
+                              </div>
+                              <h3 style="margin-top: 20px">Triggering:</h3>
+                              <div class="table">
+                                <input type="text" id="time2" class="center" placeholder="Time">
+                                <a id="link" class="icon">Click to choose</a>
+                              </div>
+                        </div> --}}
 
                     </form>
                 </div>
@@ -342,8 +366,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Select2 -->
     {{-- <script src="{{ asset('theme_asset/plugins/select2/js/select2.full.min.js') }}"></script> --}}
 
-    {{-- Full Calender --}}
-    {{-- <script src="{{ asset('theme_asset/plugins/jquery/jquery.min.js') }}"></script> --}}
+    {{-- 24 hours time picker --}}
+    {{-- <script src="//cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.js"></script> --}}
+
+
 
     <script src="{{ asset('theme_asset/plugins/moment/moment.min.js') }}"></script>
     <script src="{{ asset('theme_asset/plugins/fullcalendar/main.min.js') }}"></script>
@@ -352,7 +378,43 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ asset('theme_asset/plugins/fullcalendar-interaction/main.min.js') }}"></script>
     <script src="{{ asset('theme_asset/plugins/fullcalendar-bootstrap/main.min.js') }}"></script>
 
+
     <script>
+        // var timepicker = new TimePicker('time', {
+        //     lang: 'en',
+        //     theme: 'dark'
+        // });
+        // timepicker.on('change', function(evt) {
+        
+        //     var value = (evt.hour || '00') + ':' + (evt.minute || '00');
+        //     evt.element.value = value;
+
+        // });
+        // var time2 = document.getElementById('time2');
+        // var timepicker = new TimePicker(['time', 'link'], {
+        // lang: 'en',
+        // theme: 'blue-grey',
+        // });
+        // timepicker.on('change', function (evt) {
+        // var value = (evt.hour || '00') + ':' + (evt.minute || '00');
+
+        // if (evt.element.id === 'link') {
+        //     time2.value = value;
+        // } else {
+        //     evt.element.value = value;
+        // }
+        // });
+
+
+
+
+
+
+
+
+
+
+
         let tutor_booking = {!! $tutor_booking !!}
         tutor_booking = JSON.parse(tutor_booking)
         // console.log(tutor_booking);        
@@ -460,6 +522,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 }
             });
 
+            function add_events(calendar, new_events) {
+                new_events.forEach((event) => {
+                    calendar.addEvent(event)
+                })
+            }
+
             var calendar = new Calendar(calendarEl, {
                 height: 650,
                 plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid'],
@@ -471,9 +539,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
+                // eventLimit: true, // for all non-TimeGrid views
+                
+                
 
                 // Unavailabale Days / Empty Slots
-                dayRender: function (dayRenderInfo) {
+                // dayRender: function (dayRenderInfo) {
                     // if (moment(dayRenderInfo.date).day() == 1) {
                     //     calendar.addEvent({
                     //         title: 'Available',
@@ -485,11 +556,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     //     dayRenderInfo.el.classList.add("disable")
                     //     // dayRenderInfo.el.disable.add("no-click")
                     // }
-                },
+                // },
 
                 // selectAllow: function(selectInfo)
                 // {
                 //    console.log(selectInfo.start);
+                // },
+                // eventLimit: true, // for all non-TimeGrid views
+                //     views: {
+                //         timeGrid: {
+                //         eventLimit: 3 // adjust to 3 only for timeGridWeek/timeGridDay
+                //         }
                 // },
                 
                 
@@ -558,75 +635,100 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 // },
                 
                 eventRender: function(info) {
-                    // console.log(info.event); //stillEvent.allDay && movingEvent.allDay;
-                    if (info.event.title != "Booked" && info.event.extendedProps.description == "0" )
+                    if (info.event.extendedProps.description == '1')
                     {
-                        // console.log(info.event.title);
-                        let available_slots = [
-                            [
-                               moment(info.event.start), 
-                               moment(info.event.end)  
-                            ]
-                        ]
-                        let count = 0;
+                        return true
+                    }
+                    else if (info.event.title != "Booked")
+                    {
+                        let count = 0
+                        let event_covered_on_whole_availability = false
                         let current_date = moment.parseZone(info.event.start).format("YYYY-MM-DD");
                         
                         let current_date_bookings = tutor_booking[current_date]
 
                         if (current_date_bookings )
                         {
-
-                            current_date_bookings.forEach(( booking) => {
-                            
-                                let slot = available_slots.pop();
+                            let available_slots = [
+                                [
+                                moment(info.event.start), 
+                                moment(info.event.end)  
+                                ]
+                            ]
+                            let key = moment(info.event.start).format('YYYY-MM-DD HH:mm:ss') + ' ' + moment(info.event.end).format('YYYY-MM-DD HH:mm:ss')
+                            if (info.event.extendedProps.description == key)
+                            {
+                                console.log(key)
+                                return false;
+                            }
+                            else
+                            {
+                                current_date_bookings.forEach((booking) => {
                                 
-                                if ( slot && moment(booking.start_datetime).isSameOrAfter(moment(slot[0]))
-                                    && moment(booking.end_datetime).isSameOrBefore(moment(slot[1])) 
-                                    )
-                                {
-                                    let start_1 = moment(slot[0])
-                                    let end_1 = moment(booking.start_datetime)   
-                                    if (!start_1.isSame(end_1))
+                                    let slot = available_slots.pop();
+                                    if ( slot && moment(booking.start_datetime).isSameOrAfter(slot[0])
+                                        && moment(booking.end_datetime).isSameOrBefore(slot[1]) 
+                                        )
                                     {
-                                        let new_slot = [start_1, end_1]
-                                        available_slots.push(new_slot)
-                                        count += 1;
+                                        let start_1 = slot[0]
+                                        let end_1 = moment(booking.start_datetime)   
+                                        if (!start_1.isSame(end_1))
+                                        {
+                                            let new_slot = [start_1, end_1]
+                                            available_slots.push(new_slot)
+                                            count += 1
+                                        }
+                                        // Start 2
+                                        let start_2 = moment(booking.end_datetime)
+                                        let end_2 = slot[1]
+                                        if (!start_2.isSame(end_2))
+                                        {
+                                            let new_slot = [start_2, end_2]
+                                            available_slots.push(new_slot)
+                                            count += 1
+                                        }
                                     }
-                                    // Start 2
-                                    let start_2 = moment(booking.end_datetime)
-                                    let end_2 = moment(slot[1])   
-                                    if (!start_2.isSame(end_2))
+                                    
+                                    if (moment(booking.start_datetime).isSame(slot[0])
+                                        && moment(booking.end_datetime).isSame(slot[1]))
                                     {
-                                        let new_slot = [start_2, end_2]
-                                        available_slots.push(new_slot)
-                                        count += 1;
-                                    }                            
+                                        event_covered_on_whole_availability = true
+                                    }
+                                })
+
+                                if (event_covered_on_whole_availability)
+                                {
+                                    return false
                                 }
-                            })
-                        }
-                        if (available_slots.length == 0)
-                        {
-                            return false;
-                        } 
-                        else if ( available_slots.length == 1 && count > 0 )
-                        {
-                            let slot = available_slots[0];
-                            info.event.setStart(slot[0]);
-                            info.event.setEnd(slot[1]);
-                            info.event.setExtendedProp("description", "1")
-                            info.event.setProp("title", "Booked")
-                            info.event.setProp("backgroundColor", "#FF0000")
+                                
+                                if (count == 0)
+                                {
+                                    return true
+                                }
+
+                            }
+
+                            info.event.setExtendedProp('description', key)
                             
-                            // console.log(info.event)
-                            console.log(current_date)
+                            if (count > 0) {
+                                let new_events = []
+                                available_slots.forEach((slot) => {
+                                    new_events.push({
+                                        title : slot[0].format('HH:mm:ss') + ' - ' + slot[1].format('HH:mm:ss'),
+                                        start: slot[0].format('YYYY-MM-DD HH:mm:ss'),
+                                        end: slot[1].format('YYYY-MM-DD HH:mm:ss'),
+                                        backgroundColor: '#FF0000',
+                                        description: '1'
+                                    })
+                                })
+
+                                add_events(calendar, new_events)
+                            }
                         }
-                        // console.log(available_slots); 
                     }
-                    else
-                    {
-                        return true
-                    }
-                    
+                },
+                eventDataTransform: function (eventData) {
+                    // console.log(eventData)
                 },
                 //Random default events
                 events: [
@@ -713,11 +815,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                         @endif
                        
-                        // title : '{{ $availability->title }}',
-                        // start : '{{ $availability->start_date }}',
-                        // end : '{{ $availability->end_date }}',
-                        // className: 'scheduler_basic_event'
-
                     },
                     @endforeach
 
@@ -726,16 +823,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     // Student Booking
                     @foreach ($user->schedules as $schedule)
                     {
-                
-                        // if (start_day == "Tuesday")
-                        // {
-                            title : 'Booked',
-                            start: '{{ $schedule->start_datetime }}',
-                            end: '{{ $schedule->end_datetime }}',
-                            backgroundColor: '#228B22', //gold
-                            // daysOfWeek: [2],
-                            // allDay: false
-                        // }
+                        title : 'Booked',
+                        start: '{{ $schedule->start_datetime }}',
+                        end: '{{ $schedule->end_datetime }}',
+                        backgroundColor: '#228B22', //gold       
                     },
                     @endforeach
                     
@@ -832,14 +923,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         console.log ("Start Time: "+ start_time );
                         console.log ("End Time: "+ end_time);
 
-
                         jQuery('span[name="start_date"]').text(start_d); // span
                         jQuery('span[name="end_date"]').text(end_d); // span
                         jQuery('input[name="start_date"]').val(start_d); 
                         jQuery('input[name="end_date"]').val(end_d);
 
+                        jQuery('span[name="start_time"]').text(start_time);
+                        jQuery('span[name="end_time"]').text(end_time);
                         jQuery('input[name="start_time"]').val(start_time);
                         jQuery('input[name="end_time"]').val(end_time);
+
                         jQuery('span[name="start_day"]').text(start_day);
                         jQuery('span[name="end_day"]').text(end_day);
                         // Calling Popup
@@ -851,7 +944,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             });
 
             calendar.render();
-            $('#calendar').fullCalendar()
 
             /* ADDING EVENTS */
             var currColor = '#3c8dbc' //Red by default
@@ -893,14 +985,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             })
 
         })
-
-    
-
-
-
-
-
-
 
         function init_ratings() {
             jQuery(".my-rating-8").starRating({
@@ -965,16 +1049,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 let start_time = jQuery('input[name="start_time"]').val();
                 let end_time = jQuery('input[name="end_time"]').val();
 
+                let span_start_time = jQuery('span[name="start_time"]').text();
+                let span_end_time = jQuery('span[name="end_time"]').text();
+
+                console.log("------------------------");
                 console.log("Student ID : "+ student_id);
                 console.log("Tutor ID : "+ tutor_id);
                 console.log("Subject : "+ subject);
                 // console.log("Day"+ day);
                 console.log("Start Date : "+ start_date);
                 console.log("End Date : "+ end_date);
-                console.log("Start Time : "+ start_time);
-                console.log("End Time : "+ end_time);
+                console.log("Input Start Time : "+ start_time);
+                console.log("Input End Time : "+ end_time);
+
+                console.log("Span Start Time : "+ span_start_time);
+                console.log("Span End Time : "+ span_end_time);
 
                 // console.log("Student ID"+ student_id);
+                var is_start_valid = moment(start_time, "HH:mm", true).isValid();
+                var is_end_valid = moment(end_time, "HH:mm", true).isValid();
+
+                
 
                 // Bool Variables
                 var is_student_id = false;
@@ -1081,7 +1176,39 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 // && (is_start_time == true) && (is_end_time == true)
                 if ( (is_subject == true) && (is_start_date == true) && (is_end_date == true)  )
                 {
-                    SetSchedule(student_id, tutor_id, subject, start_date, end_date, start_time, end_time);
+                    if ( is_start_valid == true && is_end_valid == true )
+                    {
+                        if ( (start_time >= span_start_time &&  start_time <= span_end_time )
+                        && (end_time > span_start_time &&  end_time <= span_end_time )
+                        )
+                        {
+                            if( start_time < end_time  )
+                            {
+                                console.log("------- start time in range ----------");
+                                jQuery('.error-bt').css("display","none");
+                                SetSchedule(student_id, tutor_id, subject, start_date, end_date, start_time, end_time);
+                            }
+                            else
+                            {
+                                console.log("------ Error22: Start Time is not valid. -------");
+                                jQuery('.error-bt').css("display","block");
+                                jQuery('.error-bt').html("You have set invalid booking time.");
+                            }
+                        }
+                        else
+                        {
+                            console.log("------ Error 11: Start Time is not valid. -------");
+                            jQuery('.error-bt').css("display","block");
+                            jQuery('.error-bt').html("You have set invalid booking time.");
+                        }
+                    }
+                    else
+                    {
+                        console.log("------ Error 00: Start Time is not valid. -------");
+                        jQuery('.error-bt').css("display","block");
+                        jQuery('.error-bt').html("You have set invalid booking time.");
+                    }
+                   
                 }
                 else
                 {

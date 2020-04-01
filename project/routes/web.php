@@ -404,7 +404,6 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/all', 'Users\Admin\AdminController@AllSchedule')->name('admin.class.all'); // destroy specific user
 
-     
     });
 
 });

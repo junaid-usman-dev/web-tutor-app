@@ -504,6 +504,7 @@ class ComposerStaticInitf20d6f1d9523a8d5fe74f47a69ae7415
         'App\\Model\\Education' => __DIR__ . '/../..' . '/app/Model/Education.php',
         'App\\Model\\Favorite' => __DIR__ . '/../..' . '/app/Model/Favorite.php',
         'App\\Model\\Message' => __DIR__ . '/../..' . '/app/Model/Message.php',
+        'App\\Model\\Notification' => __DIR__ . '/../..' . '/app/Model/Notification.php',
         'App\\Model\\Question' => __DIR__ . '/../..' . '/app/Model/Question.php',
         'App\\Model\\Review' => __DIR__ . '/../..' . '/app/Model/Review.php',
         'App\\Model\\Schedule' => __DIR__ . '/../..' . '/app/Model/Schedule.php',

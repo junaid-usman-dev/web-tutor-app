@@ -26,12 +26,58 @@
     </form>  --}}
 
     <!-- Right navbar links -->
+
+    @if (\Route::current()->getName() == "student.dashboard")
+        
+    
      <ul class="navbar-nav ml-auto">
         <!-- Messages Dropdown Menu -->
-        <li class="nav-item dropdown"><a class="nav-link" data-toggle="dropdown" href="#"> <em
-                    class="far fa-comments"></em> <span class="badge badge-danger navbar-badge">3</span> </a>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+                <em class="far fa-comments"></em>
+                    <span class="badge badge-danger navbar-badge">3</span>
+            </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <a href="#" class="dropdown-item">
+
+            
+            @if ( count($user_notification) > 0)
+
+
+            
+
+                
+
+                    <input type="hidden" name="logged_id" value="{{ $user->id }}" />
+
+                    @foreach ($user_notification->unique('sender_id') as $notification)
+                        <a href="#" class="dropdown-item" data-sender_id="{{ $notification->sender->id }}">
+                            <!-- Message Start -->
+                            <div class="media">
+                                <img src="{{ asset('theme_asset/dist/img/user1-128x128.jpg') }}" alt="User Avatar"
+                                    class="img-size-50 mr-3 img-circle">
+                                <div class="media-body">
+                                    <h3 class="dropdown-item-title">
+                                        {{ $notification->sender->first_name }} {{ $notification->sender->last_name }}
+                                        <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
+                                    </h3>
+                                    @php
+                                        $msg = $notification;
+                                        $total_message[] = $msg;
+                                    @endphp
+                                    <p class="text-sm"></p>{{ count($total_message) }} new messages
+                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                                </div>
+                            </div>
+                            <!-- Message End -->
+                        </a>
+                        <div class="dropdown-divider"></div>
+                    @endforeach
+                @else
+                    <p class="text-center" >No New Message </p>
+                @endif
+           
+               {{-- <a href="#" class="dropdown-item">
                     <!-- Message Start -->
                     <div class="media">
                         <img src="{{ asset('theme_asset/dist/img/user1-128x128.jpg') }}" alt="User Avatar"
@@ -48,6 +94,7 @@
                     <!-- Message End -->
                 </a>
                 <div class="dropdown-divider"></div>
+
                 <a href="#" class="dropdown-item">
                     <!-- Message Start -->
                     <div class="media">
@@ -85,8 +132,10 @@
                 </a>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+
             </div>
         </li>
+
         <!-- Notifications Dropdown Menu -->
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
@@ -113,11 +162,12 @@
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
             </div>
-        </li>
+        </li> --}}
 
         <!--  <li class="nav-item">
 <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"><i
     class="fas fa-th-large"></i></a>
 </li> -->
+    @endif
     </ul>
 </nav>

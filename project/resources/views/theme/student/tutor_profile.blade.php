@@ -291,16 +291,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div> --}}
 
                         <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Start Time</label>
-                            <input type="time" class="form-control" name="start_time" placeholder="hh:mm AM" min="08:00:00" max="20:00:00" >
+                            <label for="recipient-name" class="col-form-label">Available Time Range</label>
+                            <p> 
+                                <span name="start_time"></span> - 
+                                <span name="end_time"></span>
+                            </p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Start Time (00:00 - 24:00)</label>
+                            <input type="text" class="form-control" name="start_time" placeholder="24:00" >
                             <div class="error-message alert alert-danger error-st ju-ta" role="alert">
                                 Error Message Goes Here
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">End Time</label>
-                            <input type="time" class="form-control" name="end_time" placeholder="hh:mm PM" >
+                            <label for="recipient-name" class="col-form-label">End Time (00:00 - 24:00)</label>
+                            <input type="text" class="form-control" name="end_time" placeholder="24:00" >
                             <div class="error-message alert alert-danger error-et ju-ta" role="alert">
+                                Error Message Goes Here
+                            </div>
+                            <div class="error-message alert alert-danger error-bt ju-ta" role="alert">
                                 Error Message Goes Here
                             </div>
                         </div>
@@ -315,7 +326,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
     </div>
     {{-- End Book Tutor Bootstrap Modal --}}
-
 
 
     
@@ -366,7 +376,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 }, 500);
             });
         });
-        
+
 
         let tutor_booking = {!! $tutor_booking !!}
         tutor_booking = JSON.parse(tutor_booking)       
@@ -556,8 +566,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         jQuery('input[name="start_date"]').val(start_d); 
                         jQuery('input[name="end_date"]').val(end_d);
 
+                        jQuery('span[name="start_time"]').text(start_time);
+                        jQuery('span[name="end_time"]').text(end_time);
                         jQuery('input[name="start_time"]').val(start_time);
                         jQuery('input[name="end_time"]').val(end_time);
+
                         jQuery('span[name="start_day"]').text(start_day);
                         jQuery('span[name="end_day"]').text(end_day);
                         // Calling Popup
@@ -684,16 +697,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 let start_time = jQuery('input[name="start_time"]').val();
                 let end_time = jQuery('input[name="end_time"]').val();
 
+                let span_start_time = jQuery('span[name="start_time"]').text();
+                let span_end_time = jQuery('span[name="end_time"]').text();
+
+                console.log("------------------------");
                 console.log("Student ID : "+ student_id);
                 console.log("Tutor ID : "+ tutor_id);
                 console.log("Subject : "+ subject);
                 // console.log("Day"+ day);
                 console.log("Start Date : "+ start_date);
                 console.log("End Date : "+ end_date);
-                console.log("Start Time : "+ start_time);
-                console.log("End Time : "+ end_time);
+                console.log("Input Start Time : "+ start_time);
+                console.log("Input End Time : "+ end_time);
+
+                console.log("Span Start Time : "+ span_start_time);
+                console.log("Span End Time : "+ span_end_time);
 
                 // console.log("Student ID"+ student_id);
+                var is_start_valid = moment(start_time, "HH:mm", true).isValid();
+                var is_end_valid = moment(end_time, "HH:mm", true).isValid();
 
                 // Bool Variables
                 var is_student_id = false;
@@ -800,7 +822,38 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 // && (is_start_time == true) && (is_end_time == true)
                 if ( (is_subject == true) && (is_start_date == true) && (is_end_date == true)  )
                 {
-                    SetSchedule(student_id, tutor_id, subject, start_date, end_date, start_time, end_time);
+                    if ( is_start_valid == true && is_end_valid == true )
+                    {
+                        if ( (start_time >= span_start_time &&  start_time <= span_end_time )
+                        && (end_time > span_start_time &&  end_time <= span_end_time )
+                        )
+                        {
+                            if( start_time < end_time  )
+                            {
+                                console.log("------- start time in range ----------");
+                                jQuery('.error-bt').css("display","none");
+                                SetSchedule(student_id, tutor_id, subject, start_date, end_date, start_time, end_time);
+                            }
+                            else
+                            {
+                                console.log("------ Error22: Start Time is not valid. -------");
+                                jQuery('.error-bt').css("display","block");
+                                jQuery('.error-bt').html("You have set invalid booking time.");
+                            }
+                        }
+                        else
+                        {
+                            console.log("------ Error 11: Start Time is not valid. -------");
+                            jQuery('.error-bt').css("display","block");
+                            jQuery('.error-bt').html("You have set invalid booking time.");
+                        }
+                    }
+                    else
+                    {
+                        console.log("------ Error 00: Start Time is not valid. -------");
+                        jQuery('.error-bt').css("display","block");
+                        jQuery('.error-bt').html("You have set invalid booking time.");
+                    }
                 }
                 else
                 {

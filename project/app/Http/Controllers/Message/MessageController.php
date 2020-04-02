@@ -181,9 +181,14 @@ class MessageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($sender_id, $receiver_id)
     {
         //
+        $del_notificatin = Notification::where('sender_id',$sender_id)->where('receiver_id',$receiver_id)->delete();
+        // $del_notificatin->delete();
+        dd ("Deleted.");
+        // dd ($del_notificatin);
+
     }
 
     /**
@@ -202,6 +207,11 @@ class MessageController extends Controller
         $user = Auth::guard('user')->user();
         $users_conversation = Message::where('sender_id',$sender_id)->where('receiver_id',$receiver_id)
                         ->orWhere('sender_id',$receiver_id)->where('receiver_id',$sender_id)->get();
+
+        // ----------  notification ------------
+        $del_notificatin = Notification::where('sender_id',$contact_id)->where('receiver_id',$sender_id)->delete();
+
+        //----------- end notification  ------------
 
         // dd($users_converstion);
         if(Auth::guard('user')->user()->type == "student")
@@ -310,9 +320,18 @@ class MessageController extends Controller
     public function ViewAllNotification(Request $request, $id )
     {
         $user = Auth::guard('user')->user();
-        $users_notification = Message::where('receiver_id',Auth::guard('user')->user()->id)->get();  
+        $users_notification = Notification::where('receiver_id',$id)->get();  
         
-        dd ($users_notification);
+        // dd ($users_notification);
+        foreach ($users_notification as $notification)
+        {
+            // echo (gettype($notification)."</br>");
+            // echo (count($notification)."</br>");
+            $noti = $notification;
+            $arr[] = clone $noti;
+        }
+
+        echo ( count($arr). "</br>");
     }
     
 }

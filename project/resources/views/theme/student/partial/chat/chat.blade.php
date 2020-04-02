@@ -9,6 +9,7 @@
         @if ( !empty($users_conversation[0]) && $users_conversation[0]->receiver_id != $user->id)
             @php
                 $name = $users_conversation[0]->receiver->first_name." ".$users_conversation[0]->receiver->last_name;
+                // $name = "";
             @endphp
             <h3 class="card-title">Recent Chat <span name="active_receiver_name">{{ $name }}</span></h3>
         @else
@@ -130,7 +131,7 @@
 
                     @foreach ($contact_list as $contact)
                         <li>
-                            <a href="#" name="view_conversation" data-contact_id="{{ $contact->id }}" data-contact_name="{{ $contact->first_name }} {{ $contact->first_name }}" >
+                            <a href="#" name="view_conversation" data-contact_id="{{ $contact->id }}" data-contact_name="{{ $contact->first_name }} {{ $contact->last_name }}" >
                                 <img class="contacts-list-img" 
                                 src="{{ url('/') }}/{{ $contact->images->path }}/{{ $contact->images->name }}">
 

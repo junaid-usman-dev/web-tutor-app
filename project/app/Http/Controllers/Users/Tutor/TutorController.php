@@ -17,6 +17,7 @@ use App\Model\Test;
 use App\Model\Question;
 use App\Model\TestUser;
 use App\Model\SubjectUser;
+use App\Model\Notification;
 use App\Model\Message;
 use App\Model\Education;
 use App\Model\Schedule;
@@ -1089,11 +1090,18 @@ class TutorController extends Controller
                 //------------   Book Schedules  -------------
 
 
+                // --------  Notification -------------
+                $user_notification = Notification::where('receiver_id',$user->id)->get();
+                // dd ($user_notification); 
+                // --------  End Notification -------------
+
+
                 return view ('theme.tutor.tutor_dashboard')->with([
                     'user' => $user,
                     'contact_list'=>$contact_list,
                     'users_conversation' => $users_conversation,
-                    'tutor_schedules' => $tutor_schedules
+                    'tutor_schedules' => $tutor_schedules,
+                    'user_notification' => $user_notification
                     ]);
 
                 // return view ('theme.tutor.tutor_dashboard')->with(['user' => $user]);

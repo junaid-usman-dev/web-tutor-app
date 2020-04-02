@@ -19,6 +19,7 @@ use App\Model\Subject;
 use App\Model\Message;
 use App\Model\Schedule;
 use App\Model\Availability;
+use App\Model\Notification;
 use App\Payment;
 
 use App\Rules\EmailFormat;
@@ -750,15 +751,14 @@ class StudentController extends Controller
             
             //....  Lastest Classes  ...............
             $student_classes = Schedule::where('student_id', $user_id)->get();
-            // dd ($tutors_id);
-            // $classes_tutors = array();
-            // foreach ($tutors_id as $tutor)
-            // {
-            //     $tutor = new \stdClass();
-            //     $tutor = User::where('id',$tutor)->get();
-            //     $tutor_classes = clone $tutor;
-            // }
-            // dd ($student_classes);
+            // ----------- End Latest Classes --------
+
+
+            // --------  Notification -------------
+            $user_notification = Notification::where('receiver_id',$user_id)->get(); 
+            // --------  End Notification -------------
+
+
 
             // dd($tutors[0]->first_name); working
             return view ('theme.student.student_dashboard')->with([
@@ -766,8 +766,9 @@ class StudentController extends Controller
                 'tutors'=>$tutors,
                 'contact_list'=>$contact_list,
                 'users_conversation' => $users_conversation,
-                'student_classes' => $student_classes
-                ]);
+                'student_classes' => $student_classes,
+                'user_notification' => $user_notification,
+            ]);
         }
         else
         {

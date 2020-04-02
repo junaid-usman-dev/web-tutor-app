@@ -153,7 +153,8 @@ Route::prefix('student')->group(function () {
         Route::get('/view-conversation/{sender_id}/{contact_id}', 'Message\MessageController@ViewConversation')->name('sdsd.message.conversation.test'); // Display conversion between two person
 
         // -------  notification --------
-        Route::get('all-notification', 'Message\MessageController@ViewAllNotification')->name('student.message.notification'); //veiw all notification
+        Route::get('all-notification/{id}', 'Message\MessageController@ViewAllNotification')->name('student.message.notification'); //veiw all notification
+        Route::get('delete-notification/{sender_id}/{receiver_id}', 'Message\MessageController@destroy')->name('student.message.remove.notification'); //Remvoe notification for specfic user
 
     });
 
@@ -251,6 +252,10 @@ Route::prefix('tutor')->group(function () {
         Route::get('/send/{sender_id}/{receiver_id}/{message}', 'Message\MessageController@store')->name('tutor.message.send'); //Start Chat/ Send Message
 
         Route::get('/view-conversation/{sender_id}/{contact_id}', 'Message\MessageController@ViewConversation')->name('sdsd.message.conversation.test'); // Display conversion between two person
+
+        // -------  notification --------
+        Route::get('all-notification/{id}', 'Message\MessageController@ViewAllNotification')->name('student.message.notification'); //veiw all notification
+        Route::get('delete-notification/{sender_id}/{receiver_id}', 'Message\MessageController@destroy')->name('student.message.remove.notification'); //Remvoe notification for specfic user
 
     });
 

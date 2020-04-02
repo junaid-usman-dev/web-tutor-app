@@ -11,7 +11,7 @@ class Notification extends Model
     /**
      * Get the post that owns the message.
      */
-    public function users()
+    public function sender()
     {
         return $this->belongsTo('App\User', 'sender_id');
     }

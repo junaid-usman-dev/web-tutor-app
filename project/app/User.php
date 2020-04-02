@@ -120,7 +120,7 @@ class User extends Authenticatable
     // One to Many Relationship
     public function notifications()
     {
-        return $this->hasMany("App\Model\Notification","sender_id");
+        return $this->hasMany("App\Model\Notification");
     }
     
 

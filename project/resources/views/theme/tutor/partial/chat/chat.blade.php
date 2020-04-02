@@ -4,7 +4,18 @@
 <!-- DIRECT CHAT -->
 <div class="card direct-chat direct-chat-warning">
     <div class="card-header">
-        <h3 class="card-title">Recent Chat</h3>
+
+        @if ( !empty($users_conversation[0]) && $users_conversation[0]->sender_id != $user->id)
+            @php
+                $name = $users_conversation[0]->users->first_name." ".$users_conversation[0]->users->last_name;
+                // $name = "";
+            @endphp
+            <h3 class="card-title">Recent Chat <span name="active_receiver_name">{{ $name }}</span></h3>
+        @else
+            <h3 class="card-title">Recent Chat <span name="active_receiver_name"></span></h3>
+        @endif
+
+        {{-- <h3 class="card-title">Recent Chat</h3> --}}
 
         <div class="card-tools">
             <span data-toggle="tooltip" title="3 New Messages"
@@ -41,7 +52,7 @@
 
                     @foreach ($contact_list as $contact)
                         <li>
-                            <a href="#" name="view_conversation" data-contact_id="{{ $contact->id }}" >
+                            <a href="#" name="view_conversation" data-contact_id="{{ $contact->id }}" data-contact_name="{{ $contact->first_name }} {{ $contact->last_name }}" >
                                 <img class="contacts-list-img" 
                                 src="{{ url('/') }}/{{ $contact->images->path }}/{{ $contact->images->name }}">
 

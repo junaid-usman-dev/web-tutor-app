@@ -483,6 +483,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
           
             Conversation(sender_id, contact_id);
         });
+
+        jQuery(document).on('click', 'a[name="delete_notification"]', function(event){
+            event.preventDefault();
+
+            console.log("Notification Button Pressed.");
+            var sender_id = jQuery("input[name=logged_id]").val(); // receiver id / current logged user
+            var contact_id = $(this).attr('data-sender_id'); // user id/ who sent a message 
+            var contact_name = $(this).attr('data-contact_name');
+            
+            // Storing data attribute value to the input field.
+            jQuery("input[name=receiver_id]").val(contact_id);// update id to send a msg
+            jQuery("span[name=active_receiver_name]").text(contact_name);
+
+            // console.log(sender_id); 7 logged user
+            // console.log(contact_id); 1
+
+            Conversation(sender_id, contact_id);
+        });
+
         jQuery(document).on('click', "#send_message", function(event){
             event.preventDefault();
 
@@ -493,6 +512,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             
             SendMessage(sender_id, receiver_id, message);
         });
+
+        
     
         function Conversation(sender_id, contact_id)
         {

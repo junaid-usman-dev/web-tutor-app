@@ -149,7 +149,11 @@ Route::prefix('student')->group(function () {
         
         Route::get('/send/{sender_id}/{receiver_id}/{message}', 'Message\MessageController@store')->name('student.message.send'); //Start Chat/ Send Message
 
+        // test
         Route::get('/view-conversation/{sender_id}/{contact_id}', 'Message\MessageController@ViewConversation')->name('sdsd.message.conversation.test'); // Display conversion between two person
+
+        // -------  notification --------
+        Route::get('all-notification', 'Message\MessageController@ViewAllNotification')->name('student.message.notification'); //veiw all notification
 
     });
 

@@ -111,12 +111,17 @@ class User extends Authenticatable
         return $this->hasMany("App\Model\Schedule", "student_id");
     }
 
-
     // One to Many Relationship
     // public function resutls()
     // {
     //     return $this->hasMany("App\Model\TestUser", "user_id");
     // }
+
+    // One to Many Relationship
+    public function notifications()
+    {
+        return $this->hasMany("App\Model\Notification","sender_id");
+    }
     
 
 }

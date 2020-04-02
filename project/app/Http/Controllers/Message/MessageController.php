@@ -9,6 +9,7 @@ use Auth;
 use Illuminate\Support\Facades\DB; // Library for query builder
 
 use App\Model\Message;
+use App\Model\Notification;
 use App\User;
 
 
@@ -63,6 +64,16 @@ class MessageController extends Controller
 
         $msg->save();
 
+        // -------- Notification  --------
+        $noti_msg = new Notification();
+
+        $noti_msg->sender_id = $sender_id;
+        $noti_msg->receiver_id = $receiver_id;
+        $noti_msg->text = $message;
+
+        $noti_msg->save();
+        // ------ End Notification -------------
+
         return redirect()->route('student.dashboard');
         
     }
@@ -94,6 +105,17 @@ class MessageController extends Controller
         $msg->text = $message;
 
         $msg->save();
+
+        // ---------------- notification ----------------
+        $noti_msg = new Notification();
+
+        $noti_msg->sender_id = $sender_id;
+        $noti_msg->receiver_id = $receiver_id;
+        $noti_msg->text = $message;
+
+        $noti_msg->save();
+        // ---------------- end notification ----------------
+
 
         $users_conversation = Message::where('sender_id',$sender_id)->where('receiver_id',$receiver_id)
                         ->orWhere('sender_id',$receiver_id)->where('receiver_id',$sender_id)->get();
@@ -277,28 +299,20 @@ class MessageController extends Controller
             // Empty Contact is List
             return ("Your Contact List is Empty.");
         }
- 
-        // $contacts = array();
-        // $contacts = Message::where('sender_id',$id)->distinct()
-        //                 // ->orWhere('receiver_id',$current_user_id)
-        //                 ->pluck('receiver_id');
-
-        // if (count($contacts) > 0)
-        // {
-        //     for ($i=0; $i < count($contacts); $i++ )
-        //     {
-        //         $item = new \stdClass();
-        //         $item = User::where('id',$contacts[$i])->first();
-                    
-        //         $items[] = clone $item;
-        //     }
-        //     // return view ('student.contact_list')->with(['users'=>$items,'user_id'=>$id]);
-        // }
-        // else
-        // {
-        //     // Empty Contact is List
-        //     return ("Your Contact List is Empty.");
-        // }
-    
     }
+
+    /**
+     * Display all notification for specific user.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function ViewAllNotification(Request $request, $id )
+    {
+        $user = Auth::guard('user')->user();
+        $users_notification = Message::where('receiver_id',Auth::guard('user')->user()->id)->get();  
+        
+        dd ($users_notification);
+    }
+    
 }

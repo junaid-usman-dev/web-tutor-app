@@ -363,7 +363,7 @@
 
                                     </div>
                                     
-                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    <button type="button" id="availabilities_button" class="btn btn-primary" data-toggle="modal"
                                         data-target=".bd-example-modal-lg" data-whatever="@mdo">Availabilities</button>
 
                                     <hr>

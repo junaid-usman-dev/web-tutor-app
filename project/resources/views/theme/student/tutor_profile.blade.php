@@ -353,6 +353,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ asset('theme_asset/plugins/fullcalendar-bootstrap/main.min.js') }}"></script>
 
     <script>
+        
+        // availabilities evnet solution
+        jQuery( document ).ready(function() {
+            jQuery("#availabilities_button").click( function(){
+                console.log('button clicked');
+                var shInterval =  setInterval(function(){
+                    if (jQuery(".modal.fade.bd-example-modal-lg.show").length > 0){
+                        jQuery("button.fc-dayGridMonth-button.fc-button.fc-button-primary").click();
+                    clearInterval(shInterval);
+                    }
+                }, 500);
+            });
+        });
+        
+
         let tutor_booking = {!! $tutor_booking !!}
         tutor_booking = JSON.parse(tutor_booking)       
 
@@ -460,6 +475,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             });
 
             function add_events(calendar, new_events) {
+
                 new_events.forEach((event) => {
                     calendar.addEvent(event)
                 })
@@ -478,12 +494,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
+
                 // eventLimit: true, // for all non-TimeGrid views
                 // views: {
                 //     timeGrid: {
                 //     eventLimit: 2 // adjust to 6 only for timeGridWeek/timeGridDay
                 //     }
                 // },
+            
                 events: "{{ url('/student/tutor/'.$tutor->id.'/booking') }}",
                 showNonCurrentDates: false,
 
@@ -548,6 +566,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         return false;
                     } 
                 }
+
+
             });
 
             calendar.render();

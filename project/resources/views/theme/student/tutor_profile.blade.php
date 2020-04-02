@@ -100,11 +100,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('theme_asset/plugins/fullcalendar-timegrid/main.min.css') }}">
     <link rel="stylesheet" href="{{ asset('theme_asset/plugins/fullcalendar-bootstrap/main.min.css') }}">
 
-    {{-- 24 hours time picker --}}
-    {{-- <link href="{{ asset('theme_asset/datetime/timepicker.min.css') }}" rel="stylesheet"/> --}}
-    {{-- <link href="//cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.css"  rel="stylesheet"> --}}
-
-
 
 </head>
 
@@ -287,47 +282,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             {{-- </div> --}}
                         </div>
                         
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Available Time Range</label>
-                            <p> 
-                                <span name="start_time"></span> - 
-                                <span name="end_time"></span>
-                            </p>
-                        </div>
+                        {{-- <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">End Date</label>
+                            <input type="date" class="form-control" name="end_date" placeholder="mm/dd/yyyy" >
+                            <div class="error-message alert alert-danger error-ed ju-ta" role="alert">
+                                Error Message Goes Here
+                            </div>
+                        </div> --}}
 
                         <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Start Time (00:00 - 24:00)</label>
-                            <input type="text" class="form-control" name="start_time" placeholder="24:00" >
+                            <label for="recipient-name" class="col-form-label">Start Time</label>
+                            <input type="time" class="form-control" name="start_time" placeholder="hh:mm AM" min="08:00:00" max="20:00:00" >
                             <div class="error-message alert alert-danger error-st ju-ta" role="alert">
                                 Error Message Goes Here
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">End Time (00:00 - 24:00)</label>
-                            <input type="text" class="form-control" name="end_time" placeholder="24:00" >
+                            <label for="recipient-name" class="col-form-label">End Time</label>
+                            <input type="time" class="form-control" name="end_time" placeholder="hh:mm PM" >
                             <div class="error-message alert alert-danger error-et ju-ta" role="alert">
                                 Error Message Goes Here
                             </div>
-                            <div class="error-message alert alert-danger error-bt ju-ta" role="alert">
-                                Error Message Goes Here
-                            </div>
                         </div>
-                        
-                        {{-- <div>
-                            <h1>
-                                <a href="https://github.com/jonataswalker/timepicker.js" class="link">Timepicker.js</a> &mdash; Example
-                              </h1>
-                              <h3 style="margin-top: 20px">Focusing:</h3>
-                              <div class="table right">
-                                <span class="icon"><i class="icon"></i></span>
-                                <input type="text" id="time" placeholder="Time">
-                              </div>
-                              <h3 style="margin-top: 20px">Triggering:</h3>
-                              <div class="table">
-                                <input type="text" id="time2" class="center" placeholder="Time">
-                                <a id="link" class="icon">Click to choose</a>
-                              </div>
-                        </div> --}}
 
                     </form>
                 </div>
@@ -366,10 +342,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Select2 -->
     {{-- <script src="{{ asset('theme_asset/plugins/select2/js/select2.full.min.js') }}"></script> --}}
 
-    {{-- 24 hours time picker --}}
-    {{-- <script src="//cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.js"></script> --}}
-
-
+    {{-- Full Calender --}}
+    {{-- <script src="{{ asset('theme_asset/plugins/jquery/jquery.min.js') }}"></script> --}}
 
     <script src="{{ asset('theme_asset/plugins/moment/moment.min.js') }}"></script>
     <script src="{{ asset('theme_asset/plugins/fullcalendar/main.min.js') }}"></script>
@@ -378,46 +352,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ asset('theme_asset/plugins/fullcalendar-interaction/main.min.js') }}"></script>
     <script src="{{ asset('theme_asset/plugins/fullcalendar-bootstrap/main.min.js') }}"></script>
 
-
     <script>
-        // var timepicker = new TimePicker('time', {
-        //     lang: 'en',
-        //     theme: 'dark'
-        // });
-        // timepicker.on('change', function(evt) {
-        
-        //     var value = (evt.hour || '00') + ':' + (evt.minute || '00');
-        //     evt.element.value = value;
-
-        // });
-        // var time2 = document.getElementById('time2');
-        // var timepicker = new TimePicker(['time', 'link'], {
-        // lang: 'en',
-        // theme: 'blue-grey',
-        // });
-        // timepicker.on('change', function (evt) {
-        // var value = (evt.hour || '00') + ':' + (evt.minute || '00');
-
-        // if (evt.element.id === 'link') {
-        //     time2.value = value;
-        // } else {
-        //     evt.element.value = value;
-        // }
-        // });
-
-
-
-
-
-
-
-
-
-
-
         let tutor_booking = {!! $tutor_booking !!}
-        tutor_booking = JSON.parse(tutor_booking)
-        // console.log(tutor_booking);        
+        tutor_booking = JSON.parse(tutor_booking)       
 
 
         Date.prototype.addDays = function(days) {
@@ -528,6 +465,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 })
             }
 
+            let render_count = 0
+
             var calendar = new Calendar(calendarEl, {
                 height: 650,
                 plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid'],
@@ -540,344 +479,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
                 // eventLimit: true, // for all non-TimeGrid views
-                
-                
-
-                // Unavailabale Days / Empty Slots
-                // dayRender: function (dayRenderInfo) {
-                    // if (moment(dayRenderInfo.date).day() == 1) {
-                    //     calendar.addEvent({
-                    //         title: 'Available',
-                    //         start: dayRenderInfo.date,
-                    //         allDay: true
-                    //     })
-                    // }
-                    // else {
-                    //     dayRenderInfo.el.classList.add("disable")
-                    //     // dayRenderInfo.el.disable.add("no-click")
-                    // }
-                // },
-
-                // selectAllow: function(selectInfo)
-                // {
-                //    console.log(selectInfo.start);
-                // },
-                // eventLimit: true, // for all non-TimeGrid views
-                //     views: {
-                //         timeGrid: {
-                //         eventLimit: 3 // adjust to 3 only for timeGridWeek/timeGridDay
-                //         }
-                // },
-                
-                
-                // // start, end, jsEvent, view
-                // select: function( info ){
-
-                //     // Write Code Here
-                //     let day_number = $('#days').val();
-                //     let day_number2 = day_number.split(",").map((n) => { return parseInt(n) });
-                    
-                //     var start_date = new Date(info.start);
-                //     var end_date = new Date(info.end);
-
-                //     let dates_range = getDates(start_date, end_date);
-                //     let count_days = 0;
-                //     for (let i=0; i < dates_range.length; i++)
-                //     {
-                //         // check availbity or slot is not empty
-                //         if ( day_number2.includes(moment(dates_range[i]).day()) ) {
-                //             count_days += 1;
-                //         }
+                // views: {
+                //     timeGrid: {
+                //     eventLimit: 2 // adjust to 6 only for timeGridWeek/timeGridDay
                 //     }
-
-                //     if (count_days != dates_range.length )
-                //     {
-                //         console.log("Count Days: "+ count_days);
-                //         return
-                //     }
-                   
-                //     // "Thu Jun 09 2011 00:00:00 GMT+0530 (India Standard Time)"
-                //     // var start_day = (moment.parseZone(start.start).format("dddd, MMMM Do YYYY, h:mm:ss a"));
-
-                //     var start_day = (moment.parseZone(info.start).format("dddd"));
-                //     var end_day = (moment.parseZone(info.end).subtract(1, 'days').format("dddd"));
-
-                //     var start_d = (moment.parseZone(info.start).format("YYYY-MM-DD"));
-                //     var end_d = (moment.parseZone(info.end).subtract(1, 'days').format("YYYY-MM-DD"));
-                    
-                //     var start_time = (moment.parseZone(info.start).format("h:mm"));
-                //     var end_time = (moment.parseZone(info.end).format("h:mm"));
-
-                //     // console.log ("Start Day: "+ start_day);
-                //     // console.log ("End Day: "+ end_day);
-
-                //     // console.log ("Start Date: "+ start_d);
-                //     // console.log ("End Date: "+ end_d);
-
-                //     console.log ("Start Time: "+ start_time );
-                //     console.log ("End Time: "+ end_time);
-                    
-                //     // var event = calendar.getEventById('12');
-                //     // var start = event.title // a property (a Date object)
-                //     // console.log(calendar.getEvents());
-                    
-                //     jQuery('span[name="start_date"]').text(start_d); // span
-                //     jQuery('span[name="end_date"]').text(end_d); // span
-                //     jQuery('input[name="start_date"]').val(start_d); 
-                //     jQuery('input[name="end_date"]').val(end_d);
-
-                //     jQuery('input[name="start_time"]').val(start_time);
-                //     jQuery('input[name="end_time"]').val(end_time);
-                //     jQuery('span[name="start_day"]').text(start_day);
-                //     jQuery('span[name="end_day"]').text(end_day);
-
-                //     $('#BookingModal').modal('show');
                 // },
-                
-                eventRender: function(info) {
-                    if (info.event.extendedProps.description == '1')
-                    {
-                        return true
-                    }
-                    else if (info.event.title != "Booked")
-                    {
-                        let count = 0
-                        let event_covered_on_whole_availability = false
-                        let current_date = moment.parseZone(info.event.start).format("YYYY-MM-DD");
-                        
-                        let current_date_bookings = tutor_booking[current_date]
+                events: "{{ url('/student/tutor/'.$tutor->id.'/booking') }}",
+                showNonCurrentDates: false,
 
-                        if (current_date_bookings )
-                        {
-                            let available_slots = [
-                                [
-                                moment(info.event.start), 
-                                moment(info.event.end)  
-                                ]
-                            ]
-                            let key = moment(info.event.start).format('YYYY-MM-DD HH:mm:ss') + ' ' + moment(info.event.end).format('YYYY-MM-DD HH:mm:ss')
-                            if (info.event.extendedProps.description == key)
-                            {
-                                console.log(key)
-                                return false;
-                            }
-                            else
-                            {
-                                current_date_bookings.forEach((booking) => {
-                                
-                                    let slot = available_slots.pop();
-                                    if ( slot && moment(booking.start_datetime).isSameOrAfter(slot[0])
-                                        && moment(booking.end_datetime).isSameOrBefore(slot[1]) 
-                                        )
-                                    {
-                                        let start_1 = slot[0]
-                                        let end_1 = moment(booking.start_datetime)   
-                                        if (!start_1.isSame(end_1))
-                                        {
-                                            let new_slot = [start_1, end_1]
-                                            available_slots.push(new_slot)
-                                            count += 1
-                                        }
-                                        // Start 2
-                                        let start_2 = moment(booking.end_datetime)
-                                        let end_2 = slot[1]
-                                        if (!start_2.isSame(end_2))
-                                        {
-                                            let new_slot = [start_2, end_2]
-                                            available_slots.push(new_slot)
-                                            count += 1
-                                        }
-                                    }
-                                    
-                                    if (moment(booking.start_datetime).isSame(slot[0])
-                                        && moment(booking.end_datetime).isSame(slot[1]))
-                                    {
-                                        event_covered_on_whole_availability = true
-                                    }
-                                })
-
-                                if (event_covered_on_whole_availability)
-                                {
-                                    return false
-                                }
-                                
-                                if (count == 0)
-                                {
-                                    return true
-                                }
-
-                            }
-
-                            info.event.setExtendedProp('description', key)
-                            
-                            if (count > 0) {
-                                let new_events = []
-                                available_slots.forEach((slot) => {
-                                    new_events.push({
-                                        title : slot[0].format('HH:mm:ss') + ' - ' + slot[1].format('HH:mm:ss'),
-                                        start: slot[0].format('YYYY-MM-DD HH:mm:ss'),
-                                        end: slot[1].format('YYYY-MM-DD HH:mm:ss'),
-                                        backgroundColor: '#FF0000',
-                                        description: '1'
-                                    })
-                                })
-
-                                add_events(calendar, new_events)
-                            }
-                        }
-                    }
-                },
-                eventDataTransform: function (eventData) {
-                    // console.log(eventData)
-                },
-                //Random default events
-                events: [
-                    
-                    // calendar.getEvents()[0]._instance.range.start
-                    // calendar.getEvents().filter(function (event)
-                    // {
-                    //     console.log(event);
-                    // }
-                    // event._instance.range.start
-                    // event._instance.range.end
-                    
-                    // Tutor Availabities
-                    @foreach ($tutor->availabilities as $availability)
-                    {
-                        @if ($availability->title == "Sunday")
-
-                            title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
-                            startTime: '{{ $availability->start_time }}',
-                            endTime: '{{ $availability->end_time }}',
-                            // backgroundColor: '#228B22', //red
-                            daysOfWeek: [0],
-                            // allDay: false
-                            // editable: false,
-                            description: "0",
-
-                        @elseif ($availability->title == "Monday")
-                            id: '12',
-                            title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
-                            startTime: '{{ $availability->start_time }}',
-                            endTime: '{{ $availability->end_time }}',
-                            // backgroundColor: '#228B22', //darkorange
-                            daysOfWeek: [1],
-                            // allDay: false
-                            // editable: true,
-                            description: "0",
-
-                        @elseif ($availability->title == "Tuesday")
-                            title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
-                            startTime: '{{ $availability->start_time }}',
-                            endTime: '{{ $availability->end_time }}',
-                            // backgroundColor: '#228B22', //gold
-                            daysOfWeek: [2],
-                            // allDay: false
-                            // editable: true,
-                            description: "0",
-
-                        @elseif ($availability->title == "Wednesday")
-                            title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
-                            startTime: '{{ $availability->start_time }}',
-                            endTime: '{{ $availability->end_time }}',
-                            // backgroundColor: '#228B22', //forestgreen
-                            daysOfWeek: [3],
-                            // allDay: false
-                            // editable: true,
-                            description: "0",
-
-                        @elseif ($availability->title == "Thursday")
-                            title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
-                            startTime: '{{ $availability->start_time }}',
-                            endTime: '{{ $availability->end_time }}',
-                            daysOfWeek: [4],
-                            // allDay: false
-                            // editable: true,
-                            description: "0",
-
-                        @elseif ($availability->title == "Friday")
-                            title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
-                            startTime: '{{ $availability->start_time }}',
-                            endTime: '{{ $availability->end_time }}',
-                            daysOfWeek: [5],
-                            // allDay: false
-                            // editable: true,
-                            description: "0",
-
-                        @elseif ($availability->title == "Saturday")
-                            title : '{{ $availability->start_time }} - {{ $availability->end_time }}',
-                            startTime: '{{ $availability->start_time }}',
-                            endTime: '{{ $availability->end_time }}',
-                            daysOfWeek: [6],
-                            // allDay: false
-                            // editable: true,
-                            description: "0",
-
-                        @endif
-                       
-                    },
-                    @endforeach
-
-
-                    
-                    // Student Booking
-                    @foreach ($user->schedules as $schedule)
-                    {
-                        title : 'Booked',
-                        start: '{{ $schedule->start_datetime }}',
-                        end: '{{ $schedule->end_datetime }}',
-                        backgroundColor: '#228B22', //gold       
-                    },
-                    @endforeach
-                    
-                    // {
-                    //     title: 'All Day Event',
-                    //     start: new Date(y, m, 1),
-                    //     backgroundColor: '#f56954', //red
-                    //     borderColor: '#f56954', //red
-                    //     // allDay: true
-                    //     daysOfWeek:[1]
-                      
-                    // },
-                    // {
-                    //     title: 'Long Event',
-                    //     start: new Date(y, m, d - 5),
-                    //     end: new Date(y, m, d - 2),
-                    //     backgroundColor: '#f39c12', //yellow
-                    //     borderColor: '#f39c12' //yellow
-                    // },
-                    // {
-                    //     title: 'Meeting',
-                    //     start: new Date(y, m, d, 10, 30),
-                    //     allDay: false,
-                    //     backgroundColor: '#0073b7', //Blue
-                    //     borderColor: '#0073b7' //Blue
-                    // },
-                    // {
-                    //     title: 'Lunch',
-                    //     start: new Date(y, m, d, 12, 0),
-                    //     end: new Date(y, m, d, 14, 0),
-                    //     allDay: false,
-                    //     backgroundColor: '#00c0ef', //Info (aqua)
-                    //     borderColor: '#00c0ef' //Info (aqua)
-                    // },
-                    // {
-                    //     title: 'Birthday Party',
-                    //     start: new Date(y, m, d + 1, 19, 0),
-                    //     end: new Date(y, m, d + 1, 22, 30),
-                    //     allDay: false,
-                    //     backgroundColor: '#00a65a', //Success (green)
-                    //     borderColor: '#00a65a' //Success (green)
-                    // },
-                    // {
-                    //     title: 'Click for Google',
-                    //     start: new Date(y, m, 28),
-                    //     end: new Date(y, m, 29),
-                    //     url: 'http://google.com/',
-                    //     backgroundColor: '#3c8dbc', //Primary (light-blue)
-                    //     borderColor: '#3c8dbc' //Primary (light-blue)
-                    // }
-                ],
                 editable: true,
                 droppable: true, // this allows things to be dropped onto the calendar !!!
                 drop: function (info) {
@@ -923,16 +532,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         console.log ("Start Time: "+ start_time );
                         console.log ("End Time: "+ end_time);
 
+
                         jQuery('span[name="start_date"]').text(start_d); // span
                         jQuery('span[name="end_date"]').text(end_d); // span
                         jQuery('input[name="start_date"]').val(start_d); 
                         jQuery('input[name="end_date"]').val(end_d);
 
-                        jQuery('span[name="start_time"]').text(start_time);
-                        jQuery('span[name="end_time"]').text(end_time);
                         jQuery('input[name="start_time"]').val(start_time);
                         jQuery('input[name="end_time"]').val(end_time);
-
                         jQuery('span[name="start_day"]').text(start_day);
                         jQuery('span[name="end_day"]').text(end_day);
                         // Calling Popup
@@ -985,6 +592,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
             })
 
         })
+
+    
+
+
+
+
+
+
 
         function init_ratings() {
             jQuery(".my-rating-8").starRating({
@@ -1049,27 +664,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 let start_time = jQuery('input[name="start_time"]').val();
                 let end_time = jQuery('input[name="end_time"]').val();
 
-                let span_start_time = jQuery('span[name="start_time"]').text();
-                let span_end_time = jQuery('span[name="end_time"]').text();
-
-                console.log("------------------------");
                 console.log("Student ID : "+ student_id);
                 console.log("Tutor ID : "+ tutor_id);
                 console.log("Subject : "+ subject);
                 // console.log("Day"+ day);
                 console.log("Start Date : "+ start_date);
                 console.log("End Date : "+ end_date);
-                console.log("Input Start Time : "+ start_time);
-                console.log("Input End Time : "+ end_time);
-
-                console.log("Span Start Time : "+ span_start_time);
-                console.log("Span End Time : "+ span_end_time);
+                console.log("Start Time : "+ start_time);
+                console.log("End Time : "+ end_time);
 
                 // console.log("Student ID"+ student_id);
-                var is_start_valid = moment(start_time, "HH:mm", true).isValid();
-                var is_end_valid = moment(end_time, "HH:mm", true).isValid();
-
-                
 
                 // Bool Variables
                 var is_student_id = false;
@@ -1176,39 +780,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 // && (is_start_time == true) && (is_end_time == true)
                 if ( (is_subject == true) && (is_start_date == true) && (is_end_date == true)  )
                 {
-                    if ( is_start_valid == true && is_end_valid == true )
-                    {
-                        if ( (start_time >= span_start_time &&  start_time <= span_end_time )
-                        && (end_time > span_start_time &&  end_time <= span_end_time )
-                        )
-                        {
-                            if( start_time < end_time  )
-                            {
-                                console.log("------- start time in range ----------");
-                                jQuery('.error-bt').css("display","none");
-                                SetSchedule(student_id, tutor_id, subject, start_date, end_date, start_time, end_time);
-                            }
-                            else
-                            {
-                                console.log("------ Error22: Start Time is not valid. -------");
-                                jQuery('.error-bt').css("display","block");
-                                jQuery('.error-bt').html("You have set invalid booking time.");
-                            }
-                        }
-                        else
-                        {
-                            console.log("------ Error 11: Start Time is not valid. -------");
-                            jQuery('.error-bt').css("display","block");
-                            jQuery('.error-bt').html("You have set invalid booking time.");
-                        }
-                    }
-                    else
-                    {
-                        console.log("------ Error 00: Start Time is not valid. -------");
-                        jQuery('.error-bt').css("display","block");
-                        jQuery('.error-bt').html("You have set invalid booking time.");
-                    }
-                   
+                    SetSchedule(student_id, tutor_id, subject, start_date, end_date, start_time, end_time);
                 }
                 else
                 {

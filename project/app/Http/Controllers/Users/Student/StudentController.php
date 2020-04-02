@@ -1343,6 +1343,131 @@ class StudentController extends Controller
     //     return view ('theme.student.manage_class')->with(['user'=> $user, 'student_schedules'=> $student_schedules]);
     // }
     
+    /**
+     * Return the events to fullcalendar, to display tutor availability and the current student's booking
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $tutor_id
+     * @return \Illuminate\Http\Response
+     */
+    public function StudentTutorBookings(Request $request, $tutor_id)
+    {
+        $tutor = User::findOrFail($tutor_id);
+
+        $current_month_first_day = Carbon::parse($request->input('start'));
+        $next_month_first_day = Carbon::parse($request->input('end'));
+
+        $current_day = Carbon::instance($current_month_first_day);
+        $next_day = Carbon::instance($current_month_first_day)->addDay();
+
+        $events_list = collect();
+
+        while($next_day->lessThan($next_month_first_day))
+        {
+            $availability_list = $tutor->availabilities->where('title', $current_day->englishDayOfWeek);
+            foreach ($availability_list as $availability_item)
+            {
+                $start_time = $availability_item->start_time;
+                $end_time = $availability_item->end_time;
+
+                $current_availability_start_datetime = Carbon::instance($current_day)->setTimeFromTimeString($start_time);
+                $current_availability_end_datetime = Carbon::instance($current_day)->setTimeFromTimeString($end_time);
+                
+                $availability_bookings = Schedule::where('tutor_id',$tutor->id)->whereDate('start_datetime', $current_availability_start_datetime)->orderBy('start_datetime')->get();
+                if (count($availability_bookings) > 0)
+                {
+                    $current_availability_bookings = $availability_bookings->filter(function ($booking) use ($current_availability_start_datetime, $current_availability_end_datetime, $current_day) {
+                        $booking_start_datetime = Carbon::instance($current_day)->setTimeFromTimeString($booking->start_datetime);
+                        $booking_end_datetime = Carbon::instance($current_day)->setTimeFromTimeString($booking->end_datetime);
+                        if (
+                            $booking_start_datetime->greaterThanOrEqualTo($current_availability_start_datetime)
+                            && $booking_end_datetime->lessThanOrEqualTo($current_availability_end_datetime)
+                        )
+                        {
+                            return true;
+                        }
+                        return false;
+                    });
+
+                    if (count($current_availability_bookings) > 0)
+                    {
+                        $available_slots = collect([
+                            [
+                                $current_availability_start_datetime,
+                                $current_availability_end_datetime
+                            ]
+                        ]);
+                        foreach ($current_availability_bookings as $booking)
+                        {
+                            if (Auth::user()->id == $booking->student_id)
+                            {
+                                $event = collect([
+                                    'title' => 'Booked',
+                                    'start' => $booking->start_datetime,
+                                    'end' => $booking->end_datetime,
+                                    'backgroundColor' => '#228B22'
+                                ]);
+                                $events_list->push($event);
+                            }
+
+                            $slot = $available_slots->pop();
+                            if ($slot)
+                            {
+                                $start_1 = $slot[0];
+                                $end_1 = Carbon::instance($current_day)->setTimeFromTimeString($booking->start_datetime);
+                                if ($start_1->notEqualTo($end_1))
+                                {
+                                    $new_slot = [$start_1, $end_1];
+                                    $available_slots->push($new_slot);
+                                }
+                                
+                                $start_2 = Carbon::instance($current_day)->setTimeFromTimeString($booking->end_datetime);
+                                $end_2 = $slot[1];
+                                if ($start_2->notEqualTo($end_2))
+                                {
+                                    $new_slot = [$start_2, $end_2];
+                                    $available_slots->push($new_slot);
+                                }
+                            }
+                        }
+
+                        foreach ($available_slots as $new_availability)
+                        {
+                            $event = collect([
+                                'title' => $new_availability[0]->toTimeString().' - '.$new_availability[1]->toTimeString(),
+                                'start' => $new_availability[0]->toDateTimeString(),
+                                'end' => $new_availability[1]->toDateTimeString()
+                            ]);
+                            $events_list->push($event);
+                        }
+                    }
+                    else
+                    {
+                        $event = collect([
+                            'title' => $current_availability_start_datetime->toTimeString().' - '.$current_availability_end_datetime->toTimeString(),
+                            'start' => $current_availability_start_datetime->toDateTimeString(),
+                            'end' => $current_availability_end_datetime->toDateTimeString()
+                        ]);
+                        $events_list->push($event);
+                    }
+                }
+                else
+                {
+                    $event = collect([
+                        'title' => $current_availability_start_datetime->toTimeString().' - '.$current_availability_end_datetime->toTimeString(),
+                        'start' => $current_availability_start_datetime->toDateTimeString(),
+                        'end' => $current_availability_end_datetime->toDateTimeString()
+                    ]);
+                    $events_list->push($event);
+                }
+            }
+
+            $current_day->day = $next_day->day;
+            $next_day->day += 1;
+        }
+
+        return response()->json($events_list);
+    }
 
 
 

@@ -156,6 +156,9 @@ Route::prefix('student')->group(function () {
     // Class Schedule
     Route::post('/class-schedule', 'Users\Student\StudentController@AddSchedule')->name('student.class.schedule'); // Add tutor to Favorite category
     // Route::get('/book-schedule', 'Users\Student\StudentController@BookedSchedule')->name('student..booked.class.schedule'); // Add tutor to Favorite category 
+    // Okasha controller for Booking
+    Route::get('/tutor/{tutor_id}/booking', 'Users\Student\StudentController@StudentTutorBookings'); 
+    
     Route::prefix('class')->group(function () {
 
         Route::get('/all', 'Users\Student\StudentController@AllClasses')->name('student.class.all'); // Display conversion between two person

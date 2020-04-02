@@ -59,44 +59,47 @@ class StudentController extends Controller
 
         // Getting all tutor availabities
         $array = collect();
-        foreach($tutor->availabilities as $availability)
-        {
-            // $number = the number based on day
-            if ($availability->title == "Sunday")
+        // if (count ($tutor->availabilities) > 0 )
+        // {
+            foreach($tutor->availabilities as $availability)
             {
-                $day = 0;
+                // $number = the number based on day
+                if ($availability->title == "Sunday")
+                {
+                    $day = 0;
+                }
+                elseif ($availability->title == "Monday")
+                {
+                    $day = 1;
+                }
+                elseif ($availability->title == "Tuesday")
+                {
+                    $day = 2;
+                }
+                elseif ($availability->title == "Wednesday")
+                {
+                    $day = 3;
+                }
+                elseif ($availability->title == "Thursday")
+                {
+                    $day = 4;
+                }
+                elseif ($availability->title == "Friday")
+                {
+                    $day = 5;
+                }
+                elseif ($availability->title == "Saturday")
+                {
+                    $day = 6;
+                }
+                else
+                {
+                    // Some thing went wrong
+                }
+                $array->push($day);
+                // $available_day_number = $array->implode(',', $day);
             }
-            elseif ($availability->title == "Monday")
-            {
-                $day = 1;
-            }
-            elseif ($availability->title == "Tuesday")
-            {
-                $day = 2;
-            }
-            elseif ($availability->title == "Wednesday")
-            {
-                $day = 3;
-            }
-            elseif ($availability->title == "Thursday")
-            {
-                $day = 4;
-            }
-            elseif ($availability->title == "Friday")
-            {
-                $day = 5;
-            }
-            elseif ($availability->title == "Saturday")
-            {
-                $day = 6;
-            }
-            else
-            {
-                // Some thing went wrong
-            }
-            $array->push($day);
-            // $available_day_number = $array->implode(',', $day);
-        }
+        
         // $available_day_number = [];
         $available_day_number = $array->implode(',');
         // $available_day_number = explode(",", $available_day_number);

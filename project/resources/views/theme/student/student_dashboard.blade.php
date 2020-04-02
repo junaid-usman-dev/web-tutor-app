@@ -311,28 +311,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                         @php
                                                                             $count += 1;
                                                                         @endphp    
-                                                                        <tr>
-                                                                            <td>{{ $count }}</td>
-                                                                            {{-- <td><a href="{{ route('student.profile') }}">{{ $user->first_name }} {{ $user->last_name }}</a></td> --}}
-                                                                            <td><a href="{{ url('student/tutor-profile') }}/{{ $schedule->tutor_id }}">{{ $schedule->tutor->first_name }} {{ $schedule->tutor->last_name }} </a></td>
-                                                                            <td>
-                                                                                <div class="sparkbar" data-color="#00a65a"
-                                                                                    data-height="20">{{ $schedule->subject }} </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                {{ \Carbon\Carbon::parse($schedule->start_datetime)->format('M d, Y') }}                                                                         
-                                                                            </td>
-                                                                            <td>
-                                                                                {{ \Carbon\Carbon::parse($schedule->end_datetime)->format('M d, Y') }}                                                                         
-                                                                            </td>
-                                                                            <td>
-                                                                                {{ \Carbon\Carbon::parse($schedule->start_datetime)->format('g:i A') }}                                                                         
-                                                                            </td>
-                                                                            <td>{{ \Carbon\Carbon::parse($schedule->end_datetime)->format('g:i A') }}</td>
-                                                                        </tr>
+                                                                        @if ( $count < 5)
+                                                                            <tr>
+                                                                                <td>{{ $count }}</td>
+                                                                                {{-- <td><a href="{{ route('student.profile') }}">{{ $user->first_name }} {{ $user->last_name }}</a></td> --}}
+                                                                                <td><a href="{{ url('student/tutor-profile') }}/{{ $schedule->tutor_id }}">{{ $schedule->tutor->first_name }} {{ $schedule->tutor->last_name }} </a></td>
+                                                                                <td>
+                                                                                    <div class="sparkbar" data-color="#00a65a"
+                                                                                        data-height="20">{{ $schedule->subject }} </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    {{ \Carbon\Carbon::parse($schedule->start_datetime)->format('M d, Y') }}                                                                         
+                                                                                </td>
+                                                                                <td>
+                                                                                    {{ \Carbon\Carbon::parse($schedule->end_datetime)->format('M d, Y') }}                                                                         
+                                                                                </td>
+                                                                                <td>
+                                                                                    {{ \Carbon\Carbon::parse($schedule->start_datetime)->format('g:i A') }}                                                                         
+                                                                                </td>
+                                                                                <td>{{ \Carbon\Carbon::parse($schedule->end_datetime)->format('g:i A') }}</td>
+                                                                            </tr>
+                                                                        @else
+                                                                            @php
+                                                                                break;
+                                                                            @endphp
+                                                                        @endif
+
                                                                     @endforeach
                                                                 @else
-                                                                    Empty List
+                                                                    {{-- Empty List --}}
                                                                 @endif
                                                                 {{-- <tr>
                                                                     <td>01</td>

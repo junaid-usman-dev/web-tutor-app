@@ -705,22 +705,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 @php
                                                                     $count += 1;
                                                                 @endphp
-                                                                <tr>
-                                                                    <td>{{ $count }}</td>
-                                                                    <td><a href="{{ url('admin/student/profile') }}/{{ $booking->users->id }}">{{ $booking->users->first_name }} {{ $booking->users->last_name }}</a></td>
-                                                                    <td><a href="{{ url('admin/tutor/profile') }}/{{ $booking->tutor->id }}">{{ $booking->tutor->first_name }} {{ $booking->tutor->last_name }}</a></td>
-                                                                    <td>
-                                                                        <div class="sparkbar" data-color="#00a65a"
-                                                                            data-height="20">{{ $booking->subject }}</div>
-                                                                    </td>                                                                       
-                                                                    <td>{{ \Carbon\Carbon::parse($booking->start_datetime)->format('M d, Y') }} </td>
-                                                                    <td>{{ \Carbon\Carbon::parse($booking->end_datetime)->format('M d, Y') }} </td>
-                                                                    <td>{{ \Carbon\Carbon::parse($booking->start_datetime)->format('g:i A') }} </td>
-                                                                    <td>{{ \Carbon\Carbon::parse($booking->end_datetime)->format('g:i A') }} </td>
-                                                                </tr>
+                                                                @if( $count < 5)
+                                                                    <tr>
+                                                                        <td>{{ $count }}</td>
+                                                                        <td><a href="{{ url('admin/student/profile') }}/{{ $booking->users->id }}">{{ $booking->users->first_name }} {{ $booking->users->last_name }}</a></td>
+                                                                        <td><a href="{{ url('admin/tutor/profile') }}/{{ $booking->tutor->id }}">{{ $booking->tutor->first_name }} {{ $booking->tutor->last_name }}</a></td>
+                                                                        <td>
+                                                                            <div class="sparkbar" data-color="#00a65a"
+                                                                                data-height="20">{{ $booking->subject }}</div>
+                                                                        </td>                                                                       
+                                                                        <td>{{ \Carbon\Carbon::parse($booking->start_datetime)->format('M d, Y') }} </td>
+                                                                        <td>{{ \Carbon\Carbon::parse($booking->end_datetime)->format('M d, Y') }} </td>
+                                                                        <td>{{ \Carbon\Carbon::parse($booking->start_datetime)->format('g:i A') }} </td>
+                                                                        <td>{{ \Carbon\Carbon::parse($booking->end_datetime)->format('g:i A') }} </td>
+                                                                    </tr>
+                                                                @else
+                                                                    @php
+                                                                        break;
+                                                                    @endphp
+                                                                @endif
                                                             @endforeach
                                                         @else
-                                                            Empty list
+                                                            {{-- Empty list --}}
                                                         @endif
                                                         {{-- <tr>
                                                             <td>01</td>

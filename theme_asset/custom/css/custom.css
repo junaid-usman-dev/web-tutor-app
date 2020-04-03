@@ -54,3 +54,37 @@
 {
     width:100%; height:100%; background-color: #e5e5e5; padding-top:5%; padding-bottom:8%;
 }
+
+/* Class for pofile picture */
+/* .ju-profile-img {
+    min-width: 128px;
+    max-width: 128px;
+    min-height: 128px;
+    max-height: 128px;
+} */
+
+.img-fluid
+{
+    min-width: 128px;
+    max-width: 128px;
+    min-height: 128px;
+    max-height: 128px;
+}
+
+ul.contacts-list .contacts-list-img
+{
+   height: 40px;
+}
+.user-panel img
+{
+    height: 2.1rem;
+}
+
+.img-size-50
+{
+    height: 50px;
+}
+.ju-user-badge-verified
+{
+    font-size: 15px;
+}

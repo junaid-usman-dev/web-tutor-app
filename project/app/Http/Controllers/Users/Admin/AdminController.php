@@ -13,6 +13,7 @@ use App\User;
 use App\Model\Subject;
 use App\Model\Schedule;
 use App\Model\Test;
+use App\Model\TestUser;
 
 use App\Rules\EmailFormat; // Custom Rules for Email
 use App\Rules\Password; // Custom Rules for Password
@@ -33,6 +34,11 @@ class AdminController extends Controller
         $tutors = User::orderBy('created_at','desc')->where('type','tutor')->get();
         $list_of_bookings = Schedule::orderBy('id','DESC')->get();
 
+        $latest_user_result = TestUser::orderBy('id','DESC')->take(5)->get();
+        // dd ($latest_user_result[0]->tutor->first_name);
+        // dd ($latest_user_result[0]->score);
+
+
         $subjects = Subject::all();
         $tests = Test::orderBy('id','DESC')->get();
 
@@ -42,6 +48,7 @@ class AdminController extends Controller
             'subjects'=>$subjects,
             'tests'=>$tests,
             'list_of_bookings'=>$list_of_bookings,
+            'latest_user_result'=>$latest_user_result
         ]);
     }
     

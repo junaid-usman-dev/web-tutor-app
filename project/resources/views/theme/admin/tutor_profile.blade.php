@@ -88,6 +88,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" type="text/css" href="{{ asset('theme_asset/star-rating-svg-master/src/css/star-rating-svg.css') }}">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 
+    {{-- Custom Style --}}
+    <link rel="stylesheet" href="{{ asset('theme_asset/custom/css/custom.css') }}">
+
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -150,7 +153,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                             {{ $user->last_name }}</strong>
                                                                         
                                                                             @if ( $user->approve == "1" )
-                                                                                <i class="text-warning fas fa-certificate"></i>
+                                                                                {{-- <i class="text-warning fas fa-certificate"></i> --}}
+                                                                                <span class="badge badge-success ju-user-badge-verified" >Verified</span>
                                                                             @endif
                                                                         </h2>
                                                                             <p class="text-lg">

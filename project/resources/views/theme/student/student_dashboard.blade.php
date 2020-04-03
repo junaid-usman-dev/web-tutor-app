@@ -25,11 +25,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('theme_asset/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('theme_asset/dist/css/adminlte.css') }}">
+    
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
     {{-- Custom Style --}}
     <link rel="stylesheet" href="{{ asset('theme_asset/custom/css/custom.css') }}">
 
-    <!-- Google Font: Source Sans Pro -->
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -73,7 +75,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="card card-primary card-outline">
                                 <div class="card-body box-profile">
                                     <div class="text-center">
-                                        <img class="profile-user-img img-fluid img-circle"
+                                        <img class="profile-user-img img-fluid img-circle ju-profile-img"
                                             src="{{ url('/') }}/{{ $user->images->path }}/{{ $user->images->name }}"
                                             alt="User profile picture">
                                     </div>
@@ -185,16 +187,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     @foreach ($tutors as $tutor)
                                                         <li>
                                                             <a href="{{ url('student/tutor-profile') }}/{{ $tutor->id }}"> 
-                                                                <img src="{{ url('/') }}/{{ $tutor->images->path }}/{{ $tutor->images->name }}"
+                                                                <img class="img-fluid" src="{{ url('/') }}/{{ $tutor->images->path }}/{{ $tutor->images->name }}"
                                                                     alt="User Image">
                                                             </a>
                                                             <a class="users-list-name" href="{{ url('student/tutor-profile') }}/{{ $tutor->id }}">{{ $tutor->first_name }} {{ $tutor->last_name }}</a>
-                                                            <span class="users-list-date">Today</span>
+                                                            {{-- <span class="users-list-date">Today</span> --}}
                                                         </li>
                                                     @endforeach
                                                 @else
                                                     <div class="ju-ta">
-                                                        <p>There is no favorite tutor.</p>
+                                                        <p classs="text-center">There is no favorite tutor.</p>
                                                     </div>
                                                 @endif
 

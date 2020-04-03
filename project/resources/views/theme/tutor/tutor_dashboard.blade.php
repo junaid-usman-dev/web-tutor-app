@@ -26,6 +26,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('theme_asset/dist/css/adminlte.css') }}">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+     {{-- Custom Styling --}}
+    <link rel="stylesheet" href="{{ asset('theme_asset/custom/css/custom.css') }}">
+
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -70,7 +74,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="card card-primary card-outline">
                                 <div class="card-body box-profile">
                                     <div class="text-center">
-                                        <img class="profile-user-img img-fluid img-circle"
+                                        <img class="profile-user-img img-fluid img-circle ju-profile-img"
                                             src="{{ url('/') }}/{{ $user->images->path }}/{{ $user->images->name }}"
                                             alt="User profile picture">
                                     </div>
@@ -201,7 +205,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     @endforeach
 
                                                 @else
-                                                        Empty List
+                                                    <p class="text-center">Empty List</p>
                                                 @endif
                                                 {{-- <li>
                                                     <img src="{{ asset('theme_asset/dist/img/user1-128x128.jpg') }}"

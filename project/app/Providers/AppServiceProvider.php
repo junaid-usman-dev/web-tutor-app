@@ -27,5 +27,8 @@ class AppServiceProvider extends ServiceProvider
         //
         // view()->share('correct_answer', 0);
         Schema::defaultStringLength(191);
+        // date_default_timezone_set('Asia/Shanghai');
+        date_default_timezone_set('Asia/Karachi');
+
     }
 }

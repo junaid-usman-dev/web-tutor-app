@@ -73,12 +73,11 @@
                                 </div>
                                 <!-- Message End -->
                             </a>
+                            <div class="dropdown-divider"></div>
                         @endforeach
                     @else
                         <p class="text-center">No Messages</p>
                     @endif
-                   
-                <div class="dropdown-divider"></div>
                 
                 {{-- <a href="#" class="dropdown-item">
                     <!-- Message Start -->

@@ -11,7 +11,7 @@
                 $name = $users_conversation[0]->receiver->first_name." ".$users_conversation[0]->receiver->last_name;
                 // $name = "";
             @endphp
-            <h3 class="card-title">Recent Chat <span name="active_receiver_name">{{ $name }}</span></h3>
+            <h3 class="card-title">Recent Chat (<span name="active_receiver_name">{{ $name }}</span>)</h3>
         @else
             <h3 class="card-title">Recent Chat <span name="active_receiver_name"></span></h3>
         @endif
@@ -22,8 +22,9 @@
         {{-- @endif --}}
 
         <div class="card-tools">
-            <span data-toggle="tooltip" title="3 New Messages"
-                class="badge badge-primary">3</span>
+            @if (\Route::current()->getName() == 'student.dashboard')
+                <span data-toggle="tooltip" title="3 New Messages" class="badge badge-primary">{{ count($user_notification) }}</span>
+            @endif
             <button type="button" class="btn btn-tool"
                 data-card-widget="collapse"><i class="fas fa-minus"></i>
             </button>
@@ -144,6 +145,8 @@
                                         @endif   
                                     </span>
                                     @if ( !empty($contact->messages[0]->text) )
+                                    {{-- @foreach ($contact->messages as $message)
+                                    @endforeach --}}
                                         <span class="contacts-list-msg">{{ $contact->messages[0]->text }}</span>
                                     @else
                                         <span class="contacts-list-msg"></span>

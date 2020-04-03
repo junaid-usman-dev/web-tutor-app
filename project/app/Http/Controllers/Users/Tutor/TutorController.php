@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Auth;
+use Carbon\Carbon;
 
 use App\Image;
 use App\User;
@@ -21,6 +22,10 @@ use App\Model\Notification;
 use App\Model\Message;
 use App\Model\Education;
 use App\Model\Schedule;
+use App\Model\Availability;
+use App\Model\Favorite;
+
+
 
 // use App\Model\Result;
 
@@ -541,6 +546,14 @@ class TutorController extends Controller
         $del_user_img = Image::where('user_id',$id)->delete();
         $del_user_payment = Payment::where('user_id',$id)->delete();
         $del_user_subject = SubjectUser::where('user_id',$id)->delete();
+        $del_user_availability = Availability::where('user_id',$id)->delete();
+        $del_user_education = Education::where('user_id',$id)->delete();
+        $del_user_favorite = Favorite::where('user_id',$id)->delete();
+        $del_user_message = Message::where('sender_id',$id)->orWhere('receiver_id',$id)->delete();
+        $del_user_notification = Notification::where('sender_id',$id)->orWhere('receiver_id',$id)->delete();
+        $del_user_review = Review::where('tutor_id',$id)->delete();
+        $del_user_schedule = Schedule::where('tutor_id',$id)->delete();
+        $del_user_test_user = TestUser::where('user_id',$id)->delete();
 
         return redirect()->route('admin.tutor.list');
     }
@@ -1071,12 +1084,29 @@ class TutorController extends Controller
                 }
                 //----  End Contact List 
 
+                // --------  Notification -------------
+                $user_notification = Notification::orderBy('id', "DESC")->where('receiver_id',$user->id)->get();
+                // dd ($user_notification->sender->id ); 
+                // --------  End Notification -------------
+
                 // --------  Conversation -----------
                 $users_conversation = [];
                 $sender_id = Auth::guard('user')->user()->id;
+                
+                // dd (count($contact_list)); // 3
+                // dd ($contact_list[3-1]->first_name);
+                // dd ()
+
                 if ( count($contact_list) > 0)
                 {
-                    $receiver_id = $contact_list[0]->id; // Getting conversation of first user by default
+                    if( count($user_notification) > 0 )
+                    {
+                        $receiver_id = $user_notification[0]->sender->id;
+                    }
+                    else
+                    {
+                        $receiver_id = $contact_list[0]->id; // Getting conversation of first user by default
+                    }
                     $users_conversation = Message::where('sender_id',$sender_id)->where('receiver_id',$receiver_id)
                             ->orWhere('sender_id',$receiver_id)->where('receiver_id',$sender_id)->get();
                 }
@@ -1090,10 +1120,7 @@ class TutorController extends Controller
                 //------------   Book Schedules  -------------
 
 
-                // --------  Notification -------------
-                $user_notification = Notification::where('receiver_id',$user->id)->get();
-                // dd ($user_notification); 
-                // --------  End Notification -------------
+                
 
 
                 return view ('theme.tutor.tutor_dashboard')->with([
@@ -1242,6 +1269,18 @@ class TutorController extends Controller
         } 
         // dd ("Redirect");
         return redirect()->route('admin.tutor.profile',['id'=>$has_user->id]);
+    }
+    
+    /*
+    * Admin: Display All Tutor who has upploaded certificates
+    *
+    *@return \Illuminate\Http\Response
+    */
+    public function ViewCerticate(Request $request )
+    {
+        $educations = Education::orderBy('id', 'DESC')->get();
+    
+        return view('theme.admin.tutor.certificate_verification')->with(['educations'=>$educations ]);
     }
     
     

@@ -104,7 +104,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 @endphp    
                                                                 <tr>
                                                                     <td>{{ $count }}</td>
-                                                                    <td>{{ $user->first_name }} {{ $user->id }}</td>
+                                                                    <td>{{ $user->first_name }} {{ $user->last_name }}</td>
                                                                     <td>{{ $result->name }}</td>
                                                                     <td>{{ $user->pivot->score }}%</td>
                                                                     <td>{{ $user->approve }}</td>

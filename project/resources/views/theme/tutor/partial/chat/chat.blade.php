@@ -10,7 +10,7 @@
                 $name = $users_conversation[0]->users->first_name." ".$users_conversation[0]->users->last_name;
                 // $name = "";
             @endphp
-            <h3 class="card-title">Recent Chat <span name="active_receiver_name">{{ $name }}</span></h3>
+            <h3 class="card-title">Recent Chat (<span name="active_receiver_name">{{ $name }}</span>)</h3>
         @else
             <h3 class="card-title">Recent Chat <span name="active_receiver_name"></span></h3>
         @endif
@@ -18,8 +18,10 @@
         {{-- <h3 class="card-title">Recent Chat</h3> --}}
 
         <div class="card-tools">
-            <span data-toggle="tooltip" title="3 New Messages"
-                class="badge badge-primary">3</span>
+
+            @if (\Route::current()->getName() == 'tutor.dashboard')
+                <span data-toggle="tooltip" title="3 New Messages" class="badge badge-primary">{{ count($user_notification) }}</span>
+            @endif
             <button type="button" class="btn btn-tool"
                 data-card-widget="collapse"><i class="fas fa-minus"></i>
             </button>
@@ -59,14 +61,17 @@
                                 <div class="contacts-list-info">
                                     <span class="contacts-list-name">
                                         {{ $contact->first_name }} {{ $contact->last_name }}
-                                        <small
-                                            class="contacts-list-date float-right">2/28/2015</small>
+                                        @if ( !empty($contact->messages[0]->text) )
+                                            <small class="contacts-list-date float-right">{{ Carbon\Carbon::parse( $contact->messages[0]->created_at )->format('d M, Y') }}</small>
+                                        @else
+                                        @endif
                                     </span>
-                                    <span class="contacts-list-msg">How have you been? I
-                                        was...</span>
-                                    
+                                    @if ( !empty($contact->messages[0]->text) )
+                                        <span class="contacts-list-msg">{{ $contact->messages[0]->text }}</span>
+                                    @else
+                                        <span class="contacts-list-msg"></span>
+                                    @endif
                                     {{-- <input type="hidden" name="contact_id" value="{{ $contact->id }}" /> --}}
-
                                 </div>
                                 <!-- /.contacts-list-info -->
                             </a>

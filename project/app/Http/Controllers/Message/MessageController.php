@@ -107,6 +107,13 @@ class MessageController extends Controller
         $msg->save();
 
         // ---------------- notification ----------------
+        
+        $user_notification = Notification::orderBy('id', "DESC")->where('receiver_id',$user->id)->get();
+        if ( (count($user_notification) > 0) && ($user_notification[0]->receiver->id == $sender_id ) )
+        {
+            $del_notificatin = Notification::where('sender_id',$receiver_id)->where('receiver_id',$sender_id)->delete();
+        }
+
         $noti_msg = new Notification();
 
         $noti_msg->sender_id = $sender_id;
@@ -114,6 +121,8 @@ class MessageController extends Controller
         $noti_msg->text = $message;
 
         $noti_msg->save();
+
+        // dd ($sender_id , $receiver_id, $user_notification[0]->sender->id); // 1 - 15 - 7
         // ---------------- end notification ----------------
 
 

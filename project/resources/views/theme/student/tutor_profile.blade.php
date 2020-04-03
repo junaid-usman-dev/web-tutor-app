@@ -82,8 +82,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('theme_asset/profile/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('theme_asset/profile/dist/css/adminlte.css') }}">
-    {{-- Add Custom CSS File --}}
-    <link rel="stylesheet" href="{{ asset('theme_asset/custom/css/custom.css') }}">
     {{-- Start Rating SVG Master --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('theme_asset/star-rating-svg-master/src/css/star-rating-svg.css') }}">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
@@ -100,6 +98,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('theme_asset/plugins/fullcalendar-timegrid/main.min.css') }}">
     <link rel="stylesheet" href="{{ asset('theme_asset/plugins/fullcalendar-bootstrap/main.min.css') }}">
 
+    {{-- Add Custom CSS File --}}
+    <link rel="stylesheet" href="{{ asset('theme_asset/custom/css/custom.css') }}">
 
 </head>
 
@@ -838,21 +838,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             {
                                 console.log("------ Error22: Start Time is not valid. -------");
                                 jQuery('.error-bt').css("display","block");
-                                jQuery('.error-bt').html("You have set invalid booking time.");
+                                jQuery('.error-bt').html("You have chosen invalid booking time. Please Select the time from available time range!");
                             }
                         }
                         else
                         {
                             console.log("------ Error 11: Start Time is not valid. -------");
                             jQuery('.error-bt').css("display","block");
-                            jQuery('.error-bt').html("You have set invalid booking time.");
+                            jQuery('.error-bt').html("You have chosen invalid booking time. Please Select the time from available time range!");
                         }
                     }
                     else
                     {
                         console.log("------ Error 00: Start Time is not valid. -------");
                         jQuery('.error-bt').css("display","block");
-                        jQuery('.error-bt').html("You have set invalid booking time.");
+                        jQuery('.error-bt').html("You have chosen invalid booking time. Please Select the time from available time range!");
                     }
                 }
                 else

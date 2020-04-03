@@ -10,8 +10,7 @@
         <div class="direct-chat-infos clearfix">
             <span class="direct-chat-name float-left">{{ $messenger->users->first_name }}
                 {{ $messenger->users->last_name }}</span>
-            <span class="direct-chat-timestamp float-right">23 Jan 2:00
-                pm</span>
+            <span class="direct-chat-timestamp float-right">{{ \Carbon\Carbon::parse($messenger->created_at)->format('d M g:i A') }}</span>
         </div>
         <!-- /.direct-chat-infos -->
         <img class="direct-chat-img"
@@ -28,8 +27,7 @@
     <div class="direct-chat-msg right">
         <div class="direct-chat-infos clearfix">
             <span class="direct-chat-name float-right">{{ $messenger->users->first_name }} {{ $messenger->users->last_name }}</span>
-            <span class="direct-chat-timestamp float-left">23 Jan 2:05
-                pm</span>
+            <span class="direct-chat-timestamp float-left">{{ \Carbon\Carbon::parse($messenger->created_at)->format('d M g:i A') }}</span>
         </div>
         <!-- /.direct-chat-infos -->
         <img class="direct-chat-img"

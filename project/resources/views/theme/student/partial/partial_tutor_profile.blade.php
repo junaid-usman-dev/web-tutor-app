@@ -93,13 +93,14 @@
                                         <div class="row">
                                             <div class="col-2 text-left">
                                                 <img src="{{ url('/') }}/{{ $tutor->images->path }}/{{ $tutor->images->name }}" alt=""
-                                                    class="img-circle img-fluid">
+                                                    class="img-circle img-fluid ju-profile-img">
                                             </div>
                                             <div class="col-9 ">
                                                 <h2 class="username ju-di"><strong>{{ $tutor->first_name }}
                                                     {{ $tutor->last_name }}</strong>
                                                     @if ( $tutor->approve == "1" )
-                                                        <i class="text-warning fas fa-certificate"></i>
+                                                        {{-- <i class="text-warning fas fa-certificate"></i> --}}
+                                                        <span class="badge badge-success ju-user-badge-verified" >Verified</span>
                                                     @endif
                                                 </h2>
                                                     <a href="{{ url('/student/add-to-favorit-list') }}/{{ $tutor->id }}" class="btn btn-info ju-fl" >Add To Favorite</a>
@@ -690,7 +691,7 @@
     <div class="card card-primary card-outline hide-card card-style card-style_desktop">
         <div class="card-body box-profile">
             <div class="text-center ">
-                <img class="profile-user-img img-fluid img-circle img-bordered-sm"
+                <img class="profile-user-img img-fluid img-circle img-bordered-sm ju-profile-img"
                     src="{{ url('/') }}/{{ $tutor->images->path }}/{{ $tutor->images->name }}" alt="User profile picture">
             </div>
 

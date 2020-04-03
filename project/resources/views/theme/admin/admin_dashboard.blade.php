@@ -28,6 +28,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('theme_asset/dist/css/adminlte.css') }}">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+
+    {{-- Custom Style --}}
+    <link rel="stylesheet" href="{{ asset('theme_asset/custom/css/custom.css') }}">
+    
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -172,7 +177,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                     width="200" height="200" alt="User Image">
                                                             </a>
                                                             <a class="users-list-name" href="{{ url('/admin/student/profile') }}/{{ $student->id }}">{{ $student->first_name }}</a>
-                                                            <span class="users-list-date">Today</span>
+                                                            {{-- <span class="users-list-date">Today</span> --}}
                                                         </li>
                                                     @endif
                                                 @endforeach
@@ -267,7 +272,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                     width="200" height="200" alt="User Image">
                                                             </a>
                                                             <a class="users-list-name" href="{{ url('/admin/tutor/profile') }}/{{ $tutor->id }}">{{ $tutor->first_name }}</a>
-                                                            <span class="users-list-date">Today</span>
+                                                            {{-- <span class="users-list-date">Today</span> --}}
                                                         </li>
                                                     @endif
                                                 @endforeach

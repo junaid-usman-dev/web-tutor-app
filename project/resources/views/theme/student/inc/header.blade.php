@@ -43,18 +43,13 @@
             
             @if ( count($user_notification) > 0)
 
-
-            
-
-                
-
                     <input type="hidden" name="logged_id" value="{{ $user->id }}" />
 
                     @foreach ($user_notification->unique('sender_id') as $notification)
-                        <a href="#" class="dropdown-item" data-sender_id="{{ $notification->sender->id }}">
+                        <a href="#" class="dropdown-item" name="delete_notification" data-sender_id="{{ $notification->sender->id }}">
                             <!-- Message Start -->
                             <div class="media">
-                                <img src="{{ asset('theme_asset/dist/img/user1-128x128.jpg') }}" alt="User Avatar"
+                                <img src="{{ url('/') }}/{{ $notification->sender->images->path }}/{{ $notification->sender->images->name }}" alt="User Avatar"
                                     class="img-size-50 mr-3 img-circle">
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
@@ -65,8 +60,8 @@
                                         $msg = $notification;
                                         $total_message[] = $msg;
                                     @endphp
-                                    <p class="text-sm"></p>{{ count($total_message) }} new messages
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                                    <p class="text-sm">Sent a new message.</p>
+                                    {{-- <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p> --}}
                                 </div>
                             </div>
                             <!-- Message End -->

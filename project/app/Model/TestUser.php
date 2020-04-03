@@ -26,7 +26,7 @@ class TestUser extends Model
     */
     function tutor()
     {
-        return $this->belongTo('App\User', 'user_id');
+        return $this->belongsTo('App\User', 'user_id');
     }
 
 

@@ -739,12 +739,25 @@ class StudentController extends Controller
             }
             //----  End Contact List 
 
+
+            // --------  Notification -------------
+            $user_notification = Notification::where('receiver_id',$user_id)->get(); 
+            // --------  End Notification -------------
+
             // --------  Conversation -----------
             $users_conversation = [];
             $sender_id = Auth::guard('user')->user()->id;
             if ( count($contact_list) > 0)
             {
-                $receiver_id = $contact_list[0]->id; // Getting conversation of first user by default
+                if( count($user_notification) > 0 )
+                {
+                    $receiver_id = $user_notification[0]->sender->id;
+                }
+                else
+                {
+                    $receiver_id = $contact_list[0]->id; // Getting conversation of first user by default
+                }
+
                 $users_conversation = Message::where('sender_id',$sender_id)->where('receiver_id',$receiver_id)
                         ->orWhere('sender_id',$receiver_id)->where('receiver_id',$sender_id)->get();
             }
@@ -757,9 +770,7 @@ class StudentController extends Controller
             // ----------- End Latest Classes --------
 
 
-            // --------  Notification -------------
-            $user_notification = Notification::where('receiver_id',$user_id)->get(); 
-            // --------  End Notification -------------
+            
 
 
 

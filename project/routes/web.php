@@ -199,7 +199,6 @@ Route::prefix('tutor')->group(function () {
     Route::get('/profile', 'Users\Tutor\TutorController@Profile')->name('tutor.profile');
     Route::get('/student-profile/{student_id}', 'Users\Tutor\TutorController@StudentProfile')->name('tutor.student.profile');
     Route::get('/latest-students', 'Users\Tutor\TutorController@LatestStudent')->name('tutor.latest.student');
-    
 
     Route::post('/update-image', 'Users\Tutor\TutorController@UpdateImage')->name('tutor.update.image'); // Update tutor profile
     
@@ -372,6 +371,7 @@ Route::prefix('admin')->group(function () {
 
         Route::post('/update-image', 'Users\Tutor\TutorController@AdminUpdateImage')->name('admin.tutor.update.image'); // Upload profile picture
         Route::get('/approve/{id}', 'Users\Tutor\TutorController@Approve')->name('admin.tutor.approve'); // Approve tutor profile
+        Route::get('/certificates', 'Users\Tutor\TutorController@ViewCerticate')->name('admin.tutors.certificate'); // Approve tutor profile
 
     });
 

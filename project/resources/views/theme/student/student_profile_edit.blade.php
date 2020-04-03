@@ -21,7 +21,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <title>TutorLynx</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('theme_asset/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- Theme style -->
@@ -33,6 +32,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('theme_asset/plugins/select2-bootstrap4-theme/select2-bootstrap4.css') }}">
     <!-- Bootstrap4 Duallistbox -->
     <link rel="stylesheet" href="{{ asset('theme_asset/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.css') }}">
+
+    {{-- Custom Style --}}
+    <link rel="stylesheet" href="{{ asset('theme_asset/custom/css/custom.css') }}">
+
 </head>
 
 

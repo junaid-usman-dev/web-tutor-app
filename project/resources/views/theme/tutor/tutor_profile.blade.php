@@ -96,7 +96,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" type="text/css" href="{{ asset('theme_asset/star-rating-svg-master/src/css/star-rating-svg.css') }}">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 
-
+    {{-- Custom Styling --}}
+    <link rel="stylesheet" href="{{ asset('theme_asset/custom/css/custom.css') }}">
 
 </head>
 
@@ -153,13 +154,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 <div class="row">
                                                                     <div class="col-2 text-left">
                                                                         <img src="{{ url('/') }}/{{ $user->images->path }}/{{ $user->images->name }}" alt=""
-                                                                            class="img-circle img-fluid">
+                                                                            class="img-circle img-fluid ju-profile-img ">
                                                                     </div>
                                                                     <div class="col-9 ">
                                                                         <h2 class="username"><strong>{{ $user->first_name }}
                                                                             {{ $user->last_name }}</strong>
                                                                             @if ( $user->approve == "1" )
-                                                                                <i class="text-warning fas fa-certificate"></i>
+                                                                                {{-- <i class="text-warning fas fa-certificate"></i> --}}
+                                                                                <span class="badge badge-success ju-user-badge-verified" >Verified</span>
                                                                             @endif
                                                                         </h2>
                                                                         <p class="text-lg">
@@ -678,7 +680,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="card card-primary card-outline hide-card card-style card-style_desktop">
                                 <div class="card-body box-profile">
                                     <div class="text-center ">
-                                        <img class="profile-user-img img-fluid img-circle img-bordered-sm"
+                                        <img class="profile-user-img img-fluid img-circle img-bordered-sm ju-profile-img "
                                             src="{{ url('/') }}/{{ $user->images->path }}/{{ $user->images->name }}" alt="User profile picture">
                                     </div>
 

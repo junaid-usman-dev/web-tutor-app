@@ -211,6 +211,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </div>
                             </div>
                         </div>
+
+                        {{-- <div clas="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="control-label col-sm-12" for="institute">Upload Certification File</label>
+                                    <input type="text" class="form-control" name="institute" placeholder="Institute Name" >
+                                    <div class="col-sm-12 error-message alert alert-danger error-ins" role="alert">
+                                        Error Message Goes Here
+                                    </div>
+                                </div>
+                            </div>
+                        </div> --}}
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="input-group mb-3">
+                                    <label class="control-label col-sm-12" for="institute">Upload Certification File</label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="file-upload"/>
+                                        <label name="file_name" class="custom-file-label" for="inputGroupFile02">Choose file</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -235,6 +260,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
     
 <script>
 
+    jQuery('#file-upload').change(function() {
+        var i = $(this).prev('label').clone();
+        var file = $('#file-upload')[0].files[0].name;
+        jQuery('label[name="file_name"]').text(file);
+        // alert(file);
+    });
+
+
+
     jQuery(document).ready(function(){
         $.ajaxSetup({ headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} });
         
@@ -247,6 +281,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
             let certification = jQuery('input[name="certification"]').val();
             let start_date = jQuery('input[name="start_date"]').val();
             let end_date = jQuery('input[name="end_date"]').val();
+            let file_name = jQuery('label[name="file_name"]').text();
+
+            // console.log(file_name);
 
             // Defining Bool Variable
             let is_institute = false;
@@ -310,7 +347,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             }
             if( (is_institute==true ) && (is_certification==true ) && (is_start_date==true ) && (is_end_date==true ) )
             {
-                EducationData(institute, certification, start_date, end_date)
+               EducationData(institute, certification, start_date, end_date)
             }
             else
             {

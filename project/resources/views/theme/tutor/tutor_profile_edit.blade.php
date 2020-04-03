@@ -32,6 +32,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('theme_asset/plugins/select2-bootstrap4-theme/select2-bootstrap4.css') }}">
     <!-- Bootstrap4 Duallistbox -->
     <link rel="stylesheet" href="{{ asset('theme_asset/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.css') }}">
+    
+    {{-- Custom Style --}}
+    <link rel="stylesheet" href="{{ asset('theme_asset/custom/css/custom.css') }}">
 </head>
 
 
@@ -96,7 +99,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <div class="card-body box-profile">
                                         <div class="text-center">
                                             <input type="file" id="upload_image" name="upload_image" value=""  class="d-none">
-                                                <img name="image" id="image" style="cursor:pointer;" class="profile-user-img img-fluid img-circle"
+                                                <img name="image" id="image" style="cursor:pointer;" class="profile-user-img img-fluid img-circle ju-profile-img"
                                                     src="{{ url('/') }}/{{ $user->images->path }}/{{ $user->images->name }}" alt="User profile picture">
                                         </div>
                                         <h3 class="profile-username text-center">{{ $user->first_name }} {{ $user->last_name }}</h3>

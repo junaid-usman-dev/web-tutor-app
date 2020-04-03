@@ -49,12 +49,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0 text-dark">Manage Tutors</h1>
+                            <h1 class="m-0 text-dark">Tutor Certificates</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Manage Tutors</li>
+                                <li class="breadcrumb-item active">Tutor Certificates</li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -78,58 +78,64 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <!-- /.card-header -->
                                         <div class="card-body table-responsive">
                                             
-                                            <table id="example2" class="table table-bordered" >
-                                                    <a href="{{ route('admin.tutor.create') }}" class="btn col-2 btn-primary" style="margin-right: 5px;">Create</a>
-                                                    <a href="{{ route('admin.tutors.certificate') }}" class="btn col-2 btn-primary">View Certificates</a>
-
+                                            <table id="example2" class="table table-bordered">
+                                                    {{-- <a href="#" class="btn col-2 btn-primary">Create</a> --}}
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>First Name</th>
-                                                        <th>Last Name</th>
-                                                        <th>Email Address</th>
-                                                        <th>Status</th>
+                                                        <th>Tutor</th>
+                                                        <th>Institute</th>
+                                                        <th>Certicate Title</th>
+                                                        <th>Date</th>
+                                                        <th>Verified</th>
                                                         <th>Action</th>
+
                                                     </tr>
                                                 </thead>
                                                 <tbody>
 
-                                                    @if ( count($tutors) > 0)
+                                                    @if ( count ($educations) > 0 )
                                                         @php
                                                             $count = 0;
                                                         @endphp
-                                                        @foreach ($tutors as $tutor)
-                                                            @php
-                                                                $count += 1;
-                                                            @endphp
-                                                            <tr>
-                                                                <td>{{ $count }}</td>
-                                                                <td>{{ $tutor->first_name }}</td>
-                                                                <td>{{ $tutor->last_name }}</td>
-                                                                <td>{{ $tutor->email_address }}</td>
-                                                                <td>{{ $tutor->paid_fee }}</td>
-                                                                <td><button type="button"
-                                                                        class="btn btn-primary dropdown-toggle"
-                                                                        data-toggle="dropdown" aria-expanded="false">
-                                                                        Action
-                                                                    </button>
-                                                                    <ul class="dropdown-menu" x-placement="bottom-start"
-                                                                        style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 48px, 0px);">
-                                                                        <li class="dropdown-item"><a href="{{ url('admin/tutor/edit') }}/{{ $tutor->id }}">Edit</a></li>
-                                                                        <li class="dropdown-item"><a href="{{ url('admin/tutor/delete') }}/{{ $tutor->id }}">Delete</a>
-                                                                        </li>
-                                                                        
-                                                                        {{-- <li class="dropdown-divider"></li>
-                                                                        <li class="dropdown-item"><a href="#">Separated link</a>
-                                                                        </li> --}}
-                                                                    </ul>
-                                                                </td>
-                                                            </tr>
+                                                        @foreach ($educations as $education)
+                                                            {{-- @foreach ($result->users as $user) --}}
+                                                                @php
+                                                                    $count += 1; 
+                                                                @endphp    
+                                                                <tr>
+                                                                    <td>{{ $count }}</td>
+                                                                    <td>{{ $education->users->first_name }} {{ $education->users->last_name }}</td>
+                                                                    <td>{{ $education->institute }}</td>
+                                                                    <td>{{ $education->certification }}</td>
+                                                                    <td>{{ \Carbon\Carbon::parse($education->start_date)->format('d M, Y') }} - {{ \Carbon\Carbon::parse($education->end_date)->format('d M, Y') }}</td>
+                                                                    <td>{{ $education->users->approve }}</td>
+
+                                                                    <td><button type="button"
+                                                                            class="btn btn-primary dropdown-toggle"
+                                                                            data-toggle="dropdown" aria-expanded="false">
+                                                                            Action
+                                                                        </button>
+                                                                        <ul class="dropdown-menu" x-placement="bottom-start"
+                                                                            style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 48px, 0px);">
+                                                                            <li class="dropdown-item"><a href="{{ url('/admin/tutor/approve') }}/{{ $education->users->id }}">Approve</a></li>
+                                                                            {{-- <li class="dropdown-item"><a href="{{ url('/admin/test/question/edit') }}/{{ $test->id }}">Edit Questions</a></li> --}}
+                                                                            {{-- <li class="dropdown-item"><a href="#">Disapprove</a> --}}
+                                                                            </li>
+                                                                            
+                                                                            {{-- <li class="dropdown-divider"></li>
+                                                                                <li class="dropdown-item"><a href="#">Preview</a>
+                                                                                <li class="dropdown-item"><a href="#">Result</a>
+
+                                                                            </li> --}}
+                                                                        </ul>
+                                                                    </td>
+                                                                </tr>
+                                                            {{-- @endforeach --}}
                                                         @endforeach
                                                     @else
-                                                        Empty Tutor List.
+                                                            Empty Admin List.
                                                     @endif
-                                                    
 
                                                 </tbody>
 

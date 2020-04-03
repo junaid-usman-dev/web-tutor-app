@@ -173,8 +173,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     @else
                                                         <li>
                                                             <a href="{{ url('/admin/student/profile') }}/{{ $student->id }}">
-                                                                <img src="{{url('/')}}/{{ $student->images->path }}/{{ $student->images->name }}"
-                                                                    width="200" height="200" alt="User Image">
+                                                                <img class="img-fluid" src="{{url('/')}}/{{ $student->images->path }}/{{ $student->images->name }}"
+                                                                    alt="User Image">
                                                             </a>
                                                             <a class="users-list-name" href="{{ url('/admin/student/profile') }}/{{ $student->id }}">{{ $student->first_name }}</a>
                                                             {{-- <span class="users-list-date">Today</span> --}}
@@ -268,8 +268,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     @else
                                                         <li>
                                                             <a href="{{ url('/admin/tutor/profile') }}/{{ $tutor->id }}">
-                                                                <img src="{{ url('/') }}/{{ $tutor->images->path }}/{{ $tutor->images->name }}"
-                                                                    width="200" height="200" alt="User Image">
+                                                                <img class="img-fluid" src="{{ url('/') }}/{{ $tutor->images->path }}/{{ $tutor->images->name }}"
+                                                                    alt="User Image">
                                                             </a>
                                                             <a class="users-list-name" href="{{ url('/admin/tutor/profile') }}/{{ $tutor->id }}">{{ $tutor->first_name }}</a>
                                                             {{-- <span class="users-list-date">Today</span> --}}

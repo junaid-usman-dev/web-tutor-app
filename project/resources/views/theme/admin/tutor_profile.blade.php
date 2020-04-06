@@ -266,7 +266,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                             @if ( count($user->availabilities) > 0 )
                                                                                 @foreach ($user->availabilities as $availability )
                                                                                     @if ($availability->title == "Sunday")
-                                                                                        <p>  {{ $availability->start_time }} - {{ $availability->end_time }} </p>
+                                                                                        <p>{{ \Carbon\Carbon::parse( $availability->start_time )->format('g:i A')  }} - {{ \Carbon\Carbon::parse( $availability->end_time )->format('g:i A')  }}</p>
                                                                                         @php
                                                                                             $is_sunday = '1';
                                                                                         @endphp
@@ -287,7 +287,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                             @if ( count($user->availabilities) > 0 )
                                                                                 @foreach ($user->availabilities as $availability )
                                                                                     @if ($availability->title == "Monday")
-                                                                                        <p>  {{ $availability->start_time }} - {{ $availability->end_time }} </p>
+                                                                                        <p>{{ \Carbon\Carbon::parse( $availability->start_time )->format('g:i A')  }} - {{ \Carbon\Carbon::parse( $availability->end_time )->format('g:i A')  }}</p>
                                                                                         @php
                                                                                             $is_monday = '1';
                                                                                         @endphp
@@ -308,7 +308,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                             @if ( count($user->availabilities) > 0 )
                                                                                 @foreach ($user->availabilities as $availability )
                                                                                     @if ($availability->title == "Tuesday")
-                                                                                        <p>  {{ $availability->start_time }} - {{ $availability->end_time }} </p>
+                                                                                        <p>{{ \Carbon\Carbon::parse( $availability->start_time )->format('g:i A')  }} - {{ \Carbon\Carbon::parse( $availability->end_time )->format('g:i A')  }}</p>
                                                                                         @php
                                                                                             $is_tuesday = '1';
                                                                                         @endphp
@@ -329,7 +329,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                             @if ( count($user->availabilities) > 0 )
                                                                                 @foreach ($user->availabilities as $availability )
                                                                                     @if ($availability->title == "Wednesday")
-                                                                                        <p>  {{ $availability->start_time }} - {{ $availability->end_time }} </p>
+                                                                                        <p>{{ \Carbon\Carbon::parse( $availability->start_time )->format('g:i A')  }} - {{ \Carbon\Carbon::parse( $availability->end_time )->format('g:i A')  }}</p>
                                                                                         @php
                                                                                             $is_wednesday = '1';
                                                                                         @endphp
@@ -351,7 +351,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                             @if ( count($user->availabilities) > 0 )
                                                                                 @foreach ($user->availabilities as $availability )
                                                                                     @if ($availability->title == "Thursday")
-                                                                                        <p>  {{ $availability->start_time }} - {{ $availability->end_time }} </p>
+                                                                                        <p>{{ \Carbon\Carbon::parse( $availability->start_time )->format('g:i A')  }} - {{ \Carbon\Carbon::parse( $availability->end_time )->format('g:i A')  }}</p>
                                                                                         @php
                                                                                             $is_thursday = '1';
                                                                                         @endphp
@@ -372,7 +372,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                             @if ( count($user->availabilities) > 0 )
                                                                                 @foreach ($user->availabilities as $availability )
                                                                                     @if ($availability->title == "Friday")
-                                                                                        <p>  {{ $availability->start_time }} - {{ $availability->end_time }} </p>
+                                                                                        <p>{{ \Carbon\Carbon::parse( $availability->start_time )->format('g:i A')  }} - {{ \Carbon\Carbon::parse( $availability->end_time )->format('g:i A')  }}</p>
                                                                                         @php
                                                                                             $is_friday = '1';
                                                                                         @endphp
@@ -392,7 +392,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                             @if ( count($user->availabilities) > 0 )
                                                                                 @foreach ($user->availabilities as $availability )
                                                                                     @if ($availability->title == "Saturday")
-                                                                                        <p>  {{ $availability->start_time }} - {{ $availability->end_time }} </p>
+                                                                                        <p>{{ \Carbon\Carbon::parse( $availability->start_time )->format('g:i A')  }} - {{ \Carbon\Carbon::parse( $availability->end_time )->format('g:i A')  }}</p>
                                                                                         @php
                                                                                             $is_saturday = '1';
                                                                                         @endphp

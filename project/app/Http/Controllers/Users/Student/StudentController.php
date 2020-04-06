@@ -1449,7 +1449,12 @@ class StudentController extends Controller
                         foreach ($available_slots as $new_availability)
                         {
                             $event = collect([
-                                'title' => $new_availability[0]->toTimeString().' - '.$new_availability[1]->toTimeString(),
+                                //------ junaid modification
+                                'title' => Carbon::parse($new_availability[0]->toTimeString())->format('g:i A').' - '.Carbon::parse($new_availability[1]->toTimeString())->format('g:i A'),
+                                // 'title' => 'Title 1',
+                                // end 
+
+                                // 'title' => $new_availability[0]->toTimeString().' - '.$new_availability[1]->toTimeString(), // okasha code commented by junaid
                                 'start' => $new_availability[0]->toDateTimeString(),
                                 'end' => $new_availability[1]->toDateTimeString()
                             ]);
@@ -1459,7 +1464,12 @@ class StudentController extends Controller
                     else
                     {
                         $event = collect([
-                            'title' => $current_availability_start_datetime->toTimeString().' - '.$current_availability_end_datetime->toTimeString(),
+                            //------ junaid modification
+                            'title' => Carbon::Carbon()->parse($current_availability_start_datetime->toTimeString())->format('g:i A').' - '.Carbon::Carbon()->parse($current_availability_end_datetime->toTimeString())->format('g:i A'),
+                            // 'title' => 'Title 2',
+                            // end 
+
+                            // 'title' => $current_availability_start_datetime->toTimeString().' - '.$current_availability_end_datetime->toTimeString(), // okasha code commented by junaid
                             'start' => $current_availability_start_datetime->toDateTimeString(),
                             'end' => $current_availability_end_datetime->toDateTimeString()
                         ]);
@@ -1469,7 +1479,12 @@ class StudentController extends Controller
                 else
                 {
                     $event = collect([
-                        'title' => $current_availability_start_datetime->toTimeString().' - '.$current_availability_end_datetime->toTimeString(),
+                        //------ junaid modification
+                        'title' => Carbon::parse($current_availability_start_datetime)->format('g:i A').' - '.Carbon::parse($current_availability_end_datetime)->format('g:i A') ,
+                        // 'title' => 'Title 3',
+                        // end 
+
+                        //'title' => $current_availability_start_datetime->toTimeString().' - '.$current_availability_end_datetime->toTimeString(), // okasha code commented by junaid
                         'start' => $current_availability_start_datetime->toDateTimeString(),
                         'end' => $current_availability_end_datetime->toDateTimeString()
                     ]);

@@ -61,12 +61,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">All Test</h1>
+                        <h1 class="m-0 text-dark">All Tests</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">All Test</li>
+                            <li class="breadcrumb-item active">All Tests</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -90,7 +90,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <!-- Default box -->
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">All Test</h3>
+                                <h3 class="card-title">All Tests</h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Users\Tutor;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
+use Carbon\Carbon;
+
 
 use App\Model\Availability;
 
@@ -70,35 +72,63 @@ class EventController extends Controller
         $end_time = $request->input('end_time');
 
         // dd ($request->all());
-
-        $new_availability = new Availability();
         
-        $new_availability->user_id = $user_id;
-        $new_availability->title = $day;
-        $new_availability->start_time = $start_time.":00";
-        $new_availability->end_time = $end_time.":00";
+        $availabilities = Availability::where('user_id', $user_id)->where('title', $day)->get();
+        // dd ($availabilities);
+        if ( count($availabilities) > 0 )
+        {
+            foreach ($availabilities as $availbility)
+            {
+                // dd ($availbility->start_time);
+                // Check the start time and end time lie between availability time slot or not 
+                if( Carbon::parse($start_time)->between(Carbon::parse($availbility->start_time)->format('H:i:s'), Carbon::parse($availbility->end_time)->format('H:i:s'), true) 
+                    || Carbon::parse($end_time)->between(Carbon::parse($availbility->start_time)->format('H:i:s'), Carbon::parse($availbility->end_time)->format('H:i:s'), true)
+                )
+                {
+                    // Return Error Message
+                    // dd("Not Valid");
+                    return response()->json([
+                        'error'=> true
+                    ]);
+                }
+                // Check start time is less then availability start time then end time should be less then availability end time
+                else if ( $start_time < Carbon::parse($availbility->start_time)->format('H:i:s') && ( $end_time < Carbon::parse($availbility->start_time)->format('H:i:s')) 
+                        || $start_time > Carbon::parse($availbility->end_time)->format('H:i:s') && ( $end_time > Carbon::parse($availbility->end_time)->format('H:i:s'))
+                    )
+                {
 
-        $new_availability->save();
+                    // Return Success Message
+                    // dd ("Not Found");
+                    $new_availability = new Availability();
+            
+                    $new_availability->user_id = $user_id;
+                    $new_availability->title = $day;
+                    $new_availability->start_time = $start_time.":00";
+                    $new_availability->end_time = $end_time.":00";
 
-        // return ("Event has been added.");
-        // $user_has_day = Availability::where('user_id', $user_id)->where('title', $title)->first();
-        // dd ($user_has_day );
+                    $new_availability->save();
+                }
+                else
+                {
+                    // Return Error Message
+                    return response()->json([
+                        'error'=> true
+                    ]);
+                }
+
+            }
+        }
+        else
+        {
+            $new_availability = new Availability();
         
-        // if ( !empty($user_has_day))
-        // {
-        //     // update schedule
-            // $user_has_day->start_date = $start_date;
-            // $user_has_day->end_date = $end_date;
-            // $user_has_day->start_time = $start_time;
-            // $user_has_day->end_time = $end_time;
+            $new_availability->user_id = $user_id;
+            $new_availability->title = $day;
+            $new_availability->start_time = $start_time.":00";
+            $new_availability->end_time = $end_time.":00";
 
-            // $user_has_day->save();
-        // }
-        // else 
-        // {
-        //     Availability::create($request->all());
-        // }
-        
+            $new_availability->save();
+        }
         // Availability::create($request->all());
         return response()->json([
             'success' => true

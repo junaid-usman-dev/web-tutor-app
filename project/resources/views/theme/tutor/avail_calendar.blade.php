@@ -27,6 +27,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('theme_asset/plugins/fullcalendar-bootstrap/main.min.css') }}">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    {{-- Time Picker jQuery Plugin --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme_asset/TimePicki-master/css/timepicki.css') }}" >
     
     {{-- Custom Styling --}}
     <link rel="stylesheet" href="{{ asset('theme_asset/custom/css/custom.css') }}">
@@ -60,270 +63,229 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container-fluid">
                     <div class="row mb-3">
                         <div class="col-sm-6">
-                            <h1 class="m-0 text-dark">Availability Calender</h1>
+                            <h1 class="m-0 text-dark">Availability</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="{{ url('/tutor') }}">Home</a></li>
-                                <li class="breadcrumb-item active">Availability Calender</li>
+                                <li class="breadcrumb-item active">Availability</li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
                 </div>
 
-
-                <button type="button" class="btn btn-primary" data-toggle="modal"
-                            data-target="#exampleModal" data-whatever="@mdo">Add Availability</button>
-
-
                 <div class="container-fluid">
                     <div class="row">
                        
-                        {{-- <button type="button" style="float: right;" class="btn btn-primary" data-toggle="modal"
-                            data-target="#exampleModal" data-whatever="@mdo">Add Availability</button> --}}
-                        {{-- <button type="button" class="btn btn-primary" id="add-new-event" >Add Event</button> --}}
-                        <!-- /.col -->
-                        {{-- <div class="col-md-12" id="external-events">
-                            <div class="card card-primary">
-                                <div class="card-body p-0">
-                                    <!-- THE CALENDAR -->
-                                    <div id="calendar"></div>
-                                </div>
-                                <!-- /.card-body -->
-                            </div>
-                            <!-- /.card -->
-                        </div> --}}
-                        <!-- /.col -->
-
-
-
-
                     </br>
-                    <div clas="row">
-                           
+                    <div class="card ju-m-zero ju-ava-card">
+                        <div class="card-body">
 
-                        <span class="b_username">
-                            Schedule
-                        </span>
-
-                        <!-- /.user-block -->
-                        <div class="row">
-                            <p>
-                                <div class="col-md-6">
-                                    <p>
-                                        <b>Sunday:</b></br>
-                                        {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
-                                        @php
-                                            $is_sunday = '0';
-                                        @endphp
-                                        @if ( count($user->availabilities) > 0 )
-                                            @foreach ($user->availabilities as $availability )
-                                                @if ($availability->title == "Sunday")
-                                                    <p> 
-                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
-                                                        <a href="{{ url('/tutor/delete-availability') }}/{{ $availability->id }}">delete</a>
-                                                    </p>
-                                                    @php
-                                                        $is_sunday = '1';
-                                                    @endphp
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                        @if ($is_sunday == '0')
-                                            <p>Unavailable</p>
-                                        @endif
-                                    </p>
-
-                                    <p>
-                                        <b>Monday:</b></br>
-                                        {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
-                                        @php
-                                            $is_monday = '0';
-                                        @endphp
-                                        @if ( count($user->availabilities) > 0 )
-                                            
-                                            @foreach ($user->availabilities as $availability )
-                                                @if ($availability->title == "Monday")
-                                                    <p>
-                                                        {{ $availability->start_time }} - {{ $availability->end_time }} 
-                                                        <a href="{{ url('/tutor/delete-availability') }}/{{ $availability->id }}">delete</a>
-                                                    </p>
-                                                    @php
-                                                        $is_monday = '1';
-                                                    @endphp
-                                                @endif
-                                            @endforeach
-                                            
-                                        @endif
-                                        @if ($is_monday == '0')
-                                            <p>Unavailable</p>
-                                        @endif
-                                    </p>
-
-                                    <p>
-                                        <b>Tuesday:</b></br>
-                                        {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
-                                        @php
-                                            $is_tuesday = '0';
-                                        @endphp
-                                        @if ( count($user->availabilities) > 0 )
-                                            @foreach ($user->availabilities as $availability )
-                                                @if ($availability->title == "Tuesday")
-                                                    <p>
-                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
-                                                        <a href="{{ url('/tutor/delete-availability') }}/{{ $availability->id }}">delete</a>
-                                                    </p>
-                                                    @php
-                                                        $is_tuesday = '1';
-                                                    @endphp
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                        @if ($is_tuesday == '0')
-                                            <p>Unavailable</p>
-                                        @endif
-                                    </p>
-
-                                    <p>
-                                        <b>Wednesday:</b></br>
-                                        {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
-                                        @php
-                                            $is_wednesday = '0';
-                                        @endphp
-                                        @if ( count($user->availabilities) > 0 )
-                                            @foreach ($user->availabilities as $availability )
-                                                @if ($availability->title == "Wednesday")
-                                                    <p>
-                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
-                                                        <a href="{{ url('/tutor/delete-availability') }}/{{ $availability->id }}">delete</a>
-                                                    </p>
-                                                    @php
-                                                        $is_wednesday = '1';
-                                                    @endphp
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                        @if ($is_wednesday == '0')
-                                            <p>Unavailable</p>
-                                        @endif
-                                    </p>
+                            <div clas="row">
+                                
+                                <div class="row ju-result-m-bottom">
+                                    <button type="button" class="btn btn-primary ju-m-zero" data-toggle="modal"
+                                        data-target="#exampleModal" data-whatever="@mdo">Add Availability</button>
                                 </div>
-                                <div class="col-md-6">
+                                
+                                <span class="b_username ju-aval-schedule">
+                                    Schedule
+                                </span>
+
+                                <!-- /.user-block -->
+                                <div class="row">
                                     <p>
-                                        <b>Thursday:</b></br>
-                                        {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
-                                        @php
-                                            $is_thursday = '0';
-                                        @endphp
-                                        @if ( count($user->availabilities) > 0 )
-                                            @foreach ($user->availabilities as $availability )
-                                                @if ($availability->title == "Thrusday")
-                                                    <p>
-                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
-                                                        <a href="{{ url('/tutor/delete-availability') }}/{{ $availability->id }}">delete</a>
-                                                    </p>
-                                                    @php
-                                                        $is_thursday = '1';
-                                                    @endphp                                               
+                                        <div class="col-md-6 ju-availability-days" >
+                                            <p>
+                                                <b>Sunday:</b></br>
+                                                {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                                @php
+                                                    $is_sunday = '0';
+                                                @endphp
+                                                @if ( count($user->availabilities) > 0 )
+                                                    @foreach ($user->availabilities as $availability )
+                                                        @if ($availability->title == "Sunday")
+                                                            <p> 
+                                                                {{ \Carbon\Carbon::parse($availability->start_time)->format('g:i A') }} - {{ \Carbon\Carbon::parse($availability->end_time)->format('g:i A') }}
+                                                                <a class="ju-clr-red" href="{{ url('/tutor/delete-availability') }}/{{ $availability->id }}">delete</a>
+                                                            </p>
+                                                            @php
+                                                                $is_sunday = '1';
+                                                            @endphp
+                                                        @endif
+                                                    @endforeach
                                                 @endif
-                                            @endforeach
-                                        @endif
-                                        @if ($is_thursday == '0')
-                                            <p>Unavailable</p>
-                                        @endif
+                                                @if ($is_sunday == '0')
+                                                    <p>Unavailable</p>
+                                                @endif
+                                            </p>
+
+                                            <p>
+                                                <b>Monday:</b></br>
+                                                {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                                @php
+                                                    $is_monday = '0';
+                                                @endphp
+                                                @if ( count($user->availabilities) > 0 )
+                                                    
+                                                    @foreach ($user->availabilities as $availability )
+                                                        @if ($availability->title == "Monday")
+                                                            <p >
+                                                                {{ \Carbon\Carbon::parse($availability->start_time)->format('g:i A') }} - {{ \Carbon\Carbon::parse($availability->end_time)->format('g:i A') }}
+                                                                {{-- {{ $availability->start_time }} - {{ $availability->end_time }}  --}}
+                                                                <a class="ju-clr-red" href="{{ url('/tutor/delete-availability') }}/{{ $availability->id }}">delete</a>
+                                                            </p>
+                                                            @php
+                                                                $is_monday = '1';
+                                                            @endphp
+                                                        @endif
+                                                    @endforeach
+                                                    
+                                                @endif
+                                                @if ($is_monday == '0')
+                                                    <p>Unavailable</p>
+                                                @endif
+                                            </p>
+
+                                            <p>
+                                                <b>Tuesday:</b></br>
+                                                {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                                @php
+                                                    $is_tuesday = '0';
+                                                @endphp
+                                                @if ( count($user->availabilities) > 0 )
+                                                    @foreach ($user->availabilities as $availability )
+                                                        @if ($availability->title == "Tuesday")
+                                                            <p>
+                                                                {{-- {{ $availability->start_time }} - {{ $availability->end_time }} --}}
+                                                                {{ \Carbon\Carbon::parse($availability->start_time)->format('g:i A') }} - {{ \Carbon\Carbon::parse($availability->end_time)->format('g:i A') }}
+                                                                <a class="ju-clr-red" href="{{ url('/tutor/delete-availability') }}/{{ $availability->id }}">delete</a>
+                                                            </p>
+                                                            @php
+                                                                $is_tuesday = '1';
+                                                            @endphp
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                                @if ($is_tuesday == '0')
+                                                    <p>Unavailable</p>
+                                                @endif
+                                            </p>
+
+                                            <p>
+                                                <b>Wednesday:</b></br>
+                                                {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                                @php
+                                                    $is_wednesday = '0';
+                                                @endphp
+                                                @if ( count($user->availabilities) > 0 )
+                                                    @foreach ($user->availabilities as $availability )
+                                                        @if ($availability->title == "Wednesday")
+                                                            <p>
+                                                                {{-- {{ $availability->start_time }} - {{ $availability->end_time }} --}}
+                                                                {{ \Carbon\Carbon::parse($availability->start_time)->format('g:i A') }} - {{ \Carbon\Carbon::parse($availability->end_time)->format('g:i A') }}
+                                                                <a class="ju-clr-red" href="{{ url('/tutor/delete-availability') }}/{{ $availability->id }}">delete</a>
+                                                            </p>
+                                                            @php
+                                                                $is_wednesday = '1';
+                                                            @endphp
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                                @if ($is_wednesday == '0')
+                                                    <p>Unavailable</p>
+                                                @endif
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 ju-availability-days">
+                                            <p>
+                                                <b>Thursday:</b></br>
+                                                {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                                @php
+                                                    $is_thursday = '0';
+                                                @endphp
+                                                @if ( count($user->availabilities) > 0 )
+                                                    @foreach ($user->availabilities as $availability )
+                                                        @if ($availability->title == "Thrusday")
+                                                            <p>
+                                                                {{-- {{ $availability->start_time }} - {{ $availability->end_time }} --}}
+                                                                {{ \Carbon\Carbon::parse($availability->start_time)->format('g:i A') }} - {{ \Carbon\Carbon::parse($availability->end_time)->format('g:i A') }}
+                                                                <a class="ju-clr-red" href="{{ url('/tutor/delete-availability') }}/{{ $availability->id }}">delete</a>
+                                                            </p>
+                                                            @php
+                                                                $is_thursday = '1';
+                                                            @endphp                                               
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                                @if ($is_thursday == '0')
+                                                    <p>Unavailable</p>
+                                                @endif
+                                            </p>
+
+                                            <p>
+                                                <b>Friday:</b></br>
+                                                {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
+                                                @php
+                                                    $is_friday = '0';
+                                                @endphp
+                                                @if ( count($user->availabilities) > 0 )
+                                                    @foreach ($user->availabilities as $availability )
+                                                        @if ($availability->title == "Friday" )
+                                                            <p>
+                                                                {{-- {{ $availability->start_time }} - {{ $availability->end_time }} --}}
+                                                                {{ \Carbon\Carbon::parse($availability->start_time)->format('g:i A') }} - {{ \Carbon\Carbon::parse($availability->end_time)->format('g:i A') }}
+                                                                <a class="ju-clr-red" href="{{ url('/tutor/delete-availability') }}/{{ $availability->id }}">delete</a>
+                                                            </p>
+                                                            @php
+                                                                $is_friday = '1';
+                                                            @endphp 
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                                @if ($is_friday == '0')
+                                                    <p>Unavailable</p>
+                                                @endif
+                                            </p>
+                                            <p>
+                                                <b>Saturday:</b></br>
+                                                {{-- Midnight - 3:00 AM --}}
+                                                @php
+                                                    $is_saturday = '0';
+                                                @endphp
+                                                @if ( count($user->availabilities) > 0 )
+                                                    @foreach ($user->availabilities as $availability )
+                                                        @if ($availability->title == "Saturday")
+                                                            <p>
+                                                                {{-- {{ $availability->start_time }} - {{ $availability->end_time }} --}}
+                                                                {{ \Carbon\Carbon::parse($availability->start_time)->format('g:i A') }} - {{ \Carbon\Carbon::parse($availability->end_time)->format('g:i A') }}
+                                                                <a class="ju-clr-red" href="{{ url('/tutor/delete-availability') }}/{{ $availability->id }}">delete</a>
+                                                            </p>
+                                                            @php
+                                                                $is_saturday = '1';
+                                                            @endphp
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                                @if ($is_saturday == '0')
+                                                    <p>Unavailable</p>
+                                                @endif
+                                            </p>
+                                        </div>
                                     </p>
 
-                                    <p>
-                                        <b>Friday:</b></br>
-                                        {{-- Midnight - 3:00 AM, 10:00 PM - Midnight --}}
-                                        @php
-                                            $is_friday = '0';
-                                        @endphp
-                                        @if ( count($user->availabilities) > 0 )
-                                            @foreach ($user->availabilities as $availability )
-                                                @if ($availability->title == "Friday" )
-                                                    <p>
-                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
-                                                        <a href="{{ url('/tutor/delete-availability') }}/{{ $availability->id }}">delete</a>
-                                                    </p>
-                                                    @php
-                                                        $is_friday = '1';
-                                                    @endphp 
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                        @if ($is_friday == '0')
-                                            <p>Unavailable</p>
-                                        @endif
-                                    </p>
-                                    <p>
-                                        <b>Saturday:</b></br>
-                                        {{-- Midnight - 3:00 AM --}}
-                                        @php
-                                            $is_saturday = '0';
-                                        @endphp
-                                        @if ( count($user->availabilities) > 0 )
-                                            @foreach ($user->availabilities as $availability )
-                                                @if ($availability->title == "Saturday")
-                                                    <p>
-                                                        {{ $availability->start_time }} - {{ $availability->end_time }}
-                                                        <a href="{{ url('/tutor/delete-availability') }}/{{ $availability->id }}">delete</a>
-                                                    </p>
-                                                    @php
-                                                        $is_saturday = '1';
-                                                    @endphp
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                        @if ($is_saturday == '0')
-                                            <p>Unavailable</p>
-                                        @endif
-                                    </p>
                                 </div>
-                            </p>
 
-                        </div>
-
-                    </div>
-
-
-
-
-
-
-
-
-
-
-                    </div>
-                    <!-- /.row -->
-                </div><!-- /.container-fluid -->
-            </div>
-            <!-- /.content-header -->
-
-            {{-- <!-- Main content -->
-            <section class="content">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <!-- Default box -->
-                            <div class="card card-primary">
-                                <div class="card-body p-0">
-                                    <!-- THE CALENDAR -->
-                                    <div id="calendar"></div>
-                                </div>
-                                <!-- /.card-body -->
                             </div>
-                            <!-- /.card -->
                         </div>
-
                     </div>
-                    <!-- /.row -->
-                </div><!-- /.container-fluid -->
-            </section>
-            <!-- /.content --> --}}
 
+                </div>
+                <!-- /.row -->
+            </div><!-- /.container-fluid -->
         </div>
+        <!-- /.content-header -->
+    </div>
         <!-- /.content-wrapper -->
 
         <!-- Control Sidebar -->
@@ -378,35 +340,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </div>
                         </div>
 
-                        {{-- <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Start Date</label>
-                            <input type="date" class="form-control" name="start_date" placeholder="mm/dd/yyyy" >
-                            <div class="error-message alert alert-danger error-sd ju-ta" role="alert">
-                                Error Message Goes Here
-                            </div>
-                        </div> --}}
-                        {{-- <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">End Date</label>
-                            <input type="date" class="form-control" name="end_date" placeholder="mm/dd/yyyy" >
-                            <div class="error-message alert alert-danger error-ed ju-ta" role="alert">
-                                Error Message Goes Here
-                            </div>
-                        </div> --}}
-
                         <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Start Time</label>
-                            <input type="time" class="form-control" name="start_time" placeholder="hh:mm ss" >
-                            <div class="error-message alert alert-danger error-st ju-ta" role="alert">
-                                Error Message Goes Here
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label for="recipient-name" class="col-form-label">Start Time</label>
+                                    <input type="text" name="start_time" class="time_element"/>
+                                    {{-- <input type="time" class="form-control" name="start_time" placeholder="hh:mm ss" > --}}
+                                    <div class="error-message alert alert-danger error-st ju-ta" role="alert">
+                                        Error Message Goes Here
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="recipient-name" class="col-form-label">End Time</label>
+                                    <input type="text" name="end_time" class="time_element"/>
+                                    {{-- <input type="time" class="form-control" name="end_time" placeholder="hh:mm ss" > --}}
+                                    <div class="error-message alert alert-danger error-et ju-ta" role="alert">
+                                        Error Message Goes Here
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">End Time</label>
-                            <input type="time" class="form-control" name="end_time" placeholder="hh:mm ss" >
-                            <div class="error-message alert alert-danger error-et ju-ta" role="alert">
-                                Error Message Goes Here
-                            </div>
+                        
+                        <div class="error-message alert alert-danger error-response ju-ta" role="alert">
+                            You have chosen invalid availability time slot.
                         </div>
+                        {{-- <input type="text" name="timepicker" class="time_element"/> --}}
 
                     </form>
                 </div>
@@ -443,10 +401,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ asset('theme_asset/plugins/fullcalendar-interaction/main.min.js') }}"></script>
     <script src="{{ asset('theme_asset/plugins/fullcalendar-bootstrap/main.min.js') }}"></script>
 
+    {{-- Time Picker jQuery Plugin --}}
+    <script src="{{ asset('theme_asset/TimePicki-master/js/timepicki.js') }}"></script>
+
+
+
     <!-- Page specific script -->
     <script>
        
-        
+        $(document).ready(function(){
+            $(".time_element").timepicki();
+        });
 
 
         jQuery(document).on('click', '#add_event', function (event) {
@@ -462,11 +427,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
             let end_time = jQuery('input[name="end_time"]').val();
 
             console.log("Day: "+ day);
-            console.log("End Time: "+ start_time);
-            console.log("Start Time: "+ end_time);
+            console.log("Start Time: "+ start_time);
+            console.log("End Time: "+ end_time);
 
-
-
+            // Validate the input field
+            var is_start_valid = moment(start_time, "hh:mm A", true).isValid();
+            var is_end_valid = moment(end_time, "hh:mm A", true).isValid();
+            
+            // Convert input field to 24 hours
+            start_time = moment(start_time, "h:mm A").format("HH:mm")
+            end_time = moment(end_time, "h:mm A").format("HH:mm")
+            console.log("----------  after -----------");
+            console.log("Start Time: "+ start_time);
+            console.log("End Time: "+ end_time);
 
             // Bool Variables
             var is_user_id = false;
@@ -559,7 +532,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
             if ( (is_user_id == true) && (is_day == true) && (is_start_time == true) && (is_end_time == true)
                    )
             {
-                AddAvailability(user_id, day, start_time, end_time);
+                if ( (is_start_valid == true) && (is_end_valid == true) )
+                {
+                    jQuery('.error-st').css("display","none");
+                    jQuery('.error-et').css("display","none");
+                    if ( start_time < end_time )
+                    {
+                        jQuery(".error-response").css("display", "none");
+                        AddAvailability(user_id, day, start_time, end_time);
+                    }
+                    else
+                    {
+                        // Show error
+                        jQuery(".error-response").css("display", "block");
+                    }
+
+                }
+                else if ( is_start_valid == false )
+                {
+                    jQuery('.error-st').css("display","block");
+                    jQuery('.error-st').html("Start time field is required.");
+                }
+                else if ( is_end_valid == false )
+                {
+                    jQuery('.error-et').css("display","block");
+                    jQuery('.error-et').html("End time field is required.");
+                }
             }
             else
             {
@@ -589,13 +587,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     if ( (data.success == null || data.success == undefined) )
                     {
                         console.log("Error Message");
-                        // jQuery(".alert-danger").css("display", "block");
+                        jQuery(".error-response").css("display", "block");
                         // jQuery("#login_success").empty();
                         // jQuery('.alert-danger').html(response.error);
                     }
                     else  
                     {
                         console.log("Success Message");
+                        jQuery(".error-response").css("display", "none");//error message
                         // jQuery(".alert-danger").css("display", "none");
                         // jQuery("#error_creditional").empty();
                         jQuery('#tutor_list').html(data.tutor_list);

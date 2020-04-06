@@ -106,6 +106,12 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
+                            <a href="{{ route('tutor.profile') }}" class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>My Profile</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ url('tutor/edit') }}" class="nav-link ">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Edit Profile</p>

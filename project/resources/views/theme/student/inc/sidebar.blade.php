@@ -53,6 +53,12 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
+                            <a href="{{ route('student.profile') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>My Profile</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('student.edit.profile') }}" class="nav-link ">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Edit Profile</p>

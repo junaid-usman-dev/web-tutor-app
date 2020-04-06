@@ -98,6 +98,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('theme_asset/plugins/fullcalendar-timegrid/main.min.css') }}">
     <link rel="stylesheet" href="{{ asset('theme_asset/plugins/fullcalendar-bootstrap/main.min.css') }}">
 
+    {{-- Time Picker jQuery Plugin --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme_asset/TimePicki-master/css/timepicki.css') }}" >
+
     {{-- Add Custom CSS File --}}
     <link rel="stylesheet" href="{{ asset('theme_asset/custom/css/custom.css') }}">
 
@@ -299,18 +302,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div>
 
                         <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Start Time (00:00 - 24:00)</label>
-                            <input type="text" class="form-control" name="start_time" placeholder="24:00" >
-                            <div class="error-message alert alert-danger error-st ju-ta" role="alert">
-                                Error Message Goes Here
+                            <div class="row">
+                                <div class="col-sm">
+                                    <label for="recipient-name" class="col-form-label">Start Time</label>
+                                    {{-- <input type="text" class="form-control" name="start_time" placeholder="24:00" > --}}
+                                    <input type="text" name="start_time" class="time_element" value="" />
+                                    <div class="error-message alert alert-danger error-st ju-ta" role="alert">
+                                        Error Message Goes Here
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <label for="recipient-name" class="col-form-label">End Time</label>
+                                    <input type="text" name="end_time" class="time_element" value="" />
+                                    {{-- <input type="text" class="form-control" name="end_time" placeholder="24:00" value=""> --}}
+                                    <div class="error-message alert alert-danger error-et ju-ta" role="alert">
+                                        Error Message Goes Here
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
                         <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">End Time (00:00 - 24:00)</label>
-                            <input type="text" class="form-control" name="end_time" placeholder="24:00" >
-                            <div class="error-message alert alert-danger error-et ju-ta" role="alert">
-                                Error Message Goes Here
-                            </div>
                             <div class="error-message alert alert-danger error-bt ju-ta" role="alert">
                                 Error Message Goes Here
                             </div>
@@ -349,12 +361,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ asset('theme_asset/profile/dist/js/adminlte.min.js') }}"></script>
     {{-- Start Rating SVG Master --}}
     <script src="{{ asset('theme_asset/star-rating-svg-master/src/jquery.star-rating-svg.js') }}"></script>
-    <!-- Select2 -->
-    {{-- <script src="{{ asset('theme_asset/plugins/select2/js/select2.full.min.js') }}"></script> --}}
 
     {{-- Full Calender --}}
-    {{-- <script src="{{ asset('theme_asset/plugins/jquery/jquery.min.js') }}"></script> --}}
-
     <script src="{{ asset('theme_asset/plugins/moment/moment.min.js') }}"></script>
     <script src="{{ asset('theme_asset/plugins/fullcalendar/main.min.js') }}"></script>
     <script src="{{ asset('theme_asset/plugins/fullcalendar-daygrid/main.min.js') }}"></script>
@@ -362,8 +370,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ asset('theme_asset/plugins/fullcalendar-interaction/main.min.js') }}"></script>
     <script src="{{ asset('theme_asset/plugins/fullcalendar-bootstrap/main.min.js') }}"></script>
 
+    {{-- Time Picker jQuery Plugin --}}
+    <script src="{{ asset('theme_asset/TimePicki-master/js/timepicki.js') }}"></script>
+
     <script>
         
+        $(document).ready(function(){
+            $(".time_element").timepicki();
+        });
+
+
         // availabilities evnet solution
         jQuery( document ).ready(function() {
             jQuery("#availabilities_button").click( function(){
@@ -504,18 +520,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
-
-                // eventLimit: true, // for all non-TimeGrid views
-                // views: {
-                //     timeGrid: {
-                //     eventLimit: 2 // adjust to 6 only for timeGridWeek/timeGridDay
-                //     }
-                // },
             
                 events: "{{ url('/student/tutor/'.$tutor->id.'/booking') }}",
                 showNonCurrentDates: false,
 
-                editable: true,
+                // editable: true,
                 droppable: true, // this allows things to be dropped onto the calendar !!!
                 drop: function (info) {
                     // is the "remove after drop" checkbox checked?
@@ -547,6 +556,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         var start_time = (moment.parseZone(info.event.start).format("HH:mm"));
                         var end_time = (moment.parseZone(info.event.end).format("HH:mm"));
 
+                        var start_time_12_hr = (moment.parseZone(info.event.start).format("hh:mm A"));
+                        var end_time_12_hr = (moment.parseZone(info.event.end).format("hh:mm A"));
+
                         // var date = calendar.getDate();
                         // console.log(date);
                         // console.log ( info.event.title); // time
@@ -557,8 +569,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         // console.log ("Start Date: "+ start_d);
                         // console.log ("End Date: "+ end_d);
 
-                        console.log ("Start Time: "+ start_time );
-                        console.log ("End Time: "+ end_time);
+                        // console.log ("Start Time: "+ start_time );
+                        // console.log ("End Time: "+ end_time);
+                        // console.log("--------- after ------------")
+                        // console.log ("Start Time: "+ start_time_12_hr );
+                        // console.log ("End Time: "+ end_time_12_hr);
 
 
                         jQuery('span[name="start_date"]').text(start_d); // span
@@ -566,10 +581,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         jQuery('input[name="start_date"]').val(start_d); 
                         jQuery('input[name="end_date"]').val(end_d);
 
-                        jQuery('span[name="start_time"]').text(start_time);
-                        jQuery('span[name="end_time"]').text(end_time);
-                        jQuery('input[name="start_time"]').val(start_time);
-                        jQuery('input[name="end_time"]').val(end_time);
+                        jQuery('span[name="start_time"]').text(start_time_12_hr);
+                        jQuery('span[name="end_time"]').text(end_time_12_hr);
+                        jQuery('input[name="start_time"]').val(start_time_12_hr);
+                        jQuery('input[name="end_time"]').val(end_time_12_hr);
 
                         jQuery('span[name="start_day"]').text(start_day);
                         jQuery('span[name="end_day"]').text(end_day);
@@ -627,12 +642,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         })
 
     
-
-
-
-
-
-
 
         function init_ratings() {
             jQuery(".my-rating-8").starRating({
@@ -700,19 +709,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 let span_start_time = jQuery('span[name="start_time"]').text();
                 let span_end_time = jQuery('span[name="end_time"]').text();
 
-                console.log("------------------------");
-                console.log("Student ID : "+ student_id);
-                console.log("Tutor ID : "+ tutor_id);
-                console.log("Subject : "+ subject);
-                // console.log("Day"+ day);
-                console.log("Start Date : "+ start_date);
-                console.log("End Date : "+ end_date);
-                console.log("Input Start Time : "+ start_time);
-                console.log("Input End Time : "+ end_time);
+                console.log("------  Before 11 --------");
+                // console.log("Student ID : "+ student_id);
+                // console.log("Tutor ID : "+ tutor_id);
+                // console.log("Subject : "+ subject);
+                // // console.log("Day"+ day);
+                // console.log("Start Date : "+ start_date);
+                // console.log("End Date : "+ end_date);
+                // console.log("Input Start Time : "+ start_time);
+                // console.log("Input End Time : "+ end_time);
 
+                // console.log("Span Start Time : "+ span_start_time);
+                // console.log("Span End Time : "+ span_end_time);
+                // console.log("-------  After 11 --------------");
+                span_start_time = moment(span_start_time, "h:mm A").format("HH:mm") // Converting 12 hours to 24 hours
+                span_end_time = moment(span_end_time, "h:mm A").format("HH:mm") // // Converting 12 hours to 24 hours
+                
+                start_time = moment(start_time, "h:mm A").format("HH:mm") // Converting 12 hours to 24 hours
+                end_time = moment(end_time, "h:mm A").format("HH:mm") // // Converting 12 hours to 24 hours
+                
                 console.log("Span Start Time : "+ span_start_time);
-                console.log("Span End Time : "+ span_end_time);
-
+                // console.log("Span End Time : "+ span_end_time);
+                console.log("Input Start Time : "+ start_time);
+                // console.log("Input End Time : "+ end_time);
+                // console.log("---- End 11 --------");
                 // console.log("Student ID"+ student_id);
                 var is_start_valid = moment(start_time, "HH:mm", true).isValid();
                 var is_end_valid = moment(end_time, "HH:mm", true).isValid();
@@ -1004,7 +1024,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         // jQuery("#error_creditional").empty();
                         // jQuery('#tutor_list').html(data.tutor_list);
                         
-                        location.href = "{{ url('/student') }}"						
+                        // location.href = "{{ url('/student') }}"
+                        location.href = "{{ url('/student/tutor-profile') }}/"+tutor_id						
+
                     }
                 }
             });

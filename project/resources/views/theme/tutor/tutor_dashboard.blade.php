@@ -120,13 +120,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
-                                    <strong><i class="fas fa-book mr-1"></i> Education</strong>
 
-                                    <p class="text-muted">
-                                        B.S. in History from the University of Tennessee at Knoxville
-                                    </p>
-
+                                    @if ( count($user->education) > 0 )
+                                        <strong><i class="fas fa-book mr-1"></i> Education</strong>
+                                        @foreach ($user->education as $education)
+                                            <p class="text-muted">
+                                                {{ $education->institute }} | {{ \Carbon\Carbon::parse( $education->start_date )->format('d/m/Y')  }} - {{ \Carbon\Carbon::parse( $education->end_date )->format('d/m/Y')  }} 
+                                            </p>
+                                            <p class="text-muted">
+                                                {{ $education->certification }} 
+                                            </p>
+                                        @endforeach    
                                     <hr>
+                                    @endif
 
                                     <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
 
@@ -196,7 +202,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     @foreach ($tutor_schedules->unique('student_id') as $schedule)
                                                         <li>
                                                             <a class="users-list-name" href="{{ url('/tutor/student-profile') }}/{{ $schedule->users->id }}"> 
-                                                                <img src="{{ url('/') }}/{{ $schedule->users->images->path }}/{{ $schedule->users->images->name }}"
+                                                                <img class="img-fluid" src="{{ url('/') }}/{{ $schedule->users->images->path }}/{{ $schedule->users->images->name }}"
                                                                     alt="User Image">
                                                             </a>
                                                             <a class="users-list-name" href="#">{{ $schedule->users->first_name}} {{ $schedule->users->last_name}} </a>

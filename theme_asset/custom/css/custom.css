@@ -84,7 +84,57 @@ ul.contacts-list .contacts-list-img
 {
     height: 50px;
 }
+
 .ju-user-badge-verified
 {
     font-size: 15px;
+}
+
+.ju-availability-days
+{
+    padding-right: 30px;
+    padding-left: 30px;
+
+}
+
+.ju-aval-schedule
+{
+    margin-left: 20px;
+    font-size: larger;
+}
+.ju-aval-btn
+{
+    margin-left: 20px;
+    /* font-size: larger; */
+}
+.ju-clr-red
+{
+    color: red;
+}
+
+/* Tutor Booking for Student */
+.time, .mins, .meridian
+{
+    width: 40px;
+    font-size: 15px;
+}
+/* Tutor Booking for Student */
+td.fc-event-container .fc-content
+{
+    cursor: pointer;
+}
+/* Tutor Booking for Student */
+div.fc-event-container .fc-time-grid-event
+{
+    cursor: pointer;
+}
+
+/* Tutor Booking for Student */
+a.fc-time-grid-event .fc-time
+{
+    display: none;
+}
+.ju-ava-card
+{
+    width: 550px;
 }

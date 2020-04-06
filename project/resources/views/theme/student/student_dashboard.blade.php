@@ -89,7 +89,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <li class="list-group-item"> 
                                             <strong>Booked Tutors</strong>
                                             @if ( count ($student_classes) > 0 )
-                                                <a class="float-right"> {{ count ($student_classes) }}</a>
+                                                <a class="float-right"> {{ count ($student_classes->unique('tutor_id')) }}</a>
                                             @else
                                                 <a class="float-right">0</a>
                                             @endif  
@@ -104,7 +104,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             @endif
                                         </li>
                                         <li class="list-group-item">
-                                            <b>Total Subjects</b> <a class="float-right">07</a>
+                                            <b>Total Subjects</b>
+                                            @if ( count ($student_classes) > 0 )
+                                                <a class="float-right">{{ count($student_classes->unique('subject')) }}</a>
+                                            @else
+                                                <a class="float-right">0</a>
+                                            @endif    
                                         </li>
                                     </ul>
                                     <a href="{{ route('student.profile') }}" class="btn btn-primary btn-block"><strong>View Profile</strong></a>

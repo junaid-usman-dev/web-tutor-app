@@ -121,8 +121,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         class="fas fa-bookmark "></i></span>
 
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Total Courses</span>
-                                    <span class="info-box-number">20</span>
+                                    <span class="info-box-text">Total Classes</span>
+                                    @if ( count ($list_of_bookings) > 0 )
+                                        <span class="info-box-number">{{ count ($list_of_bookings) }}</span>
+                                    @else
+                                        <span class="info-box-number">0</span>
+                                    @endif    
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>

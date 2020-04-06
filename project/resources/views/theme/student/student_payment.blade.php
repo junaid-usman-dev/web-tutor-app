@@ -1,3 +1,9 @@
+<?php
+    if (!empty(session()->get('session_student_id')) )
+    {
+  
+?>
+
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -258,5 +264,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </body>
 
 </html>
+
+<?php 
+    }
+    else
+    {
+		// Go to welcome page
+        header("Location: ".url('/signin'));exit;
+    }
+?>
 
 

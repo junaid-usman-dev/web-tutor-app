@@ -1,7 +1,6 @@
 <?php
-    // if (!empty(session()->get('session_admin_id')) )
-    // {
-    
+    if (!empty(session()->get('session_admin_id')) )
+    {
 ?>
 
 <!DOCTYPE html>
@@ -397,10 +396,10 @@ myInput.onkeyup = function() {
 
 
 <?php 
-    // }
-    // else
-    // {
-    //     // Go to welcome page
-    //     header("Location: ".url('/admin/signin'));exit;
-    // }
+    }
+    else
+    {
+        // Go to welcome page
+        header("Location: ".url('/admin/signin'));exit;
+    }
 ?>

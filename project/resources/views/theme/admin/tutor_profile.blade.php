@@ -1,4 +1,7 @@
-
+<?php
+    if (!empty(session()->get('session_admin_id')) )
+    {
+?>
 
 {{-------   Star Rating  -----------------}}
 @php
@@ -769,3 +772,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </body>
 
 </html>
+
+<?php 
+    }
+    else
+    {
+        // Go to welcome page
+        header("Location: ".url('/admin/signin'));exit;
+    }
+?>

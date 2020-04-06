@@ -2,7 +2,6 @@
 <?php
     if (!empty(session()->get('session_tutor_id')))
     {
-
 ?>
 
 

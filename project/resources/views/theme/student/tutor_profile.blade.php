@@ -1,3 +1,8 @@
+<?php
+    if (!empty(session()->get('session_student_id')) )
+    {
+  
+?>
 
 {{-------   Star Rating  -----------------}}
 @php
@@ -1038,3 +1043,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 </html>
 
+
+<?php 
+    }
+    else
+    {
+		// Go to welcome page
+        header("Location: ".url('/signin'));exit;
+    }
+?>

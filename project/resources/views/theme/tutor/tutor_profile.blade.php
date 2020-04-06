@@ -1,4 +1,8 @@
 
+<?php
+if (!empty(session()->get('session_tutor_id')))
+{
+?>
 
 {{-------   Star Rating  -----------------}}
 @php
@@ -62,13 +66,6 @@
     
 @endphp
 {{-------   End Star Rating  -----------------}}
-
-
-<?php
-    if (!empty(session()->get('session_tutor_id')))
-    {
-
-?>
 
 
 <!DOCTYPE html>

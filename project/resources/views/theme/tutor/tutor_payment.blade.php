@@ -1,5 +1,8 @@
 
-
+<?php
+    if (!empty(session()->get('session_tutor_id')))
+    {
+?>
 
 <!DOCTYPE html>
 <!--
@@ -229,4 +232,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 </html>
 
+
+<?php 
+    }
+    else
+    {
+		// Go to welcome page
+        header("Location: ".url('/signin'));exit;
+    }
+?>
 
